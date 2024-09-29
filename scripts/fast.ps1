@@ -3,7 +3,11 @@
 
 param (
     [switch] $Start,
-    [switch] $Diff
+    [switch] $Diff,
+    [switch] $Compile,
+    [switch] $Decompile,
+    [switch] $Patch,
+    [switch] $Update
 )
 
 Set-Location (Join-Path $PSScriptRoot '..')
@@ -16,10 +20,14 @@ filter Join-ExecutableExtension
     return $_    
 }
 
+if ($Update) {
+    git pull
+}
+
 if (!(Test-Path ('TerraAngelSetup/TerraAngelSetup/bin/Release/net7.0/TerraAngelSetup' | Join-ExecutableExtension) -PathType Leaf)) {
     Write-Output 'Building TerraAngelSetup'
     # git submodule update --remote --recursive
-    dotnet build TerraAngelSetup\TerraAngelSetup\TerraAngelSetup.csproj -c=Release
+    dotnet build TerraAngelSetup/TerraAngelSetup/TerraAngelSetup.csproj -c=Release
 }
 
 if ($Start) {
@@ -30,4 +38,19 @@ if ($Start) {
 if ($Diff) {
     Write-Output 'Running TerraAngelSetup -diff'
     Invoke-Expression "$('./TerraAngelSetup/TerraAngelSetup/bin/Release/net7.0/TerraAngelSetup' | Join-ExecutableExtension) -diff -patchinput TerraAngelPatches"
+}
+
+if ($Compile -or $Start) {
+    Write-Output 'Building TerraAngel'
+    dotnet build ./src/TerraAngel/Terraria/Terraria.csproj -p:Configuration=Release -p:RunAnalyzers=false
+}
+
+if ($Decompile) {
+    Write-Output 'Running TerraAngelSetup -decompile'
+    Invoke-Expression "$('./TerraAngelSetup/TerraAngelSetup/bin/Release/net7.0/TerraAngelSetup' | Join-ExecutableExtension) -decompile -patchinput TerraAngelPatches"
+}
+
+if ($Patch -or $Update) {
+    Write-Output 'Running TerraAngelSetup -patch'
+    Invoke-Expression "$('./TerraAngelSetup/TerraAngelSetup/bin/Release/net7.0/TerraAngelSetup' | Join-ExecutableExtension) -patch -patchinput TerraAngelPatches"
 }
