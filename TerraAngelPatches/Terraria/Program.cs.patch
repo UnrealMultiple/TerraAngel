@@ -11,17 +11,6 @@
  using Terraria.Initializers;
  using Terraria.Localization;
  using Terraria.Social;
-@@ -17,8 +_,8 @@
- namespace Terraria;
- public static class Program
- {
--    public static bool IsXna = true;
-+    public static bool IsXna = false;
--    public static bool IsFna = false;
-+    public static bool IsFna = true;
-     public static bool IsMono = Type.GetType("Mono.Runtime") != null;
-     public const bool IsDebug = false;
-     public static Dictionary<string, string> LaunchParameters = new Dictionary<string, string>();
 @@ -57,7 +_,7 @@
  
      public static void ForceLoadThread(object threadContext)

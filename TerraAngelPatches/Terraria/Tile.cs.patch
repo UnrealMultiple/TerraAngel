@@ -1,6 +1,7 @@
 --- src/Terraria/Terraria/Tile.cs
 +++ src/TerraAngel/Terraria/Tile.cs
-@@ -1,18 +_,45 @@
+@@ -1,20 +_,47 @@
+ using System.Runtime.InteropServices;
 +using System;
 +using System.Collections.Generic;
 +using System.Runtime.CompilerServices;
@@ -9,6 +10,7 @@
  using Terraria.DataStructures;
  
  namespace Terraria;
+ [StructLayout(LayoutKind.Sequential, Pack = 1)]
 -public class Tile
 +public unsafe struct Tile
  {
@@ -56,7 +58,7 @@
      private const int Bit0 = 1;
      private const int Bit1 = 2;
      private const int Bit2 = 4;
-@@ -62,140 +_,16 @@
+@@ -64,140 +_,16 @@
          }
      }
  
@@ -202,7 +204,7 @@
  
      public int blockType()
      {
-@@ -247,28 +_,9 @@
+@@ -249,28 +_,9 @@
          return false;
      }
  
@@ -233,7 +235,7 @@
  
      public Color actColor(Color oldColor)
      {
-@@ -697,60 +_,7 @@
+@@ -699,60 +_,7 @@
          }
      }
  
@@ -295,7 +297,7 @@
  
      public static void SmoothSlope(int x, int y, bool applyToNeighbors = true, bool sync = false)
      {
-@@ -762,7 +_,7 @@
+@@ -764,7 +_,7 @@
              SmoothSlope(x, y - 1, applyToNeighbors: false, sync);
          }
  
@@ -304,7 +306,7 @@
          if (!WorldGen.CanPoundTile(x, y) || !WorldGen.SolidOrSlopedTile(x, y))
          {
              return;
-@@ -832,12 +_,7 @@
+@@ -834,12 +_,7 @@
          }
      }
  

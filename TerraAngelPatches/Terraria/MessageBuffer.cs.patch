@@ -67,7 +67,7 @@
 +                            {
                              int type4 = 90;
                              float num61 = 0f;
-                             float num62 = (float)Math.PI / 15f;
+                             float num62 = MathF.PI / 15f;
 @@ -4038,6 +_,7 @@
                                  num63 = (Main.dust[num66].fadeIn = num63 + num64);
                                  Main.dust[num66].velocity += vector3 * 1.5f;

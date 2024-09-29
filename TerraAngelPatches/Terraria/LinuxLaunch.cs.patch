@@ -1,14 +1,12 @@
---- src/Terraria/Terraria/WindowsLaunch.cs
-+++ src/TerraAngel/Terraria/WindowsLaunch.cs
-@@ -1,6 +_,4 @@
- using System;
--using System.IO;
--using System.Reflection;
- using System.Runtime.InteropServices;
- using Terraria.Social;
+--- src/Terraria/Terraria/LinuxLaunch.cs
++++ src/TerraAngel/Terraria/LinuxLaunch.cs
+@@ -3,11 +_,11 @@
+ using System.Reflection;
  
-@@ -51,7 +_,7 @@
-     [STAThread]
+ namespace Terraria;
+-internal static class LinuxLaunch
++public static class LinuxLaunch
+ {
      private static void Main(string[] args)
      {
 -        AppDomain.CurrentDomain.AssemblyResolve += delegate (object sender, ResolveEventArgs sargs)
@@ -16,12 +14,12 @@
          {
              string resourceName = new AssemblyName(sargs.Name).Name + ".dll";
              string text = Array.Find(typeof(Program).Assembly.GetManifestResourceNames(), (string element) => element.EndsWith(resourceName));
-@@ -64,7 +_,7 @@
+@@ -20,7 +_,7 @@
              byte[] array = new byte[stream.Length];
              stream.Read(array, 0, array.Length);
              return Assembly.Load(array);
 -        };
 +        };*/
-         Program.LaunchGame(args);
+         Environment.SetEnvironmentVariable("FNA_WORKAROUND_WINDOW_RESIZABLE", "1");
+         Program.LaunchGame(args, monoArgs: true);
      }
- }

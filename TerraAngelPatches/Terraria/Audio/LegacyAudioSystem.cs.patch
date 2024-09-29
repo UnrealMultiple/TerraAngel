@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Audio/LegacyAudioSystem.cs
 +++ src/TerraAngel/Terraria/Audio/LegacyAudioSystem.cs
-@@ -116,10 +_,11 @@
+@@ -117,10 +_,11 @@
  
      public LegacyAudioSystem()
      {
