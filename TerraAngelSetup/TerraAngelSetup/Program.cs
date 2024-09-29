@@ -37,10 +37,10 @@ public class Program
     public const string BuildDebugName = "-debug";
     public const string NoCopyName = "-nocopy";
 
-    public static string TerrariaPath = @"C:\Program Files (x86)\Steam\steamapps\common\Terraria";
-    public static string DecompilerOutputPath = @"src\Terraria";
-    public static string PatchesPath = @"..\..\..\Patches\TerraAngelPatches";
-    public static string PatchedPath = @"src\TerraAngel";
+    public static string TerrariaPath = "C:/Program Files (x86)/Steam/steamapps/common/Terraria";
+    public static string DecompilerOutputPath = "src/Terraria";
+    public static string PatchesPath = "../../../Patches/TerraAngelPatches";
+    public static string PatchedPath = "src/TerraAngel";
 
     public static bool Decomp = false;
     public static bool Patch = false;
@@ -167,12 +167,12 @@ public class Program
                 if (BuildDebug)
                 {
                     Console.WriteLine("Building TerraAngel as debug");
-                    ExecCommand(@$"dotnet build {PatchedPath}\Terraria\Terraria.csproj -p:Configuration=Debug > build_log_debug.txt");
+                    ExecCommand(@$"dotnet build {Path.Combine(PatchedPath, "Terraria/Terraria.csproj")} -p:Configuration=Debug > build_log_debug.txt");
                 }
                 else
                 {
                     Console.WriteLine("Building TerraAngel as release");
-                    ExecCommand(@$"dotnet build {PatchedPath}\Terraria\Terraria.csproj -p:Configuration=Release > build_log.txt");
+                    ExecCommand(@$"dotnet build {Path.Combine(PatchedPath, "Terraria/Terraria.csproj")} -p:Configuration=Release > build_log.txt");
                 }
 
                 if (!NoCopy)
@@ -180,7 +180,7 @@ public class Program
                     if (BuildDebug)
                     {
                         Console.WriteLine($"Copying \"{TerrariaPath}\\Content\" to \"src\\TerraAngel\\Terraria\\bin\\Debug\\net6.0\\Content\\\"");
-                        ExecCommand($"xcopy \"{TerrariaPath}\\Content\\\" \"src\\TerraAngel\\Terraria\\bin\\Debug\\net6.0\\Content\\\" /E > NUL");
+                        ExecCommand($"xcopy \"{TerrariaPath}\\Content\\\" \"src\\TerraAngel\\Terraria\\bin\\Debug\\net6.0\\Content\\\" /E > NUL"); // TODO: xcopy on linux
                     }
                     else
                     {
@@ -209,13 +209,14 @@ public class Program
             throw new DirectoryNotFoundException($"Directory '{TerrariaPath}' not found");
         }
 
-        Console.WriteLine($"Decompiling {TerrariaPath}\\Terraria.exe into {DecompilerOutputPath}");
-
-        Decompiler terrariaDecompiler = new Decompiler(TerrariaPath + "\\Terraria.exe", DecompilerOutputPath);
+        var terrariaExePath = Path.Combine(TerrariaPath, "Terraria.exe");
+        Console.WriteLine($"Decompiling {terrariaExePath} into {DecompilerOutputPath}");
+        
+        Decompiler terrariaDecompiler = new Decompiler(terrariaExePath, DecompilerOutputPath);
 
         terrariaDecompiler.Decompile(new string[] { "ReLogic" });
 
-        Console.WriteLine($"Decompiled {TerrariaPath}\\Terraria.exe into {DecompilerOutputPath}");
+        Console.WriteLine($"Decompiled {terrariaExePath} into {DecompilerOutputPath}");
     }
     public static void PatchTerraria()
     {
@@ -300,7 +301,7 @@ public class Program
         public readonly static string TerrariaManifestFile = $"appmanifest_{TerrariaAppId}.acf";
 
         private readonly static Regex SteamLibraryFoldersRegex = new Regex(@"^\s+""(path)""\s+""(.+)""", RegexOptions.Compiled);
-        private readonly static Regex SteamManifestInstallDirRegex = new Regex(@"""installdir""[^\S\r\n]+""([^\r\n]+)""", RegexOptions.Compiled);
+        private readonly static Regex SteamManifestInstallDirRegex = new Regex(@"""installdir""[^\S\r\n]+""([^\r\n]+)""", RegexOptions.Compiled); // TODO: CRLF
 
         public static bool TryFindTerrariaDirectory(out string path)
         {
@@ -380,11 +381,11 @@ public class Program
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                path = "~/Library/Application Support/Steam";
+                path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library/Application Support/Steam");
             }
             else
             {
-                path = "~/.local/share/Steam";
+                path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".local/share/Steam");
             }
 
             return path != null && Directory.Exists(path);
