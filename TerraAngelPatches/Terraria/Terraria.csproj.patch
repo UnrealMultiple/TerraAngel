@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Terraria.csproj
 +++ src/TerraAngel/Terraria/Terraria.csproj
-@@ -3,37 +_,206 @@
+@@ -3,40 +_,187 @@
    <PropertyGroup>
      <OutputType>WinExe</OutputType>
      <Nullable>enable</Nullable>
@@ -22,20 +22,15 @@
 +    <PlatformTarget>AnyCPU</PlatformTarget>
 +    <ImplicitUsings>disable</ImplicitUsings>
 +  </PropertyGroup>
-+  
-+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
-+    <OSShortName>win</OSShortName>
-+  </PropertyGroup>
-+
-+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))"> <!-- TODO: find a way to retrive target platform -->
-+    <OSShortName>lin</OSShortName>
-+  </PropertyGroup>
 +
 +  <!-- Libraries part of Terraria -->
    <ItemGroup>
 -    <Reference Include="CsvHelper" />
--    <Reference Include="FNA" />
 -    <Reference Include="Ionic.Zip.CF" />
+-    <Reference Include="Microsoft.Xna.Framework" />
+-    <Reference Include="Microsoft.Xna.Framework.Game" />
+-    <Reference Include="Microsoft.Xna.Framework.Graphics" />
+-    <Reference Include="Microsoft.Xna.Framework.Xact" />
 -    <Reference Include="MP3Sharp" />
 -    <Reference Include="Newtonsoft.Json" />
 -    <Reference Include="NVorbis" />
@@ -51,7 +46,7 @@
 -    <Reference Include="System.Windows.Forms" />
 -    <Reference Include="WindowsBase" />
 -  </ItemGroup>
-+    <Reference Include="Libraries/$(OSShortName)/x64/Steamworks/Steamworks.NET.dll" />
++    <Reference Include="Libraries/win/x64/Steamworks/Steamworks.NET.dll" />
 +  </ItemGroup>
 +
 +  <!-- New libraries added -->
@@ -106,8 +101,9 @@
 +    <None Update="Assets\Symbola.ttf">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
++    <!-- Currently disabled because nobody uses linux (or osx) -->
 +    
-+    <None Update="Libraries\lin\x64\FNA\libFAudio.so.0">
++    <!-- <None Update="Libraries\lin\x64\FNA\libFAudio.so.0">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
 +    <None Update="Libraries\lin\x64\FNA\libFNA3D.so.0">
@@ -119,13 +115,6 @@
 +    <None Update="Libraries\lin\x64\FNA\libtheorafile.so">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
-+    <None Update="Libraries\lin\x64\ImGui\cimgui.so">
-+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-+    </None>
-+    <None Update="Libraries\lin\x64\Steamworks\Steamworks.NET.dll">
-+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-+    </None>
-+    
 +    <None Update="Libraries\lin\x86\FNA\libFAudio.so.0">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
@@ -138,7 +127,6 @@
 +    <None Update="Libraries\lin\x86\FNA\libtheorafile.so">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
-+    
 +    <None Update="Libraries\osx\x64\FNA\libFAudio.0.dylib">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
@@ -157,7 +145,6 @@
 +    <None Update="Libraries\osx\x64\FNA\libvulkan.1.dylib">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
-+    
 +    <None Update="Libraries\osx\x86\FNA\libFAudio.0.dylib">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
@@ -175,8 +162,7 @@
 +    </None>
 +    <None Update="Libraries\osx\x86\FNA\libvulkan.1.dylib">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-+    </None> 
-+    
++    </None> -->
 +    <None Update="Libraries\win\x64\FNA\FAudio.dll">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
@@ -198,7 +184,6 @@
 +    <None Update="Libraries\win\x64\Steamworks\steam_api64.dll">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
-+    
 +    <None Update="Libraries\win\x86\FNA\FAudio.dll">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
@@ -220,7 +205,6 @@
 +    <None Update="Libraries\win\x86\Steamworks\steam_api.dll">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
-+    
 +    <None Update="steam_appid.txt">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>

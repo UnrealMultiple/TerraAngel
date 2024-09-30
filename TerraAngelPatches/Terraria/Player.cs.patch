@@ -386,7 +386,7 @@
                  {
                      inventory[selectedItem] = new Item();
                  }
-@@ -56366,8 +_,6 @@
+@@ -56367,8 +_,6 @@
              oldAdjTile[n] = false;
          }
  

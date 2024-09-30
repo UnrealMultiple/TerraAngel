@@ -1,6 +1,6 @@
 [submodule "TerraAngelSetup/DotnetPatcher"]
 	path = TerraAngelSetup/DotnetPatcher
-	url = https://github.com/CEO-Chair/DotnetPatcher.git
+	url = https://github.com/UnrealMultiple/DotnetPatcher.git
 [submodule "ImGui.NET"]
 	path = ImGui.NET
 	url = https://github.com/CEO-Chair/ImGui.NET.git

@@ -112,18 +112,10 @@ public unsafe class ClientLoader
         NativeLibrary.SetDllImportResolver(typeof(ImGui).Assembly, (libraryName, assembly, searchPath) =>
         {
             IntPtr handle = IntPtr.Zero;
-#if WINDOWS
+
             if (libraryName == "cimgui")
             {
                 if (!NativeLibrary.TryLoad($"{TerrariaPath}/{NewLibraryPath}/{PlatformString}/{ArchitectureString}/ImGui/{libraryName}", out handle))
-                {
-                    throw new DllNotFoundException($"Could not load {libraryName}");
-                }
-            }
-#endif
-            if (libraryName == "cimgui")
-            {
-                if (!NativeLibrary.TryLoad($"{TerrariaPath}/{NewLibraryPath}/{PlatformString}/{ArchitectureString}/ImGui/{libraryName}.so", out handle))
                 {
                     throw new DllNotFoundException($"Could not load {libraryName}");
                 }
@@ -135,7 +127,7 @@ public unsafe class ClientLoader
         NativeLibrary.SetDllImportResolver(typeof(Game).Assembly, (libraryName, assembly, searchPath) =>
         {
             IntPtr handle = IntPtr.Zero;
-#if WINDOWS
+
             if (libraryName == "FAudio" || libraryName == "FNA3D" || libraryName == "libtheorafile" || libraryName == "SDL2")
             {
                 if (!NativeLibrary.TryLoad($"{TerrariaPath}/{NewLibraryPath}/{PlatformString}/{ArchitectureString}/FNA/{libraryName}", out handle))
@@ -143,29 +135,6 @@ public unsafe class ClientLoader
                     throw new DllNotFoundException($"Could not load {libraryName}");
                 }
             }
-#else
-            if (libraryName == "FAudio" || libraryName == "FNA3D")
-            {
-                if (!NativeLibrary.TryLoad($"{TerrariaPath}/{NewLibraryPath}/{PlatformString}/{ArchitectureString}/FNA/lib{libraryName}.so.0", out handle))
-                {
-                    throw new DllNotFoundException($"Could not load {libraryName}");
-                }
-            }
-            if (libraryName == "libtheorafile")
-            {
-                if (!NativeLibrary.TryLoad($"{TerrariaPath}/{NewLibraryPath}/{PlatformString}/{ArchitectureString}/FNA/{libraryName}.so", out handle))
-                {
-                    throw new DllNotFoundException($"Could not load {libraryName}");
-                }
-            }
-            if (libraryName == "SDL2")
-            {
-                if (!NativeLibrary.TryLoad($"{TerrariaPath}/{NewLibraryPath}/{PlatformString}/{ArchitectureString}/FNA/lib{libraryName}-2.0.so.0", out handle))
-                {
-                    throw new DllNotFoundException($"Could not load {libraryName}");
-                }
-            }
-#endif
 
             return handle;
         });
@@ -174,7 +143,6 @@ public unsafe class ClientLoader
         {
             IntPtr handle = IntPtr.Zero;
 
-            // TODO: steam_api
             if (libraryName == "steam_api" || libraryName == "steam_api64")
             {
                 if (!NativeLibrary.TryLoad($"{TerrariaPath}/{NewLibraryPath}/{PlatformString}/{ArchitectureString}/Steamworks/{libraryName}", out handle))

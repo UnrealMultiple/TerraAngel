@@ -96,11 +96,11 @@ public static class SteamLocator
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            path = $"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}/Library/Application Support/Steam";
+            path = "~/Library/Application Support/Steam";
         }
         else
         {
-            path = $"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}/.local/share/Steam";
+            path = "~/.local/share/Steam";
         }
 
         return path != null && Directory.Exists(path);

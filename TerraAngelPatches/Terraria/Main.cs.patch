@@ -84,8 +84,8 @@
      public static bool menuBGChangedNight = false;
 @@ -1108,7 +_,6 @@
      public List<int> DrawCacheFirstFractals = new List<int>(1000);
-     public static ParticleRenderer ParticleSystem_World_OverPlayers;
-     public static ParticleRenderer ParticleSystem_World_BehindPlayers;
+     public static ParticleRenderer ParticleSystem_World_OverPlayers = new ParticleRenderer();
+     public static ParticleRenderer ParticleSystem_World_BehindPlayers = new ParticleRenderer();
 -    private static WindowStateController _windowMover;
      public static AnchoredEntitiesCollection sittingManager;
      public static AnchoredEntitiesCollection sleepingManager;
@@ -93,22 +93,22 @@
 @@ -1246,7 +_,7 @@
      private static bool _blockFancyUIWhileLoading;
      private bool[] menuWide = new bool[100];
-     public static float GamepadCursorAlpha;
+     public static float GamepadCursorAlpha = 0f;
 -    private bool _needsMenuUIRecalculation;
 +    public bool _needsMenuUIRecalculation;
-     public static float MenuXMovement;
+     public static float MenuXMovement = 0f;
      public RejectionMenuInfo RejectionMenuInfo;
      private float _splashFrameCount;
 @@ -1286,7 +_,7 @@
      private static TextSnippet[] _netplayStatusTextSnippets;
-     public static int ladyBugRainBoost;
+     public static int ladyBugRainBoost = 0;
      private static bool _canShowMeteorFall;
--    private static bool _isResizingAndRemakingTargets;
+-    private static bool _isResizingAndRemakingTargets = false;
 +    public static bool _isResizingAndRemakingTargets = false;
      public static bool CanUpdateGameplay { get; private set; }
  
      public static Vector2 ViewPosition => screenPosition + GameViewMatrix.Translation;
-@@ -2516,7 +_,6 @@
+@@ -2508,7 +_,6 @@
          configuration.Clear();
          configuration.Put("ResetDefaultUIScale", false);
          configuration.Put("SmartCursorToggle", cSmartCursorModeIsToggleAndNotHold);
@@ -116,7 +116,7 @@
          configuration.Put("InvasionBarMode", invasionProgressMode);
          configuration.Put("AutoSave", autoSave);
          configuration.Put("AutoPause", autoPause);
-@@ -2543,15 +_,14 @@
+@@ -2535,15 +_,14 @@
              {
                  num = LastLoadedResolution.X;
              }
@@ -133,7 +133,7 @@
          configuration.Put("GraphicsQuality", qaStyle);
          configuration.Put("BackgroundEnabled", BackgroundEnabled);
          configuration.Put("FrameSkipMode", FrameSkipMode);
-@@ -2591,9 +_,6 @@
+@@ -2583,9 +_,6 @@
          configuration.Put("UIScale", _uiScaleWanted);
          configuration.Put("MapScale", MapScale);
          configuration.Put("FlashIconForEvents", Enum.GetName(typeof(GameNotificationType), _flashNotificationType));
@@ -143,7 +143,7 @@
          configuration.Put("DoorAutoOpeningMode", DoorOpeningHelper.PreferenceSettings);
          configuration.Put("HoverControlMode", Player.Settings.HoverControl);
          configuration.Put("WaterfallDrawLimit", instance.waterfallManager.maxWaterfallCount);
-@@ -2623,7 +_,7 @@
+@@ -2615,7 +_,7 @@
          }
      }
  
@@ -152,7 +152,7 @@
      {
          if (shouldSetDefaultUIScale)
          {
-@@ -2670,46 +_,13 @@
+@@ -2658,46 +_,13 @@
              configuration.Get("WindowBorderless", ref screenBorderless);
          }
  
@@ -160,7 +160,7 @@
 -        screenBorderlessPendingResizes = (screenBorderless ? 6 : 0);
 -        if (Platform.IsWindows && !dedServ)
 -        {
--            Form form = Control.FromHandle(instance.Window.Handle);
+-            Form form = (Form)Control.FromHandle(instance.Window.Handle);
 -            if (screenBorderless)
 -            {
 -                SetBorderlessFormStyle(form);
@@ -199,7 +199,7 @@
          configuration.Get("InvasionBarMode", ref invasionProgressMode);
          configuration.Get("AutoSave", ref autoSave);
          configuration.Get("AutoPause", ref autoPause);
-@@ -2749,34 +_,6 @@
+@@ -2737,34 +_,6 @@
              configuration.Get("BackgroundEnabled", ref BackgroundEnabled);
          }
  
@@ -234,7 +234,7 @@
          int currentValue6 = (int)Lighting.Mode;
          if (!flag)
          {
-@@ -2914,14 +_,6 @@
+@@ -2902,14 +_,6 @@
  
          if (!flag)
          {
@@ -249,11 +249,11 @@
              configuration.Get("Support4K", ref Support4K);
          }
  
-@@ -3090,14 +_,7 @@
+@@ -3074,14 +_,7 @@
  
                  if (num >= 91 && binaryReader.ReadBoolean() && !dedServ && Platform.IsWindows)
                  {
--                    Control.FromHandle(base.Window.Handle).WindowState = FormWindowState.Maximized;
+-                    ((Form)Control.FromHandle(base.Window.Handle)).WindowState = FormWindowState.Maximized;
 -                }
 -
 -                if (num >= 4)
@@ -265,7 +265,7 @@
                  }
  
                  if (num >= 8)
-@@ -3170,8 +_,6 @@
+@@ -3154,8 +_,6 @@
                  {
                      placementPreview = binaryReader.ReadBoolean();
                  }
@@ -274,7 +274,7 @@
              }
  
              binaryReader.Close();
-@@ -4688,6 +_,8 @@
+@@ -4644,6 +_,8 @@
              graphics = new GraphicsDeviceManager(this as Game);
              base.Content.RootDirectory = "Content";
          }
@@ -283,7 +283,7 @@
      }
  
      private static void SetDisplayMonitor()
-@@ -4715,7 +_,7 @@
+@@ -4671,7 +_,7 @@
      {
          if (!dedServ)
          {
@@ -292,7 +292,7 @@
              Platform.Get<IWindowService>().SetUnicodeTitle(base.Window, _cachedTitle);
          }
      }
-@@ -4784,7 +_,6 @@
+@@ -4740,7 +_,6 @@
          SetTitle();
          lo = rand.Next(6);
          waterfallManager = new WaterfallManager();
@@ -300,7 +300,7 @@
          sittingManager = new AnchoredEntitiesCollection();
          sleepingManager = new AnchoredEntitiesCollection();
          gameTips = new GameTipsDisplay();
-@@ -4827,6 +_,7 @@
+@@ -4783,6 +_,7 @@
          LoadContent_TryEnteringHiDef();
          ClientInitialize();
          base.Initialize();
@@ -308,7 +308,7 @@
      }
  
      private void BindSettingsTo(Preferences preferences)
-@@ -4835,7 +_,6 @@
+@@ -4791,7 +_,6 @@
          MinimapFrameManagerInstance.BindTo(preferences);
          BigBossProgressBar.BindTo(preferences);
          ResourceSetsManager.BindTo(preferences);
@@ -316,7 +316,7 @@
          Terraria.Graphics.Effects.Filters.Scene.BindTo(preferences);
          if (SocialAPI.Cloud != null)
          {
-@@ -5016,6 +_,7 @@
+@@ -4972,6 +_,7 @@
              Star.SpawnStars();
              ItemSorting.SetupWhiteLists();
          }
@@ -324,7 +324,7 @@
      }
  
      private void Initialize_Entities()
-@@ -8780,8 +_,6 @@
+@@ -8736,8 +_,6 @@
              screenHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
          }
  
@@ -333,7 +333,7 @@
          if (Main.OnResolutionChanged != null)
          {
              Main.OnResolutionChanged(new Vector2(screenWidth, screenHeight));
-@@ -8800,9 +_,6 @@
+@@ -8756,9 +_,6 @@
          _achievementAdvisor = new AchievementAdvisor();
          OpenRecent();
          UILinksInitializer.Load();
@@ -343,7 +343,7 @@
          CacheSupportedDisplaySizes();
          if (autoJoin)
          {
-@@ -8816,31 +_,10 @@
+@@ -8772,31 +_,10 @@
  
      private static void CacheSupportedDisplaySizes()
      {
@@ -379,7 +379,7 @@
      }
  
      public static void LoadTestLog(string logname)
-@@ -8863,6 +_,7 @@
+@@ -8819,6 +_,7 @@
          Assets = base.Services.Get<IAssetRepository>();
          Assets.AssetLoadFailHandler = OnceFailedLoadingAnAsset;
          mapSectionTexture = new RenderTarget2D(base.GraphicsDevice, 200, 150);
@@ -387,7 +387,7 @@
          ShaderContentManager = new ContentManager(base.Content.ServiceProvider, base.Content.RootDirectory);
          PixelShaderRef.Value = ShaderContentManager.Load<Effect>("PixelShader");
          VertexPixelShaderRef.Value = ShaderContentManager.Load<Effect>("PixelShader");
-@@ -8891,7 +_,6 @@
+@@ -8847,7 +_,6 @@
  
          AssetSourceController.UseResourcePacks(AssetInitializer.CreateResourcePackList(base.Services));
          AssetInitializer.LoadSplashAssets(asyncLoadForSounds: true);
@@ -395,7 +395,7 @@
          _gameContentLoadProcess = LoadContent_Deferred();
      }
  
-@@ -10828,7 +_,7 @@
+@@ -10784,7 +_,7 @@
              {
                  newMusic = 10;
              }
@@ -404,7 +404,7 @@
              {
                  newMusic = 8;
              }
-@@ -14957,6 +_,8 @@
+@@ -14913,6 +_,8 @@
          }
      }
  
@@ -413,7 +413,7 @@
      public static void DoUpdate_AnimateItemIcons()
      {
          for (int i = 0; i < itemAnimationsRegistered.Count; i++)
-@@ -14967,6 +_,10 @@
+@@ -14923,6 +_,10 @@
                  itemAnimations[num].Update();
              }
          }
@@ -424,7 +424,7 @@
      }
  
      public static void QueueMainThreadAction(Action action)
-@@ -15060,8 +_,6 @@
+@@ -15016,8 +_,6 @@
          {
              UpdateAudio();
              GlobalTimeWrappedHourly = (float)(gameTime.TotalGameTime.TotalSeconds % 3600.0);
@@ -433,7 +433,7 @@
              return;
          }
  
-@@ -15105,7 +_,6 @@
+@@ -15061,7 +_,6 @@
          }
  
          PlayerInput.SetZoom_Unscaled();
@@ -441,7 +441,7 @@
          PlayerInput.ResetInputsOnActiveStateChange();
          if (!dedServ && Main.OnTickForThirdPartySoftwareOnly != null)
          {
-@@ -15180,37 +_,10 @@
+@@ -15136,37 +_,10 @@
          }
  
          DoUpdate_AutoSave();
@@ -481,7 +481,7 @@
              if (showSplash)
              {
                  return;
-@@ -15263,16 +_,11 @@
+@@ -15219,16 +_,11 @@
                  }
              }
  
@@ -499,7 +499,7 @@
                      return;
                  }
  
-@@ -15280,9 +_,13 @@
+@@ -15236,9 +_,13 @@
                  UpdateTimeAccumulator -= 0.01666666753590107;
                  UpdateTimeAccumulator = Math.Min(UpdateTimeAccumulator, 0.01666666753590107);
              }
@@ -513,7 +513,7 @@
              PlayerInput.AllowExecutionOfGamepadInstructions = true;
              TryPlayingCreditsRoll();
              PlayerInput.SetZoom_UI();
-@@ -15336,12 +_,6 @@
+@@ -15292,12 +_,6 @@
                  }
              }
  
@@ -526,11 +526,11 @@
              if ((double)gfxQuality < 0.2)
              {
                  LegacyLighting.RenderPhases = 8;
-@@ -15401,11 +_,8 @@
+@@ -15357,11 +_,8 @@
              hasFocus = base.IsActive;
              if (Platform.IsWindows)
              {
--                Form form = Control.FromHandle(base.Window.Handle);
+-                Form form = Control.FromHandle(base.Window.Handle) as Form;
 -                bool num3 = form.WindowState == FormWindowState.Minimized;
 -                bool flag = Form.ActiveForm == form;
 -                hasFocus |= flag;
@@ -540,7 +540,7 @@
                  {
                      hasFocus = false;
                  }
-@@ -15415,7 +_,7 @@
+@@ -15371,7 +_,7 @@
              {
                  if (!Platform.IsOSX)
                  {
@@ -549,7 +549,7 @@
                  }
  
                  if (netMode != 2 && myPlayer >= 0)
-@@ -15436,7 +_,7 @@
+@@ -15392,7 +_,7 @@
  
              if (!Platform.IsOSX)
              {
@@ -558,7 +558,7 @@
              }
  
              SkyManager.Instance.Update(gameTime);
-@@ -15461,7 +_,6 @@
+@@ -15417,7 +_,6 @@
              DoUpdate_F8_ToggleNetDiagnostics();
              DoUpdate_F7_ToggleGraphicsDiagnostics();
              DoUpdate_F11_ToggleUI();
@@ -566,7 +566,7 @@
              DoUpdate_HandleInput();
              DoUpdate_HandleChat();
              DoUpdate_Enter_ToggleChat();
-@@ -15564,7 +_,7 @@
+@@ -15520,7 +_,7 @@
              if ((double)screenPosition.Y < worldSurface * 16.0 + 16.0)
              {
                  Star.UpdateStars();
@@ -575,7 +575,7 @@
              }
              else if (shimmerAlpha > 0f)
              {
-@@ -15594,11 +_,10 @@
+@@ -15550,11 +_,10 @@
          {
              DoUpdateInWorld(_worldUpdateTimeTester);
          }
@@ -588,7 +588,7 @@
      }
  
      internal static void UpdateCreativeGameModeOverride()
-@@ -16510,6 +_,7 @@
+@@ -16466,6 +_,7 @@
  
      private static void DoUpdate_Enter_ToggleChat()
      {
@@ -596,7 +596,7 @@
          if (keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Enter) && !keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftAlt) && !keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.RightAlt) && hasFocus)
          {
              if (chatRelease && !drawingPlayerChat && !editSign && !editChest && !gameMenu && !keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape))
-@@ -16529,6 +_,7 @@
+@@ -16485,6 +_,7 @@
  
      public static void OpenPlayerChat()
      {
@@ -604,7 +604,7 @@
          if (CurrentInputTextTakerOverride == null)
          {
              drawingPlayerChat = true;
-@@ -16538,6 +_,7 @@
+@@ -16494,6 +_,7 @@
  
      public static void ClosePlayerChat()
      {
@@ -612,7 +612,7 @@
          drawingPlayerChat = false;
          PlayerInput.WritingText = false;
          player[myPlayer].releaseHook = false;
-@@ -16546,6 +_,7 @@
+@@ -16502,6 +_,7 @@
  
      private static void DoUpdate_HandleChat()
      {
@@ -620,7 +620,7 @@
          if (CurrentInputTextTakerOverride != null)
          {
              drawingPlayerChat = false;
-@@ -16638,24 +_,6 @@
+@@ -16594,24 +_,6 @@
          keyState = Keyboard.GetState();
      }
  
@@ -645,7 +645,7 @@
      private static void DoUpdate_F11_ToggleUI()
      {
          if (keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F11))
-@@ -18976,6 +_,9 @@
+@@ -18932,6 +_,9 @@
      }
  
      public static void MouseText_DrawItemTooltip_GetLinesInfo(Item item, ref int yoyoLogo, ref int researchLine, float oldKB, ref int numLines, string[] toolTipLine, bool[] preFixLine, bool[] badPreFixLine)
@@ -655,7 +655,7 @@
      {
          toolTipLine[0] = item.HoverName;
          if (item.favorited)
-@@ -19111,7 +_,7 @@
+@@ -19067,7 +_,7 @@
                      {
                          toolTipLine[numLines] = Lang.tip[13].Value;
                      }
@@ -664,7 +664,7 @@
                      numLines++;
                  }
  
-@@ -19168,6 +_,7 @@
+@@ -19124,6 +_,7 @@
                      toolTipLine[numLines] = Lang.tip[22].Value;
                  }
  
@@ -672,7 +672,7 @@
                  numLines++;
              }
  
-@@ -19676,6 +_,7 @@
+@@ -19632,6 +_,7 @@
                      toolTipLine[numLines] = "+4" + Lang.tip[47].Value;
                      preFixLine[numLines] = true;
                      numLines++;
@@ -680,7 +680,7 @@
                  }
              }
  
-@@ -20226,6 +_,9 @@
+@@ -20182,6 +_,9 @@
  
      protected void DrawGoreBehind()
      {
@@ -690,7 +690,7 @@
          for (int i = 0; i < 600; i++)
          {
              if (!gore[i].active || gore[i].type <= 0)
-@@ -20259,6 +_,9 @@
+@@ -20215,6 +_,9 @@
  
      protected void DrawGore()
      {
@@ -700,7 +700,7 @@
          drawBackGore = false;
          for (int i = 0; i < 600; i++)
          {
-@@ -20714,14 +_,18 @@
+@@ -20670,14 +_,18 @@
  
      protected void DrawPlayers_BehindNPCs()
      {
@@ -719,25 +719,25 @@
      }
  
      protected void DrawElderEye(SpriteBatch spriteBatch, Vector2 worldPosition, float opacity, float scale, int frameNumber, Microsoft.Xna.Framework.Color passedColor)
-@@ -25163,7 +_,7 @@
+@@ -25119,7 +_,7 @@
                      float hue = ((float)i + 5f) / 10f;
                      float num10 = 200f;
                      float num11 = (float)timeForVisualEffects / 60f;
--                    Vector3 vector2 = Vector3.Transform(matrix: Matrix.CreateRotationX((num11 - 0.3f + (float)i * 0.1f) * 0.7f * (MathF.PI * 2f)) * Matrix.CreateRotationY((num11 - 0.8f + (float)i * 0.3f) * 0.7f * (MathF.PI * 2f)) * Matrix.CreateRotationZ((num11 + (float)i * 0.5f) * 0.1f * (MathF.PI * 2f)), position: Vector3.Forward);
+-                    Vector3 vector2 = Vector3.Transform(matrix: Matrix.CreateRotationX((num11 - 0.3f + (float)i * 0.1f) * 0.7f * ((float)Math.PI * 2f)) * Matrix.CreateRotationY((num11 - 0.8f + (float)i * 0.3f) * 0.7f * ((float)Math.PI * 2f)) * Matrix.CreateRotationZ((num11 + (float)i * 0.5f) * 0.1f * ((float)Math.PI * 2f)), position: Vector3.Forward);
 +                    Vector3 vector2 = Vector3.Transform(matrix: Matrix.CreateRotationX((num11 - 0.3f + (float)i * 0.1f) * 0.7f * ((float)Math.PI * 2f)) * Matrix.CreateRotationY((num11 - 0.8f + (float)i * 0.3f) * 0.7f * ((float)Math.PI * 2f)) * Matrix.CreateRotationZ((num11 + (float)i * 0.5f) * 0.1f * ((float)Math.PI * 2f)), position: -Vector3.UnitZ);
                      num10 += Utils.GetLerpValue(-1f, 1f, vector2.Z, clamped: true) * 150f;
                      Vector2 spinningpoint = new Vector2(vector2.X, vector2.Y) * num10 * num7;
                      float lerpValue = Utils.GetLerpValue(90f, 0f, rCurrentNPC.ai[1], clamped: true);
-@@ -30220,7 +_,7 @@
+@@ -30176,7 +_,7 @@
                          float num222 = 0.9f + num220 * 0.8f;
                          num222 *= num222;
                          num222 *= 0.8f;
 -                        Vector2 position7 = Vector2.SmoothStep(center2, value41, num220);
 +                        Vector2 position7 = VectorExtensions.SmoothStep(center2, value41, num220);
                          Microsoft.Xna.Framework.Rectangle rectangle8 = value40.Frame(1, 7, 0, (int)(num220 * 7f));
-                         EntitySpriteDraw(value40, position7, rectangle8, transparent, proj.rotation + MathF.PI * 2f * (num220 + GlobalTimeWrappedHourly * 1.2f) * 0.2f + (float)num221 * (MathF.PI * 2f / 5f), rectangle8.Size() / 2f, num222, SpriteEffects.None);
+                         EntitySpriteDraw(value40, position7, rectangle8, transparent, proj.rotation + (float)Math.PI * 2f * (num220 + GlobalTimeWrappedHourly * 1.2f) * 0.2f + (float)num221 * ((float)Math.PI * 2f / 5f), rectangle8.Size() / 2f, num222, SpriteEffects.None);
                      }
-@@ -32933,10 +_,10 @@
+@@ -32889,10 +_,10 @@
  
              if (proj.type == 434)
              {
@@ -748,10 +748,10 @@
 -                float num420 = (float)Math.Sqrt(v.X * v.X + v.Y * v.Y);
 -                new Vector2(4f, num420);
 +                float num420 = v.Length();
-                 float rotation30 = v.ToRotation() + MathF.PI / 2f;
+                 float rotation30 = v.ToRotation() + (float)Math.PI / 2f;
                  Vector2 vector113 = Vector2.Lerp(proj.position, vector112, 0.5f);
                  Microsoft.Xna.Framework.Color red = Microsoft.Xna.Framework.Color.Red;
-@@ -35530,10 +_,9 @@
+@@ -35486,10 +_,9 @@
              return 0;
          }
  
@@ -764,7 +764,7 @@
          bool flag2 = proj.Hitbox.Contains(v.ToPoint());
          if (!((flag2 || SmartInteractProj == proj.whoAmI) & !localPlayer.lastMouseInterface))
          {
-@@ -35618,10 +_,9 @@
+@@ -35574,10 +_,9 @@
              return 0;
          }
  
@@ -777,7 +777,7 @@
          bool flag2 = proj.Hitbox.Contains(v.ToPoint());
          if (!((flag2 || SmartInteractProj == proj.whoAmI) & !localPlayer.lastMouseInterface))
          {
-@@ -36407,8 +_,7 @@
+@@ -36363,8 +_,7 @@
                      {
                          int num = item.type - 71;
                          texture = TextureAssets.Coin[num].Value;
@@ -787,7 +787,7 @@
                          return;
                      }
  
-@@ -36679,6 +_,9 @@
+@@ -36635,6 +_,9 @@
  
      protected void DrawDust()
      {
@@ -797,7 +797,7 @@
          Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle((int)screenPosition.X - 500, (int)screenPosition.Y - 50, screenWidth + 1000, screenHeight + 100);
          rectangle = new Microsoft.Xna.Framework.Rectangle((int)screenPosition.X - 1000, (int)screenPosition.Y - 1050, screenWidth + 2000, screenHeight + 2100);
          Microsoft.Xna.Framework.Rectangle rectangle2 = rectangle;
-@@ -39136,6 +_,7 @@
+@@ -39092,6 +_,7 @@
  
      protected void DrawPlayerChat()
      {
@@ -805,7 +805,7 @@
          TextSnippet[] array = null;
          if (drawingPlayerChat)
          {
-@@ -39242,8 +_,7 @@
+@@ -39198,8 +_,7 @@
          new Vector2(num5, num6);
          DrawBestiaryIcon(num, num2);
          DrawEmoteBubblesButton(num, num2);
@@ -815,7 +815,7 @@
          inventoryScale = 0.85f;
          if (mouseX > 20 && mouseX < (int)(20f + 560f * inventoryScale) && mouseY > 20 && mouseY < (int)(20f + 280f * inventoryScale) && !PlayerInput.IgnoreMouseInterface)
          {
-@@ -39280,7 +_,7 @@
+@@ -39236,7 +_,7 @@
                      ItemSlot.MouseHover(player[myPlayer].inventory, 0, num9);
                  }
  
@@ -824,7 +824,7 @@
              }
          }
  
-@@ -41266,7 +_,7 @@
+@@ -41222,7 +_,7 @@
  
          float num2 = 0.9f;
          Texture2D value = TextureAssets.HbLock[(!player[myPlayer].hbLocked) ? 1 : 0].Value;
@@ -833,7 +833,7 @@
          bool flag = false;
          if (mouseX > pivotTopLeftX && (float)mouseX < (float)pivotTopLeftX + (float)value2.Width * num2 && mouseY > num && (float)mouseY < (float)num + (float)value2.Height * num2)
          {
-@@ -41289,10 +_,10 @@
+@@ -41245,10 +_,10 @@
              }
          }
  
@@ -846,7 +846,7 @@
          }
      }
  
-@@ -41329,7 +_,7 @@
+@@ -41285,7 +_,7 @@
              }
          }
  
@@ -855,7 +855,7 @@
          spriteBatch.Draw(value, vector, rectangle, Microsoft.Xna.Framework.Color.White, 0f, default(Vector2), num2, SpriteEffects.None, 0f);
          if (flag2)
          {
-@@ -41372,7 +_,7 @@
+@@ -41328,7 +_,7 @@
              }
          }
  
@@ -864,7 +864,7 @@
          spriteBatch.Draw(value, vector, rectangle, Microsoft.Xna.Framework.Color.White, 0f, default(Vector2), num2, SpriteEffects.None, 0f);
          if (flag2)
          {
-@@ -42383,13 +_,6 @@
+@@ -42339,13 +_,6 @@
              return;
          }
  
@@ -878,7 +878,7 @@
          int num = 20;
          for (int i = 0; i < 10; i++)
          {
-@@ -42429,7 +_,7 @@
+@@ -42385,7 +_,7 @@
  
              float num4 = inventoryScale;
              inventoryScale = num2;
@@ -887,8 +887,8 @@
              inventoryScale = num4;
              num += (int)((float)TextureAssets.InventoryBack.Width() * hotbarScale[i]) + 4;
          }
-@@ -42443,7 +_,7 @@
-             Microsoft.Xna.Framework.Color lightColor2 = new Microsoft.Xna.Framework.Color(255, 255, 255, alpha2);
+@@ -42399,7 +_,7 @@
+             Microsoft.Xna.Framework.Color lightColor2 = new Microsoft.Xna.Framework.Color(255, 255, 255, a2);
              float num7 = inventoryScale;
              inventoryScale = num5;
 -            ItemSlot.Draw(spriteBatch, player[myPlayer].inventory, 13, selectedItem, new Vector2(num, num6), lightColor2);
@@ -896,7 +896,7 @@
              inventoryScale = num7;
          }
      }
-@@ -43804,6 +_,7 @@
+@@ -43760,6 +_,7 @@
  
      private static void DrawInterface_41_InterfaceLogic4()
      {
@@ -904,7 +904,7 @@
          if (mouseRight)
          {
              npcChatRelease = false;
-@@ -45977,7 +_,7 @@
+@@ -45933,7 +_,7 @@
                          Tile tileSafely = Framing.GetTileSafely(value);
                          if (tileSafely.active())
                          {
@@ -913,7 +913,7 @@
                              num10 = tileSafely.type;
                              if (TileID.Sets.BasicChest[num10] || TileID.Sets.BasicChestFake[num10])
                              {
-@@ -47040,7 +_,6 @@
+@@ -46996,7 +_,6 @@
  
      private static void TryDisposingEverything()
      {
@@ -921,7 +921,7 @@
          CaptureManager.Instance.Dispose();
          audioSystem.Dispose();
      }
-@@ -47171,6 +_,12 @@
+@@ -47127,6 +_,12 @@
  
      public static void DrawCursor(Vector2 bonus, bool smart = false)
      {
@@ -934,7 +934,7 @@
          if (gameMenu && alreadyGrabbingSunOrMoon)
          {
              return;
-@@ -47257,6 +_,12 @@
+@@ -47213,6 +_,12 @@
  
      public static Vector2 DrawThickCursor(bool smart = false)
      {
@@ -947,7 +947,7 @@
          if (ThickMouse)
          {
              bool showGamepadCursor = PlayerInput.SettingsForUI.ShowGamepadCursor;
-@@ -47424,7 +_,7 @@
+@@ -47380,7 +_,7 @@
          chatMonitor.Clear();
          screenLastPosition = screenPosition;
          screenPosition.Y = (float)(worldSurface * 16.0 - (double)screenHeight);
@@ -956,7 +956,7 @@
          if (alreadyGrabbingSunOrMoon)
          {
              playOldTile = true;
-@@ -47446,17 +_,17 @@
+@@ -47402,17 +_,17 @@
          }
  
          Star.UpdateStars();
@@ -977,7 +977,7 @@
                  if (logoRotationSpeed < 0f)
                  {
                      logoRotationSpeed = 0f;
-@@ -47481,7 +_,7 @@
+@@ -47437,7 +_,7 @@
                  logoRotationSpeed -= 1f;
              }
  
@@ -986,7 +986,7 @@
              if (logoScale > 1f)
              {
                  logoScaleDirection = -1f;
-@@ -47502,7 +_,7 @@
+@@ -47458,7 +_,7 @@
          }
          else if (WorldGen.drunkWorldGen)
          {
@@ -995,7 +995,7 @@
              if (logoRotationSpeed > 0f)
              {
                  logoRotationSpeed += 1500f;
-@@ -47522,14 +_,14 @@
+@@ -47478,14 +_,14 @@
          {
              if ((double)logoRotation > 0.09)
              {
@@ -1012,7 +1012,7 @@
              if ((double)logoRotation > 0.08)
              {
                  logoRotationDirection = -1f;
-@@ -47548,7 +_,7 @@
+@@ -47504,7 +_,7 @@
                  logoRotationSpeed -= 1f;
              }
  
@@ -1021,7 +1021,7 @@
              if ((double)logoScale > 1.35)
              {
                  logoScaleDirection = -1f;
-@@ -47570,12 +_,7 @@
+@@ -47526,12 +_,7 @@
  
          Microsoft.Xna.Framework.Color color2 = new Microsoft.Xna.Framework.Color((byte)((float)(int)color.R * ((float)LogoA / 255f)), (byte)((float)(int)color.G * ((float)LogoA / 255f)), (byte)((float)(int)color.B * ((float)LogoA / 255f)), (byte)((float)(int)color.A * ((float)LogoA / 255f)));
          Microsoft.Xna.Framework.Color color3 = new Microsoft.Xna.Framework.Color((byte)((float)(int)color.R * ((float)LogoB / 255f)), (byte)((float)(int)color.G * ((float)LogoB / 255f)), (byte)((float)(int)color.B * ((float)LogoB / 255f)), (byte)((float)(int)color.A * ((float)LogoB / 255f)));
@@ -1035,7 +1035,7 @@
          {
              spriteBatch.Draw(TextureAssets.Logo.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color2, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
              spriteBatch.Draw(TextureAssets.Logo2.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color3, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
-@@ -48226,6 +_,26 @@
+@@ -48182,6 +_,26 @@
              }
  
              num11++;
@@ -1062,7 +1062,7 @@
              array9[num11] = Lang.menu[14].Value;
              if (selectedMenu == num11)
              {
-@@ -49000,6 +_,8 @@
+@@ -48956,6 +_,8 @@
                      menuMode = 112;
                  }
  
@@ -1071,7 +1071,7 @@
                  num20++;
                  array9[num20] = Lang.menu[210].Value;
                  if (selectedMenu == num20)
-@@ -49270,7 +_,7 @@
+@@ -49226,7 +_,7 @@
              {
                  bgScroll = (int)Math.Round((1f - caveParallax) * 500f);
                  int num25 = 0;
@@ -1080,7 +1080,7 @@
                  if (selectedMenu == num25)
                  {
                      SoundEngine.PlaySound(10);
-@@ -49286,14 +_,6 @@
+@@ -49242,14 +_,6 @@
                  }
  
                  num25++;
@@ -1095,7 +1095,7 @@
                  array9[num25] = Language.GetTextValue("UI.LightMode_" + Lighting.Mode);
                  if (selectedMenu == num25)
                  {
-@@ -49433,83 +_,9 @@
+@@ -49389,83 +_,9 @@
              }
              else if (menuMode == 111)
              {
@@ -1182,7 +1182,7 @@
              }
              else if (menuMode == 1125)
              {
-@@ -50018,166 +_,9 @@
+@@ -49974,166 +_,9 @@
              }
              else if (menuMode == 13)
              {
@@ -1352,7 +1352,7 @@
              }
              else if (menuMode == 131)
              {
-@@ -51359,18 +_,6 @@
+@@ -51315,18 +_,6 @@
          }
      }
  
@@ -1371,7 +1371,7 @@
      private static void OnSubmitServerPasswordFromRequest(string passwordCandidate)
      {
          Netplay.ServerPassword = passwordCandidate;
-@@ -51708,48 +_,6 @@
+@@ -51664,48 +_,6 @@
          _uiScaleWanted = uiScaleWanted;
      }
  
@@ -1420,7 +1420,7 @@
      public static void OpenCharacterSelectUI()
      {
          menuMode = 888;
-@@ -52247,9 +_,11 @@
+@@ -52203,9 +_,11 @@
              return;
          }
  
@@ -1432,7 +1432,7 @@
          double num2 = maxTilesY - 330;
          double num3 = (int)((num2 - worldSurface) / 6.0) * 6;
          num2 = worldSurface + num3 - 5.0;
-@@ -52704,11 +_,6 @@
+@@ -52660,11 +_,6 @@
                                  continue;
                              }
  
@@ -1444,7 +1444,7 @@
                              if (num == 0f && (color4.R > 0 || color4.G > 0 || color4.B > 0))
                              {
                                  if (!drawToScreen)
-@@ -52938,11 +_,7 @@
+@@ -52894,11 +_,7 @@
                                  if (WorldGen.InWorld(num37, num38))
                                  {
                                      Microsoft.Xna.Framework.Color color12 = Lighting.GetColor(num37, num38);
@@ -1457,7 +1457,7 @@
                                      if (color12.R > 0 || color12.G > 0 || color12.B > 0)
                                      {
                                          Lighting.GetCornerColors(num37, num38, out var vertices2, ugBackTransition);
-@@ -53539,6 +_,7 @@
+@@ -53495,6 +_,7 @@
          }
  
          Lighting.GlobalBrightness = globalBrightness;
@@ -1465,7 +1465,7 @@
          TimeLogger.DrawTime(3, stopwatch.Elapsed.TotalMilliseconds);
      }
  
-@@ -53916,10 +_,6 @@
+@@ -53872,10 +_,6 @@
                              int num23 = (int)(((float)(bgStartX + num3 * n + num20 * 16 + 8) + screenPosition.X) / 16f);
                              int num24 = (int)((num22 + screenPosition.Y) / 16f);
                              Microsoft.Xna.Framework.Color color3 = Lighting.GetColor(num23, num24);
@@ -1476,7 +1476,7 @@
  
                              if (color3.R > 0 || color3.G > 0 || color3.B > 0)
                              {
-@@ -54132,10 +_,6 @@
+@@ -54088,10 +_,6 @@
                                  int num36 = (int)(((float)(bgStartX + num3 * num31 + num33 * 16 + 8) + screenPosition.X) / 16f);
                                  int num37 = (int)((num35 + screenPosition.Y) / 16f);
                                  Microsoft.Xna.Framework.Color color11 = Lighting.GetColor(num36, num37);
@@ -1487,7 +1487,7 @@
  
                                  if (color11.R > 0 || color11.G > 0 || color11.B > 0)
                                  {
-@@ -54659,23 +_,8 @@
+@@ -54615,23 +_,8 @@
  
      private static bool ShouldDrawBackgroundTileAt(int i, int j)
      {
@@ -1511,7 +1511,7 @@
              if (WallLightAt(i, j) || WallLightAt(i - 1, j) || WallLightAt(i + 1, j))
              {
                  return true;
-@@ -54712,6 +_,7 @@
+@@ -54668,6 +_,7 @@
  
      protected void RenderBackground()
      {
@@ -1519,7 +1519,7 @@
          if (drawToScreen)
          {
              return;
-@@ -55182,7 +_,7 @@
+@@ -55138,7 +_,7 @@
  
          if (mapFullscreen)
          {
@@ -1528,7 +1528,7 @@
              {
                  if (mouseLeftRelease)
                  {
-@@ -56216,6 +_,10 @@
+@@ -56172,6 +_,10 @@
  
      private static void DrawMapFullscreenBackground(Vector2 screenPosition, int screenWidth, int screenHeight)
      {
@@ -1539,7 +1539,7 @@
          Asset<Texture2D> asset = TextureAssets.MapBGs[0];
          int num = -1;
          Microsoft.Xna.Framework.Color color = Microsoft.Xna.Framework.Color.White;
-@@ -56974,6 +_,7 @@
+@@ -56930,6 +_,7 @@
              return;
          }
  
@@ -1547,7 +1547,7 @@
          RenderBlack();
          base.GraphicsDevice.SetRenderTarget(tileTarget);
          base.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
-@@ -57000,6 +_,7 @@
+@@ -56956,6 +_,7 @@
          DrawTileEntities(solidLayer: true, overRenderTargets: false, intoRenderTargets: true);
          TimeLogger.DetailedDrawTime(28);
          base.GraphicsDevice.SetRenderTarget(null);
@@ -1555,7 +1555,7 @@
      }
  
      protected void RenderTiles2()
-@@ -57038,6 +_,7 @@
+@@ -56994,6 +_,7 @@
  
      protected void RenderWater()
      {
@@ -1563,7 +1563,7 @@
          if (!drawToScreen)
          {
              base.GraphicsDevice.SetRenderTarget(waterTarget);
-@@ -57761,6 +_,7 @@
+@@ -57717,6 +_,7 @@
  
      protected void DrawBlack(bool force = false)
      {
@@ -1571,7 +1571,7 @@
          if (shimmerAlpha == 1f)
          {
              return;
-@@ -58100,11 +_,10 @@
+@@ -58056,11 +_,10 @@
          }
      }
  
@@ -1584,7 +1584,7 @@
          }
  
          InitTargets(base.GraphicsDevice.PresentationParameters.BackBufferWidth, base.GraphicsDevice.PresentationParameters.BackBufferHeight);
-@@ -61630,13 +_,36 @@
+@@ -61586,13 +_,36 @@
      {
      }
  
@@ -1621,7 +1621,7 @@
              if (Main.OnPostDraw != null)
              {
                  Main.OnPostDraw(gameTime);
-@@ -61649,6 +_,8 @@
+@@ -61605,6 +_,8 @@
  
      private void DoDraw(GameTime gameTime)
      {
@@ -1630,7 +1630,7 @@
          Stopwatch stopwatch = new Stopwatch();
          stopwatch.Start();
          if (showSplash)
-@@ -61717,7 +_,6 @@
+@@ -61673,7 +_,6 @@
  
          if (!dedServ)
          {
@@ -1638,7 +1638,7 @@
              if (Main.OnPreDraw != null)
              {
                  Main.OnPreDraw(gameTime);
-@@ -61774,7 +_,7 @@
+@@ -61730,7 +_,7 @@
          }
  
          HoverItem = new Item();
@@ -1647,7 +1647,7 @@
          CheckMonoliths();
          sunCircle += 0.01f;
          if ((double)sunCircle > 6.285)
-@@ -62479,7 +_,7 @@
+@@ -62435,7 +_,7 @@
              DrawItemTextPopups(targetScale);
              PlayerInput.SetZoom_UI();
              spriteBatch.End();
@@ -1656,7 +1656,7 @@
              DrawNetplayStatusText();
              DrawFPS();
              spriteBatch.End();
-@@ -63023,10 +_,12 @@
+@@ -62979,10 +_,12 @@
          }
  
          instance.CameraModifiers.ApplyTo(ref screenPosition);
@@ -1670,7 +1670,7 @@
  
      public static bool IsItDay()
      {
-@@ -63496,7 +_,7 @@
+@@ -63452,7 +_,7 @@
                  _oldNetplayStatusText = text;
              }
  
@@ -1679,7 +1679,7 @@
              int hoveredSnippet;
              if (Netplay.Connection.StatusTextHasShadows)
              {
-@@ -65014,14 +_,12 @@
+@@ -64970,14 +_,12 @@
  
      public static void NewText(string newText, byte R = byte.MaxValue, byte G = byte.MaxValue, byte B = byte.MaxValue)
      {
@@ -1696,7 +1696,7 @@
      }
  
      public static void StopRain()
-@@ -66780,228 +_,9 @@
+@@ -66736,228 +_,9 @@
          }
      }
  
@@ -1721,7 +1721,7 @@
 -        Form form = null;
 -        if (Platform.IsWindows)
 -        {
--            form = Control.FromHandle(instance.Window.Handle);
+-            form = (Form)Control.FromHandle(instance.Window.Handle);
 -            screenMaximized = form.WindowState == FormWindowState.Maximized;
 -            if (screenBorderless && screenMaximized && !graphics.IsFullScreen)
 -            {

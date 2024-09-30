@@ -17,15 +17,9 @@ public class GameRunner
     {
         GameThread = new Thread(() =>
         {
-#if WINDOWS
             typeof(WindowsLaunch)
                 .GetMethod("Main", BindingFlags.NonPublic | BindingFlags.Static)!
                 .Invoke(null, new object[] { new string[] { } });
-#else
-            typeof(LinuxLaunch)
-                .GetMethod("Main", BindingFlags.NonPublic | BindingFlags.Static)!
-                .Invoke(null, new object[] { new string[] { } });
-#endif
         });
 
         GameThread.Start();

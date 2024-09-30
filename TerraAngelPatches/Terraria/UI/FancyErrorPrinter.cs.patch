@@ -15,7 +15,7 @@
 -        if (Platform.IsWindows && !Main.dedServ)
 +        if (!Main.dedServ)
          {
--            MessageBox.Show(preparedMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+-            MessageBox.Show(preparedMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand);
 +            SDL2.SDL.SDL_ShowSimpleMessageBox(SDL2.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR, "Terraria: Error", preparedMessage, Main.instance.Window.Handle);
          }
      }

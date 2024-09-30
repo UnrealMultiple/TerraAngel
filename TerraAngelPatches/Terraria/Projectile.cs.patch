@@ -16,7 +16,7 @@
 +            float lai0 = localAI[0];
 +            float lai1 = localAI[1];
 +            Vector2 vector27 = new Vector2(lai0, lai1);
-             rotation = (base.Center - vector27).ToRotation() - MathF.PI / 2f;
+             rotation = (base.Center - vector27).ToRotation() - (float)Math.PI / 2f;
              if (this.ai[0] == 0f)
              {
 @@ -30870,7 +_,9 @@
@@ -109,7 +109,7 @@
              }
          }
 @@ -70208,7 +_,7 @@
-                                 Vector2 value12 = vector69.RotatedBy(((num831 == 0) ? 1f : (-1f)) * (MathF.PI * 2f) / (num826 * 2f));
+                                 Vector2 value12 = vector69.RotatedBy(((num831 == 0) ? 1f : (-1f)) * ((float)Math.PI * 2f) / (num826 * 2f));
                                  for (float num832 = 0f; num832 < num829; num832++)
                                  {
 -                                    Vector2 vector70 = Vector2.SmoothStep(vector69, value12, num832 / num829);
