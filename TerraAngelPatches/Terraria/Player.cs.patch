@@ -66,7 +66,7 @@
          {
              return;
          }
-@@ -23730,7 +_,7 @@
+@@ -23731,7 +_,7 @@
  
      public static int GetFloorTileType(int x, int y)
      {
@@ -75,7 +75,7 @@
      }
  
      private void MakeFloorDust(bool Falling, int type, int paintColor)
-@@ -28333,28 +_,35 @@
+@@ -28334,28 +_,35 @@
              CheckCrackedBrickBreak();
          }
  
@@ -112,7 +112,7 @@
          oldPosition = position;
          oldDirection = direction;
          bool falling = false;
-@@ -28549,20 +_,22 @@
+@@ -28550,20 +_,22 @@
          {
              FloorVisuals(falling);
          }
@@ -137,7 +137,7 @@
  
          ItemCheckWrapped(i);
          PlayerFrame();
-@@ -28715,6 +_,7 @@
+@@ -28716,6 +_,7 @@
          return result;
      }
  
@@ -145,7 +145,7 @@
      private void AdjustRemainingPotionSickness()
      {
          if (whoAmI == Main.myPlayer)
-@@ -31201,7 +_,9 @@
+@@ -31202,7 +_,9 @@
          HotbarOffset = 0;
      }
  
@@ -156,7 +156,7 @@
      {
          int num;
          if (!controlLeft && !controlRight && !controlUp && !controlDown && PlayerInput.UsingGamepad && Main.SmartCursorIsUsed)
-@@ -38120,6 +_,8 @@
+@@ -38121,6 +_,8 @@
              Main.ActivePlayerFileData.StartPlayTimer();
              Hooks.EnterWorld(whoAmI);
          }
@@ -165,7 +165,7 @@
      }
  
      public bool Spawn_GetPositionAtWorldSpawn(ref int floorX, ref int floorY)
-@@ -38190,6 +_,7 @@
+@@ -38191,6 +_,7 @@
              bool flag = false;
              for (int j = -1; j <= 1; j++)
              {
@@ -173,7 +173,7 @@
                  Tile tile = Main.tile[x + j, y + i];
                  if (tile.nactive() && (Main.tileSolid[tile.type] || !Main.tileSolidTop[tile.type]))
                  {
-@@ -38238,7 +_,7 @@
+@@ -38239,7 +_,7 @@
          {
              for (int j = floorY - 3; j < floorY; j++)
              {
@@ -182,7 +182,7 @@
                  {
                      if (Main.tile[i, j].nactive() && Main.tileSolid[Main.tile[i, j].type] && !Main.tileSolidTop[Main.tile[i, j].type])
                      {
-@@ -38397,6 +_,17 @@
+@@ -38398,6 +_,17 @@
  
      public double Hurt(PlayerDeathReason damageSource, int Damage, int hitDirection, bool pvp = false, bool quiet = false, bool Crit = false, int cooldownCounter = -1, bool dodgeable = true)
      {
@@ -200,7 +200,7 @@
          if (shimmering && AllowShimmerDodge(damageSource, cooldownCounter, dodgeable))
          {
              return 0.0;
-@@ -38991,6 +_,12 @@
+@@ -38993,6 +_,12 @@
  
      public void KillMe(PlayerDeathReason damageSource, double dmg, int hitDirection, bool pvp = false)
      {
@@ -213,7 +213,7 @@
          if (creativeGodMode || dead)
          {
              return;
-@@ -39824,13 +_,23 @@
+@@ -39826,13 +_,23 @@
  
      private void PlaceThing_Walls()
      {
@@ -239,7 +239,7 @@
          {
              return;
          }
-@@ -39962,7 +_,13 @@
+@@ -39964,7 +_,13 @@
      {
          Item item = inventory[selectedItem];
          int tileToCreate = item.createTile;
@@ -254,7 +254,7 @@
          {
              return;
          }
-@@ -39993,7 +_,7 @@
+@@ -39995,7 +_,7 @@
              }
          }
  
@@ -263,7 +263,7 @@
          {
              bool canPlace = false;
              bool newObjectType = false;
-@@ -41535,6 +_,9 @@
+@@ -41537,6 +_,9 @@
              {
                  canPlace = true;
              }
@@ -273,7 +273,7 @@
          }
  
          if (flag && Main.tile[tileTargetX, tileTargetY].active())
-@@ -42060,7 +_,12 @@
+@@ -42062,7 +_,12 @@
  
      private void PlaceThing_PaintScrapper()
      {
@@ -287,7 +287,7 @@
          {
              int num = tileTargetX;
              int num2 = tileTargetY;
-@@ -42080,7 +_,7 @@
+@@ -42082,7 +_,7 @@
          }
  
          cursorItemIconEnabled = true;
@@ -296,7 +296,7 @@
          {
              return;
          }
-@@ -42135,7 +_,7 @@
+@@ -42137,7 +_,7 @@
          }
  
          cursorItemIconEnabled = true;
@@ -305,7 +305,7 @@
          {
              if (WorldGen.paintTile(x, y, 0, broadCast: true) || WorldGen.paintCoatTile(x, y, 0, broadcast: true))
              {
-@@ -42150,7 +_,12 @@
+@@ -42152,7 +_,12 @@
  
      private void PlaceThing_PaintRoller()
      {
@@ -319,7 +319,7 @@
          {
              return;
          }
-@@ -42160,7 +_,7 @@
+@@ -42162,7 +_,7 @@
          if (Main.tile[num, num2] != null && Main.tile[num, num2].wall > 0)
          {
              cursorItemIconEnabled = true;
@@ -328,7 +328,7 @@
              {
                  TryPainting(num, num2, paintingAWall: true);
              }
-@@ -42169,7 +_,12 @@
+@@ -42171,7 +_,12 @@
  
      private void PlaceThing_Paintbrush()
      {
@@ -342,7 +342,7 @@
          {
              return;
          }
-@@ -42179,7 +_,7 @@
+@@ -42181,7 +_,7 @@
          if (Main.tile[num, num2] != null && Main.tile[num, num2].active())
          {
              cursorItemIconEnabled = true;
@@ -351,7 +351,7 @@
              {
                  TryPainting(num, num2);
              }
-@@ -43006,7 +_,7 @@
+@@ -43008,7 +_,7 @@
          return num;
      }
  
@@ -360,7 +360,7 @@
      {
          baitPower = 0;
          baitType = 0;
-@@ -44001,6 +_,7 @@
+@@ -44003,6 +_,7 @@
                  lastVisualizedSelectedItem = item.Clone();
              }
  
@@ -368,7 +368,7 @@
              if (whoAmI == Main.myPlayer)
              {
                  if (!dontConsumeWand && itemTime == (int)((float)item.useTime * tileSpeed) && item.tileWand > 0)
-@@ -44060,7 +_,7 @@
+@@ -44062,7 +_,7 @@
  
                      if (flag6)
                      {
@@ -377,7 +377,7 @@
                          {
                              item.stack--;
                          }
-@@ -44073,7 +_,7 @@
+@@ -44075,7 +_,7 @@
                      }
                  }
  
@@ -386,7 +386,7 @@
                  {
                      inventory[selectedItem] = new Item();
                  }
-@@ -56367,8 +_,6 @@
+@@ -56372,8 +_,6 @@
              oldAdjTile[n] = false;
          }
  

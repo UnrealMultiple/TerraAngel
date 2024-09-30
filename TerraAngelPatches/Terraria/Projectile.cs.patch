@@ -30,7 +30,7 @@
              Vector2 value12 = vector104 - base.Center;
              if (value12.Length() < velocity.Length())
              {
-@@ -34296,7 +_,9 @@
+@@ -34297,7 +_,9 @@
                  }
  
                  velocity = Vector2.Zero;
@@ -41,7 +41,7 @@
                  Point point5 = base.Center.ToTileCoordinates();
                  int num1010 = Math.Abs(point4.X - point5.X);
                  int num1011 = Math.Abs(point4.Y - point5.Y);
-@@ -39972,7 +_,7 @@
+@@ -39974,7 +_,7 @@
              }
  
              float amount = MathHelper.Lerp(value, value2, Utils.GetLerpValue(num, 30f, timeLeft, clamped: true));
@@ -50,7 +50,7 @@
              if (type == 931)
              {
                  velocity *= MathHelper.Lerp(0.85f, 1f, Utils.GetLerpValue(0f, 90f, timeLeft, clamped: true));
-@@ -41031,7 +_,7 @@
+@@ -41033,7 +_,7 @@
          Vector2 vector2 = -velocity;
          Vector2 value = center + vector2 * 2f;
          Vector2 value2 = vector + vector2 * (1f - num2 * 3f);
@@ -59,7 +59,7 @@
          int num3 = type;
          if (num3 == 856)
          {
-@@ -41199,7 +_,7 @@
+@@ -41202,7 +_,7 @@
          }
  
          ai[0] += 1f / ai[1];
@@ -68,7 +68,7 @@
          if (flag)
          {
              for (float num3 = 0f; num3 < 1f; num3 += 0.5f)
-@@ -44802,7 +_,7 @@
+@@ -44806,7 +_,7 @@
                  AI_GetMyGroupIndexAndFillBlackList(blacklist, out var index2, out var totalIndexesInGroup2);
                  AI_156_GetIdlePosition(index2, totalIndexesInGroup2, out var idleSpot2, out var _);
                  velocity = Vector2.Zero;
@@ -77,7 +77,7 @@
                  if (Main.rand.Next(20) == 0)
                  {
                      int num6 = AI_156_TryAttackingNPCs(blacklist);
-@@ -44825,7 +_,7 @@
+@@ -44829,7 +_,7 @@
              AI_GetMyGroupIndexAndFillBlackList(blacklist, out var index3, out var totalIndexesInGroup3);
              AI_156_GetIdlePosition(index3, totalIndexesInGroup3, out var idleSpot3, out var idleRotation3);
              velocity = Vector2.Zero;
@@ -86,7 +86,7 @@
              rotation = rotation.AngleLerp(idleRotation3, 0.45f);
              if (Main.rand.Next(20) == 0)
              {
-@@ -51131,7 +_,9 @@
+@@ -51141,7 +_,9 @@
              }
              else if (type == 485)
              {
@@ -97,7 +97,7 @@
                  velocity = (velocity * 39f + vector34) / 40f;
                  int num246 = Dust.NewDust(position, width, height, 6);
                  Main.dust[num246].noGravity = true;
-@@ -66941,7 +_,9 @@
+@@ -66952,7 +_,9 @@
                      num355++;
                  }
  
@@ -108,7 +108,7 @@
                  NewProjectile(GetProjectileSource_FromThis(), localAI[0], localAI[1], vector43.X, vector43.Y, 640, damage, knockBack, owner, 0f, num355);
              }
          }
-@@ -70208,7 +_,7 @@
+@@ -70219,7 +_,7 @@
                                  Vector2 value12 = vector69.RotatedBy(((num831 == 0) ? 1f : (-1f)) * ((float)Math.PI * 2f) / (num826 * 2f));
                                  for (float num832 = 0f; num832 < num829; num832++)
                                  {

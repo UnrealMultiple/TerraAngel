@@ -404,7 +404,7 @@
              {
                  newMusic = 8;
              }
-@@ -14913,6 +_,8 @@
+@@ -14914,6 +_,8 @@
          }
      }
  
@@ -413,7 +413,7 @@
      public static void DoUpdate_AnimateItemIcons()
      {
          for (int i = 0; i < itemAnimationsRegistered.Count; i++)
-@@ -14923,6 +_,10 @@
+@@ -14924,6 +_,10 @@
                  itemAnimations[num].Update();
              }
          }
@@ -424,7 +424,7 @@
      }
  
      public static void QueueMainThreadAction(Action action)
-@@ -15016,8 +_,6 @@
+@@ -15017,8 +_,6 @@
          {
              UpdateAudio();
              GlobalTimeWrappedHourly = (float)(gameTime.TotalGameTime.TotalSeconds % 3600.0);
@@ -433,7 +433,7 @@
              return;
          }
  
-@@ -15061,7 +_,6 @@
+@@ -15062,7 +_,6 @@
          }
  
          PlayerInput.SetZoom_Unscaled();
@@ -441,7 +441,7 @@
          PlayerInput.ResetInputsOnActiveStateChange();
          if (!dedServ && Main.OnTickForThirdPartySoftwareOnly != null)
          {
-@@ -15136,37 +_,10 @@
+@@ -15137,37 +_,10 @@
          }
  
          DoUpdate_AutoSave();
@@ -481,7 +481,7 @@
              if (showSplash)
              {
                  return;
-@@ -15219,16 +_,11 @@
+@@ -15220,16 +_,11 @@
                  }
              }
  
@@ -499,7 +499,7 @@
                      return;
                  }
  
-@@ -15236,9 +_,13 @@
+@@ -15237,9 +_,13 @@
                  UpdateTimeAccumulator -= 0.01666666753590107;
                  UpdateTimeAccumulator = Math.Min(UpdateTimeAccumulator, 0.01666666753590107);
              }
@@ -513,7 +513,7 @@
              PlayerInput.AllowExecutionOfGamepadInstructions = true;
              TryPlayingCreditsRoll();
              PlayerInput.SetZoom_UI();
-@@ -15292,12 +_,6 @@
+@@ -15293,12 +_,6 @@
                  }
              }
  
@@ -526,7 +526,7 @@
              if ((double)gfxQuality < 0.2)
              {
                  LegacyLighting.RenderPhases = 8;
-@@ -15357,11 +_,8 @@
+@@ -15358,11 +_,8 @@
              hasFocus = base.IsActive;
              if (Platform.IsWindows)
              {
@@ -540,7 +540,7 @@
                  {
                      hasFocus = false;
                  }
-@@ -15371,7 +_,7 @@
+@@ -15372,7 +_,7 @@
              {
                  if (!Platform.IsOSX)
                  {
@@ -549,7 +549,7 @@
                  }
  
                  if (netMode != 2 && myPlayer >= 0)
-@@ -15392,7 +_,7 @@
+@@ -15393,7 +_,7 @@
  
              if (!Platform.IsOSX)
              {
@@ -558,7 +558,7 @@
              }
  
              SkyManager.Instance.Update(gameTime);
-@@ -15417,7 +_,6 @@
+@@ -15418,7 +_,6 @@
              DoUpdate_F8_ToggleNetDiagnostics();
              DoUpdate_F7_ToggleGraphicsDiagnostics();
              DoUpdate_F11_ToggleUI();
@@ -566,7 +566,7 @@
              DoUpdate_HandleInput();
              DoUpdate_HandleChat();
              DoUpdate_Enter_ToggleChat();
-@@ -15520,7 +_,7 @@
+@@ -15521,7 +_,7 @@
              if ((double)screenPosition.Y < worldSurface * 16.0 + 16.0)
              {
                  Star.UpdateStars();
@@ -575,7 +575,7 @@
              }
              else if (shimmerAlpha > 0f)
              {
-@@ -15550,11 +_,10 @@
+@@ -15551,11 +_,10 @@
          {
              DoUpdateInWorld(_worldUpdateTimeTester);
          }
@@ -588,7 +588,7 @@
      }
  
      internal static void UpdateCreativeGameModeOverride()
-@@ -16466,6 +_,7 @@
+@@ -16467,6 +_,7 @@
  
      private static void DoUpdate_Enter_ToggleChat()
      {
@@ -596,7 +596,7 @@
          if (keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Enter) && !keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftAlt) && !keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.RightAlt) && hasFocus)
          {
              if (chatRelease && !drawingPlayerChat && !editSign && !editChest && !gameMenu && !keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape))
-@@ -16485,6 +_,7 @@
+@@ -16486,6 +_,7 @@
  
      public static void OpenPlayerChat()
      {
@@ -604,7 +604,7 @@
          if (CurrentInputTextTakerOverride == null)
          {
              drawingPlayerChat = true;
-@@ -16494,6 +_,7 @@
+@@ -16495,6 +_,7 @@
  
      public static void ClosePlayerChat()
      {
@@ -612,7 +612,7 @@
          drawingPlayerChat = false;
          PlayerInput.WritingText = false;
          player[myPlayer].releaseHook = false;
-@@ -16502,6 +_,7 @@
+@@ -16503,6 +_,7 @@
  
      private static void DoUpdate_HandleChat()
      {
@@ -620,7 +620,7 @@
          if (CurrentInputTextTakerOverride != null)
          {
              drawingPlayerChat = false;
-@@ -16594,24 +_,6 @@
+@@ -16595,24 +_,6 @@
          keyState = Keyboard.GetState();
      }
  
@@ -645,7 +645,7 @@
      private static void DoUpdate_F11_ToggleUI()
      {
          if (keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F11))
-@@ -18932,6 +_,9 @@
+@@ -18933,6 +_,9 @@
      }
  
      public static void MouseText_DrawItemTooltip_GetLinesInfo(Item item, ref int yoyoLogo, ref int researchLine, float oldKB, ref int numLines, string[] toolTipLine, bool[] preFixLine, bool[] badPreFixLine)
@@ -655,7 +655,7 @@
      {
          toolTipLine[0] = item.HoverName;
          if (item.favorited)
-@@ -19067,7 +_,7 @@
+@@ -19068,7 +_,7 @@
                      {
                          toolTipLine[numLines] = Lang.tip[13].Value;
                      }
@@ -664,7 +664,7 @@
                      numLines++;
                  }
  
-@@ -19124,6 +_,7 @@
+@@ -19125,6 +_,7 @@
                      toolTipLine[numLines] = Lang.tip[22].Value;
                  }
  
@@ -672,7 +672,7 @@
                  numLines++;
              }
  
-@@ -19632,6 +_,7 @@
+@@ -19633,6 +_,7 @@
                      toolTipLine[numLines] = "+4" + Lang.tip[47].Value;
                      preFixLine[numLines] = true;
                      numLines++;
@@ -680,7 +680,7 @@
                  }
              }
  
-@@ -20182,6 +_,9 @@
+@@ -20183,6 +_,9 @@
  
      protected void DrawGoreBehind()
      {
@@ -690,7 +690,7 @@
          for (int i = 0; i < 600; i++)
          {
              if (!gore[i].active || gore[i].type <= 0)
-@@ -20215,6 +_,9 @@
+@@ -20216,6 +_,9 @@
  
      protected void DrawGore()
      {
@@ -700,7 +700,7 @@
          drawBackGore = false;
          for (int i = 0; i < 600; i++)
          {
-@@ -20670,14 +_,18 @@
+@@ -20671,14 +_,18 @@
  
      protected void DrawPlayers_BehindNPCs()
      {
@@ -719,7 +719,7 @@
      }
  
      protected void DrawElderEye(SpriteBatch spriteBatch, Vector2 worldPosition, float opacity, float scale, int frameNumber, Microsoft.Xna.Framework.Color passedColor)
-@@ -25119,7 +_,7 @@
+@@ -25120,7 +_,7 @@
                      float hue = ((float)i + 5f) / 10f;
                      float num10 = 200f;
                      float num11 = (float)timeForVisualEffects / 60f;
@@ -728,7 +728,7 @@
                      num10 += Utils.GetLerpValue(-1f, 1f, vector2.Z, clamped: true) * 150f;
                      Vector2 spinningpoint = new Vector2(vector2.X, vector2.Y) * num10 * num7;
                      float lerpValue = Utils.GetLerpValue(90f, 0f, rCurrentNPC.ai[1], clamped: true);
-@@ -30176,7 +_,7 @@
+@@ -30179,7 +_,7 @@
                          float num222 = 0.9f + num220 * 0.8f;
                          num222 *= num222;
                          num222 *= 0.8f;
@@ -737,7 +737,7 @@
                          Microsoft.Xna.Framework.Rectangle rectangle8 = value40.Frame(1, 7, 0, (int)(num220 * 7f));
                          EntitySpriteDraw(value40, position7, rectangle8, transparent, proj.rotation + (float)Math.PI * 2f * (num220 + GlobalTimeWrappedHourly * 1.2f) * 0.2f + (float)num221 * ((float)Math.PI * 2f / 5f), rectangle8.Size() / 2f, num222, SpriteEffects.None);
                      }
-@@ -32889,10 +_,10 @@
+@@ -32892,10 +_,10 @@
  
              if (proj.type == 434)
              {
@@ -751,7 +751,7 @@
                  float rotation30 = v.ToRotation() + (float)Math.PI / 2f;
                  Vector2 vector113 = Vector2.Lerp(proj.position, vector112, 0.5f);
                  Microsoft.Xna.Framework.Color red = Microsoft.Xna.Framework.Color.Red;
-@@ -35486,10 +_,9 @@
+@@ -35489,10 +_,9 @@
              return 0;
          }
  
@@ -764,7 +764,7 @@
          bool flag2 = proj.Hitbox.Contains(v.ToPoint());
          if (!((flag2 || SmartInteractProj == proj.whoAmI) & !localPlayer.lastMouseInterface))
          {
-@@ -35574,10 +_,9 @@
+@@ -35577,10 +_,9 @@
              return 0;
          }
  
@@ -777,7 +777,7 @@
          bool flag2 = proj.Hitbox.Contains(v.ToPoint());
          if (!((flag2 || SmartInteractProj == proj.whoAmI) & !localPlayer.lastMouseInterface))
          {
-@@ -36363,8 +_,7 @@
+@@ -36366,8 +_,7 @@
                      {
                          int num = item.type - 71;
                          texture = TextureAssets.Coin[num].Value;
@@ -787,7 +787,7 @@
                          return;
                      }
  
-@@ -36635,6 +_,9 @@
+@@ -36638,6 +_,9 @@
  
      protected void DrawDust()
      {
@@ -797,7 +797,7 @@
          Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle((int)screenPosition.X - 500, (int)screenPosition.Y - 50, screenWidth + 1000, screenHeight + 100);
          rectangle = new Microsoft.Xna.Framework.Rectangle((int)screenPosition.X - 1000, (int)screenPosition.Y - 1050, screenWidth + 2000, screenHeight + 2100);
          Microsoft.Xna.Framework.Rectangle rectangle2 = rectangle;
-@@ -39092,6 +_,7 @@
+@@ -39095,6 +_,7 @@
  
      protected void DrawPlayerChat()
      {
@@ -805,7 +805,7 @@
          TextSnippet[] array = null;
          if (drawingPlayerChat)
          {
-@@ -39198,8 +_,7 @@
+@@ -39201,8 +_,7 @@
          new Vector2(num5, num6);
          DrawBestiaryIcon(num, num2);
          DrawEmoteBubblesButton(num, num2);
@@ -815,7 +815,7 @@
          inventoryScale = 0.85f;
          if (mouseX > 20 && mouseX < (int)(20f + 560f * inventoryScale) && mouseY > 20 && mouseY < (int)(20f + 280f * inventoryScale) && !PlayerInput.IgnoreMouseInterface)
          {
-@@ -39236,7 +_,7 @@
+@@ -39239,7 +_,7 @@
                      ItemSlot.MouseHover(player[myPlayer].inventory, 0, num9);
                  }
  
@@ -824,16 +824,16 @@
              }
          }
  
-@@ -41222,7 +_,7 @@
+@@ -41225,7 +_,7 @@
  
          float num2 = 0.9f;
-         Texture2D value = TextureAssets.HbLock[(!player[myPlayer].hbLocked) ? 1 : 0].Value;
+         Texture2D value = TextureAssets.HbLock[(!player[myPlayer].hbLocked) ? 1u : 0u].Value;
 -        Microsoft.Xna.Framework.Rectangle value2 = value.Frame(2);
 +        Microsoft. Xna.Framework.Rectangle value2 = value.Frame(2);
          bool flag = false;
          if (mouseX > pivotTopLeftX && (float)mouseX < (float)pivotTopLeftX + (float)value2.Width * num2 && mouseY > num && (float)mouseY < (float)num + (float)value2.Height * num2)
          {
-@@ -41245,10 +_,10 @@
+@@ -41248,10 +_,10 @@
              }
          }
  
@@ -846,7 +846,7 @@
          }
      }
  
-@@ -41285,7 +_,7 @@
+@@ -41288,7 +_,7 @@
              }
          }
  
@@ -855,7 +855,7 @@
          spriteBatch.Draw(value, vector, rectangle, Microsoft.Xna.Framework.Color.White, 0f, default(Vector2), num2, SpriteEffects.None, 0f);
          if (flag2)
          {
-@@ -41328,7 +_,7 @@
+@@ -41331,7 +_,7 @@
              }
          }
  
@@ -864,7 +864,7 @@
          spriteBatch.Draw(value, vector, rectangle, Microsoft.Xna.Framework.Color.White, 0f, default(Vector2), num2, SpriteEffects.None, 0f);
          if (flag2)
          {
-@@ -42339,13 +_,6 @@
+@@ -42342,14 +_,6 @@
              return;
          }
  
@@ -874,11 +874,12 @@
 -            text = player[myPlayer].inventory[player[myPlayer].selectedItem].AffixName();
 -        }
 -
--        DynamicSpriteFontExtensionMethods.DrawString(position: new Vector2(236f - (FontAssets.MouseText.Value.MeasureString(text) / 2f).X, 0f), spriteBatch: spriteBatch, spriteFont: FontAssets.MouseText.Value, text: text, color: new Microsoft.Xna.Framework.Color(mouseTextColor, mouseTextColor, mouseTextColor, mouseTextColor), rotation: 0f, origin: default(Vector2), scale: 1f, effects: SpriteEffects.None, layerDepth: 0f);
+-        Vector2 vector = FontAssets.MouseText.Value.MeasureString(text) / 2f;
+-        spriteBatch.DrawString(FontAssets.MouseText.Value, text, new Vector2(236f - vector.X, 0f), new Microsoft.Xna.Framework.Color(mouseTextColor, mouseTextColor, mouseTextColor, mouseTextColor), 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
          int num = 20;
          for (int i = 0; i < 10; i++)
          {
-@@ -42385,7 +_,7 @@
+@@ -42389,7 +_,7 @@
  
              float num4 = inventoryScale;
              inventoryScale = num2;
@@ -887,7 +888,7 @@
              inventoryScale = num4;
              num += (int)((float)TextureAssets.InventoryBack.Width() * hotbarScale[i]) + 4;
          }
-@@ -42399,7 +_,7 @@
+@@ -42403,7 +_,7 @@
              Microsoft.Xna.Framework.Color lightColor2 = new Microsoft.Xna.Framework.Color(255, 255, 255, a2);
              float num7 = inventoryScale;
              inventoryScale = num5;
@@ -896,7 +897,7 @@
              inventoryScale = num7;
          }
      }
-@@ -43760,6 +_,7 @@
+@@ -43766,6 +_,7 @@
  
      private static void DrawInterface_41_InterfaceLogic4()
      {
@@ -904,7 +905,7 @@
          if (mouseRight)
          {
              npcChatRelease = false;
-@@ -45933,7 +_,7 @@
+@@ -45939,7 +_,7 @@
                          Tile tileSafely = Framing.GetTileSafely(value);
                          if (tileSafely.active())
                          {
@@ -913,7 +914,7 @@
                              num10 = tileSafely.type;
                              if (TileID.Sets.BasicChest[num10] || TileID.Sets.BasicChestFake[num10])
                              {
-@@ -46996,7 +_,6 @@
+@@ -47002,7 +_,6 @@
  
      private static void TryDisposingEverything()
      {
@@ -921,7 +922,7 @@
          CaptureManager.Instance.Dispose();
          audioSystem.Dispose();
      }
-@@ -47127,6 +_,12 @@
+@@ -47133,6 +_,12 @@
  
      public static void DrawCursor(Vector2 bonus, bool smart = false)
      {
@@ -934,7 +935,7 @@
          if (gameMenu && alreadyGrabbingSunOrMoon)
          {
              return;
-@@ -47213,6 +_,12 @@
+@@ -47219,6 +_,12 @@
  
      public static Vector2 DrawThickCursor(bool smart = false)
      {
@@ -947,7 +948,7 @@
          if (ThickMouse)
          {
              bool showGamepadCursor = PlayerInput.SettingsForUI.ShowGamepadCursor;
-@@ -47380,7 +_,7 @@
+@@ -47386,7 +_,7 @@
          chatMonitor.Clear();
          screenLastPosition = screenPosition;
          screenPosition.Y = (float)(worldSurface * 16.0 - (double)screenHeight);
@@ -956,7 +957,7 @@
          if (alreadyGrabbingSunOrMoon)
          {
              playOldTile = true;
-@@ -47402,17 +_,17 @@
+@@ -47408,17 +_,17 @@
          }
  
          Star.UpdateStars();
@@ -977,7 +978,7 @@
                  if (logoRotationSpeed < 0f)
                  {
                      logoRotationSpeed = 0f;
-@@ -47437,7 +_,7 @@
+@@ -47443,7 +_,7 @@
                  logoRotationSpeed -= 1f;
              }
  
@@ -986,7 +987,7 @@
              if (logoScale > 1f)
              {
                  logoScaleDirection = -1f;
-@@ -47458,7 +_,7 @@
+@@ -47464,7 +_,7 @@
          }
          else if (WorldGen.drunkWorldGen)
          {
@@ -995,7 +996,7 @@
              if (logoRotationSpeed > 0f)
              {
                  logoRotationSpeed += 1500f;
-@@ -47478,14 +_,14 @@
+@@ -47484,14 +_,14 @@
          {
              if ((double)logoRotation > 0.09)
              {
@@ -1012,7 +1013,7 @@
              if ((double)logoRotation > 0.08)
              {
                  logoRotationDirection = -1f;
-@@ -47504,7 +_,7 @@
+@@ -47510,7 +_,7 @@
                  logoRotationSpeed -= 1f;
              }
  
@@ -1021,7 +1022,7 @@
              if ((double)logoScale > 1.35)
              {
                  logoScaleDirection = -1f;
-@@ -47526,12 +_,7 @@
+@@ -47532,12 +_,7 @@
  
          Microsoft.Xna.Framework.Color color2 = new Microsoft.Xna.Framework.Color((byte)((float)(int)color.R * ((float)LogoA / 255f)), (byte)((float)(int)color.G * ((float)LogoA / 255f)), (byte)((float)(int)color.B * ((float)LogoA / 255f)), (byte)((float)(int)color.A * ((float)LogoA / 255f)));
          Microsoft.Xna.Framework.Color color3 = new Microsoft.Xna.Framework.Color((byte)((float)(int)color.R * ((float)LogoB / 255f)), (byte)((float)(int)color.G * ((float)LogoB / 255f)), (byte)((float)(int)color.B * ((float)LogoB / 255f)), (byte)((float)(int)color.A * ((float)LogoB / 255f)));
@@ -1035,7 +1036,7 @@
          {
              spriteBatch.Draw(TextureAssets.Logo.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color2, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
              spriteBatch.Draw(TextureAssets.Logo2.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color3, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
-@@ -48182,6 +_,26 @@
+@@ -48188,6 +_,26 @@
              }
  
              num11++;
@@ -1062,7 +1063,7 @@
              array9[num11] = Lang.menu[14].Value;
              if (selectedMenu == num11)
              {
-@@ -48956,6 +_,8 @@
+@@ -48962,6 +_,8 @@
                      menuMode = 112;
                  }
  
@@ -1071,7 +1072,7 @@
                  num20++;
                  array9[num20] = Lang.menu[210].Value;
                  if (selectedMenu == num20)
-@@ -49226,7 +_,7 @@
+@@ -49232,7 +_,7 @@
              {
                  bgScroll = (int)Math.Round((1f - caveParallax) * 500f);
                  int num25 = 0;
@@ -1080,7 +1081,7 @@
                  if (selectedMenu == num25)
                  {
                      SoundEngine.PlaySound(10);
-@@ -49242,14 +_,6 @@
+@@ -49248,14 +_,6 @@
                  }
  
                  num25++;
@@ -1095,7 +1096,7 @@
                  array9[num25] = Language.GetTextValue("UI.LightMode_" + Lighting.Mode);
                  if (selectedMenu == num25)
                  {
-@@ -49389,83 +_,9 @@
+@@ -49395,83 +_,9 @@
              }
              else if (menuMode == 111)
              {
@@ -1182,7 +1183,7 @@
              }
              else if (menuMode == 1125)
              {
-@@ -49974,166 +_,9 @@
+@@ -49980,166 +_,9 @@
              }
              else if (menuMode == 13)
              {
@@ -1352,7 +1353,7 @@
              }
              else if (menuMode == 131)
              {
-@@ -51315,18 +_,6 @@
+@@ -51321,18 +_,6 @@
          }
      }
  
@@ -1371,7 +1372,7 @@
      private static void OnSubmitServerPasswordFromRequest(string passwordCandidate)
      {
          Netplay.ServerPassword = passwordCandidate;
-@@ -51664,48 +_,6 @@
+@@ -51670,48 +_,6 @@
          _uiScaleWanted = uiScaleWanted;
      }
  
@@ -1420,7 +1421,7 @@
      public static void OpenCharacterSelectUI()
      {
          menuMode = 888;
-@@ -52203,9 +_,11 @@
+@@ -52209,9 +_,11 @@
              return;
          }
  
@@ -1432,7 +1433,7 @@
          double num2 = maxTilesY - 330;
          double num3 = (int)((num2 - worldSurface) / 6.0) * 6;
          num2 = worldSurface + num3 - 5.0;
-@@ -52660,11 +_,6 @@
+@@ -52666,11 +_,6 @@
                                  continue;
                              }
  
@@ -1444,7 +1445,7 @@
                              if (num == 0f && (color4.R > 0 || color4.G > 0 || color4.B > 0))
                              {
                                  if (!drawToScreen)
-@@ -52894,11 +_,7 @@
+@@ -52900,11 +_,7 @@
                                  if (WorldGen.InWorld(num37, num38))
                                  {
                                      Microsoft.Xna.Framework.Color color12 = Lighting.GetColor(num37, num38);
@@ -1457,7 +1458,7 @@
                                      if (color12.R > 0 || color12.G > 0 || color12.B > 0)
                                      {
                                          Lighting.GetCornerColors(num37, num38, out var vertices2, ugBackTransition);
-@@ -53495,6 +_,7 @@
+@@ -53501,6 +_,7 @@
          }
  
          Lighting.GlobalBrightness = globalBrightness;
@@ -1465,7 +1466,7 @@
          TimeLogger.DrawTime(3, stopwatch.Elapsed.TotalMilliseconds);
      }
  
-@@ -53872,10 +_,6 @@
+@@ -53878,10 +_,6 @@
                              int num23 = (int)(((float)(bgStartX + num3 * n + num20 * 16 + 8) + screenPosition.X) / 16f);
                              int num24 = (int)((num22 + screenPosition.Y) / 16f);
                              Microsoft.Xna.Framework.Color color3 = Lighting.GetColor(num23, num24);
@@ -1476,7 +1477,7 @@
  
                              if (color3.R > 0 || color3.G > 0 || color3.B > 0)
                              {
-@@ -54088,10 +_,6 @@
+@@ -54094,10 +_,6 @@
                                  int num36 = (int)(((float)(bgStartX + num3 * num31 + num33 * 16 + 8) + screenPosition.X) / 16f);
                                  int num37 = (int)((num35 + screenPosition.Y) / 16f);
                                  Microsoft.Xna.Framework.Color color11 = Lighting.GetColor(num36, num37);
@@ -1487,7 +1488,7 @@
  
                                  if (color11.R > 0 || color11.G > 0 || color11.B > 0)
                                  {
-@@ -54615,23 +_,8 @@
+@@ -54621,23 +_,8 @@
  
      private static bool ShouldDrawBackgroundTileAt(int i, int j)
      {
@@ -1511,7 +1512,7 @@
              if (WallLightAt(i, j) || WallLightAt(i - 1, j) || WallLightAt(i + 1, j))
              {
                  return true;
-@@ -54668,6 +_,7 @@
+@@ -54674,6 +_,7 @@
  
      protected void RenderBackground()
      {
@@ -1519,7 +1520,7 @@
          if (drawToScreen)
          {
              return;
-@@ -55138,7 +_,7 @@
+@@ -55144,7 +_,7 @@
  
          if (mapFullscreen)
          {
@@ -1528,7 +1529,7 @@
              {
                  if (mouseLeftRelease)
                  {
-@@ -56172,6 +_,10 @@
+@@ -56178,6 +_,10 @@
  
      private static void DrawMapFullscreenBackground(Vector2 screenPosition, int screenWidth, int screenHeight)
      {
@@ -1539,7 +1540,7 @@
          Asset<Texture2D> asset = TextureAssets.MapBGs[0];
          int num = -1;
          Microsoft.Xna.Framework.Color color = Microsoft.Xna.Framework.Color.White;
-@@ -56930,6 +_,7 @@
+@@ -56936,6 +_,7 @@
              return;
          }
  
@@ -1547,7 +1548,7 @@
          RenderBlack();
          base.GraphicsDevice.SetRenderTarget(tileTarget);
          base.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
-@@ -56956,6 +_,7 @@
+@@ -56962,6 +_,7 @@
          DrawTileEntities(solidLayer: true, overRenderTargets: false, intoRenderTargets: true);
          TimeLogger.DetailedDrawTime(28);
          base.GraphicsDevice.SetRenderTarget(null);
@@ -1555,7 +1556,7 @@
      }
  
      protected void RenderTiles2()
-@@ -56994,6 +_,7 @@
+@@ -57000,6 +_,7 @@
  
      protected void RenderWater()
      {
@@ -1563,7 +1564,7 @@
          if (!drawToScreen)
          {
              base.GraphicsDevice.SetRenderTarget(waterTarget);
-@@ -57717,6 +_,7 @@
+@@ -57723,6 +_,7 @@
  
      protected void DrawBlack(bool force = false)
      {
@@ -1571,7 +1572,7 @@
          if (shimmerAlpha == 1f)
          {
              return;
-@@ -58056,11 +_,10 @@
+@@ -58062,11 +_,10 @@
          }
      }
  
@@ -1584,7 +1585,7 @@
          }
  
          InitTargets(base.GraphicsDevice.PresentationParameters.BackBufferWidth, base.GraphicsDevice.PresentationParameters.BackBufferHeight);
-@@ -61586,13 +_,36 @@
+@@ -61592,13 +_,36 @@
      {
      }
  
@@ -1621,7 +1622,7 @@
              if (Main.OnPostDraw != null)
              {
                  Main.OnPostDraw(gameTime);
-@@ -61605,6 +_,8 @@
+@@ -61611,6 +_,8 @@
  
      private void DoDraw(GameTime gameTime)
      {
@@ -1630,7 +1631,7 @@
          Stopwatch stopwatch = new Stopwatch();
          stopwatch.Start();
          if (showSplash)
-@@ -61673,7 +_,6 @@
+@@ -61679,7 +_,6 @@
  
          if (!dedServ)
          {
@@ -1638,7 +1639,7 @@
              if (Main.OnPreDraw != null)
              {
                  Main.OnPreDraw(gameTime);
-@@ -61730,7 +_,7 @@
+@@ -61736,7 +_,7 @@
          }
  
          HoverItem = new Item();
@@ -1647,7 +1648,7 @@
          CheckMonoliths();
          sunCircle += 0.01f;
          if ((double)sunCircle > 6.285)
-@@ -62435,7 +_,7 @@
+@@ -62441,7 +_,7 @@
              DrawItemTextPopups(targetScale);
              PlayerInput.SetZoom_UI();
              spriteBatch.End();
@@ -1656,7 +1657,7 @@
              DrawNetplayStatusText();
              DrawFPS();
              spriteBatch.End();
-@@ -62979,10 +_,12 @@
+@@ -62985,10 +_,12 @@
          }
  
          instance.CameraModifiers.ApplyTo(ref screenPosition);
@@ -1670,7 +1671,7 @@
  
      public static bool IsItDay()
      {
-@@ -63452,7 +_,7 @@
+@@ -63458,7 +_,7 @@
                  _oldNetplayStatusText = text;
              }
  
@@ -1679,7 +1680,7 @@
              int hoveredSnippet;
              if (Netplay.Connection.StatusTextHasShadows)
              {
-@@ -64970,14 +_,12 @@
+@@ -64976,14 +_,12 @@
  
      public static void NewText(string newText, byte R = byte.MaxValue, byte G = byte.MaxValue, byte B = byte.MaxValue)
      {
@@ -1696,7 +1697,7 @@
      }
  
      public static void StopRain()
-@@ -66736,228 +_,9 @@
+@@ -66743,228 +_,9 @@
          }
      }
  

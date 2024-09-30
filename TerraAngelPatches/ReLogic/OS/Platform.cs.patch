@@ -1,0 +1,19 @@
+--- src/Terraria/ReLogic/OS/Platform.cs
++++ src/TerraAngel/ReLogic/OS/Platform.cs
+@@ -1,11 +_,16 @@
+ using System;
++using ReLogic.OS.Linux;
+ using ReLogic.OS.Windows;
+ using ReLogic.Utilities;
+ 
+ namespace ReLogic.OS;
+ public abstract class Platform : IDisposable
+ {
++#if WINDOWS
+     public static readonly Platform Current = new WindowsPlatform();
++#else
++    public static readonly Platform Current = new LinuxPlatform();
++#endif
+     public readonly PlatformType Type;
+     private TypeInstanceCollection<object> _services = new TypeInstanceCollection<object>();
+     private bool _disposedValue;

@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Terraria.csproj
 +++ src/TerraAngel/Terraria/Terraria.csproj
-@@ -3,40 +_,187 @@
+@@ -3,40 +_,200 @@
    <PropertyGroup>
      <OutputType>WinExe</OutputType>
      <Nullable>enable</Nullable>
@@ -101,9 +101,8 @@
 +    <None Update="Assets\Symbola.ttf">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
-+    <!-- Currently disabled because nobody uses linux (or osx) -->
 +    
-+    <!-- <None Update="Libraries\lin\x64\FNA\libFAudio.so.0">
++    <None Update="Libraries\lin\x64\FNA\libFAudio.so.0">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
 +    <None Update="Libraries\lin\x64\FNA\libFNA3D.so.0">
@@ -115,6 +114,16 @@
 +    <None Update="Libraries\lin\x64\FNA\libtheorafile.so">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
++    <None Update="Libraries\lin\x64\ImGui\cimgui.so">
++      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
++    </None>
++    <None Update="Libraries\lin\x64\Steamworks\Steamworks.NET.dll">
++      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
++    </None>
++    <None Update="Libraries\lin\x64\Steamworks\libsteam_api.so">
++      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
++    </None>
++    
 +    <None Update="Libraries\lin\x86\FNA\libFAudio.so.0">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
@@ -127,6 +136,7 @@
 +    <None Update="Libraries\lin\x86\FNA\libtheorafile.so">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
++    
 +    <None Update="Libraries\osx\x64\FNA\libFAudio.0.dylib">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
@@ -145,6 +155,7 @@
 +    <None Update="Libraries\osx\x64\FNA\libvulkan.1.dylib">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
++    
 +    <None Update="Libraries\osx\x86\FNA\libFAudio.0.dylib">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
@@ -162,7 +173,8 @@
 +    </None>
 +    <None Update="Libraries\osx\x86\FNA\libvulkan.1.dylib">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-+    </None> -->
++    </None> 
++    
 +    <None Update="Libraries\win\x64\FNA\FAudio.dll">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
@@ -184,6 +196,7 @@
 +    <None Update="Libraries\win\x64\Steamworks\steam_api64.dll">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
++    
 +    <None Update="Libraries\win\x86\FNA\FAudio.dll">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>

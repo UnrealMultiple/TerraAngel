@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/UI/Chat/ChatManager.cs
 +++ src/TerraAngel/Terraria/UI/Chat/ChatManager.cs
-@@ -99,6 +_,8 @@
+@@ -100,6 +_,8 @@
  
      public static bool AddChatText(DynamicSpriteFont font, string text, Vector2 baseScale)
      {
