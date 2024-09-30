@@ -1,0 +1,4 @@
+@ShutdownOnFailedCommand 1
+@sSteamCmdForcePlatformType windows
+app_update 105600 validate
+quit

@@ -7,7 +7,8 @@ param (
     [switch] $Compile,
     [switch] $Decompile,
     [switch] $Patch,
-    [switch] $Update
+    [switch] $Update,
+    [switch] $Download
 )
 
 Set-Location (Join-Path $PSScriptRoot '..')
@@ -18,6 +19,15 @@ filter Join-ExecutableExtension
         return $_ + '.exe'
     }
     return $_    
+}
+
+if ($Download) {
+    if (!(Test-Path steam/bin -PathType Container)) {
+        New-Item steam/bin -ItemType Directory -Force | Out-Null
+        curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar -zxvf - -C steam/bin
+    }
+    New-Item steam/Terraria -ItemType Directory -Force | Out-Null
+    ./steam/bin/steamcmd.sh +force_install_dir (Resolve-Path ./steam/Terraria) +login (Read-Host 'Steam username') +runscript (Resolve-Path ./steam/install-terraria.txt)
 }
 
 if ($Update) {
@@ -32,7 +42,7 @@ if (!(Test-Path ('TerraAngelSetup/TerraAngelSetup/bin/Release/net7.0/TerraAngelS
 
 if ($Start) {
     Write-Output 'Running TerraAngelSetup'
-    Invoke-Expression "$('./TerraAngelSetup/TerraAngelSetup/bin/Release/net7.0/TerraAngelSetup' | Join-ExecutableExtension) -auto -nocopy -patchinput TerraAngelPatches"
+    Invoke-Expression "$('./TerraAngelSetup/TerraAngelSetup/bin/Release/net7.0/TerraAngelSetup' | Join-ExecutableExtension) -auto -nocopy -patchinput TerraAngelPatches -decompilerinput steam/Terraria"
 }
 
 if ($Diff) {
@@ -47,7 +57,7 @@ if ($Compile -or $Start) {
 
 if ($Decompile) {
     Write-Output 'Running TerraAngelSetup -decompile'
-    Invoke-Expression "$('./TerraAngelSetup/TerraAngelSetup/bin/Release/net7.0/TerraAngelSetup' | Join-ExecutableExtension) -decompile -patchinput TerraAngelPatches"
+    Invoke-Expression "$('./TerraAngelSetup/TerraAngelSetup/bin/Release/net7.0/TerraAngelSetup' | Join-ExecutableExtension) -decompile -patchinput TerraAngelPatches -decompilerinput steam/Terraria"
 }
 
 if ($Patch -or $Update) {
