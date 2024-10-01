@@ -34,19 +34,19 @@ if ($Download) {
     ./steam/bin/steamcmd.sh +force_install_dir (Resolve-Path ./steam/Terraria) +login (Read-Host 'Steam username') +runscript (Resolve-Path ./steam/install-terraria.txt)
 }
 
-if (!(Test-Path ('TerraAngelSetup/TerraAngelSetup/bin/Release/net7.0/TerraAngelSetup' | Join-ExecutableExtension) -PathType Leaf)) {
+if (!(Test-Path ('TerraAngelSetup/TerraAngelSetup/bin/Release/net8.0/TerraAngelSetup' | Join-ExecutableExtension) -PathType Leaf)) {
     Write-Output 'Building TerraAngelSetup'
     dotnet build TerraAngelSetup/TerraAngelSetup/TerraAngelSetup.csproj -c=Release
 }
 
 if ($Decompile -or $Start) {
     Write-Output 'Running TerraAngelSetup -decompile'
-    Invoke-Expression "$('./TerraAngelSetup/TerraAngelSetup/bin/Release/net7.0/TerraAngelSetup' | Join-ExecutableExtension) -decompile -patchinput TerraAngelPatches -decompilerinput steam/Terraria -noexitprompt"
+    Invoke-Expression "$('./TerraAngelSetup/TerraAngelSetup/bin/Release/net8.0/TerraAngelSetup' | Join-ExecutableExtension) -decompile -patchinput TerraAngelPatches -decompilerinput steam/Terraria -noexitprompt"
 }
 
 if ($Patch -or $Update -or $Start) {
     Write-Output 'Running TerraAngelSetup -patch'
-    Invoke-Expression "$('./TerraAngelSetup/TerraAngelSetup/bin/Release/net7.0/TerraAngelSetup' | Join-ExecutableExtension) -patch -patchinput TerraAngelPatches -noexitprompt"
+    Invoke-Expression "$('./TerraAngelSetup/TerraAngelSetup/bin/Release/net8.0/TerraAngelSetup' | Join-ExecutableExtension) -patch -patchinput TerraAngelPatches -noexitprompt"
 }
 
 if ($Compile -or $Start) {
@@ -56,5 +56,5 @@ if ($Compile -or $Start) {
 
 if ($Diff) {
     Write-Output 'Running TerraAngelSetup -diff'
-    Invoke-Expression "$('./TerraAngelSetup/TerraAngelSetup/bin/Release/net7.0/TerraAngelSetup' | Join-ExecutableExtension) -diff -patchinput TerraAngelPatches -noexitprompt"
+    Invoke-Expression "$('./TerraAngelSetup/TerraAngelSetup/bin/Release/net8.0/TerraAngelSetup' | Join-ExecutableExtension) -diff -patchinput TerraAngelPatches -noexitprompt"
 }

@@ -4,7 +4,7 @@
 	branch = master
 [submodule "CSharpEval"]
 	path = CSharpEval
-	url = https://github.com/CEO-Chair/CSharpEval.git
+	url = https://github.com/UnrealMultiple/CSharpEval.git
 [submodule "TNA"]
 	path = TNA
 	url = https://github.com/UnrealMultiple/TNA.git
