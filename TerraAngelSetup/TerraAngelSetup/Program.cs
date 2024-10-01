@@ -36,6 +36,7 @@ public class Program
     public const string AutoStartName = "-auto";
     public const string BuildDebugName = "-debug";
     public const string NoCopyName = "-nocopy";
+    public const string NoExitPromptName = "-noexitprompt";
 
     public static string TerrariaPath = "C:/Program Files (x86)/Steam/steamapps/common/Terraria";
     public static string DecompilerOutputPath = "src/Terraria";
@@ -48,6 +49,7 @@ public class Program
     public static bool AutoStart = false;
     public static bool BuildDebug = false;
     public static bool NoCopy = false;
+    public static bool NoExitPrompt = false;
 
     public static void Main(string[] args)
     {
@@ -109,6 +111,9 @@ public class Program
                     break;
                 case NoCopyName:
                     NoCopy = true;
+                    break;
+                case NoExitPromptName:
+                    NoExitPrompt = true;
                     break;
             }
         }
@@ -199,8 +204,11 @@ public class Program
 
         if (failed) { Console.WriteLine("Failed. Open an issue and attach the output."); }
 
-        Console.Write("Press enter to exit...");
-        Console.ReadLine();
+        if (!NoExitPrompt)
+        {
+            Console.Write("Press enter to exit...");
+            Console.ReadLine();
+        }
     }
     public static void DecompileTerraria()
     {
