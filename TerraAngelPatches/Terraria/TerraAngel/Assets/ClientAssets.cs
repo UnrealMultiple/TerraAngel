@@ -13,7 +13,7 @@ public class ClientAssets
     public static string TerrariaFontName => $"{ClientLoader.AssetPath}/AndyBold.ttf";
     public static string MonoFontName => $"{ClientLoader.AssetPath}/FiraCode.ttf";
     public static string IconFontName => $"{ClientLoader.AssetPath}/IconFont.ttf";
-    public static string FallbackFontName => $"{ClientLoader.AssetPath}/Symbola.ttf";
+    public static string FallbackFontName => $"{ClientLoader.AssetPath}/SourceHanSansSC-VF.ttf";
 
     public static void LoadFonts(ImGuiIOPtr io)
     {
@@ -28,7 +28,13 @@ public class ClientAssets
     {
         TerrariaFonts.Add(size, LoadFont(TerrariaFontName, size, 0x0020, 0x007F));
 
-        LoadFont(FallbackFontName, size, true, Vector2.Zero, Vector2.Zero, 0f, float.MaxValue, 2f, 0x0080, 0x00FF, 0x0400, 0x04FF, 0x2320, 0x2330, 0x2000, 0x2020);
+        LoadFont(FallbackFontName, size, true, Vector2.Zero, Vector2.Zero, 0f, float.MaxValue, 1, 1, true, 2f, 
+            0x00A0, 0x00FF, // Latin Supplement
+            0x2000, 0x206F, // General Punctuation
+            0x3000, 0x30FF, // CJK Symbols and Punctuations, Hiragana, Katakana
+            0x31F0, 0x31FF, // Katakana Phonetic Extensions
+            0xFF00, 0xFFEF, // Half-width characters
+            0x4e00, 0x9FAF ); // CJK Ideograms
 
         if (!withoutSymbols)
         {
@@ -38,7 +44,12 @@ public class ClientAssets
     public static void LoadMonospaceFont(float size, bool withoutSymbols = false)
     {
         MonospaceFonts.Add(size, LoadFont(MonoFontName, size, 0x0020, 0x00FF, 0x0400, 0x04FF, 0x2020, 0x22FF));
-        LoadFont(FallbackFontName, size, true, Vector2.Zero, Vector2.Zero, 0f, float.MaxValue, 2f, 0x2320, 0x2330, 0x2000, 0x2020);
+        LoadFont(FallbackFontName, size, true, Vector2.Zero, Vector2.Zero, 0f, float.MaxValue, 1, 1, true, 2f, 
+            0x2000, 0x206F, // General Punctuation
+            0x3000, 0x30FF, // CJK Symbols and Punctuations, Hiragana, Katakana
+            0x31F0, 0x31FF, // Katakana Phonetic Extensions
+            0xFF00, 0xFFEF, // Half-width characters
+            0x4e00, 0x9FAF ); // CJK Ideograms
 
         if (!withoutSymbols)
         {
