@@ -1,7 +1,6 @@
 @echo off
 
-echo Pulling changes
-git pull > NUL
+cd ..
 
 if not exist TerraAngelSetup\TerraAngelSetup\bin\Release\net7.0\TerraAngelSetup.exe (
     echo Building TerraAngelSetup
@@ -9,5 +8,5 @@ if not exist TerraAngelSetup\TerraAngelSetup\bin\Release\net7.0\TerraAngelSetup.
     dotnet build TerraAngelSetup\TerraAngelSetup\TerraAngelSetup.csproj -c=Release > NUL
 )
 
-echo Running TerraAngelSetup -patch
-TerraAngelSetup\TerraAngelSetup\bin\Release\net7.0\TerraAngelSetup.exe -patch -patchinput TerraAngelPatches\
+echo Running TerraAngelSetup -diff
+TerraAngelSetup\TerraAngelSetup\bin\Release\net7.0\TerraAngelSetup.exe -diff -patchinput TerraAngelPatches\

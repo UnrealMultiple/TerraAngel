@@ -1,5 +1,7 @@
 @echo off
 
+cd ..
+
 if not exist TerraAngelSetup\TerraAngelSetup\bin\Release\net7.0\TerraAngelSetup.exe (
     echo Building TerraAngelSetup
     git submodule update --remote --recursive > NUL
