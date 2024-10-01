@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Terraria.csproj
 +++ src/TerraAngel/Terraria/Terraria.csproj
-@@ -3,40 +_,200 @@
+@@ -3,40 +_,195 @@
    <PropertyGroup>
      <OutputType>WinExe</OutputType>
      <Nullable>enable</Nullable>
@@ -72,15 +72,15 @@
 +  </Target>
 +
 +  <ItemGroup>
-+    <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.1.0" />
-+    <PackageReference Include="CsvHelper" Version="30.0.1" />
-+    <PackageReference Include="DiscordRichPresence" Version="1.1.3.18" />
++    <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.3.2" />
++    <PackageReference Include="CsvHelper" Version="33.0.1" />
++    <PackageReference Include="DiscordRichPresence" Version="1.2.1.24" />
 +    <PackageReference Include="ImGui.NET" Version="1.91.0.1" />
 +    <PackageReference Include="LargeAddressAware" Version="1.0.6" />
 +    <PackageReference Include="MP3Sharp" Version="1.0.5" />
 +    <PackageReference Include="NVorbis" Version="0.10.5" />
-+    <PackageReference Include="SixLabors.ImageSharp" Version="3.0.0" />
-+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
++    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
++    <PackageReference Include="System.Drawing.Common" Version="8.0.8" />
 +    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 +  </ItemGroup>
 +
@@ -101,6 +101,9 @@
 +    <None Update="Assets\Symbola.ttf">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
++    <None Update="Assets\SourceHanSansSC-VF.ttf">
++      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
++    </None>
 +    
 +    <None Update="Libraries\lin\x64\FNA\libFAudio.so.0">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -112,9 +115,6 @@
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
 +    <None Update="Libraries\lin\x64\FNA\libtheorafile.so">
-+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-+    </None>
-+    <None Update="Libraries\lin\x64\ImGui\cimgui.so">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
 +    <None Update="Libraries\lin\x64\Steamworks\Steamworks.NET.dll">
@@ -187,9 +187,6 @@
 +    <None Update="Libraries\win\x64\FNA\SDL2.dll">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
-+    <None Update="Libraries\win\x64\ImGui\cimgui.dll">
-+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-+    </None>
 +    <None Update="Libraries\win\x64\Steamworks\Steamworks.NET.dll">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
@@ -209,15 +206,13 @@
 +    <None Update="Libraries\win\x86\FNA\SDL2.dll">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
-+    <None Update="Libraries\win\x86\ImGui\cimgui.dll">
-+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-+    </None>
 +    <None Update="Libraries\win\x86\Steamworks\Steamworks.NET.dll">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
 +    <None Update="Libraries\win\x86\Steamworks\steam_api.dll">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
++    
 +    <None Update="steam_appid.txt">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>

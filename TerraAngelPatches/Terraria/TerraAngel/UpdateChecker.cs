@@ -6,7 +6,7 @@ namespace TerraAngel;
 
 internal class UpdateChecker
 {
-    private static string GitHubVersionFile => "https://raw.githubusercontent.com/CEO-Chair/TerraAngel/master/TerraAngelPatches/VERSION";
+    private static string GitHubVersionFile => "https://raw.githubusercontent.com/UnrealMultiple/TerraAngel/refs/heads/master/TerraAngelPatches/VERSION";
 
     public static Version? NextUpdateVersion;
 

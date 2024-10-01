@@ -19,7 +19,7 @@
 -    <Reference Include="System.Drawing" />
 -    <Reference Include="System.Windows.Forms" />
 +    <PackageReference Include="DotNetZip" Version="1.16.0" />
-+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
++    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
    </ItemGroup>
    <ItemGroup>
 -    <EmbeddedResource Include="Microsoft/**" />
