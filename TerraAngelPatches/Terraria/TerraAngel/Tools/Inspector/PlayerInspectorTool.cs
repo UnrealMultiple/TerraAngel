@@ -1,5 +1,6 @@
 ﻿using System;
 using TerraAngel.Inspector.Tools;
+using ImGuiUtil = TerraAngel.Graphics.ImGuiUtil;
 
 namespace TerraAngel.Tools.Inspector;
 
@@ -154,7 +155,7 @@ public class PlayerInspectorTool : InspectorTool
 
             Vector2 lastCursorPos = ImGui.GetCursorPos();
 
-            float minx = MathF.Max(cPos.X, (ImGui.GetWindowContentRegionMax().X - ImGui.GetWindowContentRegionMin().X) - ((26f + style.ItemSpacing.X) * 5f + style.ItemSpacing.X * 3f));
+            float minx = MathF.Max(cPos.X, ImGui.GetContentRegionAvail().X - ((26f + style.ItemSpacing.X) * 5f + style.ItemSpacing.X * 3f));
             int ti = 0;
             for (int i = 0; i < 10; i++)
             {

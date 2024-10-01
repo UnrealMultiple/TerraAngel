@@ -1,5 +1,6 @@
 ﻿using System;
 using TerraAngel.Inspector.Tools;
+using ImGuiUtil = TerraAngel.Graphics.ImGuiUtil;
 
 namespace TerraAngel.Tools.Inspector;
 

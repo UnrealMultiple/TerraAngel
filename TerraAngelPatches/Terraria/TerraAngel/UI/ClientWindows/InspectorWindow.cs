@@ -50,8 +50,8 @@ public class InspectorWindow : ClientWindow
                         flags |= ImGuiTabItemFlags.SetSelected;
                         TypeOfTabToOpen = null;
                     }
-
-                    if (ImGui.BeginTabItem(tool.Name, flags))
+                    
+                    if (ImGuiUtil.BeginTabItem(tool.Name, flags))
                     {
                         tool.DrawUI(io);
                         ImGui.EndTabItem();

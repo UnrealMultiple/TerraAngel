@@ -290,7 +290,7 @@ public class ConsoleScriptWindow
             ClientLoader.Console.WriteError(result.Exception.ToString());
         }
     }
-
+    
     public void UpdateCompletionItems(string text, int cursorPosition)
     {
         if (Script is null)

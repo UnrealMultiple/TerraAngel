@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ImGui.NET" Version="1.91.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.3.1" />
@@ -23,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ImGui.NET\src\ImGui.NET\ImGui.NET.csproj" />
     <ProjectReference Include="..\..\..\TNA\FNA.Core.csproj" />
     <ProjectReference Include="..\ReLogic\ReLogic.csproj" />
     <ProjectReference Include="..\TerraAngel.PluginAPI\TerraAngel.PluginAPI.csproj" />

@@ -4,6 +4,7 @@ using Terraria.Audio;
 using Terraria.Chat;
 using Terraria.GameInput;
 using Terraria.UI.Chat;
+using ImGuiUtil = TerraAngel.Graphics.ImGuiUtil;
 
 namespace TerraAngel.UI.ClientWindows;
 
@@ -182,7 +183,7 @@ public class ChatWindow : ClientWindow
 
         float footerHeight = style.ItemSpacing.Y + ImGui.GetFrameHeightWithSpacing();
 
-        if (ImGui.BeginChild("##ChatScrolling", new Vector2(0, -footerHeight), false, IsChatting ? ImGuiWindowFlags.None : ImGuiWindowFlags.NoInputs))
+        if (ImGui.BeginChild("##ChatScrolling", new Vector2(0, -footerHeight), ImGuiChildFlags.None, IsChatting ? ImGuiWindowFlags.None : ImGuiWindowFlags.NoInputs))
         {
             ImDrawListPtr drawList = ImGui.GetWindowDrawList();
             drawList.PushClipRect(drawList.GetClipRectMin(), drawList.GetClipRectMax() + new Vector2(0, 5f));

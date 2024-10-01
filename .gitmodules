@@ -2,9 +2,6 @@
 	path = TerraAngelSetup/DotnetPatcher
 	url = https://github.com/UnrealMultiple/DotnetPatcher.git
 	branch = master
-[submodule "ImGui.NET"]
-	path = ImGui.NET
-	url = https://github.com/CEO-Chair/ImGui.NET.git
 [submodule "CSharpEval"]
 	path = CSharpEval
 	url = https://github.com/CEO-Chair/CSharpEval.git

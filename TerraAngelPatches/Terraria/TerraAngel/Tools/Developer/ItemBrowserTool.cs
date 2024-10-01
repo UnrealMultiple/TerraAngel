@@ -7,6 +7,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Input;
 using Steamworks;
 using Color = Microsoft.Xna.Framework.Color;
+using ImGuiUtil = TerraAngel.Graphics.ImGuiUtil;
 
 namespace TerraAngel.Tools.Developer;
 
@@ -56,7 +57,7 @@ public class ItemBrowserTool : Tool
 
         if (ImGui.BeginChild("ItemBrowserScrolling"))
         {
-            float windowMaxX = ImGui.GetWindowPos().X + ImGui.GetWindowContentRegionMax().X;
+            float windowMaxX = ImGui.GetCursorScreenPos().X + ImGui.GetContentRegionAvail().X;
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(4f));
             for (int i = 1; i < ItemID.Count; i++)
             {

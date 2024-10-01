@@ -48,19 +48,19 @@ public class NoClipTool : Tool
                 if (Enabled)
                 {
                     self.oldPosition = self.position;
-                    if (io.KeysDown[(int)Keys.W])
+                    if (ImGui.IsKeyDown(ImGuiKey.W))
                     {
                         self.position.Y -= NoClipSpeed;
                     }
-                    if (io.KeysDown[(int)Keys.S])
+                    if (ImGui.IsKeyDown(ImGuiKey.S))
                     {
                         self.position.Y += NoClipSpeed;
                     }
-                    if (io.KeysDown[(int)Keys.A])
+                    if (ImGui.IsKeyDown(ImGuiKey.A))
                     {
                         self.position.X -= NoClipSpeed;
                     }
-                    if (io.KeysDown[(int)Keys.D])
+                    if (ImGui.IsKeyDown(ImGuiKey.D))
                     {
                         self.position.X += NoClipSpeed;
                     }

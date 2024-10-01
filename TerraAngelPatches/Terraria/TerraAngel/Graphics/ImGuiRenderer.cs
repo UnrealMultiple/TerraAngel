@@ -33,6 +33,7 @@ public class ImGuiRenderer
     // Input
     private int ScrollWheelValue;
     private List<int> KeyRemappings = new List<int>();
+    private Keys[] AllKeys = Enum.GetValues<Keys>();
 
     private Queue<Action> PreDrawActionQueue = new Queue<Action>(5);
 
@@ -76,26 +77,6 @@ public class ImGuiRenderer
     protected virtual void SetupInput()
     {
         ImGuiIOPtr io = ImGui.GetIO();
-
-        KeyRemappings.Add(io.KeyMap[(int)ImGuiKey.Tab] = (int)Keys.Tab);
-        KeyRemappings.Add(io.KeyMap[(int)ImGuiKey.LeftArrow] = (int)Keys.Left);
-        KeyRemappings.Add(io.KeyMap[(int)ImGuiKey.RightArrow] = (int)Keys.Right);
-        KeyRemappings.Add(io.KeyMap[(int)ImGuiKey.UpArrow] = (int)Keys.Up);
-        KeyRemappings.Add(io.KeyMap[(int)ImGuiKey.DownArrow] = (int)Keys.Down);
-        KeyRemappings.Add(io.KeyMap[(int)ImGuiKey.PageUp] = (int)Keys.PageUp);
-        KeyRemappings.Add(io.KeyMap[(int)ImGuiKey.PageDown] = (int)Keys.PageDown);
-        KeyRemappings.Add(io.KeyMap[(int)ImGuiKey.Home] = (int)Keys.Home);
-        KeyRemappings.Add(io.KeyMap[(int)ImGuiKey.End] = (int)Keys.End);
-        KeyRemappings.Add(io.KeyMap[(int)ImGuiKey.Delete] = (int)Keys.Delete);
-        KeyRemappings.Add(io.KeyMap[(int)ImGuiKey.Backspace] = (int)Keys.Back);
-        KeyRemappings.Add(io.KeyMap[(int)ImGuiKey.Enter] = (int)Keys.Enter);
-        KeyRemappings.Add(io.KeyMap[(int)ImGuiKey.Escape] = (int)Keys.Escape);
-        KeyRemappings.Add(io.KeyMap[(int)ImGuiKey.Space] = (int)Keys.Space);
-
-        for (ImGuiKey i = ImGuiKey.A; i <= ImGuiKey.Z; i++)
-        {
-            KeyRemappings.Add(io.KeyMap[(int)i] = (i - ImGuiKey.A) + (int)Keys.A);
-        }
     }
 
     protected virtual void SetupFonts()
@@ -177,19 +158,20 @@ public class ImGuiRenderer
 
     protected void UpdateInput()
     {
+        if (!TargetGame.IsActive)
+            return;
+        
         ImGuiIOPtr io = ImGui.GetIO();
 
         MouseState mouse = Mouse.GetState();
         KeyboardState keyboard = Keyboard.GetState();
-
-        for (int i = 0; i < 256; i++)
+        
+        foreach (var key in AllKeys)
         {
-            io.KeysDown[i] = keyboard.IsKeyDown((Keys)i) && TargetGame.IsActive;
-        }
-
-        for (int i = 0; i < KeyRemappings.Count; i++)
-        {
-            io.KeysDown[KeyRemappings[i]] = keyboard.IsKeyDown((Keys)KeyRemappings[i]) && TargetGame.IsActive;
+            if (TryMapKeys(key, out ImGuiKey imguikey))
+            {
+                io.AddKeyEvent(imguikey, keyboard.IsKeyDown(key));
+            }
         }
 
         io.KeyShift = (keyboard.IsKeyDown(Keys.LeftShift) || keyboard.IsKeyDown(Keys.RightShift)) && TargetGame.IsActive;
@@ -211,6 +193,66 @@ public class ImGuiRenderer
 
         ScrollWheelValue = mouse.ScrollWheelValue;
     }
+    
+    private bool TryMapKeys(Keys key, out ImGuiKey imguikey)
+        {
+            if (key == Keys.None)
+            {
+                imguikey = ImGuiKey.None;
+                return true;
+            }
+
+            imguikey = key switch
+            {
+                Keys.Back => ImGuiKey.Backspace,
+                Keys.Tab => ImGuiKey.Tab,
+                Keys.Enter => ImGuiKey.Enter,
+                Keys.CapsLock => ImGuiKey.CapsLock,
+                Keys.Escape => ImGuiKey.Escape,
+                Keys.Space => ImGuiKey.Space,
+                Keys.PageUp => ImGuiKey.PageUp,
+                Keys.PageDown => ImGuiKey.PageDown,
+                Keys.End => ImGuiKey.End,
+                Keys.Home => ImGuiKey.Home,
+                Keys.Left => ImGuiKey.LeftArrow,
+                Keys.Right => ImGuiKey.RightArrow,
+                Keys.Up => ImGuiKey.UpArrow,
+                Keys.Down => ImGuiKey.DownArrow,
+                Keys.PrintScreen => ImGuiKey.PrintScreen,
+                Keys.Insert => ImGuiKey.Insert,
+                Keys.Delete => ImGuiKey.Delete,
+                >= Keys.D0 and <= Keys.D9 => ImGuiKey._0 + (key - Keys.D0),
+                >= Keys.A and <= Keys.Z => ImGuiKey.A + (key - Keys.A),
+                >= Keys.NumPad0 and <= Keys.NumPad9 => ImGuiKey.Keypad0 + (key - Keys.NumPad0),
+                Keys.Multiply => ImGuiKey.KeypadMultiply,
+                Keys.Add => ImGuiKey.KeypadAdd,
+                Keys.Subtract => ImGuiKey.KeypadSubtract,
+                Keys.Decimal => ImGuiKey.KeypadDecimal,
+                Keys.Divide => ImGuiKey.KeypadDivide,
+                >= Keys.F1 and <= Keys.F24 => ImGuiKey.F1 + (key - Keys.F1),
+                Keys.NumLock => ImGuiKey.NumLock,
+                Keys.Scroll => ImGuiKey.ScrollLock,
+                Keys.LeftShift => ImGuiKey.ModShift,
+                Keys.LeftControl => ImGuiKey.ModCtrl,
+                Keys.LeftAlt => ImGuiKey.ModAlt,
+                Keys.OemSemicolon => ImGuiKey.Semicolon,
+                Keys.OemPlus => ImGuiKey.Equal,
+                Keys.OemComma => ImGuiKey.Comma,
+                Keys.OemMinus => ImGuiKey.Minus,
+                Keys.OemPeriod => ImGuiKey.Period,
+                Keys.OemQuestion => ImGuiKey.Slash,
+                Keys.OemTilde => ImGuiKey.GraveAccent,
+                Keys.OemOpenBrackets => ImGuiKey.LeftBracket,
+                Keys.OemCloseBrackets => ImGuiKey.RightBracket,
+                Keys.OemPipe => ImGuiKey.Backslash,
+                Keys.OemQuotes => ImGuiKey.Apostrophe,
+                Keys.BrowserBack => ImGuiKey.AppBack,
+                Keys.BrowserForward => ImGuiKey.AppForward,
+                _ => ImGuiKey.None,
+            };
+
+            return imguikey != ImGuiKey.None;
+        }
 
     private void RenderDrawData(ImDrawDataPtr drawData)
     {
@@ -275,7 +317,7 @@ public class ImGuiRenderer
 
         for (int i = 0; i < drawData.CmdListsCount; i++)
         {
-            ImDrawListPtr cmdList = drawData.CmdListsRange[i];
+            ImDrawListPtr cmdList = drawData.CmdLists[i];
 
             fixed (void* vtxDstPtr = &vertexDataSpan[vtxOffset * DrawVertDeclaration.Size])
             fixed (void* idxDstPtr = &indexDataSpan[idxOffset * sizeof(ushort)])
@@ -305,7 +347,7 @@ public class ImGuiRenderer
 
         for (int i = 0; i < drawData.CmdListsCount; i++)
         {
-            ImDrawListPtr cmdList = drawData.CmdListsRange[i];
+            ImDrawListPtr cmdList = drawData.CmdLists[i];
 
             for (int j = 0; j < cmdList.CmdBuffer.Size; j++)
             {

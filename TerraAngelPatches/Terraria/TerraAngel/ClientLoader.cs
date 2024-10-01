@@ -109,30 +109,6 @@ public unsafe class ClientLoader
 
     private static void LoadClientInteral()
     {
-        NativeLibrary.SetDllImportResolver(typeof(ImGui).Assembly, (libraryName, assembly, searchPath) =>
-        {
-            IntPtr handle = IntPtr.Zero;
-#if WINDOWS
-            if (libraryName == "cimgui")
-            {
-                if (!NativeLibrary.TryLoad($"{TerrariaPath}/{NewLibraryPath}/{PlatformString}/{ArchitectureString}/ImGui/{libraryName}", out handle))
-                {
-                    throw new DllNotFoundException($"Could not load {libraryName}");
-                }
-            }
-#else
-            if (libraryName == "cimgui")
-            {
-                if (!NativeLibrary.TryLoad($"{TerrariaPath}/{NewLibraryPath}/{PlatformString}/{ArchitectureString}/ImGui/{libraryName}.so", out handle))
-                {
-                    throw new DllNotFoundException($"Could not load {libraryName}");
-                }
-            }
-#endif
-
-            return handle;
-        });
-
         NativeLibrary.SetDllImportResolver(typeof(Game).Assembly, (libraryName, assembly, searchPath) =>
         {
             IntPtr handle = IntPtr.Zero;

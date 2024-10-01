@@ -1,4 +1,6 @@
-﻿namespace TerraAngel.UI.ClientWindows;
+﻿using ImGuiUtil = TerraAngel.Graphics.ImGuiUtil;
+
+namespace TerraAngel.UI.ClientWindows;
 
 public class QuickItemBrowserWindow : ClientWindow
 {

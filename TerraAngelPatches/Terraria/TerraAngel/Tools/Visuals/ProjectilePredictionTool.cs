@@ -1,5 +1,6 @@
 ﻿using System;
 using TerraAngel.Physics;
+using ImGuiUtil = TerraAngel.Graphics.ImGuiUtil;
 
 namespace TerraAngel.Tools.Visuals;
 

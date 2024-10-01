@@ -1,4 +1,6 @@
-﻿namespace TerraAngel.Tools.Visuals;
+﻿using ImGuiUtil = TerraAngel.Graphics.ImGuiUtil;
+
+namespace TerraAngel.Tools.Visuals;
 
 public class ESPTool : Tool
 {

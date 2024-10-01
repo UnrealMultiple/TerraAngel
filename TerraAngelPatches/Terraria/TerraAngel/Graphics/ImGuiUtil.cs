@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using TerraAngel.Physics;
@@ -20,7 +21,7 @@ public static class ImGuiUtil
     public static Dictionary<string, GraphData> DrawGraphData = new Dictionary<string, GraphData>();
 
     private static string? FocusedGraph = null;
-
+    
     public static void TextColored(string text, Color color)
     {
         ImGui.PushStyleColor(ImGuiCol.Text, color.PackedValue);
@@ -790,6 +791,34 @@ public static class ImGuiUtil
 
         ImGui.SetCursorScreenPos(new Vector2(cursorPos.X, cursorPos.Y + size.Y + ImGui.GetStyle().ItemSpacing.Y));
     }
+    
+    public static unsafe bool BeginTabItem(string label, ImGuiTabItemFlags flags)
+    {
+        byte* native_label;
+        int label_byteCount = 0;
+        if (label != null)
+        {
+            label_byteCount = Encoding.UTF8.GetByteCount(label);
+            if (label_byteCount > ImGuiInternalUtil.StackAllocationSizeLimit)
+            {
+                native_label = ImGuiInternalUtil.Allocate(label_byteCount + 1);
+            }
+            else
+            {
+                byte* native_label_stackBytes = stackalloc byte[label_byteCount + 1];
+                native_label = native_label_stackBytes;
+            }
+            int native_label_offset = ImGuiInternalUtil.GetUtf8(label, native_label, label_byteCount);
+            native_label[native_label_offset] = 0;
+        }
+        else { native_label = null; }
+        byte ret = ImGuiNative.igBeginTabItem(native_label, null, flags);
+        if (label_byteCount > ImGuiInternalUtil.StackAllocationSizeLimit)
+        {
+            ImGuiInternalUtil.Free(native_label);
+        }
+        return ret != 0;
+    }
 
     public static unsafe string GetText(this ImGuiInputTextCallbackDataPtr self) => Encoding.UTF8.GetString((byte*)self.Buf, self.BufTextLen);
 
@@ -824,6 +853,72 @@ public static class ImGuiUtil
             DragMouseOrigin = Vector2.Zero;
 
             DragOrigin = Vector2.Zero;
+        }
+    }
+    
+    internal static unsafe class ImGuiInternalUtil
+    {
+        internal const int StackAllocationSizeLimit = 2048;
+
+        public static string StringFromPtr(byte* ptr)
+        {
+            int characters = 0;
+            while (ptr[characters] != 0)
+            {
+                characters++;
+            }
+
+            return Encoding.UTF8.GetString(ptr, characters);
+        }
+
+        internal static bool AreStringsEqual(byte* a, int aLength, byte* b)
+        {
+            for (int i = 0; i < aLength; i++)
+            {
+                if (a[i] != b[i]) { return false; }
+            }
+
+            if (b[aLength] != 0) { return false; }
+
+            return true;
+        }
+
+        internal static byte* Allocate(int byteCount) => (byte*)Marshal.AllocHGlobal(byteCount);
+
+        internal static void Free(byte* ptr) => Marshal.FreeHGlobal((IntPtr)ptr);
+
+        internal static int CalcSizeInUtf8(string s, int start, int length)
+        {
+            if (start < 0 || length < 0 || start + length > s.Length)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            fixed (char* utf16Ptr = s)
+            {
+                return Encoding.UTF8.GetByteCount(utf16Ptr + start, length);
+            }
+        }
+
+        internal static int GetUtf8(string s, byte* utf8Bytes, int utf8ByteCount)
+        {
+            fixed (char* utf16Ptr = s)
+            {
+                return Encoding.UTF8.GetBytes(utf16Ptr, s.Length, utf8Bytes, utf8ByteCount);
+            }
+        }
+
+        internal static int GetUtf8(string s, int start, int length, byte* utf8Bytes, int utf8ByteCount)
+        {
+            if (start < 0 || length < 0 || start + length > s.Length)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            fixed (char* utf16Ptr = s)
+            {
+                return Encoding.UTF8.GetBytes(utf16Ptr + start, length, utf8Bytes, utf8ByteCount);
+            }
         }
     }
 }
