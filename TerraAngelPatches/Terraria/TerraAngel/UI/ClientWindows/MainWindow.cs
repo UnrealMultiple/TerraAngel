@@ -198,7 +198,12 @@ public class MainWindow : ClientWindow
         {
             if (ImGui.BeginTabItem("Tools"))
             {
-                ImGui.Button($"{Icon.Refresh} Client UUID"); ImGui.SameLine();
+                if (ImGui.Button($"{Icon.Refresh} Client UUID"))
+                {
+                    Main.clientUUID = Guid.NewGuid().ToString();
+                    Main.SaveSettings();
+                }
+                ImGui.SameLine();
                 if (ImGui.Button("Click to reveal"))
                 {
                     framesToShowUUIDFor = 600;
