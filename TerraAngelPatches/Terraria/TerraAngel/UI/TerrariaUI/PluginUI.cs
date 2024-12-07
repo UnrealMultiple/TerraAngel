@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using TerraAngel.Plugin;
 using Terraria.Audio;
@@ -107,13 +108,27 @@ public class PluginUI : UIState, IHaveBackButtonCommand
 
         OpenPluginsFolderButton.OnLeftClick += (x, y) =>
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo
+            if (OperatingSystem.IsWindows())
             {
-                FileName = "explorer.exe",
-                Arguments = ClientLoader.PluginsPath
-            };
-
-            Process.Start(startInfo);
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "explorer.exe",
+                    Arguments = ClientLoader.PluginsPath
+                });
+            }
+            else if (OperatingSystem.IsLinux())
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "dbus-send",
+                    Arguments = "--print-reply " +
+                                "--dest=org.freedesktop.FileManager1 " +
+                                "/org/freedesktop/FileManager1 " +
+                                "org.freedesktop.FileManager1.ShowItems " +
+                                $"array:string:\"file://{ClientLoader.PluginsPath}/\" " +
+                                "string:\"\""
+                });
+            }
         };
 
         RootElement.Append(BackButton);
