@@ -1,19 +1,38 @@
 --- src/Terraria/ReLogic/OS/Platform.cs
 +++ src/TerraAngel/ReLogic/OS/Platform.cs
-@@ -1,11 +_,16 @@
+@@ -1,17 +_,26 @@
  using System;
 +using ReLogic.OS.Linux;
++using ReLogic.OS.OSX;
  using ReLogic.OS.Windows;
  using ReLogic.Utilities;
  
  namespace ReLogic.OS;
++
  public abstract class Platform : IDisposable
  {
-+#if WINDOWS
-     public static readonly Platform Current = new WindowsPlatform();
-+#else
-+    public static readonly Platform Current = new LinuxPlatform();
-+#endif
+-    public static readonly Platform Current = new WindowsPlatform();
++    public static readonly Platform Current =
++        OperatingSystem.IsWindows() ? new WindowsPlatform() :
++        OperatingSystem.IsLinux() ? new LinuxPlatform() :
++        OperatingSystem.IsMacOS() ? new OsxPlatform() :
++        throw new NotImplementedException("Unsupported OS Platform");
++
      public readonly PlatformType Type;
      private TypeInstanceCollection<object> _services = new TypeInstanceCollection<object>();
      private bool _disposedValue;
+     public static bool IsWindows => Current.Type == PlatformType.Windows;
+     public static bool IsOSX => Current.Type == PlatformType.OSX;
+     public static bool IsLinux => Current.Type == PlatformType.Linux;
++
+     protected Platform(PlatformType type)
+     {
+         Type = type;
+@@ -29,6 +_,7 @@
+     }
+ 
+     public abstract void InitializeClientServices(IntPtr windowHandle);
++
+     public static T Get<T>()
+         where T : class
+     {
