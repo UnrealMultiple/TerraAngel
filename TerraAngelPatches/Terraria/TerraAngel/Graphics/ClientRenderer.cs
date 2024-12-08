@@ -157,6 +157,7 @@ public class ClientRenderer : ImGuiRenderer
         AddWindow(InspectorTool.InspectorWindow);
         AddWindow(new StyleEditorWindow());
         AddWindow(new TimingMetricsWindow());
+        AddWindow(new ImeWindow());
     }
 
     public void PreUpdate()

@@ -797,6 +797,75 @@
          Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle((int)screenPosition.X - 500, (int)screenPosition.Y - 50, screenWidth + 1000, screenHeight + 100);
          rectangle = new Microsoft.Xna.Framework.Rectangle((int)screenPosition.X - 1000, (int)screenPosition.Y - 1050, screenWidth + 2000, screenHeight + 2100);
          Microsoft.Xna.Framework.Rectangle rectangle2 = rectangle;
+@@ -39013,68 +_,6 @@
+ 
+     public void DrawWindowsIMEPanel(Vector2 position, float xAnchor = 0f)
+     {
+-        if (!Platform.Get<IImeService>().IsCandidateListVisible)
+-        {
+-            return;
+-        }
+-
+-        List<string> list = new List<string>();
+-        for (uint num = 0u; num < Platform.Get<IImeService>().CandidateCount; num++)
+-        {
+-            string candidate = Platform.Get<IImeService>().GetCandidate(num);
+-            list.Add(candidate);
+-        }
+-
+-        if (list.Count == 0)
+-        {
+-            return;
+-        }
+-
+-        uint selectedCandidate = Platform.Get<IImeService>().SelectedCandidate;
+-        DynamicSpriteFont value = FontAssets.MouseText.Value;
+-        float num2 = 0.85f;
+-        float num3 = 14f;
+-        float num4 = 0f;
+-        int num5 = 32;
+-        num4 += num3;
+-        string text = "{0,2}: {1}";
+-        string text2 = "  ";
+-        for (int i = 0; i < list.Count; i++)
+-        {
+-            int num6 = i + 1;
+-            string text3 = text;
+-            if (i < list.Count - 1)
+-            {
+-                text3 += text2;
+-            }
+-
+-            num4 += value.MeasureString(string.Format(text3, num6, list[i])).X * num2;
+-            num4 += num3;
+-        }
+-
+-        Vector2 vector = new Vector2(num4 * (0f - xAnchor), 0f);
+-        Utils.DrawSettings2Panel(spriteBatch, position + vector + new Vector2(0f, -num5), num4, new Microsoft.Xna.Framework.Color(63, 65, 151, 255) * 0.785f);
+-        Vector2 pos = position + new Vector2(10f, -num5 / 2) + vector;
+-        for (uint num7 = 0u; num7 < list.Count; num7++)
+-        {
+-            Microsoft.Xna.Framework.Color color = Microsoft.Xna.Framework.Color.Gray;
+-            if (num7 == selectedCandidate)
+-            {
+-                color = Microsoft.Xna.Framework.Color.White;
+-            }
+-
+-            uint num8 = num7 + 1;
+-            string text4 = text;
+-            if (num7 < list.Count - 1)
+-            {
+-                text4 += text2;
+-            }
+-
+-            string text5 = string.Format(text4, num8, list[(int)num7]);
+-            Vector2 vector2 = value.MeasureString(text5) * num2;
+-            Utils.DrawBorderString(spriteBatch, text5, pos, color, num2, 0f, 0.4f);
+-            pos.X += vector2.X + num3;
+-        }
+     }
+ 
+     public void HandleIME()
 @@ -39095,6 +_,7 @@
  
      protected void DrawPlayerChat()

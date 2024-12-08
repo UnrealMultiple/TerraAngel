@@ -7,11 +7,9 @@ ReLogic/OS/Linux/WindowService.cs
 ReLogic/OS/OSX/Clipboard.cs
 ReLogic/OS/OSX/WindowService.cs
 ReLogic/OS/Windows/Clipboard.cs
-ReLogic/OS/Windows/NativeMethods.cs
 ReLogic/OS/Windows/STATaskInvoker.cs
 ReLogic/OS/Windows/WindowService.cs
 ReLogic/OS/Windows/WindowsMessage.cs
-ReLogic/OS/Windows/WindowsMessageHook.cs
 ReLogic/Peripherals/RGB/ARgbGameValueTracker.cs
 ReLogic/Peripherals/RGB/BlendMode.cs
 ReLogic/Peripherals/RGB/ChromaCondition.cs

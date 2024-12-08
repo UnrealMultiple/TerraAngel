@@ -1,0 +1,140 @@
+--- src/Terraria/ReLogic/OS/Windows/NativeMethods.cs
++++ src/TerraAngel/ReLogic/OS/Windows/NativeMethods.cs
+@@ -1,11 +_,12 @@
+ using System;
+ using System.Runtime.InteropServices;
+-using System.Windows.Forms;
+ 
+ namespace ReLogic.OS.Windows;
++
+-internal static class NativeMethods
++public static class NativeMethods
+ {
+-    public delegate IntPtr WndProcCallback(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
++    public delegate nint WndProcCallback(nint hWnd, int msg, nint wParam, nint lParam);
++
+     public enum StdHandleType
+     {
+         Input = -10,
+@@ -42,11 +_,16 @@
+     public struct FlashInfo
+     {
+         private uint _cbSize;
++
+-        private IntPtr _hWnd;
++        private nint _hWnd;
++
+         private FlashFlags _dwFlags;
++
+         private uint _uCount;
++
+         private uint _dwTimeout;
++
+-        public static FlashInfo CreateStart(IntPtr hWnd)
++        public static FlashInfo CreateStart(nint hWnd)
+         {
+             FlashInfo result = default(FlashInfo);
+             result._cbSize = Convert.ToUInt32(Marshal.SizeOf(typeof(FlashInfo)));
+@@ -57,7 +_,7 @@
+             return result;
+         }
+ 
+-        public static FlashInfo CreateStop(IntPtr hWnd)
++        public static FlashInfo CreateStop(nint hWnd)
+         {
+             FlashInfo result = default(FlashInfo);
+             result._cbSize = Convert.ToUInt32(Marshal.SizeOf(typeof(FlashInfo)));
+@@ -94,44 +_,65 @@
+         FO_RENAME
+     }
+ 
+-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
++    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+     private struct SHFILEOPSTRUCT
+     {
+-        public IntPtr hwnd;
++        public nint hwnd;
++
+         [MarshalAs(UnmanagedType.U4)]
+         public FileOperationType wFunc;
++
+         public string pFrom;
++
+         public string pTo;
++
+         public FileOperationFlags fFlags;
++
+         [MarshalAs(UnmanagedType.Bool)]
+         public bool fAnyOperationsAborted;
++
+-        public IntPtr hNameMappings;
++        public nint hNameMappings;
++
+         public string lpszProgressTitle;
+     }
+ 
+     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+-    public static extern IntPtr CallWindowProc(IntPtr lpPrevWndFunc, IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
++    public static extern nint CallWindowProc(nint lpPrevWndFunc, nint hWnd, int msg, nint wParam, nint lParam);
++
+     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+-    public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
++    public static extern nint SetWindowLongPtr(nint hWnd, int nIndex, nint dwNewLong);
++
+     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+-    public static extern IntPtr DefWindowProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
++    public static extern nint DefWindowProc(nint hWnd, int msg, nint wParam, nint lParam);
++
++    [DllImport("user32.dll")]
++    public static extern nint GetDC(nint hWnd);
++
+     [DllImport("user32.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+     public static extern bool TranslateMessage(ref Message message);
++
+     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+-    public static extern IntPtr GetForegroundWindow();
++    public static extern nint GetForegroundWindow();
++
+     [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+-    public static extern bool GetConsoleMode(IntPtr hConsoleHandle, out ConsoleMode lpMode);
++    public static extern bool GetConsoleMode(nint hConsoleHandle, out ConsoleMode lpMode);
++
+     [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+-    public static extern bool SetConsoleMode(IntPtr hConsoleHandle, ConsoleMode dwMode);
++    public static extern bool SetConsoleMode(nint hConsoleHandle, ConsoleMode dwMode);
++
+     [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+-    public static extern IntPtr GetStdHandle(StdHandleType nStdHandle);
++    public static extern nint GetStdHandle(StdHandleType nStdHandle);
++
+     [DllImport("user32.dll")]
+     [return: MarshalAs(UnmanagedType.Bool)]
+     public static extern bool FlashWindowEx(ref FlashInfo flashInfo);
++
+     [DllImport("gdi32.dll")]
+-    public static extern int GetDeviceCaps(IntPtr hdc, DeviceCap nIndex);
++    public static extern int GetDeviceCaps(nint hdc, DeviceCap nIndex);
++
+     [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+     private static extern int SHFileOperation(ref SHFILEOPSTRUCT FileOp);
++
+     private static bool Send(string path, FileOperationFlags flags)
+     {
+         try
+@@ -181,5 +_,16 @@
+     private static bool DeleteCompletelySilent(string path)
+     {
+         return DeleteFile(path, FileOperationFlags.FOF_SILENT | FileOperationFlags.FOF_NOCONFIRMATION | FileOperationFlags.FOF_NOERRORUI);
++    }
++
++    [DllImport("kernel32.dll")]
++    private static extern nint GetConsoleWindow();
++
++    [DllImport("user32.dll")]
++    private static extern bool ShowWindow(nint hWnd, int nCmdShow);
++
++    public static void HideConsole()
++    {
++        ShowWindow(GetConsoleWindow(), 0);
+     }
+ }

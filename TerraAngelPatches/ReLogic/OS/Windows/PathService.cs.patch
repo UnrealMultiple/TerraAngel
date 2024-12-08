@@ -1,5 +1,13 @@
 --- src/Terraria/ReLogic/OS/Windows/PathService.cs
 +++ src/TerraAngel/ReLogic/OS/Windows/PathService.cs
+@@ -1,7 +_,6 @@
+ using System;
+ using System.Diagnostics;
+ using System.IO;
+-using ReLogic.OS.Base;
+ 
+ namespace ReLogic.OS.Windows;
+ internal class PathService : ReLogic.OS.Base.PathService
 @@ -18,6 +_,6 @@
  
      public override bool MoveToRecycleBin(string path)

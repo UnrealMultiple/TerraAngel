@@ -1,15 +1,18 @@
 --- src/Terraria/ReLogic/OS/Windows/WindowsPlatform.cs
 +++ src/TerraAngel/ReLogic/OS/Windows/WindowsPlatform.cs
-@@ -1,41 +_,20 @@
+@@ -1,29 +_,33 @@
  using System;
  using ReLogic.Localization.IME;
 +using ReLogic.OS.FNA;
++using SDL2;
  
  namespace ReLogic.OS.Windows;
  internal class WindowsPlatform : Platform
  {
 -    private WindowsMessageHook _wndProcHook;
--    private bool _disposedValue;
++    private WindowsMessageHook? _wndProcHook;
+     private bool _disposedValue;
++    
      public WindowsPlatform() : base(PlatformType.Windows)
      {
 -        RegisterService((IClipboard)new Clipboard());
@@ -28,21 +31,24 @@
 -        }
 -
 -        RegisterService((IImeService)new WindowsIme(_wndProcHook, windowHandle));
--    }
--
--    protected override void Dispose(bool disposing)
--    {
--        if (!_disposedValue)
--        {
--            if (disposing && _wndProcHook != null)
--            {
--                _wndProcHook.Dispose();
--                _wndProcHook = null;
--            }
--
--            _disposedValue = true;
--            base.Dispose(disposing);
--        }
-+        RegisterService((IImeService)new FNAIme());
++        SDL.SDL_SysWMinfo info = default(SDL.SDL_SysWMinfo);
++        SDL.SDL_VERSION(out info.version);
++        SDL.SDL_GetWindowWMInfo(windowHandle, ref info);
++        var realWindowHandle = info.info.win.window;
++        
++        _wndProcHook ??= new WindowsMessageHook(realWindowHandle);
++        RegisterService((IImeService)new WinImm32Ime(_wndProcHook, realWindowHandle));
      }
- }
+-
++    
+     protected override void Dispose(bool disposing)
+     {
+         if (!_disposedValue)
+@@ -33,7 +_,6 @@
+                 _wndProcHook.Dispose();
+                 _wndProcHook = null;
+             }
+-
+             _disposedValue = true;
+             base.Dispose(disposing);
+         }
