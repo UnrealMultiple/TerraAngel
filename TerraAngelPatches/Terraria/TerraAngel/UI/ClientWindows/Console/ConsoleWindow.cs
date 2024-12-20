@@ -21,7 +21,7 @@ public class ConsoleWindow : ClientWindow
 
     public override bool IsToggleable => true;
 
-    public override string Title => "Console";
+    public override string Title => GetString("Console");
 
     private string ConsoleInput = "";
 
@@ -58,7 +58,7 @@ public class ConsoleWindow : ClientWindow
             (x) =>
             {
                 ConsoleItems.Clear();
-            }, "Clears the console");
+            }, GetString("Clears the console"));
 
         AddCommand(
             "help",
@@ -68,7 +68,7 @@ public class ConsoleWindow : ClientWindow
                 {
                     WriteLine($"{command.CommandName}: {command.CommandDescription}");
                 }
-            }, "Prints help");
+            }, GetString("Prints help"));
 
         AddCommand(
             "reload_plugins",
@@ -78,9 +78,9 @@ public class ConsoleWindow : ClientWindow
                 PluginLoader.UnloadPlugins();
                 PluginLoader.LoadAndInitializePlugins();
                 ClientLoader.PluginUI!.NeedsUpdate = true;
-            }, "Reloads plugins");
+            }, GetString("Reloads plugins"));
 
-        WriteLine("Type #help for a list of commands");
+        WriteLine(GetString("Type #help for a list of commands"));
     }
 
     public override void Draw(ImGuiIOPtr io)
@@ -95,7 +95,7 @@ public class ConsoleWindow : ClientWindow
 
         ImGui.SetNextWindowBgAlpha(0.85f);
 
-        if (!ImGui.Begin("Console"))
+        if (!ImGui.Begin(GetString("Console")))
         {
             ImGui.End();
             return;
@@ -186,7 +186,7 @@ public class ConsoleWindow : ClientWindow
 
     public void WriteError(string error)
     {
-        WriteLine($"[Error] {error}", Color.Red);
+        WriteLine(GetString($"[Error] {error}"), Color.Red);
     }
 
     public void WriteLine(string message, Color color)

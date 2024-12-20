@@ -11,7 +11,7 @@ public class MainWindow : ClientWindow
 
     public override bool IsToggleable => false;
 
-    public override string Title => "Main Window";
+    public override string Title => GetString("Main Window");
 
     public override bool IsGlobalToggle => true;
 
@@ -24,7 +24,7 @@ public class MainWindow : ClientWindow
         ImGui.SetNextWindowPos(new Vector2(0, io.DisplaySize.Y - windowSize.Y), ImGuiCond.FirstUseEver);
         ImGui.SetNextWindowSize(windowSize, ImGuiCond.FirstUseEver);
 
-        ImGui.Begin("Main window");
+        ImGui.Begin(GetString("Main window"));
 
         if (!Main.gameMenu && Main.CanUpdateGameplay)
         {
@@ -45,11 +45,11 @@ public class MainWindow : ClientWindow
     {
         if (ImGui.BeginTabBar("##MainTabBar"))
         {
-            if (ImGui.BeginTabItem("Tools"))
+            if (ImGui.BeginTabItem(GetString("Tools")))
             {
                 if (ImGui.BeginTabBar("ToolBar"))
                 {
-                    if (ImGui.BeginTabItem("Main Tools"))
+                    if (ImGui.BeginTabItem(GetString("Main Tools")))
                     {
                         foreach (Tool cringe in ToolManager.GetToolsOfTab(ToolTabs.MainTools))
                         {
@@ -58,11 +58,11 @@ public class MainWindow : ClientWindow
                         ImGui.EndTabItem();
                     }
 
-                    if (ImGui.BeginTabItem("Items"))
+                    if (ImGui.BeginTabItem(GetString("Items")))
                     {
                         if (ImGui.BeginTabBar("ItemBar"))
                         {
-                            if (ImGui.BeginTabItem("Item Browser"))
+                            if (ImGui.BeginTabItem(GetString("Item Browser")))
                             {
                                 ToolManager.GetTool<ItemBrowserTool>().DrawUI(io);
                                 ImGui.EndTabItem();
@@ -72,7 +72,7 @@ public class MainWindow : ClientWindow
                         ImGui.EndTabItem();
                     }
 
-                    if (ImGui.BeginTabItem("Automation"))
+                    if (ImGui.BeginTabItem(GetString("Automation")))
                     {
                         foreach (Tool cringe in ToolManager.GetToolsOfTab(ToolTabs.AutomationTools))
                         {
@@ -94,18 +94,18 @@ public class MainWindow : ClientWindow
                 }
                 ImGui.EndTabItem();
             }
-            if (ImGui.BeginTabItem("Visuals"))
+            if (ImGui.BeginTabItem(GetString("Visuals")))
             {
                 if (ImGui.BeginTabBar("VisualBar"))
                 {
-                    if (ImGui.BeginTabItem("Utility"))
+                    if (ImGui.BeginTabItem(GetString("Utility")))
                     {
                         foreach (Tool cringe in ToolManager.GetToolsOfTab(ToolTabs.VisualTools))
                         {
                             cringe.DrawUI(io);
                         }
 
-                        if (ImGui.Button("Reveal Map"))
+                        if (ImGui.Button(GetString("Reveal Map")))
                         {
                             Task.Run(() =>
                             {
@@ -125,7 +125,7 @@ public class MainWindow : ClientWindow
                                         }
                                     }
                                     watch.Stop();
-                                    ClientLoader.Console.WriteLine($"Map took {watch.Elapsed.Milliseconds}ms");
+                                    ClientLoader.Console.WriteLine(GetString($"Map took {watch.Elapsed.Milliseconds}ms"));
                                     Main.refreshMap = true;
                                 }
                                 catch (Exception e)
@@ -136,7 +136,7 @@ public class MainWindow : ClientWindow
                         }
                         ImGui.EndTabItem();
                     }
-                    if (ImGui.BeginTabItem("ESP"))
+                    if (ImGui.BeginTabItem(GetString("ESP")))
                     {
                         foreach (Tool cringe in ToolManager.GetToolsOfTab(ToolTabs.ESPTools))
                         {
@@ -145,7 +145,7 @@ public class MainWindow : ClientWindow
 
                         ImGui.EndTabItem();
                     }
-                    if (ImGui.BeginTabItem("Lighting"))
+                    if (ImGui.BeginTabItem(GetString("Lighting")))
                     {
                         foreach (Tool cringe in ToolManager.GetToolsOfTab(ToolTabs.LightingTools))
                         {
@@ -157,7 +157,7 @@ public class MainWindow : ClientWindow
                 }
                 ImGui.EndTabItem();
             }
-            if (ImGui.BeginTabItem("World Edit"))
+            if (ImGui.BeginTabItem(GetString("World Edit")))
             {
                 if (ImGui.BeginTabBar("WorldEditBar"))
                 {
@@ -178,7 +178,7 @@ public class MainWindow : ClientWindow
                 ClientLoader.MainRenderer!.CurrentWorldEditIndex = -1;
             }
 
-            if (ImGui.BeginTabItem("Misc"))
+            if (ImGui.BeginTabItem(GetString("Misc")))
             {
                 foreach (Tool cringe in ToolManager.GetToolsOfTab(ToolTabs.MiscTools))
                 {
@@ -196,20 +196,20 @@ public class MainWindow : ClientWindow
     {
         if (ImGui.BeginTabBar("##MainTabBar"))
         {
-            if (ImGui.BeginTabItem("Tools"))
+            if (ImGui.BeginTabItem(GetString("Tools")))
             {
-                if (ImGui.Button($"{Icon.Refresh} Client UUID"))
+                if (ImGui.Button(GetString($"{Icon.Refresh} Client UUID")))
                 {
                     Main.clientUUID = Guid.NewGuid().ToString();
                     Main.SaveSettings();
                 }
                 ImGui.SameLine();
-                if (ImGui.Button("Click to reveal"))
+                if (ImGui.Button(GetString("Click to reveal")))
                 {
                     framesToShowUUIDFor = 600;
                 }
                 ImGui.SameLine();
-                if (ImGui.Button("Click to copy"))
+                if (ImGui.Button(GetString("Click to copy")))
                 {
                     ImGui.SetClipboardText(Main.clientUUID);
                 }

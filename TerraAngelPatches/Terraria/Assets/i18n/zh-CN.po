@@ -1,0 +1,370 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Terraria\n"
+"POT-Creation-Date: 2024-12-20 18:56:21+0800\n"
+"PO-Revision-Date: 2024-12-20 19:11+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:201
+#, csharp-format
+msgid " ({0})"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:189
+#, csharp-format
+msgid "[Error] {0}"
+msgstr "[错误] {0}"
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:201
+#, csharp-format
+msgid "{0} Client UUID"
+msgstr "{0} 客户端 UUID"
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:309
+#, csharp-format
+msgid "{0}Message Logs"
+msgstr "{0}数据包日志"
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:74
+msgid "Alpha"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/DrawWindow.cs:251
+#, csharp-format
+msgid ""
+"An error occuring WorldEdit::Edit\n"
+"{0}"
+msgstr ""
+"WorldEdit::Edit 发生错误\n"
+"{0}"
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:69
+msgid "Anti-Aliased Fill"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:70
+msgid "Anti-Aliased Lines"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:71
+msgid "Anti-Aliased Lines Use Texture"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:75
+msgid "Automation"
+msgstr "自动化"
+
+#: ../../../TerraAngel/UI/ClientWindows/StatsWindow.cs:36
+msgid "Builder Mode Active "
+msgstr "已启用建造者模式"
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:64
+msgid "Button Text Align"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:19
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:153
+msgid "Chat"
+msgstr "聊天"
+
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:160
+#, csharp-format
+msgid "Chat {0}"
+msgstr "聊天 {0}"
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:58
+msgid "Child Border Rounding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:60
+msgid "Child Border Size"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:72
+msgid "Circle Tessellation Max Error"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:311
+msgid "Clear"
+msgstr "清除"
+
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:168
+msgid "Clear Chat"
+msgstr "清除聊天记录"
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:61
+msgid "Clears the console"
+msgstr "清空终端"
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:212
+msgid "Click to copy"
+msgstr "点击以复制"
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:207
+msgid "Click to reveal"
+msgstr "点击以显示"
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:27
+msgid "Colors"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:24
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:98
+msgid "Console"
+msgstr "终端"
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleScriptWindow.cs:270
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleScriptWindow.cs:298
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleScriptWindow.cs:324
+msgid "Console script not initialized"
+msgstr "终端脚本系统未初始化"
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:330
+msgid "Copy All"
+msgstr "复制全部"
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:73
+msgid "Curve Tessellation Tol"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:75
+msgid "Disabled Alpha"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:51
+msgid "Display Safe Area Padding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:42
+msgid "Display Window Padding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:139
+msgid "ESP"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleScriptWindow.cs:86
+msgid "Failed to Initialize Scripting Evaluator"
+msgstr "初始化脚本评估器时失败"
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleScriptWindow.cs:82
+msgid "Finished Initializing Scripting Evaluator"
+msgstr "完成初始化脚本评估器"
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:50
+msgid "Frame Border Padding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:61
+msgid "Frame Border Size"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:56
+msgid "Frame Rounding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:62
+msgid "Grab Minimum Size"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:57
+msgid "Grab Rounding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/ImeWindow.cs:11
+msgid "Ime"
+msgstr "输入法"
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:47
+msgid "Indent Spacing"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleScriptWindow.cs:77
+msgid "Initializing Scripting Evaluator"
+msgstr "正在初始化脚本评估器"
+
+#: ../../../TerraAngel/UI/ClientWindows/InspectorWindow.cs:9
+msgid "Inspector"
+msgstr "检视器"
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:65
+msgid "Item Browser"
+msgstr "物品浏览器"
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:49
+msgid "Item Inner Spacing"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:48
+msgid "Item Spacing"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:61
+#: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:47
+#: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:80
+msgid "Items"
+msgstr "物品"
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:148
+msgid "Lighting"
+msgstr "光照"
+
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:160
+msgid "Locked"
+msgstr "锁定"
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:81
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:247
+msgid "Log Traffic"
+msgstr "记录通信"
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:52
+msgid "Main Tools"
+msgstr "主工具集"
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:27
+msgid "Main window"
+msgstr "主窗口"
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:14
+msgid "Main Window"
+msgstr "主窗口"
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:128
+#, csharp-format
+msgid "Map took {0}ms"
+msgstr "地图使用了 {0}ms"
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:181
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:67
+msgid "Misc"
+msgstr "杂项"
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:17
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:65
+msgid "Net Debugger"
+msgstr "网络调试器"
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:72
+msgid "Net Message Logs"
+msgstr "包日志"
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:87
+msgid "Packets with traces:"
+msgstr "可跟踪的包:"
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:71
+msgid "Prints help"
+msgstr "打印帮助"
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:309
+msgid "Raw "
+msgstr "原始"
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:239
+msgid "Raw Message Logs"
+msgstr "原始包日志"
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:219
+msgid "Received packet"
+msgstr "已收到的包"
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:81
+msgid "Reloads plugins"
+msgstr "重载插件"
+
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:176
+msgid "Reset Position"
+msgstr "重置位置"
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:108
+msgid "Reveal Map"
+msgstr "显露地图"
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:59
+msgid "Scrollbar Rounding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:63
+msgid "Scrollbar Size"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:74
+msgid "Search:"
+msgstr "搜索:"
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:45
+msgid "Spacing"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StatsWindow.cs:15
+msgid "Stat Window"
+msgstr "统计窗口"
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:10
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:23
+msgid "Style Editor"
+msgstr "样式编辑器"
+
+#: ../../../TerraAngel/UI/ClientWindows/TimingMetricsWindow.cs:13
+msgid "Timing Metrics"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:48
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:199
+msgid "Tools"
+msgstr "工具集"
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:83
+msgid "Type #help for a list of commands"
+msgstr "输入 #help 查看指令列表"
+
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:160
+msgid "Unlocked"
+msgstr "已解锁的"
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:101
+msgid "Utility"
+msgstr "工具"
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:97
+msgid "Visuals"
+msgstr "视觉"
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:54
+msgid "Widgets"
+msgstr "组件"
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:35
+msgid "Window"
+msgstr "窗口"
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:38
+msgid "Window Border Size"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:41
+msgid "Window Minimum Size"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:39
+msgid "Window Padding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:37
+msgid "Window Rounding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:40
+msgid "Window Title Align"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:160
+msgid "World Edit"
+msgstr "世界编辑"

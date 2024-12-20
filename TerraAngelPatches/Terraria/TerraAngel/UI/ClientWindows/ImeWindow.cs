@@ -8,7 +8,7 @@ public class ImeWindow : ClientWindow
 {
     public override bool DefaultEnabled => true;
     public override bool IsToggleable => false;
-    public override string Title => "Ime Window";
+    public override string Title => GetString("Ime");
     public override bool IsGlobalToggle => false;
 
     public override void Draw(ImGuiIOPtr io)

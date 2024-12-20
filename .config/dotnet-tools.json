@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "gettext.net.extractor": {
+      "version": "8.0.5",
+      "commands": [
+        "GetText.Extractor"
+      ]
+    }
+  }
+}

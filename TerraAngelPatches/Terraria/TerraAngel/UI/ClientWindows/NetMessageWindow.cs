@@ -14,7 +14,7 @@ public class NetMessageWindow : ClientWindow
 
     public override bool DefaultEnabled => false;
 
-    public override string Title => "Net Debugger";
+    public override string Title => GetString("Net Debugger");
 
     public override Keys ToggleKey => ClientConfig.Settings.ToggleNetDebugger;
 
@@ -62,29 +62,29 @@ public class NetMessageWindow : ClientWindow
     {
         ImGui.PushFont(ClientAssets.GetMonospaceFont(16f));
         bool open = IsEnabled;
-        ImGui.Begin("Net Debugger", ref open, ImGuiWindowFlags.MenuBar);
+        ImGui.Begin(GetString("Net Debugger"), ref open, ImGuiWindowFlags.MenuBar);
         IsEnabled = open;
 
         bool rawMessagesOepn = false;
 
         if (ImGui.BeginTabBar("NetDebuggerTabBar"))
         {
-            if (ImGui.BeginTabItem("Net Message Logs"))
+            if (ImGui.BeginTabItem(GetString("Net Message Logs")))
             {
-                ImGui.Text("Search:");
+                ImGui.Text(GetString("Search:"));
                 ImGui.SameLine();
 
                 ImGui.PushItemWidth(ImGui.GetContentRegionAvail().X / 2.8f);
                 ImGui.InputText("##FancyLogsFilter", ref FancyLogsFilter, 512);
                 ImGui.PopItemWidth();
 
-                ImGui.Checkbox("Log Traffic", ref FancyLoggingEnabled);
+                ImGui.Checkbox(GetString("Log Traffic"), ref FancyLoggingEnabled);
                 ImGui.SameLine();
                 ImGui.Checkbox($"{Icon.ArrowUp}", ref FancyLogsShowSent);
                 ImGui.SameLine();
                 ImGui.Checkbox($"{Icon.ArrowDown}", ref FancyLogsShowReceived);
 
-                ImGui.Text("Packets with traces:"); ImGui.SameLine();
+                ImGui.Text(GetString("Packets with traces:")); ImGui.SameLine();
                 unsafe
                 {
                     ImGui.PushItemWidth(ImGui.GetContentRegionAvail().X / 2.8f); ImGui.InputText("##TraceFilter", ref FancyLogsTracesFilter, 512, ImGuiInputTextFlags.CallbackCharFilter, (x) =>
@@ -216,7 +216,7 @@ public class NetMessageWindow : ClientWindow
                                 {
                                     builder.Clear();
 
-                                    builder.Append("Received packet");
+                                    builder.Append(GetString("Received packet"));
 
                                     string builtString = builder.ToString();
 
@@ -236,7 +236,7 @@ public class NetMessageWindow : ClientWindow
                 ImGui.EndTabItem();
             }
 
-            if (ImGui.BeginTabItem("Raw Message Logs"))
+            if (ImGui.BeginTabItem(GetString("Raw Message Logs")))
             {
                 rawMessagesOepn = true;
 
@@ -244,7 +244,7 @@ public class NetMessageWindow : ClientWindow
 
                 ImDrawListPtr drawList = ImGui.GetWindowDrawList();
 
-                ImGui.Checkbox("Log Traffic", ref RawLoggingEnabled);
+                ImGui.Checkbox(GetString("Log Traffic"), ref RawLoggingEnabled);
                 ImGui.SameLine();
                 ImGui.Checkbox($"{Icon.ArrowUp}", ref RawLogsShowSent);
                 ImGui.SameLine();
@@ -306,9 +306,9 @@ public class NetMessageWindow : ClientWindow
 
         if (ImGui.BeginMenuBar())
         {
-            if (ImGui.BeginMenu($"{(rawMessagesOepn ? "Raw " : "")}Message Logs"))
+            if (ImGui.BeginMenu(GetString($"{(rawMessagesOepn ? GetString("Raw ") : "")}Message Logs")))
             {
-                if (ImGui.MenuItem("Clear"))
+                if (ImGui.MenuItem(GetString("Clear")))
                 {
                     if (rawMessagesOepn)
                     {
@@ -327,7 +327,7 @@ public class NetMessageWindow : ClientWindow
 
                 if (rawMessagesOepn)
                 {
-                    if (ImGui.MenuItem("Copy All"))
+                    if (ImGui.MenuItem(GetString("Copy All")))
                     {
                         StringBuilder builder = new StringBuilder();
 

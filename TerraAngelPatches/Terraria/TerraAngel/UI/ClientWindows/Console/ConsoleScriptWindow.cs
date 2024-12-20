@@ -74,16 +74,16 @@ public class ConsoleScriptWindow
 
         Task.Run(() =>
         {
-            ClientLoader.Console.WriteLine("Initializing Scripting Evaluator");
+            ClientLoader.Console.WriteLine(GetString("Initializing Scripting Evaluator"));
             try
 
             {
                 Script = new FullCSharpEvaluator(AppDomain.CurrentDomain.GetAssemblies().Where(x => !x.IsDynamic).Where(x => x != typeof(Steamworks.AppId_t).Assembly), usings);
-                ClientLoader.Console.WriteLine("Finished Initializing Scripting Evaluator");
+                ClientLoader.Console.WriteLine(GetString("Finished Initializing Scripting Evaluator"));
             }
             catch (Exception ex)
             {
-                ClientLoader.Console.WriteLine("Failed to Initialzie Scripting Evaluator");
+                ClientLoader.Console.WriteLine(GetString("Failed to Initialize Scripting Evaluator"));
                 ClientLoader.Console.WriteLine(ex.ToString());
             }
         });
@@ -267,7 +267,7 @@ public class ConsoleScriptWindow
     {
         if (Script is null)
         {
-            ClientLoader.Console.WriteError("Console script not initialized");
+            ClientLoader.Console.WriteError(GetString("Console script not initialized"));
             return;
         }
 
@@ -295,7 +295,7 @@ public class ConsoleScriptWindow
     {
         if (Script is null)
         {
-            ClientLoader.Console.WriteError("Console script not initialized");
+            ClientLoader.Console.WriteError(GetString("Console script not initialized"));
             return;
         }
 
@@ -321,7 +321,7 @@ public class ConsoleScriptWindow
     {
         if (Script is null)
         {
-            ClientLoader.Console.WriteError("Console script not initialized");
+            ClientLoader.Console.WriteError(GetString("Console script not initialized"));
             return false;
         }
 

@@ -1,0 +1,368 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Terraria\n"
+"POT-Creation-Date: 2024-12-20 19:11:17+0800\n"
+"PO-Revision-Date: 2024-12-20 19:11:21+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: GetText.NET Extractor\n"
+
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:201
+#, csharp-format
+msgid " ({0})"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:189
+#, csharp-format
+msgid "[Error] {0}"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:201
+#, csharp-format
+msgid "{0} Client UUID"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:309
+#, csharp-format
+msgid "{0}Message Logs"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:74
+msgid "Alpha"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/DrawWindow.cs:251
+#, csharp-format
+msgid ""
+"An error occuring WorldEdit::Edit\n"
+"{0}"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:69
+msgid "Anti-Aliased Fill"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:70
+msgid "Anti-Aliased Lines"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:71
+msgid "Anti-Aliased Lines Use Texture"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:75
+msgid "Automation"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StatsWindow.cs:36
+msgid "Builder Mode Active "
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:64
+msgid "Button Text Align"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:19
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:153
+msgid "Chat"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:160
+#, csharp-format
+msgid "Chat {0}"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:58
+msgid "Child Border Rounding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:60
+msgid "Child Border Size"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:72
+msgid "Circle Tessellation Max Error"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:311
+msgid "Clear"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:168
+msgid "Clear Chat"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:61
+msgid "Clears the console"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:212
+msgid "Click to copy"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:207
+msgid "Click to reveal"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:27
+msgid "Colors"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:24
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:98
+msgid "Console"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleScriptWindow.cs:270
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleScriptWindow.cs:298
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleScriptWindow.cs:324
+msgid "Console script not initialized"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:330
+msgid "Copy All"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:73
+msgid "Curve Tessellation Tol"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:75
+msgid "Disabled Alpha"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:51
+msgid "Display Safe Area Padding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:42
+msgid "Display Window Padding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:139
+msgid "ESP"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleScriptWindow.cs:86
+msgid "Failed to Initialize Scripting Evaluator"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleScriptWindow.cs:82
+msgid "Finished Initializing Scripting Evaluator"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:50
+msgid "Frame Border Padding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:61
+msgid "Frame Border Size"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:56
+msgid "Frame Rounding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:62
+msgid "Grab Minimum Size"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:57
+msgid "Grab Rounding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/ImeWindow.cs:11
+msgid "Ime"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:47
+msgid "Indent Spacing"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleScriptWindow.cs:77
+msgid "Initializing Scripting Evaluator"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/InspectorWindow.cs:9
+msgid "Inspector"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:65
+msgid "Item Browser"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:49
+msgid "Item Inner Spacing"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:48
+msgid "Item Spacing"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:61
+#: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:47
+#: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:80
+msgid "Items"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:148
+msgid "Lighting"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:160
+msgid "Locked"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:81
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:247
+msgid "Log Traffic"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:52
+msgid "Main Tools"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:27
+msgid "Main window"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:14
+msgid "Main Window"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:128
+#, csharp-format
+msgid "Map took {0}ms"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:181
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:67
+msgid "Misc"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:17
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:65
+msgid "Net Debugger"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:72
+msgid "Net Message Logs"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:87
+msgid "Packets with traces:"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:71
+msgid "Prints help"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:309
+msgid "Raw "
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:239
+msgid "Raw Message Logs"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:219
+msgid "Received packet"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:81
+msgid "Reloads plugins"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:176
+msgid "Reset Position"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:108
+msgid "Reveal Map"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:59
+msgid "Scrollbar Rounding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:63
+msgid "Scrollbar Size"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:74
+msgid "Search:"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:45
+msgid "Spacing"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StatsWindow.cs:15
+msgid "Stat Window"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:10
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:23
+msgid "Style Editor"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/TimingMetricsWindow.cs:13
+msgid "Timing Metrics"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:48
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:199
+msgid "Tools"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:83
+msgid "Type #help for a list of commands"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:160
+msgid "Unlocked"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:101
+msgid "Utility"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:97
+msgid "Visuals"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:54
+msgid "Widgets"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:35
+msgid "Window"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:38
+msgid "Window Border Size"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:41
+msgid "Window Minimum Size"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:39
+msgid "Window Padding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:37
+msgid "Window Rounding"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:40
+msgid "Window Title Align"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:160
+msgid "World Edit"
+msgstr ""
+

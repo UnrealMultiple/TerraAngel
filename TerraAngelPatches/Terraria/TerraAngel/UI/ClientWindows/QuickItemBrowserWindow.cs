@@ -44,7 +44,7 @@ public class QuickItemBrowserWindow : ClientWindow
 
             ImGui.SetNextWindowSizeConstraints(new Vector2(350f, 250f), new Vector2(float.MaxValue, 500f));
 
-            ImGui.Begin("Items", ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove);
+            ImGui.Begin(GetString("Items"), ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove);
 
             ImGui.PushItemWidth(ImGui.GetContentRegionAvail().X);
 
@@ -77,7 +77,7 @@ public class QuickItemBrowserWindow : ClientWindow
 
             ImGui.End();
 
-            ImGui.SetWindowPos("Items", new Vector2(io.DisplaySize.X - windowSize - style.ItemSpacing.X, 0f));
+            ImGui.SetWindowPos(GetString("Items"), new Vector2(io.DisplaySize.X - windowSize - style.ItemSpacing.X, 0f));
 
             ImGui.PopFont();
 

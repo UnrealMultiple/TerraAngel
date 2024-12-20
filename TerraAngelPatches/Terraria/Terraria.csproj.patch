@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Terraria.csproj
 +++ src/TerraAngel/Terraria/Terraria.csproj
-@@ -3,40 +_,195 @@
+@@ -3,40 +_,200 @@
    <PropertyGroup>
      <OutputType>WinExe</OutputType>
      <Nullable>enable</Nullable>
@@ -75,6 +75,7 @@
 +    <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.3.2" />
 +    <PackageReference Include="CsvHelper" Version="33.0.1" />
 +    <PackageReference Include="DiscordRichPresence" Version="1.2.1.24" />
++    <PackageReference Include="GetText.NET" Version="8.0.5" />
 +    <PackageReference Include="ImGui.NET" Version="1.91.0.1" />
 +    <PackageReference Include="LargeAddressAware" Version="1.0.6" />
 +    <PackageReference Include="MP3Sharp" Version="1.0.5" />
@@ -102,6 +103,10 @@
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
 +    <None Update="Assets\SourceHanSansSC-VF.ttf">
++      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
++    </None>
++
++    <None Update="Assets\i18n\**\*.mo">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
 +    

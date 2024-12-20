@@ -9,10 +9,11 @@ param (
     [switch] $Decompile,
     [switch] $Patch,
     [switch] $Compile,
-    [switch] $Diff
+    [switch] $Diff,
+    [switch] $I18n
 )
 
-Set-Location (Join-Path $PSScriptRoot '..')
+Set-Location "$PSScriptRoot/.."
 
 filter Join-ExecutableExtension
 {
@@ -24,6 +25,7 @@ filter Join-ExecutableExtension
 
 if ($Update) {
     git pull
+    git submodule update --init --recursive
 }
 
 if ($Download) {
@@ -113,4 +115,19 @@ if ($Compile -or $Start) {
 if ($Diff) {
     Write-Output 'Running TerraAngelSetup -diff'
     Invoke-Expression "$('./TerraAngelSetup/TerraAngelSetup/bin/Release/net8.0/TerraAngelSetup' | Join-ExecutableExtension) -diff -patchinput ./TerraAngelPatches -noexitprompt"
+}
+
+if ($I18n) {
+    $pot = './src/TerraAngel/Terraria/Assets/i18n/template.pot'
+    Write-Output "[I18n] generating template.pot..."
+    dotnet tool run GetText.Extractor -- -u -o -s './src/TerraAngel/Terraria/Terraria.csproj' -t $pot
+    Remove-Item "$pot.bak" -ErrorAction Ignore
+    foreach ($po in @(Get-ChildItem "./src/TerraAngel/Terraria/Assets/i18n/*.po")) {
+        Write-Output "[I18n] [$($po.Name)] merging..."
+        msgmerge --previous --update $po.FullName $pot
+        Remove-Item "$po~" -ErrorAction Ignore
+        $mo = [System.IO.Path]::ChangeExtension($po.FullName, '.mo')
+        Write-Output "[I18n] [$([System.IO.Path]::GetFileName($mo))] generating..."
+        msgfmt -o $mo $po
+    }
 }

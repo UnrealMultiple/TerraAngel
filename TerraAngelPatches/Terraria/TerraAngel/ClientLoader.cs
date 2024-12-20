@@ -7,6 +7,7 @@ using DiscordRPC;
 using ReLogic.OS;
 using TerraAngel.UI.TerrariaUI;
 using TerraAngel.UI.ClientWindows.Console;
+using Terraria.Localization;
 
 namespace TerraAngel;
 
@@ -178,6 +179,11 @@ public unsafe class ClientLoader
         });
 
         ClientConfig.ReadFromFile();
+
+        LanguageManager.Instance.OnLanguageChanged += lm =>
+        {
+            typeof(I18n).GetMethod("ReloadCatalog", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, []);
+        };
 
         Type[] cringeTypes = typeof(Tool).Assembly.GetTypes().Where(x =>
                                                                     !x.IsAbstract &&

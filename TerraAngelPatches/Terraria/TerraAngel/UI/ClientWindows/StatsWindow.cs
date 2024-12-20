@@ -12,7 +12,7 @@ public class StatsWindow : ClientWindow
 
     public override bool IsEnabled { get => ClientConfig.Settings.ShowStatsWindow; }
 
-    public override string Title => "Stat Window";
+    public override string Title => GetString("Stat Window");
 
     public override bool IsGlobalToggle => false;
 
@@ -33,7 +33,7 @@ public class StatsWindow : ClientWindow
 
         drawList.AddText(Vector2.Zero + style.ItemSpacing, ImGui.GetColorU32(ImGuiCol.Text), $"{versionText}");
 
-        string rightText = $"{(BuilderModeTool.Enabled ? "Builder Mode Active " : "")}{fpsText} FPS {upsText} UPS";
+        string rightText = $"{(BuilderModeTool.Enabled ? GetString("Builder Mode Active ") : "")}{fpsText} FPS {upsText} UPS";
 
         Vector2 rightTextSize = ImGui.CalcTextSize(rightText);
 

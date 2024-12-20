@@ -16,7 +16,7 @@ public class ChatWindow : ClientWindow
 
     public override bool IsGlobalToggle => false;
 
-    public override string Title => "Chat";
+    public override string Title => GetString("Chat");
 
     public override bool IsEnabled => !Main.gameMenu;
 
@@ -150,14 +150,14 @@ public class ChatWindow : ClientWindow
         if (IsChatting && ImGui.BeginMenuBar())
         {
             ImGui.SetCursorPosY(ImGui.GetCursorPosY() + 1f);
-            ImGui.TextUnformatted("Chat");
+            ImGui.TextUnformatted(GetString("Chat"));
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0f, 1f));
 
             if (ImGui.Button($"{(IsLocked ? Icon.Lock : Icon.Unlock)}")) IsLocked = !IsLocked;
             if (ImGui.IsItemHovered())
             {
                 ImGui.BeginTooltip();
-                ImGui.Text($"Chat {(IsLocked ? "Locked" : "Unlocked")}");
+                ImGui.Text(GetString($"Chat {(IsLocked ? GetString("Locked") : GetString("Unlocked"))}"));
                 ImGui.EndTooltip();
             }
 
@@ -165,7 +165,7 @@ public class ChatWindow : ClientWindow
             if (ImGui.IsItemHovered())
             {
                 ImGui.BeginTooltip();
-                ImGui.Text("Clear Chat");
+                ImGui.Text(GetString("Clear Chat"));
                 ImGui.EndTooltip();
             }
 
@@ -173,7 +173,7 @@ public class ChatWindow : ClientWindow
             if (ImGui.IsItemHovered())
             {
                 ImGui.BeginTooltip();
-                ImGui.Text("Reset Position");
+                ImGui.Text(GetString("Reset Position"));
                 ImGui.EndTooltip();
             }
 

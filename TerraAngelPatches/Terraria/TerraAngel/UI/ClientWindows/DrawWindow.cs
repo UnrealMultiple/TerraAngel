@@ -248,7 +248,7 @@ public class DrawWindow : ClientWindow
                 }
                 catch (Exception ex)
                 {
-                    ClientLoader.Console.WriteError($"An error occuring WorldEdit::Edit\n{ex}");
+                    ClientLoader.Console.WriteError(GetString($"An error occuring WorldEdit::Edit\n{ex}"));
                 }
             }
 
