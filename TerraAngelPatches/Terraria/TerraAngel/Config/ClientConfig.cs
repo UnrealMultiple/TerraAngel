@@ -191,6 +191,9 @@ public class ClientConfig
         [UIConfigElement("Builder Mode Quick Slope")]
         public Keys BuilderModeQuickSlope = Keys.Q;
 
+        [UIConfigElement("Send Client UUID")]
+        public bool IsSendClientUUID = true;
+
         public int ConsoleHistoryLimit = 5000;
         public int ChatHistoryLimit = 3000;
         public int ChatMessageLimit = 600;

@@ -8,6 +8,16 @@
  using Terraria.Audio;
  using Terraria.Chat;
  using Terraria.DataStructures;
+@@ -230,7 +_,8 @@
+                     Main.myPlayer = num142;
+                     Player player12 = Main.player[num142];
+                     NetMessage.TrySendData(4, -1, -1, null, num142);
++                    if (ClientConfig.Settings.IsSendClientUUID)
+-                    NetMessage.TrySendData(68, -1, -1, null, num142);
++                        NetMessage.TrySendData(68, -1, -1, null, num142);
+                     NetMessage.TrySendData(16, -1, -1, null, num142);
+                     NetMessage.TrySendData(42, -1, -1, null, num142);
+                     NetMessage.TrySendData(50, -1, -1, null, num142);
 @@ -2652,42 +_,9 @@
                      int num238 = reader.ReadInt16();
                      byte b15 = reader.ReadByte();
