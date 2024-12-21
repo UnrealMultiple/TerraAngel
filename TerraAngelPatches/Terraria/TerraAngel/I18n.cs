@@ -16,12 +16,15 @@ internal static class I18n
 
     private static Catalog GetCatalog()
     {
-        static CultureInfo Redirect(CultureInfo cultureInfo)
-            => cultureInfo.Name == "zh-Hans" ? new CultureInfo("zh-CN") : cultureInfo;
+        if (!ClientConfig.Settings.IsFollowGameTranslation)
+            return new Catalog();
 
         var culture = Redirect(Language.ActiveCulture.CultureInfo);
         var moPath = $"{ClientLoader.AssetPath}/i18n/{culture.Name}.mo";
         return File.Exists(moPath) ? new Catalog(File.OpenRead(moPath), culture) : new Catalog();
+
+        static CultureInfo Redirect(CultureInfo cultureInfo)
+            => cultureInfo.Name == "zh-Hans" ? new CultureInfo("zh-CN") : cultureInfo;
     }
     
     // call me by using reflection

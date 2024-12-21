@@ -194,6 +194,9 @@ public class ClientConfig
         [UIConfigElement("Send Client UUID")]
         public bool IsSendClientUUID = true;
 
+        [UIConfigElement("Follow Game Translation")]
+        public bool IsFollowGameTranslation = true;
+
         public int ConsoleHistoryLimit = 5000;
         public int ChatHistoryLimit = 3000;
         public int ChatMessageLimit = 600;
