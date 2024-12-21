@@ -6,7 +6,7 @@ namespace TerraAngel.Tools.Inspector;
 
 public class NPCInspectorTool : InspectorTool
 {
-    public override string Name => "NPC Inspector";
+    public override string Name => GetString("NPC Inspector");
 
     private int SelectedNPCIndex = -1;
 
@@ -44,7 +44,7 @@ public class NPCInspectorTool : InspectorTool
         if (ImGui.IsItemHovered())
         {
             ImGui.BeginTooltip();
-            ImGui.Text($"Teleport to \"{SelectedNPC.FullName.Truncate(30)}\"");
+            ImGui.Text(GetString($"Teleport to \"{SelectedNPC.FullName.Truncate(30)}\""));
             ImGui.EndTooltip();
         }
 
@@ -55,7 +55,7 @@ public class NPCInspectorTool : InspectorTool
         if (ImGui.IsItemHovered())
         {
             ImGui.BeginTooltip();
-            ImGui.Text($"Kill \"{SelectedNPC.FullName.Truncate(30)}\"");
+            ImGui.Text(GetString($"Kill \"{SelectedNPC.FullName.Truncate(30)}\""));
             ImGui.EndTooltip();
         }
 
@@ -79,13 +79,13 @@ public class NPCInspectorTool : InspectorTool
         }
 
 
-        ImGui.Text($"Inspecting NPC[{SelectedNPCIndex}] \"{SelectedNPC.FullNameDefault.Truncate(60)}\"/{InternalRepresentation.GetNPCIDName(SelectedNPC.type)}/{SelectedNPC.type}");
-        ImGui.Text($"Health:      {SelectedNPC.life}/{SelectedNPC.lifeMax}");
-        ImGui.Text($"Defense:     {SelectedNPC.defense}");
-        ImGui.Text($"Position:    {SelectedNPC.position}");
-        ImGui.Text($"Speed:       {SelectedNPC.velocity.Length()}");
-        ImGui.Text($"Velocity:    {SelectedNPC.velocity}");
-        ImGui.Text($"Velocity Dir: ");
+        ImGui.Text(GetString($"Inspecting NPC[{SelectedNPCIndex}] \"{SelectedNPC.FullNameDefault.Truncate(60)}\"/{InternalRepresentation.GetNPCIDName(SelectedNPC.type)}/{SelectedNPC.type}"));
+        ImGui.Text(GetString($"Health:      {SelectedNPC.life}/{SelectedNPC.lifeMax}"));
+        ImGui.Text(GetString($"Defense:     {SelectedNPC.defense}"));
+        ImGui.Text(GetString($"Position:    {SelectedNPC.position}"));
+        ImGui.Text(GetString($"Speed:       {SelectedNPC.velocity.Length()}"));
+        ImGui.Text(GetString($"Velocity:    {SelectedNPC.velocity}"));
+        ImGui.Text(GetString($"Velocity Dir: "));
 
         if (SelectedNPC.velocity.Length() > 0f)
         {
@@ -108,7 +108,7 @@ public class NPCInspectorTool : InspectorTool
 
         for (int i = 0; i < NPC.maxAI; i++)
         {
-            ImGui.Text($"AI[{i}]:    {SelectedNPC.ai[i]}");
+            ImGui.Text(GetString($"AI[{i}]:    {SelectedNPC.ai[i]}"));
         }
 
         if (NPCDrawRenderTarget is not null && BoundNPCDrawTexture > 0 && !Main.gameMenu)
@@ -121,7 +121,7 @@ public class NPCInspectorTool : InspectorTool
     {
         showTooltip = true;
 
-        if (ImGui.BeginMenu("NPCs"))
+        if (ImGui.BeginMenu(GetString("NPCs")))
         {
             for (int i = 0; i < 200; i++)
             {
@@ -134,7 +134,7 @@ public class NPCInspectorTool : InspectorTool
 
                 bool endedDisableEarly = false;
                 ImGui.BeginDisabled(!anyActiveNPCs);
-                if (ImGui.BeginMenu($"NPCs {i}-{Math.Min(i + 20, 200)}"))
+                if (ImGui.BeginMenu(GetString($"NPCs {i}-{Math.Min(i + 20, 200)}")))
                 {
                     endedDisableEarly = true;
                     showTooltip = false;
@@ -143,7 +143,7 @@ public class NPCInspectorTool : InspectorTool
                     {
                         if (!Main.npc[j].active) ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.Text] * new Vector4(1f, 1f, 1f, 0.4f));
 
-                        if (ImGui.MenuItem($"NPC \"{Main.npc[j].FullNameDefault.Truncate(30)}\"/{InternalRepresentation.GetNPCIDName(Main.npc[j].type)}/{Main.npc[j].type}"))
+                        if (ImGui.MenuItem(GetString($"NPC \"{Main.npc[j].FullNameDefault.Truncate(30)}\"/{InternalRepresentation.GetNPCIDName(Main.npc[j].type)}/{Main.npc[j].type}")))
                         {
                             SelectedNPCIndex = j;
                         }

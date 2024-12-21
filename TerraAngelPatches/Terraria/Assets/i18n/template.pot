@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Terraria\n"
-"POT-Creation-Date: 2024-12-21 16:30:34+0800\n"
-"PO-Revision-Date: 2024-12-21 16:30:39+0800\n"
+"POT-Creation-Date: 2024-12-21 22:37:53+0800\n"
+"PO-Revision-Date: 2024-12-21 22:37:58+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -30,8 +30,23 @@ msgstr ""
 msgid "{0}Message Logs"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:58
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:61
+msgid "*Not implemented yet"
+msgstr ""
+
 #: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:67
 msgid "*Press Ctrl+Alt to select specific cast position"
+msgstr ""
+
+#: ../../../TerraAngel/UI/TerrariaUI/UIKeySelect.cs:60
+msgid "<Press Key>"
+msgstr ""
+
+#: ../../../TerraAngel/UI/TerrariaUI/UIKeySelect.cs:41
+#: ../../../TerraAngel/UI/TerrariaUI/UIKeySelect.cs:67
+#: ../../../TerraAngel/UI/TerrariaUI/UIKeySelect.cs:89
+msgid "<Unbound>"
 msgstr ""
 
 #: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:95
@@ -86,6 +101,21 @@ msgstr ""
 msgid "Add New Server"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:103
+#, csharp-format
+msgid "AI Style:    {0}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:107
+#, csharp-format
+msgid "AI[{0}]:     {1}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:111
+#, csharp-format
+msgid "AI[{0}]:    {1}"
+msgstr ""
+
 #: ../../../TerraAngel/UI/ClientWindows/DrawWindow.cs:251
 #, csharp-format
 msgid ""
@@ -95,6 +125,10 @@ msgstr ""
 
 #: ../../../TerraAngel/Tools/Developer/AntiHurtTool.cs:5
 msgid "Anti-hurt/Godmode"
+msgstr ""
+
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:125
+msgid "Attempt to bypass TShock"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:7
@@ -127,6 +161,14 @@ msgstr ""
 
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:285
 msgid "Borderless Fullscreen"
+msgstr ""
+
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:121
+msgid "Brush"
+msgstr ""
+
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:127
+msgid "Brush Diameter"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/StatsWindow.cs:36
@@ -163,6 +205,10 @@ msgstr ""
 msgid "Chat {0}"
 msgstr ""
 
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:148
+msgid "ChatWindow"
+msgstr ""
+
 #: ../../../TerraAngel/UpdateChecker.cs:20
 msgid "Checking for updates"
 msgstr ""
@@ -187,6 +233,10 @@ msgstr ""
 msgid "Click to reveal"
 msgstr ""
 
+#: ../../../TerraAngel/Graphics/ClientRenderer.cs:181
+msgid "Client Draw"
+msgstr ""
+
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:24
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:98
 msgid "Console"
@@ -198,6 +248,10 @@ msgstr ""
 msgid "Console script not initialized"
 msgstr ""
 
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:105
+msgid "ConsoleScrollingRegion"
+msgstr ""
+
 #: ../../../TerraAngel/Tools/Map/MapScreenshotTool.cs:131
 msgid "Copied map screenshot to clipboard"
 msgstr ""
@@ -206,12 +260,68 @@ msgstr ""
 msgid "Copy All"
 msgstr ""
 
+#: ../../../TerraAngel/WorldEdits/WorldEditCopyPaste.cs:85
+msgid "Copy/Paste"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:76
+#, csharp-format
+msgid "Damage:      {0}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:84
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:82
+#, csharp-format
+msgid "Defense:     {0}"
+msgstr ""
+
+#: ../../../TerraAngel/WorldEdits/WorldEditCopyPaste.cs:87
+msgid "Destroy Tiles"
+msgstr ""
+
+#: ../../../TerraAngel/UI/TerrariaUI/UIPlugin.cs:60
+#: ../../../TerraAngel/UI/TerrariaUI/UIPlugin.cs:69
+msgid "Disabled"
+msgstr ""
+
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:123
+msgid "Draw detailed preview"
+msgstr ""
+
+#: ../../../TerraAngel/UI/TerrariaUI/UIPlugin.cs:60
+#: ../../../TerraAngel/UI/TerrariaUI/UIPlugin.cs:69
+msgid "Enabled"
+msgstr ""
+
+#: ../../../TerraAngel/Plugin/PluginLoader.cs:63
+#, csharp-format
+msgid "Error loading {0}/{1}: {2}"
+msgstr ""
+
+#: ../../../TerraAngel/Plugin/PluginLoader.cs:68
+msgid "Error loading a plugin: Plugin was null"
+msgstr ""
+
 #: ../../../TerraAngel/UpdateChecker.cs:39
 msgid "Error occured while checking for updates"
 msgstr ""
 
+#: ../../../TerraAngel/Plugin/PluginLoader.cs:94
+#, csharp-format
+msgid "Error unloading {0}/{1}: {2}"
+msgstr ""
+
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:139
 msgid "ESP"
+msgstr ""
+
+#: ../../../TerraAngel/Graphics/ImGuiRenderer.cs:125
+msgid "Failed to build font"
+msgstr ""
+
+#: ../../../TerraAngel/Graphics/ImGuiRenderer.cs:129
+#, csharp-format
+msgid "Failed to get font data '{0}' was null"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleScriptWindow.cs:86
@@ -255,6 +365,21 @@ msgstr ""
 msgid "Go {0}"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:83
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:80
+#, csharp-format
+msgid "Health:      {0}/{1}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:114
+msgid "Honey"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:77
+#, csharp-format
+msgid "Hostile:     {0}"
+msgstr ""
+
 #: ../../../TerraAngel/UI/ClientWindows/ImeWindow.cs:11
 msgid "Ime"
 msgstr ""
@@ -275,15 +400,80 @@ msgstr ""
 msgid "Initializing Scripting Evaluator"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:65
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:70
+#, csharp-format
+msgid "Inspecting Item[{0}] \"{1}\""
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:82
+#, csharp-format
+msgid "Inspecting NPC[{0}] \"{1}\"/{2}/{3}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:79
+#, csharp-format
+msgid "Inspecting Player[{0}] \"{1}\""
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:75
+#, csharp-format
+msgid "Inspecting Projectile[{0}] \"{1}\"/{2}/{3}"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/InspectorWindow.cs:9
+msgid "Inspector"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:117
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:40
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:50
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:60
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:70
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:80
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:90
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:100
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:110
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:120
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:130
+msgid "Invalid"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:134
+#, csharp-format
+msgid "Item \"{0}\""
+msgstr ""
+
 #: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:20
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:65
 msgid "Item Browser"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:61
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:9
+msgid "Item Inspector"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:112
 #: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:47
 #: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:80
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:61
 msgid "Items"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:125
+#, csharp-format
+msgid "Items {0}-{1}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:57
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:58
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:60
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:54
+#, csharp-format
+msgid "Kill \"{0}\""
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:115
+msgid "Lava"
 msgstr ""
 
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:205
@@ -293,6 +483,30 @@ msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:148
 msgid "Lighting"
+msgstr ""
+
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:138
+msgid "Liquid"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:119
+#, csharp-format
+msgid "Liquid Amount:    {0}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:111
+#, csharp-format
+msgid "Liquid Type:      {0}/{1}"
+msgstr ""
+
+#: ../../../TerraAngel/Plugin/PluginLoader.cs:59
+#, csharp-format
+msgid "Loaded  {0}"
+msgstr ""
+
+#: ../../../TerraAngel/Plugin/PluginLoader.cs:53
+#, csharp-format
+msgid "Loading {0}"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:160
@@ -314,6 +528,11 @@ msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:14
 msgid "Main Window"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:81
+#, csharp-format
+msgid "Mana:        {0}/{1}"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Map/MapScreenshotTool.cs:29
@@ -363,17 +582,91 @@ msgstr ""
 msgid "None"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:99
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:101
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:114
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:116
+msgid "None/Server"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:52
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:55
+msgid "Not implemented yet"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:146
+#, csharp-format
+msgid "NPC \"{0}\"/{1}/{2}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:9
+msgid "NPC Inspector"
+msgstr ""
+
 #: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:207
 #, csharp-format
 msgid "NPC: {0}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:124
+msgid "NPCs"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:137
+#, csharp-format
+msgid "NPCs {0}-{1}"
 msgstr ""
 
 #: ../../../TerraAngel/UI/TerrariaUI/PluginUI.cs:99
 msgid "Open Plugins Folder"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:200
+msgid "Other Players"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:97
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:112
+#, csharp-format
+msgid "Owned By:  {0}/{1}"
+msgstr ""
+
 #: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:87
 msgid "Packets with traces:"
+msgstr ""
+
+#: ../../../TerraAngel/WorldEdits/WorldEditCopyPaste.cs:88
+msgid "Place Mode"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:221
+#, csharp-format
+msgid "Player \"{0}\""
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:9
+msgid "Player Inspector"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:106
+msgid "Player Inventory"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:213
+#, csharp-format
+msgid "Players {0}-{1}"
+msgstr ""
+
+#: ../../../TerraAngel/Plugin/PluginLoader.cs:14
+#: ../../../TerraAngel/Plugin/PluginLoader.cs:80
+msgid "PluginLoader"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:71
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:85
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:79
+#, csharp-format
+msgid "Position:    {0}"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:48
@@ -382,6 +675,24 @@ msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:71
 msgid "Prints help"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:188
+#, csharp-format
+msgid "Projectile \"{0}\"/{1}/{2}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:12
+msgid "Projectile Inspector"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:167
+msgid "Projectiles"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:180
+#, csharp-format
+msgid "Projectiles {0}-{1}"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:108
@@ -416,6 +727,11 @@ msgstr ""
 msgid "Reload Plugins"
 msgstr ""
 
+#: ../../../TerraAngel/UI/TerrariaUI/UIPlugin.cs:53
+#: ../../../TerraAngel/UI/TerrariaUI/UIPlugin.cs:76
+msgid "Reload Required"
+msgstr ""
+
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:81
 msgid "Reloads plugins"
 msgstr ""
@@ -429,6 +745,7 @@ msgid "Reset Position"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:108
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:126
 msgid "Reveal Map"
 msgstr ""
 
@@ -453,12 +770,37 @@ msgstr ""
 msgid "Server Port"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:116
+msgid "Shimmer"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:65
+#, csharp-format
+msgid "Spectate \"{0}\""
+msgstr ""
+
 #: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:24
 msgid "Speed"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:72
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:86
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:80
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:83
+#, csharp-format
+msgid "Speed:       {0}"
+msgstr ""
+
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:124
+msgid "Square tile frame"
+msgstr ""
+
 #: ../../../TerraAngel/UI/ClientWindows/StatsWindow.cs:15
 msgid "Stat Window"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:129
+msgid "STS"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:55
@@ -469,12 +811,105 @@ msgstr ""
 msgid "Taking map screenshot"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:46
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:47
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:43
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:49
+#, csharp-format
+msgid "Teleport to \"{0}\""
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:43
+msgid "Teleport to the selected tile"
+msgstr ""
+
 #: ../../../Main.cs:47987
 msgid "TerraAngel Plugins"
 msgstr ""
 
 #: ../../../Main.cs:47977
 msgid "TerraAngel Settings"
+msgstr ""
+
+#: ../../../TerraAngel/Graphics/ClientRenderer.cs:295
+msgid "There is an update for TerraAngel available on GitHub"
+msgstr ""
+
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:134
+msgid "Tile"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:56
+#, csharp-format
+msgid "Tile Active:      {0}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:84
+msgid "Tile Coating:     Fullbright"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:80
+msgid "Tile Coating:     Fullbright/Invisible"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:88
+msgid "Tile Coating:     Invisible"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:90
+msgid "Tile Coating:     None"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:74
+#, csharp-format
+msgid "Tile Frame Number: {0}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:61
+msgid "Tile FrameX:     "
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:67
+msgid "Tile FrameY:     "
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:76
+#, csharp-format
+msgid "Tile Halfbrick:   {0}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:57
+#, csharp-format
+msgid "Tile inActive:    {0}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:8
+msgid "Tile Inspector"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:58
+#, csharp-format
+msgid "Tile nactive:     {0}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:77
+#, csharp-format
+msgid "Tile Paint:       {0}/{1}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:75
+#, csharp-format
+msgid "Tile Slope:       {0}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:59
+#, csharp-format
+msgid "Tile Type:        {0}/{1}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:78
+#, csharp-format
+msgid "Time Left:   {0}/{1}"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/TimingMetricsWindow.cs:13
@@ -494,6 +929,10 @@ msgstr ""
 msgid "Unlocked"
 msgstr ""
 
+#: ../../../TerraAngel/Graphics/ClientRenderer.cs:293
+msgid "Update Available"
+msgstr ""
+
 #: ../../../TerraAngel/UpdateChecker.cs:32
 msgid "Updates available"
 msgstr ""
@@ -506,8 +945,23 @@ msgstr ""
 msgid "Utility"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:74
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:88
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:82
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:85
+msgid "Velocity Dir: "
+msgstr ""
+
 #: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:45
 msgid "Velocity Prediction"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:73
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:87
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:81
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:84
+#, csharp-format
+msgid "Velocity:    {0}"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:97
@@ -516,6 +970,55 @@ msgstr ""
 
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:194
 msgid "Vsync"
+msgstr ""
+
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:136
+msgid "Wall"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:100
+msgid "Wall Coating:     Fullbright"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:96
+msgid "Wall Coating:     Fullbright/Invisible"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:104
+msgid "Wall Coating:     Invisible"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:106
+msgid "Wall Coating:     None"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:109
+#, csharp-format
+msgid "Wall Fame Number: {0}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:107
+#, csharp-format
+msgid "Wall FrameX:      {0}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:108
+#, csharp-format
+msgid "Wall FrameY:      {0}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:93
+#, csharp-format
+msgid "Wall Paint:       {0}/{1}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:92
+#, csharp-format
+msgid "Wall Type:        {0}/{1}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:113
+msgid "Water"
 msgstr ""
 
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:285

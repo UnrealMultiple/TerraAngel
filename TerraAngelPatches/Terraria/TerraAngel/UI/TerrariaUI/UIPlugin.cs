@@ -50,14 +50,14 @@ public class UIPlugin : UIElement
 
         if (valueGet() != PluginLoader.LoadedPlugins.Any(x => x.PluginPath == pluginPath))
         {
-            reloadRequiredText.SetText("Reload Required");
+            reloadRequiredText.SetText(GetString("Reload Required"));
         }
         else
         {
             reloadRequiredText.SetText("");
         }
 
-        otherText = new UIText(valueGet() ? "Enabled" : "Disabled", textScale)
+        otherText = new UIText(valueGet() ? GetString("Enabled") : GetString("Disabled"), textScale)
         {
             HAlign = 1f,
             VAlign = 0.5f
@@ -66,14 +66,14 @@ public class UIPlugin : UIElement
         backgroundPanel.OnLeftClick += (e, _) =>
         {
             valueSet(!valueGet());
-            this.otherText.SetText(valueGet() ? "Enabled" : "Disabled");
+            this.otherText.SetText(valueGet() ? GetString("Enabled") : GetString("Disabled"));
             SoundEngine.PlaySound(SoundID.MenuTick);
 
             ClientConfig.WriteToFile();
 
             if (valueGet() != PluginLoader.LoadedPlugins.Any(x => x.PluginPath == pluginPath))
             {
-                reloadRequiredText.SetText("Reload Required");
+                reloadRequiredText.SetText(GetString("Reload Required"));
             }
             else
             {

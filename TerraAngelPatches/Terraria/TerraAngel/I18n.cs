@@ -13,6 +13,7 @@ internal static class I18n
 {
     private static Catalog? _c;
     private static Catalog C => _c ??= GetCatalog();
+    public static CultureInfo CurrentCulture => Redirect(Language.ActiveCulture.CultureInfo);
 
     private static Catalog GetCatalog()
     {
@@ -23,9 +24,11 @@ internal static class I18n
         var moPath = $"{ClientLoader.AssetPath}/i18n/{culture.Name}.mo";
         return File.Exists(moPath) ? new Catalog(File.OpenRead(moPath), culture) : new Catalog();
 
-        static CultureInfo Redirect(CultureInfo cultureInfo)
-            => cultureInfo.Name == "zh-Hans" ? new CultureInfo("zh-CN") : cultureInfo;
+        
     }
+    
+    private static CultureInfo Redirect(CultureInfo cultureInfo)
+        => cultureInfo.Name == "zh-Hans" ? new CultureInfo("zh-CN") : cultureInfo;
     
     // call me by using reflection
     // ReSharper disable once UnusedMember.Local
@@ -33,6 +36,7 @@ internal static class I18n
     {
         _c = GetCatalog();
     }
+    
 
     public static string GetString(FormattableStringAdapter text)
     {

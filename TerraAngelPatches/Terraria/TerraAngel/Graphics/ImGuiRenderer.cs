@@ -122,11 +122,11 @@ public class ImGuiRenderer
     {
         ImGuiIOPtr io = ImGui.GetIO();
 
-        if (!io.Fonts.Build()) throw new InvalidOperationException("Failed to build font");
+        if (!io.Fonts.Build()) throw new InvalidOperationException(GetString("Failed to build font"));
 
         io.Fonts.GetTexDataAsRGBA32(out byte* pixelData, out int width, out int height, out int bytesPerPixel);
 
-        if (pixelData == null) throw new NullReferenceException($"Failed to get font data '{nameof(pixelData)}' was null");
+        if (pixelData == null) throw new NullReferenceException(GetString($"Failed to get font data '{nameof(pixelData)}' was null"));
 
         Texture2D tex2d = new Texture2D(GraphicsDevice, width, height, false, SurfaceFormat.Color);
 

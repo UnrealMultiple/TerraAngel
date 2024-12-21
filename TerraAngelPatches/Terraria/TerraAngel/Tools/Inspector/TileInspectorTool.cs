@@ -5,7 +5,7 @@ namespace TerraAngel.Tools.Inspector;
 
 public class TileInspectorTool : InspectorTool
 {
-    public override string Name => "Tile Inspector";
+    public override string Name => GetString("Tile Inspector");
 
     private Vector2i SelectedTilePosition = new Vector2i(-1, -1);
 
@@ -40,7 +40,7 @@ public class TileInspectorTool : InspectorTool
             if (ImGui.IsItemHovered())
             {
                 ImGui.BeginTooltip();
-                ImGui.Text($"Teleport to the selected tile");
+                ImGui.Text(GetString($"Teleport to the selected tile"));
                 ImGui.EndTooltip();
             }
         }
@@ -53,70 +53,70 @@ public class TileInspectorTool : InspectorTool
             return;
         }
 
-        ImGui.Text($"Tile Active:      {SelectedTile.Value.active()}");
-        ImGui.Text($"Tile inActive:    {SelectedTile.Value.inActive()}");
-        ImGui.Text($"Tile nactive:     {SelectedTile.Value.nactive()}");
-        ImGui.Text($"Tile Type:        {InternalRepresentation.GetTileIDName(SelectedTile.Value.type)}/{SelectedTile.Value.type}");
+        ImGui.Text(GetString($"Tile Active:      {SelectedTile.Value.active()}"));
+        ImGui.Text(GetString($"Tile inActive:    {SelectedTile.Value.inActive()}"));
+        ImGui.Text(GetString($"Tile nactive:     {SelectedTile.Value.nactive()}"));
+        ImGui.Text(GetString($"Tile Type:        {InternalRepresentation.GetTileIDName(SelectedTile.Value.type)}/{SelectedTile.Value.type}"));
 
-        ImGui.Text($"Tile FrameX:     ");
+        ImGui.Text(GetString($"Tile FrameX:     "));
         ImGui.SameLine();
         int x = SelectedTile.Value.frameX;
         ImGui.SetNextItemWidth(8f * 16f);
         ImGui.InputInt("###tfx", ref x);
         SelectedTile.Value.frameX = (short)Math.Clamp(x, short.MinValue, short.MaxValue);
-        ImGui.Text($"Tile FrameY:     ");
+        ImGui.Text(GetString($"Tile FrameY:     "));
         ImGui.SameLine();
         int y = SelectedTile.Value.frameY;
         ImGui.SetNextItemWidth(8f * 16f);
         ImGui.InputInt("###tfy", ref y);
         SelectedTile.Value.frameY = (short)Math.Clamp(y, short.MinValue, short.MaxValue);
 
-        ImGui.Text($"Tile Frame Number: {SelectedTile.Value.frameNumber()}");
-        ImGui.Text($"Tile Slope:       {SelectedTile.Value.slope()}");
-        ImGui.Text($"Tile Halfbrick:   {SelectedTile.Value.halfBrick()}");
-        ImGui.Text($"Tile Paint:       {InternalRepresentation.GetPaintIDName(SelectedTile.Value.color())}/{SelectedTile.Value.color()}");
+        ImGui.Text(GetString($"Tile Frame Number: {SelectedTile.Value.frameNumber()}"));
+        ImGui.Text(GetString($"Tile Slope:       {SelectedTile.Value.slope()}"));
+        ImGui.Text(GetString($"Tile Halfbrick:   {SelectedTile.Value.halfBrick()}"));
+        ImGui.Text(GetString($"Tile Paint:       {InternalRepresentation.GetPaintIDName(SelectedTile.Value.color())}/{SelectedTile.Value.color()}"));
         if (SelectedTile.Value.fullbrightBlock() && SelectedTile.Value.invisibleBlock())
         {
-            ImGui.Text($"Tile Coating:     Fullbright/Invisible");
+            ImGui.Text(GetString($"Tile Coating:     Fullbright/Invisible"));
         }
         else if (SelectedTile.Value.fullbrightBlock())
         {
-            ImGui.Text($"Tile Coating:     Fullbright");
+            ImGui.Text(GetString($"Tile Coating:     Fullbright"));
         }
         else if (SelectedTile.Value.invisibleBlock())
         {
-            ImGui.Text($"Tile Coating:     Invisible");
+            ImGui.Text(GetString($"Tile Coating:     Invisible"));
         }
-        ImGui.Text($"Tile Coating:     None");
+        ImGui.Text(GetString($"Tile Coating:     None"));
         ImGui.NewLine();
-        ImGui.Text($"Wall Type:        {InternalRepresentation.GetWallIDName(SelectedTile.Value.wall)}/{SelectedTile.Value.wall}");
-        ImGui.Text($"Wall Paint:       {InternalRepresentation.GetPaintIDName(SelectedTile.Value.wallColor())}/{SelectedTile.Value.wallColor()}");
+        ImGui.Text(GetString($"Wall Type:        {InternalRepresentation.GetWallIDName(SelectedTile.Value.wall)}/{SelectedTile.Value.wall}"));
+        ImGui.Text(GetString($"Wall Paint:       {InternalRepresentation.GetPaintIDName(SelectedTile.Value.wallColor())}/{SelectedTile.Value.wallColor()}"));
         if (SelectedTile.Value.fullbrightWall() && SelectedTile.Value.invisibleWall())
         {
-            ImGui.Text($"Wall Coating:     Fullbright/Invisible");
+            ImGui.Text(GetString($"Wall Coating:     Fullbright/Invisible"));
         }
         else if (SelectedTile.Value.fullbrightWall())
         {
-            ImGui.Text($"Wall Coating:     Fullbright");
+            ImGui.Text(GetString($"Wall Coating:     Fullbright"));
         }
         else if (SelectedTile.Value.invisibleWall())
         {
-            ImGui.Text($"Wall Coating:     Invisible");
+            ImGui.Text(GetString($"Wall Coating:     Invisible"));
         }
-        ImGui.Text($"Wall Coating:     None");
-        ImGui.Text($"Wall FrameX:      {SelectedTile.Value.wallFrameX()}");
-        ImGui.Text($"Wall FrameY:      {SelectedTile.Value.wallFrameY()}");
-        ImGui.Text($"Wall Fame Number: {SelectedTile.Value.wallFrameNumber()}");
+        ImGui.Text(GetString($"Wall Coating:     None"));
+        ImGui.Text(GetString($"Wall FrameX:      {SelectedTile.Value.wallFrameX()}"));
+        ImGui.Text(GetString($"Wall FrameY:      {SelectedTile.Value.wallFrameY()}"));
+        ImGui.Text(GetString($"Wall Fame Number: {SelectedTile.Value.wallFrameNumber()}"));
         ImGui.NewLine();
-        ImGui.Text($"Liquid Type:      {SelectedTile.Value.liquidType() switch
+        ImGui.Text(GetString($"Liquid Type:      {SelectedTile.Value.liquidType() switch
         {
-            Tile.Liquid_Water => "Water",
-            Tile.Liquid_Honey => "Honey",
-            Tile.Liquid_Lava => "Lava",
-            Tile.Liquid_Shimmer => "Shimmer",
-            _ => "Invalid"
-        }}/{SelectedTile.Value.liquid}");
-        ImGui.Text($"Liquid Amount:    {SelectedTile.Value.liquid}");
+            Tile.Liquid_Water => GetString("Water"),
+            Tile.Liquid_Honey => GetString("Honey"),
+            Tile.Liquid_Lava => GetString("Lava"),
+            Tile.Liquid_Shimmer => GetString("Shimmer"),
+            _ => GetString("Invalid")
+        }}/{SelectedTile.Value.liquid}"));
+        ImGui.Text(GetString($"Liquid Amount:    {SelectedTile.Value.liquid}"));
 
         ImGui.SetNextItemWidth(8f * 16f);
         ImGui.InputInt("###stsx1", ref STSSizeX);
@@ -126,7 +126,7 @@ public class TileInspectorTool : InspectorTool
         ImGui.SetNextItemWidth(8f * 16f);
         ImGui.InputInt("###stsy2", ref STSSizeY);
 
-        if (ImGui.Button("STS"))
+        if (ImGui.Button(GetString("STS")))
         {
             NetMessage.SendTileSquare(Main.myPlayer, SelectedTilePosition.X, SelectedTilePosition.Y, STSSizeX, STSSizeY);
         }

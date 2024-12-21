@@ -178,7 +178,7 @@ public class ClientRenderer : ImGuiRenderer
     {
         UIInputText.UUpdate();
 
-        MetricsTimer renderTimer = TimeMetrics.GetMetricsTimer("Client Draw");
+        MetricsTimer renderTimer = TimeMetrics.GetMetricsTimer(GetString("Client Draw"));
         renderTimer.Start();
         PreDraw();
         PreRender();
@@ -290,9 +290,9 @@ public class ClientRenderer : ImGuiRenderer
         bool dontClosePopup = true;
 
         ImGui.PushFont(ClientAssets.GetMonospaceFont(16f));
-        if (ImGui.BeginPopupModal("Update Available", ref dontClosePopup))
+        if (ImGui.BeginPopupModal(GetString("Update Available"), ref dontClosePopup))
         {
-            ImGui.Text("There is an update for TerraAngel available on GitHub");
+            ImGui.Text(GetString("There is an update for TerraAngel available on GitHub"));
             ImGui.Text($"v{ClientLoader.TerraAngelVersion} {Icon.ArrowRight} v{UpdateChecker.NextUpdateVersion}");
 
             if (!dontClosePopup)

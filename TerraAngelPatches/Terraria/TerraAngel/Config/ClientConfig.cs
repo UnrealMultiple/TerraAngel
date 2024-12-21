@@ -8,20 +8,23 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using Newtonsoft.Json;
 using TerraAngel.UI.TerrariaUI;
+using Terraria.Localization;
 using Terraria.UI;
 
 namespace TerraAngel.Config;
 
 public class ClientConfig
 {
-    [AttributeUsage(AttributeTargets.Field, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = true)]
     public class UIConfigElementAttribute : Attribute
     {
         public readonly string Name;
+        public readonly string Type;
 
-        public UIConfigElementAttribute(string name)
+        public UIConfigElementAttribute(string type, string name)
         {
             Name = name;
+            Type  = type;
         }
     }
 
@@ -29,172 +32,229 @@ public class ClientConfig
 
     public class Config
     {
-        [UIConfigElement("Show Stats Window")]
+        [UIConfigElement("zh-CN","显示主窗口")]
+        [UIConfigElement("en-US","Show Stats Window")]
         public bool ShowStatsWindow = true;
 
-        [UIConfigElement("Show Console Window")]
+        [UIConfigElement("zh-CN","显示终端")]
+        [UIConfigElement("en-US","Show Console Window")]
         public bool ShowConsoleWindow = true;
 
-        [UIConfigElement("Default Anti-Hurt")]
+        [UIConfigElement("zh-CN","默认启用无敌")]
+        [UIConfigElement("en-US","Default Anti-Hurt")]
         public bool DefaultAntiHurt = false;
 
-        [UIConfigElement("Default Infinite Mana")]
+        [UIConfigElement("zh-CN","默认启用无限魔力")]
+        [UIConfigElement("en-US","Default Infinite Mana")]
         public bool DefaultInfiniteMana = false;
 
-        [UIConfigElement("Default Infinite Minions")]
+        [UIConfigElement("zh-CN","默认启用无限仆从")]
+        [UIConfigElement("en-US","Default Infinite Minions")]
         public bool DefaultInfiniteMinions = false;
 
-        [UIConfigElement("Default ESP Draw Any")]
+        [UIConfigElement("zh-CN","默认启用ESP透视")]
+        [UIConfigElement("en-US","Default ESP Draw Any")]
         public bool DefaultDrawAnyESP = false;
 
-        [UIConfigElement("Default ESP On Map")]
+        [UIConfigElement("zh-CN","ESP默认在地图上显示目标")]
+        [UIConfigElement("en-US","Default ESP On Map")]
         public bool DefaultMapESP = false;
 
-        [UIConfigElement("Default ESP Tracers")]
+        [UIConfigElement("zh-CN","ESP默认追踪玩家")]
+        [UIConfigElement("en-US","Default ESP Tracers")]
         public bool DefaultPlayerESPTracers = false;
 
-        [UIConfigElement("Default ESP Player Hitboxes")]
+        [UIConfigElement("zh-CN","ESP默认显示玩家碰撞箱")]
+        [UIConfigElement("en-US","Default ESP Player Hitboxes")]
         public bool DefaultPlayerESPBoxes = true;
 
-        [UIConfigElement("Default ESP NPC Hitboxes")]
+        [UIConfigElement("zh-CN","ESP默认显示NPC碰撞箱")]
+        [UIConfigElement("en-US","Default ESP NPC Hitboxes")]
         public bool DefaultNPCBoxes = false;
 
-        [UIConfigElement("Default ESP Projectile Hitboxes")]
+        [UIConfigElement("zh-CN","ESP默认显示弹幕碰撞箱")]
+        [UIConfigElement("en-US","Default ESP Projectile Hitboxes")]
         public bool DefaultProjectileBoxes = false;
 
-        [UIConfigElement("Default ESP Item Hitboxes")]
+        [UIConfigElement("zh-CN","ESP默认显示物品碰撞箱")]
+        [UIConfigElement("en-US","Default ESP Item Hitboxes")]
         public bool DefaultItemBoxes = false;
 
-        [UIConfigElement("Default Show Held Item")]
+        [UIConfigElement("zh-CN","显示手持物品")]
+        [UIConfigElement("en-US","Default Show Held Item")]
         public bool DefaultShowHeldItem = false;
 
-        [UIConfigElement("Default Infinite Reach")]
+        [UIConfigElement("zh-CN","无视建造范围限制")]
+        [UIConfigElement("en-US","Default Infinite Reach")]
         public bool DefaultInfiniteReach = false;
 
-        [UIConfigElement("Send Rod of Discord packet when teleporting")]
+        [UIConfigElement("zh-CN","传送时发送混沌传送杖数据包")]
+        [UIConfigElement("en-US","Send Rod of Discord packet when teleporting")]
         public bool TeleportSendRODPacket = true;
 
-        [UIConfigElement("Right click on the map to teleport")]
+        [UIConfigElement("zh-CN","右键地图传送")]
+        [UIConfigElement("en-US","Right click on the map to teleport")]
         public bool RightClickOnMapToTeleport = true;
 
-        [UIConfigElement("Ctrl + Right click on object to inspect")]
+        [UIConfigElement("zh-CN","Ctrl+右键 检查对象")]
+        [UIConfigElement("en-US","Ctrl + Right click on object to inspect")]
         public bool CtrlRightClickOnObjectToInspect = true;
 
-        [UIConfigElement("Disable Nebula Packet")]
+        [UIConfigElement("zh-CN","阻止星云数据包")]
+        [UIConfigElement("en-US","Disable Nebula Packet")]
         public bool DisableNebulaLagPacket = true;
 
-        [UIConfigElement("Console Auto Scroll")]
+        [UIConfigElement("zh-CN","控制台自动滚动")]
+        [UIConfigElement("en-US","Console Auto Scroll")]
         public bool ConsoleAutoScroll = true;
 
-        [UIConfigElement("Clear chat on world changes")]
+        [UIConfigElement("zh-CN","切换世界时清空聊天")]
+        [UIConfigElement("en-US","Clear chat on world changes")]
         public bool ClearChatThroughWorldChanges = false;
 
-        [UIConfigElement("Clear chat input on close")]
+        [UIConfigElement("zh-CN","关闭聊天面板时清空输入")]
+        [UIConfigElement("en-US","Clear chat input on close")]
         public bool ClearChatInputOnClose = false;
 
-        [UIConfigElement("Default Projectile Prediction")]
+        [UIConfigElement("zh-CN","默认启用弹幕预测")]
+        [UIConfigElement("en-US","Default Projectile Prediction")]
         public bool DefaultDrawActiveProjectilePrediction = true;
 
-        [UIConfigElement("Default Projectile Prediction Draw Friendly")]
+        [UIConfigElement("zh-CN","默认预测友方弹幕轨迹")]
+        [UIConfigElement("en-US","Default Projectile Prediction Draw Friendly")]
         public bool DefaultDrawFriendlyProjectilePrediction = false;
 
-        [UIConfigElement("Default Projectile Prediction Draw Hostile")]
+        [UIConfigElement("zh-CN","默认预测敌方弹幕轨迹")]
+        [UIConfigElement("en-US","Default Projectile Prediction Draw Hostile")]
         public bool DefaultDrawHostileProjectilePrediction = true;
 
-        [UIConfigElement("Default Disable Gore")]
+        [UIConfigElement("zh-CN","关闭血污")]
+        [UIConfigElement("en-US","Default Disable Gore")]
         public bool DefaultDisableGore = false;
 
-        [UIConfigElement("Default Disable Dust")]
+        [UIConfigElement("zh-CN","关闭粒子效果")]
+        [UIConfigElement("en-US","Default Disable Dust")]
         public bool DefaultDisableDust = false;
 
-        [UIConfigElement("Discord Rich Presence")]
+        [UIConfigElement("zh-CN","?混沌传送杖存在")]
+        [UIConfigElement("en-US","Discord Rich Presence")]
         public bool UseDiscordRPC = true;
 
-        [UIConfigElement("Tell server that you're using a modified client (Experimental)")]
+        [UIConfigElement("zh-CN","告诉服务器我是开哥 (实验性)")]
+        [UIConfigElement("en-US","Tell server that you're using a modified client (Experimental)")]
         public bool BroadcastPresence = false;
 
-        [UIConfigElement("Show Detailed Tooltips")]
+        [UIConfigElement("zh-CN","显示详细工具提示")]
+        [UIConfigElement("en-US","Show Detailed Tooltips")]
         public bool ShowDetailedTooltips = true;
 
-        [UIConfigElement("Ignore super laggy visuals (Yorai eye)")]
+        [UIConfigElement("zh-CN","?忽略超级滞后的视觉效果(Yorai 眼睛)")]
+        [UIConfigElement("en-US","Ignore super laggy visuals (Yorai eye)")]
         public bool IgnoreReLogicBullshit = true;
 
-        [UIConfigElement("Save Console History")]
+        [UIConfigElement("zh-CN","保存控制台历史")]
+        [UIConfigElement("en-US","Save Console History")]
         public bool PreserveConsoleHistory = true;
 
-        [UIConfigElement("Save Console State")]
+        [UIConfigElement("zh-CN","保存控制台状态")]
+        [UIConfigElement("en-US","Save Console State")]
         public bool ConsoleSaveInReplMode = true;
 
-        [UIConfigElement("Chat Replicates Vanilla Behavior")]
+        [UIConfigElement("zh-CN","?复制原版聊天行为")]
+        [UIConfigElement("en-US","Chat Replicates Vanilla Behavior")]
         public bool ChatVanillaInvetoryBehavior = true;
 
-        [UIConfigElement("Default Disable Tile Framing")]
+        [UIConfigElement("zh-CN","?关闭图格框")]
+        [UIConfigElement("en-US","Default Disable Tile Framing")]
         public bool DefaultDisableTileFraming = false;
 
-        [UIConfigElement("Default ESP Tile Sections")]
+        [UIConfigElement("zh-CN","ESP显示世界区块")]
+        [UIConfigElement("en-US","Default ESP Tile Sections")]
         public bool DefaultTileSections = false;
 
-        [UIConfigElement("Default Full Bright")]
+        [UIConfigElement("zh-CN","全图高亮")]
+        [UIConfigElement("en-US","Default Full Bright")]
         public bool FullBrightDefaultValue = false;
 
-        [UIConfigElement("Always Enable Journey Menu")]
+
+        [UIConfigElement("zh-CN","总是启用旅行菜单")]
+        [UIConfigElement("en-US","Always Enable Journey Menu")]
         public bool ForceEnableCreativeUI = false;
 
-        [UIConfigElement("All Journey Items Available")]
+        [UIConfigElement("zh-CN","总是启用旅行物品浏览器")]
+        [UIConfigElement("en-US","All Journey Items Available")]
         public bool ForceAllCreativeUnlocks = false;
 
-        [UIConfigElement("Enable Steam")]
+        [UIConfigElement("zh-CN","启用Steam")]
+        [UIConfigElement("en-US","Enable Steam")]
         public bool UseSteamSocialAPI = true;
 
-        [UIConfigElement("Toggle UI")]
+        [UIConfigElement("zh-CN","隐藏主窗口和终端")]
+        [UIConfigElement("en-US","Toggle UI")]
         public Keys ToggleUIVisibility = Keys.OemTilde;
 
-        [UIConfigElement("Toggle All ESP")]
+        [UIConfigElement("zh-CN","切换ESP追踪透视")]
+        [UIConfigElement("en-US","Toggle All ESP")]
         public Keys ToggleDrawAnyESP = Keys.End;
 
-        [UIConfigElement("Toggle stats window being movable")]
+        [UIConfigElement("zh-CN","?切换可移动的状态窗")]
+        [UIConfigElement("en-US","Toggle stats window being movable")]
         public Keys ToggleStatsWindowMovability = Keys.NumPad5;
 
-        [UIConfigElement("Toggle Net Debugger UI")]
+        [UIConfigElement("zh-CN","切换网络调试器UI")]
+        [UIConfigElement("en-US","Toggle Net Debugger UI")]
         public Keys ToggleNetDebugger = Keys.NumPad6;
 
-        [UIConfigElement("Toggle Noclip")]
+        [UIConfigElement("zh-CN","切换幽灵模式")]
+        [UIConfigElement("en-US","Toggle Noclip")]
         public Keys ToggleNoclip = Keys.F2;
 
-        [UIConfigElement("Toggle Freecam")]
+        [UIConfigElement("zh-CN","切换自由视角")]
+        [UIConfigElement("en-US","Toggle Freecam")]
         public Keys ToggleFreecam = Keys.F3;
 
-        [UIConfigElement("Toggle Fullbright")]
+        [UIConfigElement("zh-CN","切换全图高亮")]
+        [UIConfigElement("en-US","Toggle Fullbright")]
         public Keys ToggleFullBright = Keys.F4;
 
-        [UIConfigElement("Teleport to Cursor")]
+        [UIConfigElement("zh-CN","传送到光标位置")]
+        [UIConfigElement("en-US","Teleport to Cursor")]
         public Keys TeleportToCursor = Keys.Z;
 
-        [UIConfigElement("Toggle Style Editor")]
+        [UIConfigElement("zh-CN","切换UI设置")]
+        [UIConfigElement("en-US","Toggle Style Editor")]
         public Keys ToggleStyleEditor = Keys.NumPad8;
 
-        [UIConfigElement("World Edit Select")]
+        [UIConfigElement("zh-CN","世界编辑选择")]
+        [UIConfigElement("en-US","World Edit Select")]
         public Keys WorldEditSelectKey = Keys.F;
 
-        [UIConfigElement("Show Player Inspector")]
+        [UIConfigElement("zh-CN","显示玩家查看器")]
+        [UIConfigElement("en-US","Show Player Inspector")]
         public Keys ShowInspectorWindow = Keys.NumPad7;
 
-        [UIConfigElement("Show Timing Metrics")]
+        [UIConfigElement("zh-CN","显示性能指示器")]
+        [UIConfigElement("en-US","Show Timing Metrics")]
         public Keys ShowTimingMetrics = Keys.NumPad9;
 
-        [UIConfigElement("Take Map Screenshot")]
+        [UIConfigElement("zh-CN","拍摄地图截图")]
+        [UIConfigElement("en-US","Take Map Screenshot")]
         public Keys TakeMapScreenshot = Keys.F9;
 
-        [UIConfigElement("Open Quick Item Browser (Ctrl +")]
+        [UIConfigElement("zh-CN","启用快速物品浏览器 (Ctrl +")]
+        [UIConfigElement("en-US","Open Quick Item Browser (Ctrl +")]
         public Keys OpenFastItemBrowser = Keys.I;
 
-        [UIConfigElement("Builder Mode Quick Slope")]
+        [UIConfigElement("zh-CN","建造者模式快速潜行")]
+        [UIConfigElement("en-US","Builder Mode Quick Slope")]
         public Keys BuilderModeQuickSlope = Keys.Q;
 
-        [UIConfigElement("Send Client UUID")]
+        [UIConfigElement("zh-CN","发送客户端UUID")]
+        [UIConfigElement("en-US","Send Client UUID")]
         public bool IsSendClientUUID = true;
 
-        [UIConfigElement("Follow Game Translation")]
+        [UIConfigElement("zh-CN","跟随游戏翻译")]
+        [UIConfigElement("en-US","Follow Game Translation")]
         public bool IsFollowGameTranslation = true;
 
         public int ConsoleHistoryLimit = 5000;
@@ -293,16 +353,15 @@ public class ClientConfig
         public List<UIElement> GetUITexts()
         {
             SortedList<string, UIElement> elements = new SortedList<string, UIElement>();
-
             List<FieldInfo> fields = typeof(Config).GetFields(BindingFlags.Public | BindingFlags.Instance).ToList();
-
             for (int i = 0; i < fields.Count; i++)
             {
                 FieldInfo field = fields[i];
-                UIConfigElementAttribute? attribute = field.GetCustomAttribute<UIConfigElementAttribute>();
-                if (attribute != null)
+                var languagesAttribute = field.GetCustomAttributes<UIConfigElementAttribute>().ToArray();
+                var currentLanguage = languagesAttribute.FirstOrDefault(x => x.Type == CurrentCulture.Name) ?? languagesAttribute.FirstOrDefault(x => x.Type == UICultureType.English);
+                if (currentLanguage != null)
                 {
-                    string name = attribute.Name;
+                    string name = currentLanguage.Name;
 
                     if (field.FieldType == typeof(bool))
                     {

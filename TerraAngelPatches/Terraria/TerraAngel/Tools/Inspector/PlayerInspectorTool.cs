@@ -6,7 +6,7 @@ namespace TerraAngel.Tools.Inspector;
 
 public class PlayerInspectorTool : InspectorTool
 {
-    public override string Name => "Player Inspector";
+    public override string Name => GetString("Player Inspector");
 
     private bool ShowTooltip = true;
 
@@ -40,7 +40,7 @@ public class PlayerInspectorTool : InspectorTool
             if (ImGui.IsItemHovered())
             {
                 ImGui.BeginTooltip();
-                ImGui.Text($"Teleport to \"{player.name.Truncate(30)}\"");
+                ImGui.Text(GetString($"Teleport to \"{player.name.Truncate(30)}\""));
                 ImGui.EndTooltip();
             }
 
@@ -51,7 +51,7 @@ public class PlayerInspectorTool : InspectorTool
             if (ImGui.IsItemHovered())
             {
                 ImGui.BeginTooltip();
-                ImGui.Text($"Kill \"{player.name.Truncate(30)}\"");
+                ImGui.Text(GetString($"Kill \"{player.name.Truncate(30)}\""));
                 ImGui.EndTooltip();
             }
 
@@ -62,7 +62,7 @@ public class PlayerInspectorTool : InspectorTool
             if (ImGui.IsItemHovered())
             {
                 ImGui.BeginTooltip();
-                ImGui.Text($"Spectate \"{player.name.Truncate(30)}\"");
+                ImGui.Text(GetString($"Spectate \"{player.name.Truncate(30)}\""));
                 ImGui.EndTooltip();
             }
         }
@@ -76,13 +76,13 @@ public class PlayerInspectorTool : InspectorTool
         }
 
         Player player = Main.player[SelectedPlayer];
-        ImGui.Text($"Inspecting Player[{SelectedPlayer}] \"{player.name.Truncate(60)}\"");
-        ImGui.Text($"Health:      {player.statLife}/{player.statLifeMax2}");
-        ImGui.Text($"Mana:        {player.statMana}/{player.statManaMax2}");
-        ImGui.Text($"Defense:     {player.statDefense}");
-        ImGui.Text($"Speed:       {player.velocity.Length()}");
-        ImGui.Text($"Velocity:    {player.velocity}");
-        ImGui.Text($"Velocity Dir: ");
+        ImGui.Text(GetString($"Inspecting Player[{SelectedPlayer}] \"{player.name.Truncate(60)}\""));
+        ImGui.Text(GetString($"Health:      {player.statLife}/{player.statLifeMax2}"));
+        ImGui.Text(GetString($"Mana:        {player.statMana}/{player.statManaMax2}"));
+        ImGui.Text(GetString($"Defense:     {player.statDefense}"));
+        ImGui.Text(GetString($"Speed:       {player.velocity.Length()}"));
+        ImGui.Text(GetString($"Velocity:    {player.velocity}"));
+        ImGui.Text(GetString($"Velocity Dir: "));
 
         if (player.velocity.Length() > 0f)
         {
@@ -103,7 +103,7 @@ public class PlayerInspectorTool : InspectorTool
             drawList.AddTriangleFilled(tri1, tri2, tri3, Color.Red.PackedValue);
         }
 
-        if (ImGui.CollapsingHeader("Player Inventory"))
+        if (ImGui.CollapsingHeader(GetString("Player Inventory")))
         {
             ImGuiStylePtr style = ImGui.GetStyle();
             float sy = ImGui.GetCursorPos().Y;
@@ -197,7 +197,7 @@ public class PlayerInspectorTool : InspectorTool
     {
         showTooltip = true;
 
-        if (ImGui.BeginMenu("Other Players"))
+        if (ImGui.BeginMenu(GetString("Other Players")))
         {
             for (int i = 0; i < 255; i++)
             {
@@ -210,7 +210,7 @@ public class PlayerInspectorTool : InspectorTool
 
                 bool endedDisableEarly = false;
                 ImGui.BeginDisabled(!anyActivePlayers);
-                if (ImGui.BeginMenu($"Players {i}-{Math.Min(i + 20, 255)}"))
+                if (ImGui.BeginMenu(GetString($"Players {i}-{Math.Min(i + 20, 255)}")))
                 {
                     endedDisableEarly = true;
                     showTooltip = false;
@@ -218,7 +218,7 @@ public class PlayerInspectorTool : InspectorTool
                     for (int j = i; j < Math.Min(i + 20, 255); j++)
                     {
                         if (!Main.player[j].active) ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.Text] * new Vector4(1f, 1f, 1f, 0.4f));
-                        if (ImGui.MenuItem($"Player \"{Main.player[j].name.Truncate(30)}\""))
+                        if (ImGui.MenuItem(GetString($"Player \"{Main.player[j].name.Truncate(30)}\"")))
                         {
                             SelectedPlayer = j;
                         }

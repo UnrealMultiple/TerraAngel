@@ -38,7 +38,7 @@ public class UIKeySelect : UIElement
             VAlign = 0.5f
         };
 
-        keyText = new UIText(valueGet() == Keys.None ? "<Unbound>" : valueGet().ToString(), textScale)
+        keyText = new UIText(valueGet() == Keys.None ? GetString("<Unbound>") : valueGet().ToString(), textScale)
         {
             HAlign = 1f,
             VAlign = 0.5f
@@ -57,14 +57,14 @@ public class UIKeySelect : UIElement
 
             if (isSelectingKey)
             {
-                keyText.SetText("<Press Key>");
+                keyText.SetText(GetString("<Press Key>"));
                 keyText.TextColor = new Color(2, 255, 2);
             }
             else
             {
                 if (this.valueGet() != Keys.None)
                     this.valueSet(Keys.None);
-                keyText.SetText(this.valueGet() == Keys.None ? "<Unbound>" : valueGet().ToString());
+                keyText.SetText(this.valueGet() == Keys.None ? GetString("<Unbound>") : valueGet().ToString());
                 keyText.TextColor = this.valueGet() == Keys.None ? Color.DimGray : Color.White;
             }
         };
@@ -86,7 +86,7 @@ public class UIKeySelect : UIElement
                     isSelectingKey = false;
                     SoundEngine.PlaySound(SoundID.MenuTick);
 
-                    keyText.SetText(valueGet() == Keys.None ? "<Unbound>" : valueGet().ToString());
+                    keyText.SetText(valueGet() == Keys.None ? GetString("<Unbound>") : valueGet().ToString());
 
                     keyText.TextColor = this.valueGet() == Keys.None ? Color.DimGray : Color.White;
                     break;

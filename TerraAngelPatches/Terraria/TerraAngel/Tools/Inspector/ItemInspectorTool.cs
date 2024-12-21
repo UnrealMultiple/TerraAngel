@@ -6,7 +6,7 @@ namespace TerraAngel.Tools.Inspector;
 
 public class ItemInspectorTool : InspectorTool
 {
-    public override string Name => "Item Inspector";
+    public override string Name => GetString("Item Inspector");
 
     private int SelectedItemIndex = -1;
 
@@ -43,19 +43,19 @@ public class ItemInspectorTool : InspectorTool
         if (ImGui.IsItemHovered())
         {
             ImGui.BeginTooltip();
-            ImGui.Text($"Teleport to \"{SelectedItem.Name.Truncate(30)}\"");
+            ImGui.Text(GetString($"Teleport to \"{SelectedItem.Name.Truncate(30)}\""));
             ImGui.EndTooltip();
         }
 
         if (ImGui.Button($"{Icon.CircleSlash}"))
         {
-            ClientLoader.Console.WriteError("Not implemented yet");
+            ClientLoader.Console.WriteError(GetString("Not implemented yet"));
         }
         if (ImGui.IsItemHovered())
         {
             ImGui.BeginTooltip();
-            ImGui.Text($"Kill \"{SelectedItem.Name.Truncate(30)}\"");
-            ImGui.Text($"*Not implemented yet");
+            ImGui.Text(GetString($"Kill \"{SelectedItem.Name.Truncate(30)}\""));
+            ImGui.Text(GetString($"*Not implemented yet"));
             ImGui.EndTooltip();
         }
     }
@@ -67,11 +67,11 @@ public class ItemInspectorTool : InspectorTool
             return;
         }
 
-        ImGui.Text($"Inspecting Item[{SelectedItemIndex}] \"{SelectedItem.Name.Truncate(60)}\"");
-        ImGui.Text($"Position:    {SelectedItem.position}");
-        ImGui.Text($"Speed:       {SelectedItem.velocity.Length()}");
-        ImGui.Text($"Velocity:    {SelectedItem.velocity}");
-        ImGui.Text($"Velocity Dir: ");
+        ImGui.Text(GetString($"Inspecting Item[{SelectedItemIndex}] \"{SelectedItem.Name.Truncate(60)}\""));
+        ImGui.Text(GetString($"Position:    {SelectedItem.position}"));
+        ImGui.Text(GetString($"Speed:       {SelectedItem.velocity.Length()}"));
+        ImGui.Text(GetString($"Velocity:    {SelectedItem.velocity}"));
+        ImGui.Text(GetString($"Velocity Dir: "));
 
         if (SelectedItem.velocity.Length() > 0f)
         {
@@ -94,12 +94,12 @@ public class ItemInspectorTool : InspectorTool
 
         if (Main.netMode == 1 && SelectedItem.active)
         {
-            ImGui.Text($"Owned By:  {SelectedItem.playerIndexTheItemIsReservedFor switch
+            ImGui.Text(GetString($"Owned By:  {SelectedItem.playerIndexTheItemIsReservedFor switch
             {
-                >= 255 => "None/Server",
-                >= 0 => $"{Main.player[SelectedItem.playerIndexTheItemIsReservedFor].name}",
-                _ => "None/Server",
-            }}/{SelectedItem.playerIndexTheItemIsReservedFor}");
+                >= 255 => GetString("None/Server"),
+                          >= 0 => $"{Main.player[SelectedItem.playerIndexTheItemIsReservedFor].name}",
+                _ => GetString("None/Server"),
+            }}/{SelectedItem.playerIndexTheItemIsReservedFor}"));
         }
 
         ImGuiUtil.ItemButton(SelectedItem, "InspectorItem", new Vector2(32f), ShowTooltip);
@@ -109,7 +109,7 @@ public class ItemInspectorTool : InspectorTool
     {
         showTooltip = true;
 
-        if (ImGui.BeginMenu("Items"))
+        if (ImGui.BeginMenu(GetString("Items")))
         {
             for (int i = 0; i < 400; i++)
             {
@@ -122,7 +122,7 @@ public class ItemInspectorTool : InspectorTool
 
                 bool endedDisableEarly = false;
                 ImGui.BeginDisabled(!anyActiveItems);
-                if (ImGui.BeginMenu($"Items {i}-{Math.Min(i + 20, 400)}"))
+                if (ImGui.BeginMenu(GetString($"Items {i}-{Math.Min(i + 20, 400)}")))
                 {
                     endedDisableEarly = true;
                     showTooltip = false;
@@ -131,7 +131,7 @@ public class ItemInspectorTool : InspectorTool
                     {
                         if (!Main.item[j].active) ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.Text] * new Vector4(1f, 1f, 1f, 0.4f));
 
-                        if (ImGui.MenuItem($"Item \"{Main.item[j].Name.Truncate(60)}\""))
+                        if (ImGui.MenuItem(GetString($"Item \"{Main.item[j].Name.Truncate(60)}\"")))
                         {
                             SelectedItemIndex = j;
                         }

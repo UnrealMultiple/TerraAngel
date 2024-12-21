@@ -37,7 +37,7 @@ public class InternalRepresentation
             return field.Name;
         }
 
-        return "Invalid";
+        return GetString("Invalid");
     }
 
     public static string GetPrefixIDName(int type)
@@ -47,7 +47,7 @@ public class InternalRepresentation
             return field.Name;
         }
 
-        return "Invalid";
+        return GetString("Invalid");
     }
 
     public static string GetProjectileIDName(int type)
@@ -57,7 +57,7 @@ public class InternalRepresentation
             return field.Name;
         }
 
-        return "Invalid";
+        return GetString("Invalid");
     }
 
     public static string GetAmmoIDName(int type)
@@ -67,7 +67,7 @@ public class InternalRepresentation
             return field.Name;
         }
 
-        return "Invalid";
+        return GetString("Invalid");
     }
 
     public static string GetNPCIDName(int type)
@@ -77,7 +77,7 @@ public class InternalRepresentation
             return field.Name;
         }
 
-        return "Invalid";
+        return GetString("Invalid");
     }
 
     public static string GetBuffIDName(int type)
@@ -87,7 +87,7 @@ public class InternalRepresentation
             return field.Name;
         }
 
-        return "Invalid";
+        return GetString("Invalid");
     }
 
     public static string GetMessageIDName(int type)
@@ -97,7 +97,7 @@ public class InternalRepresentation
             return field.Name;
         }
 
-        return "Invalid";
+        return GetString("Invalid");
     }
 
     public static string GetTileIDName(int type)
@@ -107,7 +107,7 @@ public class InternalRepresentation
             return field.Name;
         }
 
-        return "Invalid";
+        return GetString("Invalid");
     }
 
     public static string GetWallIDName(int type)
@@ -117,7 +117,7 @@ public class InternalRepresentation
             return field.Name;
         }
 
-        return "Invalid";
+        return GetString("Invalid");
     }
 
     public static string GetPaintIDName(int type)
@@ -127,7 +127,7 @@ public class InternalRepresentation
             return field.Name;
         }
 
-        return "Invalid";
+        return GetString("Invalid");
     }
 
     private static IEnumerable<FieldInfo> GetPublicValueTypeFields<T>()

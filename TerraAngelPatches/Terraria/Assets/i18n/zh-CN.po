@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Terraria\n"
-"POT-Creation-Date: 2024-12-21 16:24:36+0800\n"
-"PO-Revision-Date: 2024-12-21 16:28+0800\n"
+"POT-Creation-Date: 2024-12-21 22:37:53+0800\n"
+"PO-Revision-Date: 2024-12-21 22:38+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 
 #: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:201
 #, csharp-format
@@ -31,9 +31,24 @@ msgstr "{0} 客户端 UUID"
 msgid "{0}Message Logs"
 msgstr "{0}数据包日志"
 
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:58
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:61
+msgid "*Not implemented yet"
+msgstr "*还没实现"
+
 #: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:67
 msgid "*Press Ctrl+Alt to select specific cast position"
 msgstr "*按 Ctrl+Alt 来选择指定抛竿位置"
+
+#: ../../../TerraAngel/UI/TerrariaUI/UIKeySelect.cs:60
+msgid "<Press Key>"
+msgstr "<按下按键>"
+
+#: ../../../TerraAngel/UI/TerrariaUI/UIKeySelect.cs:41
+#: ../../../TerraAngel/UI/TerrariaUI/UIKeySelect.cs:67
+#: ../../../TerraAngel/UI/TerrariaUI/UIKeySelect.cs:89
+msgid "<Unbound>"
+msgstr "<未绑定>"
 
 #: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:95
 msgid "Accept"
@@ -87,6 +102,21 @@ msgstr "接受非常稀有物品"
 msgid "Add New Server"
 msgstr "添加新服务器"
 
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:103
+#, csharp-format
+msgid "AI Style:    {0}"
+msgstr "AI类型:    {0}"
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:107
+#, csharp-format
+msgid "AI[{0}]:     {1}"
+msgstr "AI[{0}]:     {1}"
+
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:111
+#, csharp-format
+msgid "AI[{0}]:    {1}"
+msgstr "AI[{0}]:    {1}"
+
 #: ../../../TerraAngel/UI/ClientWindows/DrawWindow.cs:251
 #, csharp-format
 msgid ""
@@ -99,6 +129,10 @@ msgstr ""
 #: ../../../TerraAngel/Tools/Developer/AntiHurtTool.cs:5
 msgid "Anti-hurt/Godmode"
 msgstr "无敌"
+
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:125
+msgid "Attempt to bypass TShock"
+msgstr "尝试绕过TShock"
 
 #: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:7
 msgid "Auto-Aim"
@@ -122,7 +156,7 @@ msgstr "自动钓鱼设置"
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:75
 msgid "Automation"
-msgstr "自动化"
+msgstr "自动辅助"
 
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:51
 msgid "Back"
@@ -131,6 +165,14 @@ msgstr "返回"
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:285
 msgid "Borderless Fullscreen"
 msgstr "无边框全屏"
+
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:121
+msgid "Brush"
+msgstr "刷子"
+
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:127
+msgid "Brush Diameter"
+msgstr "直线刷子"
 
 #: ../../../TerraAngel/UI/ClientWindows/StatsWindow.cs:36
 msgid "Builder Mode Active "
@@ -164,7 +206,11 @@ msgstr "聊天"
 #: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:160
 #, csharp-format
 msgid "Chat {0}"
-msgstr "聊天{0}"
+msgstr "聊天窗{0}"
+
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:148
+msgid "ChatWindow"
+msgstr "聊天窗口"
 
 #: ../../../TerraAngel/UpdateChecker.cs:20
 msgid "Checking for updates"
@@ -190,6 +236,10 @@ msgstr "点击以复制"
 msgid "Click to reveal"
 msgstr "点击以显示"
 
+#: ../../../TerraAngel/Graphics/ClientRenderer.cs:181
+msgid "Client Draw"
+msgstr "客户端绘制"
+
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:24
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:98
 msgid "Console"
@@ -201,6 +251,10 @@ msgstr "终端"
 msgid "Console script not initialized"
 msgstr "终端脚本系统未初始化"
 
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:105
+msgid "ConsoleScrollingRegion"
+msgstr "控制台滚动区域"
+
 #: ../../../TerraAngel/Tools/Map/MapScreenshotTool.cs:131
 msgid "Copied map screenshot to clipboard"
 msgstr "复制地图截图到剪贴板"
@@ -209,21 +263,77 @@ msgstr "复制地图截图到剪贴板"
 msgid "Copy All"
 msgstr "复制全部"
 
+#: ../../../TerraAngel/WorldEdits/WorldEditCopyPaste.cs:85
+msgid "Copy/Paste"
+msgstr "复制/粘贴"
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:76
+#, csharp-format
+msgid "Damage:      {0}"
+msgstr "伤害:      {0}"
+
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:84
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:82
+#, csharp-format
+msgid "Defense:     {0}"
+msgstr "防御:    {0}"
+
+#: ../../../TerraAngel/WorldEdits/WorldEditCopyPaste.cs:87
+msgid "Destroy Tiles"
+msgstr "破坏图格"
+
+#: ../../../TerraAngel/UI/TerrariaUI/UIPlugin.cs:60
+#: ../../../TerraAngel/UI/TerrariaUI/UIPlugin.cs:69
+msgid "Disabled"
+msgstr "已禁用"
+
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:123
+msgid "Draw detailed preview"
+msgstr "绘制详细预览"
+
+#: ../../../TerraAngel/UI/TerrariaUI/UIPlugin.cs:60
+#: ../../../TerraAngel/UI/TerrariaUI/UIPlugin.cs:69
+msgid "Enabled"
+msgstr "已启用"
+
+#: ../../../TerraAngel/Plugin/PluginLoader.cs:63
+#, csharp-format
+msgid "Error loading {0}/{1}: {2}"
+msgstr "加载时发生错误 {0}/{1}: {2}"
+
+#: ../../../TerraAngel/Plugin/PluginLoader.cs:68
+msgid "Error loading a plugin: Plugin was null"
+msgstr "加载插件错误: 插件是空值"
+
 #: ../../../TerraAngel/UpdateChecker.cs:39
 msgid "Error occured while checking for updates"
 msgstr "检查更新时发生错误"
 
+#: ../../../TerraAngel/Plugin/PluginLoader.cs:94
+#, csharp-format
+msgid "Error unloading {0}/{1}: {2}"
+msgstr "卸载时发生错误 {0}/{1}: {2}"
+
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:139
 msgid "ESP"
-msgstr ""
+msgstr "透视追踪(ESP)"
+
+#: ../../../TerraAngel/Graphics/ImGuiRenderer.cs:125
+msgid "Failed to build font"
+msgstr "字体构建失败"
+
+#: ../../../TerraAngel/Graphics/ImGuiRenderer.cs:129
+#, csharp-format
+msgid "Failed to get font data '{0}' was null"
+msgstr "无法获取字体数据, '{0}'为空值"
 
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleScriptWindow.cs:86
 msgid "Failed to Initialize Scripting Evaluator"
-msgstr "初始化脚本评估器时失败"
+msgstr "脚本评估器初始化失败"
 
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleScriptWindow.cs:82
 msgid "Finished Initializing Scripting Evaluator"
-msgstr "完成初始化脚本评估器"
+msgstr "脚本评估器初始化成功"
 
 #: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:159
 #, csharp-format
@@ -233,7 +343,7 @@ msgstr "鱼: {0}"
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:183
 #, csharp-format
 msgid "FPS Cap Unfocused: {0}"
-msgstr "失焦时帧率限制: {0}"
+msgstr "失去焦点时帧率限制: {0}"
 
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:172
 #, csharp-format
@@ -258,6 +368,21 @@ msgstr "给予类型"
 msgid "Go {0}"
 msgstr "转换到 {0} 模式"
 
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:83
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:80
+#, csharp-format
+msgid "Health:      {0}/{1}"
+msgstr "生命:      {0}/{1}"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:114
+msgid "Honey"
+msgstr "蜂蜜"
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:77
+#, csharp-format
+msgid "Hostile:     {0}"
+msgstr "敌对: {0}"
+
 #: ../../../TerraAngel/UI/ClientWindows/ImeWindow.cs:11
 msgid "Ime"
 msgstr "输入法"
@@ -268,7 +393,7 @@ msgstr "无限魔力"
 
 #: ../../../TerraAngel/Tools/Developer/InfiniteMinionTool.cs:5
 msgid "Infinite minions"
-msgstr "无限随从"
+msgstr "无限仆从"
 
 #: ../../../TerraAngel/Tools/Developer/InfiniteReachTool.cs:5
 msgid "Infinite reach"
@@ -278,25 +403,114 @@ msgstr "无视建造范围限制"
 msgid "Initializing Scripting Evaluator"
 msgstr "正在初始化脚本评估器"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:65
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:70
+#, csharp-format
+msgid "Inspecting Item[{0}] \"{1}\""
+msgstr "正在查看物品[{0}] \"{1}\""
+
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:82
+#, csharp-format
+msgid "Inspecting NPC[{0}] \"{1}\"/{2}/{3}"
+msgstr "正在查看生物[{0}] \"{1}\"/{2}/{3}"
+
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:79
+#, csharp-format
+msgid "Inspecting Player[{0}] \"{1}\""
+msgstr "正在查看玩家[{0}] \"{1}\""
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:75
+#, csharp-format
+msgid "Inspecting Projectile[{0}] \"{1}\"/{2}/{3}"
+msgstr "正在查看弹幕[{0}] \"{1}\"/{2}/{3}"
+
+#: ../../../TerraAngel/UI/ClientWindows/InspectorWindow.cs:9
+msgid "Inspector"
+msgstr "查看器"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:117
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:40
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:50
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:60
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:70
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:80
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:90
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:100
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:110
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:120
+#: ../../../TerraAngel/Utility/InternalRepresentation.cs:130
+msgid "Invalid"
+msgstr "无效"
+
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:134
+#, csharp-format
+msgid "Item \"{0}\""
+msgstr "物品\"{0}\""
+
 #: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:20
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:65
 msgid "Item Browser"
 msgstr "物品浏览器"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:61
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:9
+msgid "Item Inspector"
+msgstr "物品查看器"
+
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:112
 #: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:47
 #: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:80
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:61
 msgid "Items"
 msgstr "物品"
+
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:125
+#, csharp-format
+msgid "Items {0}-{1}"
+msgstr "物品 {0}-{1}"
+
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:57
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:58
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:60
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:54
+#, csharp-format
+msgid "Kill \"{0}\""
+msgstr "杀死 \"{0}\""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:115
+msgid "Lava"
+msgstr "岩浆"
 
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:205
 #, csharp-format
 msgid "Light Passes: {0}"
-msgstr ""
+msgstr "光照通道:{0}"
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:148
 msgid "Lighting"
 msgstr "光照"
+
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:138
+msgid "Liquid"
+msgstr "流体"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:119
+#, csharp-format
+msgid "Liquid Amount:    {0}"
+msgstr "流体数:    {0}"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:111
+#, csharp-format
+msgid "Liquid Type:      {0}/{1}"
+msgstr "流体类型:      {0}/{1}"
+
+#: ../../../TerraAngel/Plugin/PluginLoader.cs:59
+#, csharp-format
+msgid "Loaded  {0}"
+msgstr "已加载  {0}"
+
+#: ../../../TerraAngel/Plugin/PluginLoader.cs:53
+#, csharp-format
+msgid "Loading {0}"
+msgstr "正在加载 {0}"
 
 #: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:160
 msgid "Locked"
@@ -318,6 +532,11 @@ msgstr "主窗口"
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:14
 msgid "Main Window"
 msgstr "主窗口"
+
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:81
+#, csharp-format
+msgid "Mana:        {0}/{1}"
+msgstr "魔力:        {0}/{1}"
 
 #: ../../../TerraAngel/Tools/Map/MapScreenshotTool.cs:29
 msgid "Map Pixel per Tile"
@@ -355,29 +574,103 @@ msgstr "包日志"
 
 #: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:7
 msgid "Noclip"
-msgstr "切出"
+msgstr "幽灵模式"
 
 #: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:21
 msgid "Noclip Settings"
-msgstr "切出设置"
+msgstr "幽灵模式设置"
 
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:290
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:295
 msgid "None"
 msgstr "无"
 
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:99
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:101
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:114
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:116
+msgid "None/Server"
+msgstr "无/服务器"
+
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:52
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:55
+msgid "Not implemented yet"
+msgstr "还没实现"
+
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:146
+#, csharp-format
+msgid "NPC \"{0}\"/{1}/{2}"
+msgstr "生物 \"{0}\"/{1}/{2}"
+
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:9
+msgid "NPC Inspector"
+msgstr "生物查看器"
+
 #: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:207
 #, csharp-format
 msgid "NPC: {0}"
 msgstr "生物: {0}"
 
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:124
+msgid "NPCs"
+msgstr "生物"
+
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:137
+#, csharp-format
+msgid "NPCs {0}-{1}"
+msgstr "生物: {0}-{1}"
+
 #: ../../../TerraAngel/UI/TerrariaUI/PluginUI.cs:99
 msgid "Open Plugins Folder"
 msgstr "打开插件文件夹"
 
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:200
+msgid "Other Players"
+msgstr "其他玩家"
+
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:97
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:112
+#, csharp-format
+msgid "Owned By:  {0}/{1}"
+msgstr "所有者:  {0}/{1}"
+
 #: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:87
 msgid "Packets with traces:"
 msgstr "跟踪的包:"
+
+#: ../../../TerraAngel/WorldEdits/WorldEditCopyPaste.cs:88
+msgid "Place Mode"
+msgstr "放置模式"
+
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:221
+#, csharp-format
+msgid "Player \"{0}\""
+msgstr "玩家 \"{0}\""
+
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:9
+msgid "Player Inspector"
+msgstr "玩家查看器"
+
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:106
+msgid "Player Inventory"
+msgstr "玩家背包"
+
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:213
+#, csharp-format
+msgid "Players {0}-{1}"
+msgstr "玩家 {0}-{1}"
+
+#: ../../../TerraAngel/Plugin/PluginLoader.cs:14
+#: ../../../TerraAngel/Plugin/PluginLoader.cs:80
+msgid "PluginLoader"
+msgstr "插件加载器"
+
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:71
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:85
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:79
+#, csharp-format
+msgid "Position:    {0}"
+msgstr "位置:    {0}"
 
 #: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:48
 msgid "Prediction Scaling"
@@ -386,6 +679,24 @@ msgstr "预测倍率"
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:71
 msgid "Prints help"
 msgstr "打印帮助"
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:188
+#, csharp-format
+msgid "Projectile \"{0}\"/{1}/{2}"
+msgstr "弹幕 \"{0}\"/{1}/{2}"
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:12
+msgid "Projectile Inspector"
+msgstr "弹幕查看器"
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:167
+msgid "Projectiles"
+msgstr "弹幕"
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:180
+#, csharp-format
+msgid "Projectiles {0}-{1}"
+msgstr "弹幕 {0}-{1}"
 
 #: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:108
 msgid "Pulled fish"
@@ -419,6 +730,11 @@ msgstr "已收到的包"
 msgid "Reload Plugins"
 msgstr "重载插件"
 
+#: ../../../TerraAngel/UI/TerrariaUI/UIPlugin.cs:53
+#: ../../../TerraAngel/UI/TerrariaUI/UIPlugin.cs:76
+msgid "Reload Required"
+msgstr "需要重载"
+
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:81
 msgid "Reloads plugins"
 msgstr "重载插件"
@@ -432,8 +748,9 @@ msgid "Reset Position"
 msgstr "重置位置"
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:108
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:126
 msgid "Reveal Map"
-msgstr "显露地图"
+msgstr "点亮小地图"
 
 #: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:41
 msgid "Search"
@@ -456,13 +773,38 @@ msgstr "服务器名称"
 msgid "Server Port"
 msgstr "服务器端口"
 
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:116
+msgid "Shimmer"
+msgstr "微光"
+
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:65
+#, csharp-format
+msgid "Spectate \"{0}\""
+msgstr "查看 \"{0}\""
+
 #: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:24
 msgid "Speed"
 msgstr "速度"
 
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:72
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:86
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:80
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:83
+#, csharp-format
+msgid "Speed:       {0}"
+msgstr "速度:       {0}"
+
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:124
+msgid "Square tile frame"
+msgstr "方形图格"
+
 #: ../../../TerraAngel/UI/ClientWindows/StatsWindow.cs:15
 msgid "Stat Window"
 msgstr "统计窗口"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:129
+msgid "STS"
+msgstr "发送方形图格(STS)"
 
 #: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:55
 msgid "Sync With Server"
@@ -472,6 +814,18 @@ msgstr "与服务器同步"
 msgid "Taking map screenshot"
 msgstr "正在为地图截图"
 
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:46
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:47
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:43
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:49
+#, csharp-format
+msgid "Teleport to \"{0}\""
+msgstr "传送至 \"{0}\""
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:43
+msgid "Teleport to the selected tile"
+msgstr "传送到选定的图格"
+
 #: ../../../Main.cs:47987
 msgid "TerraAngel Plugins"
 msgstr "TerraAngel 插件"
@@ -480,9 +834,90 @@ msgstr "TerraAngel 插件"
 msgid "TerraAngel Settings"
 msgstr "TerraAngel 设置"
 
+#: ../../../TerraAngel/Graphics/ClientRenderer.cs:295
+msgid "There is an update for TerraAngel available on GitHub"
+msgstr "Wow, TerraAngel在GitHub有新的版本啦~"
+
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:134
+msgid "Tile"
+msgstr "物块"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:56
+#, csharp-format
+msgid "Tile Active:      {0}"
+msgstr "物块Active:      {0}"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:84
+msgid "Tile Coating:     Fullbright"
+msgstr "物块油漆:     全亮"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:80
+msgid "Tile Coating:     Fullbright/Invisible"
+msgstr "物块油漆:     全亮/隐形"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:88
+msgid "Tile Coating:     Invisible"
+msgstr "物块油漆:     隐形"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:90
+msgid "Tile Coating:     None"
+msgstr "物块油漆:     无"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:74
+#, csharp-format
+msgid "Tile Frame Number: {0}"
+msgstr "物块Frame: {0}"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:61
+msgid "Tile FrameX:     "
+msgstr "物块FrameX:     "
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:67
+msgid "Tile FrameY:     "
+msgstr "物块FrameY:     "
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:76
+#, csharp-format
+msgid "Tile Halfbrick:   {0}"
+msgstr "物块半砖:   {0}"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:57
+#, csharp-format
+msgid "Tile inActive:    {0}"
+msgstr "物块inActive:    {0}"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:8
+msgid "Tile Inspector"
+msgstr "物块查看器"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:58
+#, csharp-format
+msgid "Tile nactive:     {0}"
+msgstr "物块nactive:     {0}"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:77
+#, csharp-format
+msgid "Tile Paint:       {0}/{1}"
+msgstr "物块油漆:       {0}/{1}"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:75
+#, csharp-format
+msgid "Tile Slope:       {0}"
+msgstr "物块斜度:       {0}"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:59
+#, csharp-format
+msgid "Tile Type:        {0}/{1}"
+msgstr "物块类型:        {0}/{1}"
+
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:78
+#, csharp-format
+msgid "Time Left:   {0}/{1}"
+msgstr "物块Left:   {0}/{1}"
+
 #: ../../../TerraAngel/UI/ClientWindows/TimingMetricsWindow.cs:13
 msgid "Timing Metrics"
-msgstr ""
+msgstr "性能计数器"
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:48
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:199
@@ -497,6 +932,10 @@ msgstr "输入 #help 查看指令列表"
 msgid "Unlocked"
 msgstr "解锁"
 
+#: ../../../TerraAngel/Graphics/ClientRenderer.cs:293
+msgid "Update Available"
+msgstr "有可用更新"
+
 #: ../../../TerraAngel/UpdateChecker.cs:32
 msgid "Updates available"
 msgstr "有可用更新"
@@ -509,9 +948,24 @@ msgstr "使用指定鼠标位置"
 msgid "Utility"
 msgstr "工具"
 
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:74
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:88
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:82
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:85
+msgid "Velocity Dir: "
+msgstr "速率方向: "
+
 #: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:45
 msgid "Velocity Prediction"
 msgstr "速率预测"
+
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:73
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:87
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:81
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:84
+#, csharp-format
+msgid "Velocity:    {0}"
+msgstr "速度向量: {0}"
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:97
 msgid "Visuals"
@@ -520,6 +974,55 @@ msgstr "视觉"
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:194
 msgid "Vsync"
 msgstr "垂直同步"
+
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:136
+msgid "Wall"
+msgstr "墙"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:100
+msgid "Wall Coating:     Fullbright"
+msgstr "墙油漆:     全亮"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:96
+msgid "Wall Coating:     Fullbright/Invisible"
+msgstr "墙油漆:     全亮/隐形"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:104
+msgid "Wall Coating:     Invisible"
+msgstr "墙油漆:     隐形"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:106
+msgid "Wall Coating:     None"
+msgstr "墙油漆:     无"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:109
+#, csharp-format
+msgid "Wall Fame Number: {0}"
+msgstr "墙Fame: {0}"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:107
+#, csharp-format
+msgid "Wall FrameX:      {0}"
+msgstr "墙FrameX:      {0}"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:108
+#, csharp-format
+msgid "Wall FrameY:      {0}"
+msgstr "墙FrameY:      {0}"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:93
+#, csharp-format
+msgid "Wall Paint:       {0}/{1}"
+msgstr "墙油漆:       {0}/{1}"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:92
+#, csharp-format
+msgid "Wall Type:        {0}/{1}"
+msgstr "墙类型:        {0}/{1}"
+
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:113
+msgid "Water"
+msgstr "水"
 
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:285
 msgid "Windowed"
@@ -537,16 +1040,3 @@ msgstr "世界编辑"
 
 #~ msgid "Widgets"
 #~ msgstr "组件"
-
-#~ msgid "*Not implemented yet"
-#~ msgstr "*还没实现"
-
-#, csharp-format
-#~ msgid "Hostile:     {0}"
-#~ msgstr "敌对: {0}"
-
-#~ msgid "Not implemented yet"
-#~ msgstr "还没实现"
-
-#~ msgid "STS"
-#~ msgstr "发送方形图格(STS)"

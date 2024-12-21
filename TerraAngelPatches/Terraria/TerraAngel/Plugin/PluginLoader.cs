@@ -11,7 +11,7 @@ namespace TerraAngel.Plugin;
 
 public class PluginLoader
 {
-    private static AssemblyLoadContext PluginLoadContext = new AssemblyLoadContext("PluginLoader", true);
+    private static AssemblyLoadContext PluginLoadContext = new AssemblyLoadContext(GetString("PluginLoader"), true);
 
     public static Dictionary<string, bool> AvailablePlugins = new Dictionary<string, bool>();
 
@@ -50,22 +50,22 @@ public class PluginLoader
             {
                 try
                 {
-                    ClientLoader.Console.WriteLine($"Loading {plugin.Name}");
+                    ClientLoader.Console.WriteLine(GetString($"Loading {plugin.Name}"));
 
                     plugin.Load();
 
                     plugin.IsInited = true;
 
-                    ClientLoader.Console.WriteLine($"Loaded  {plugin.Name}");
+                    ClientLoader.Console.WriteLine(GetString($"Loaded  {plugin.Name}"));
                 }
                 catch (Exception ex)
                 {
-                    ClientLoader.Console.WriteError($"Error loading {plugin.Name}/{plugin.PluginAssembly.FullName}: {ex}");
+                    ClientLoader.Console.WriteError(GetString($"Error loading {plugin.Name}/{plugin.PluginAssembly.FullName}: {ex}"));
                 }
             }
             else
             {
-                ClientLoader.Console.WriteError($"Error loading a plugin: Plugin was null");
+                ClientLoader.Console.WriteError(GetString($"Error loading a plugin: Plugin was null"));
             }
         }
     }
@@ -77,7 +77,7 @@ public class PluginLoader
         DeinitPlugins();
         LoadedPlugins.Clear();
         PluginLoadContext.Unload();
-        PluginLoadContext = new AssemblyLoadContext("PluginLoader", true);
+        PluginLoadContext = new AssemblyLoadContext(GetString("PluginLoader"), true);
         FindPluginFiles();
     }
 
@@ -91,7 +91,7 @@ public class PluginLoader
             }
             catch (Exception ex)
             {
-                ClientLoader.Console.WriteError($"Error unloading {plugin.Name}/{plugin.PluginAssembly.FullName}: {ex}");
+                ClientLoader.Console.WriteError(GetString($"Error unloading {plugin.Name}/{plugin.PluginAssembly.FullName}: {ex}"));
             }
         }
     }

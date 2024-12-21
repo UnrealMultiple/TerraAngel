@@ -118,24 +118,24 @@ public class WorldEditBrush : WorldEdit
 
     public override bool DrawUITab(ImGuiIOPtr io)
     {
-        if (ImGui.BeginTabItem("Brush"))
+        if (ImGui.BeginTabItem(GetString("Brush")))
         {
-            ImGui.Checkbox("Draw detailed preview", ref drawDetailedPreview);
-            ImGui.Checkbox("Square tile frame", ref sqaureFrame);
-            ImGui.Checkbox("Attempt to bypass TShock", ref teleportToTilesFarAway);
-            ImGui.Checkbox("Reveal Map", ref revealMap);
-            if (ImGui.SliderInt("Brush Diameter", ref brushDiameter, 16, 800))
+            ImGui.Checkbox(GetString("Draw detailed preview"), ref drawDetailedPreview);
+            ImGui.Checkbox(GetString("Square tile frame"), ref sqaureFrame);
+            ImGui.Checkbox(GetString("Attempt to bypass TShock"), ref teleportToTilesFarAway);
+            ImGui.Checkbox(GetString("Reveal Map"), ref revealMap);
+            if (ImGui.SliderInt(GetString("Brush Diameter"), ref brushDiameter, 16, 800))
             {
                 if (brushDiameter > 600)
                     drawDetailedPreview = false;
                 else
                     drawDetailedPreview = true;
             }
-            ImGui.Text("Tile"); ImGui.SameLine();
+            ImGui.Text(GetString("Tile")); ImGui.SameLine();
             ImGui.Combo("##WorldEditTileActions", ref currentTileAction, tileActionNames, tileActionNames.Length);
-            ImGui.Text("Wall"); ImGui.SameLine();
+            ImGui.Text(GetString("Wall")); ImGui.SameLine();
             ImGui.Combo("##WorldEditWallActions", ref currentWallAction, wallActionNames, wallActionNames.Length);
-            ImGui.Text("Liquid"); ImGui.SameLine();
+            ImGui.Text(GetString("Liquid")); ImGui.SameLine();
             ImGui.Combo("##WorldEditLiquidActions", ref currentLiquidAction, liquidActionNames, liquidActionNames.Length);
 
 

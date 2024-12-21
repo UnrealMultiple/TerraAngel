@@ -9,7 +9,7 @@ public class ProjectileInspector : InspectorTool
 {
     private static readonly Dictionary<int, nint> BoundProjectileTextures = new Dictionary<int, nint>();
 
-    public override string Name => "Projectile Inspector";
+    public override string Name => GetString("Projectile Inspector");
 
     private int SelectedProjectileIndex = -1;
 
@@ -46,19 +46,19 @@ public class ProjectileInspector : InspectorTool
         if (ImGui.IsItemHovered())
         {
             ImGui.BeginTooltip();
-            ImGui.Text($"Teleport to \"{SelectedProjectile.Name.Truncate(30)}\"");
+            ImGui.Text(GetString($"Teleport to \"{SelectedProjectile.Name.Truncate(30)}\""));
             ImGui.EndTooltip();
         }
 
         if (ImGui.Button($"{Icon.CircleSlash}"))
         {
-            ClientLoader.Console.WriteError("Not implemented yet");
+            ClientLoader.Console.WriteError(GetString("Not implemented yet"));
         }
         if (ImGui.IsItemHovered())
         {
             ImGui.BeginTooltip();
-            ImGui.Text($"Kill \"{SelectedProjectile.Name.Truncate(30)}\"");
-            ImGui.Text($"*Not implemented yet");
+            ImGui.Text(GetString($"Kill \"{SelectedProjectile.Name.Truncate(30)}\""));
+            ImGui.Text(GetString($"*Not implemented yet"));
             ImGui.EndTooltip();
         }
     }
@@ -72,14 +72,14 @@ public class ProjectileInspector : InspectorTool
 
         DefaultProjectiledCache.SetDefaults(SelectedProjectile.type);
 
-        ImGui.Text($"Inspecting Projectile[{SelectedProjectileIndex}] \"{SelectedProjectile.Name.Truncate(60)}\"/{InternalRepresentation.GetProjectileIDName(SelectedProjectile.type)}/{SelectedProjectile.type}");
-        ImGui.Text($"Damage:      {SelectedProjectile.damage}");
-        ImGui.Text($"Hostile:     {SelectedProjectile.hostile}");
-        ImGui.Text($"Time Left:   {SelectedProjectile.timeLeft}/{DefaultProjectiledCache.timeLeft}");
-        ImGui.Text($"Position:    {SelectedProjectile.position}");
-        ImGui.Text($"Speed:       {SelectedProjectile.velocity.Length()}");
-        ImGui.Text($"Velocity:    {SelectedProjectile.velocity}");
-        ImGui.Text($"Velocity Dir: ");
+        ImGui.Text(GetString($"Inspecting Projectile[{SelectedProjectileIndex}] \"{SelectedProjectile.Name.Truncate(60)}\"/{InternalRepresentation.GetProjectileIDName(SelectedProjectile.type)}/{SelectedProjectile.type}"));
+        ImGui.Text(GetString($"Damage:      {SelectedProjectile.damage}"));
+        ImGui.Text(GetString($"Hostile:     {SelectedProjectile.hostile}"));
+        ImGui.Text(GetString($"Time Left:   {SelectedProjectile.timeLeft}/{DefaultProjectiledCache.timeLeft}"));
+        ImGui.Text(GetString($"Position:    {SelectedProjectile.position}"));
+        ImGui.Text(GetString($"Speed:       {SelectedProjectile.velocity.Length()}"));
+        ImGui.Text(GetString($"Velocity:    {SelectedProjectile.velocity}"));
+        ImGui.Text(GetString($"Velocity Dir: "));
 
         if (SelectedProjectile.velocity.Length() > 0f)
         {
@@ -100,21 +100,21 @@ public class ProjectileInspector : InspectorTool
             drawList.AddTriangleFilled(tri1, tri2, tri3, Color.Red.PackedValue);
         }
 
-        ImGui.Text($"AI Style:    {SelectedProjectile.aiStyle}");
+        ImGui.Text(GetString($"AI Style:    {SelectedProjectile.aiStyle}"));
 
         for (int i = 0; i < Projectile.maxAI; i++)
         {
-            ImGui.Text($"AI[{i}]:     {SelectedProjectile.ai[i]}");
+            ImGui.Text(GetString($"AI[{i}]:     {SelectedProjectile.ai[i]}"));
         }
 
         if (Main.netMode == 1 && SelectedProjectile.active)
         {
-            ImGui.Text($"Owned By:  {(SelectedProjectile.npcProj ? "None/Server" : SelectedProjectile.owner switch
+            ImGui.Text(GetString($"Owned By:  {(SelectedProjectile.npcProj ? "None/Server" : SelectedProjectile.owner switch
             {
-                >= 255 => "None/Server",
-                >= 0 => $"{Main.player[SelectedProjectile.owner].name}",
-                _ => "None/Server",
-            })}/{SelectedProjectile.owner}");
+                >= 255 => GetString("None/Server"),
+                          >= 0 => $"{Main.player[SelectedProjectile.owner].name}",
+                _ => GetString("None/Server"),
+            })}/{SelectedProjectile.owner}"));
         }
 
         if (SelectedProjectile.type > 0 && SelectedProjectile.type < TextureAssets.Projectile.Length && !Main.gameMenu)
@@ -166,7 +166,7 @@ public class ProjectileInspector : InspectorTool
     {
         showTooltip = true;
 
-        if (ImGui.BeginMenu("Projectiles"))
+        if (ImGui.BeginMenu(GetString("Projectiles")))
         {
             for (int i = 0; i < 1000; i++)
             {
@@ -179,7 +179,7 @@ public class ProjectileInspector : InspectorTool
 
                 bool endedDisableEarly = false;
                 ImGui.BeginDisabled(!anyActiveProjectiles);
-                if (ImGui.BeginMenu($"Projectiles {i}-{Math.Min(i + 32, 1000)}"))
+                if (ImGui.BeginMenu(GetString($"Projectiles {i}-{Math.Min(i + 32, 1000)}")))
                 {
                     endedDisableEarly = true;
                     showTooltip = false;
@@ -188,7 +188,7 @@ public class ProjectileInspector : InspectorTool
                     {
                         if (!Main.projectile[j].active) ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.Text] * new Vector4(1f, 1f, 1f, 0.4f));
 
-                        if (ImGui.MenuItem($"Projectile \"{Main.projectile[j].Name.Truncate(30)}\"/{InternalRepresentation.GetProjectileIDName(Main.projectile[j].type)}/{Main.projectile[j].type}"))
+                        if (ImGui.MenuItem(GetString($"Projectile \"{Main.projectile[j].Name.Truncate(30)}\"/{InternalRepresentation.GetProjectileIDName(Main.projectile[j].type)}/{Main.projectile[j].type}")))
                         {
                             SelectedProjectileIndex = j;
                         }
