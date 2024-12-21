@@ -4,7 +4,7 @@ public class LightingModifierTool : Tool
 {
     public static LightingModifierTool? LightingModifierToolCache { get; private set; }
 
-    public override string Name => "Lighting Modification";
+    public override string Name => GetString("Lighting Modification");
 
     public override ToolTabs Tab => ToolTabs.LightingTools;
 
@@ -15,12 +15,12 @@ public class LightingModifierTool : Tool
 
     public override void DrawUI(ImGuiIOPtr io)
     {
-        if (ImGui.Checkbox("Full Bright", ref FullBright))
+        if (ImGui.Checkbox(GetString("Full Bright"), ref FullBright))
         {
             Lighting.Mode = Lighting.Mode;
         }
 
-        ImGui.TextUnformatted("Brightness"); ImGui.SameLine();
+        ImGui.TextUnformatted(GetString("Brightness")); ImGui.SameLine();
         float tmp = Brightness * 100f;
         if (ImGui.SliderFloat("##Brightness", ref tmp, 1f, 100f))
         {

@@ -85,7 +85,7 @@ public class WorldEditCopyPaste : WorldEdit
         if (ImGui.BeginTabItem(GetString("Copy/Paste")))
         {
             ImGui.Checkbox(GetString("Destroy Tiles"), ref DestroyTiles);
-            ImGui.Text(GetString("Place Mode")); ImGui.SameLine(); ImGui.Combo("##PlaceMode", ref CurrentPlaceMode, PlaceModes, PlaceModes.Length);
+            ImGui.Text(GetString("Place Mode")); ImGui.SameLine(); ImGui.Combo("##PlaceMode", ref CurrentPlaceMode, PlaceModeStrings, PlaceModeStrings.Length);
             ImGui.EndTabItem();
             return true;
         }
@@ -229,4 +229,10 @@ public class WorldEditCopyPaste : WorldEdit
         SendTileRect,
         TileManipulation
     }
+
+    private string[] PlaceModeStrings =
+    {
+        GetString("SendTileRect"),
+        GetString("TileManipulation")
+    };
 }

@@ -6,7 +6,7 @@ namespace TerraAngel.Tools.Visuals;
 
 public class ProjectilePredictionTool : Tool
 {
-    public override string Name => "Projectile Prediction";
+    public override string Name => GetString("Projectile Prediction");
 
     public override ToolTabs Tab => ToolTabs.VisualTools;
 
@@ -27,18 +27,18 @@ public class ProjectilePredictionTool : Tool
 
     public override void DrawUI(ImGuiIOPtr io)
     {
-        ImGui.Checkbox("Projectile Prediction", ref DrawActiveProjectilePrediction);
+        ImGui.Checkbox(GetString("Projectile Prediction"), ref DrawActiveProjectilePrediction);
 
         if (DrawActiveProjectilePrediction)
         {
-            if (ImGui.CollapsingHeader("Projectile Prediction Settings"))
+            if (ImGui.CollapsingHeader(GetString("Projectile Prediction Settings")))
             {
                 ImGui.Indent();
-                ImGui.Checkbox("Draw Friendly", ref DrawFriendlyProjectiles);
-                ImGui.Checkbox("Draw Hostile", ref DrawHostileProjectiles);
-                ImGuiUtil.ColorEdit4("Friendly Color", ref FriendlyDrawColor);
-                ImGuiUtil.ColorEdit4("Hostile Color", ref HostileDrawColor);
-                ImGui.SliderInt("Max Step Count", ref MaxStepCount, 100, 10000);
+                ImGui.Checkbox(GetString("Draw Friendly"), ref DrawFriendlyProjectiles);
+                ImGui.Checkbox(GetString("Draw Hostile"), ref DrawHostileProjectiles);
+                ImGuiUtil.ColorEdit4(GetString("Friendly Color"), ref FriendlyDrawColor);
+                ImGuiUtil.ColorEdit4(GetString("Hostile Color"), ref HostileDrawColor);
+                ImGui.SliderInt(GetString("Max Step Count"), ref MaxStepCount, 100, 10000);
                 ImGui.Unindent();
             }
         }

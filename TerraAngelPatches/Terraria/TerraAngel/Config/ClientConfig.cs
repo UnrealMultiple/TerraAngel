@@ -136,11 +136,11 @@ public class ClientConfig
         [UIConfigElement("en-US","Default Disable Dust")]
         public bool DefaultDisableDust = false;
 
-        [UIConfigElement("zh-CN","?混沌传送杖存在")]
+        [UIConfigElement("zh-CN","Discord状态(和QQ状态一个东西)")]
         [UIConfigElement("en-US","Discord Rich Presence")]
         public bool UseDiscordRPC = true;
 
-        [UIConfigElement("zh-CN","告诉服务器我是开哥 (实验性)")]
+        [UIConfigElement("zh-CN","向服务器摊牌你的古神身份 (实验性)")]
         [UIConfigElement("en-US","Tell server that you're using a modified client (Experimental)")]
         public bool BroadcastPresence = false;
 
@@ -148,23 +148,23 @@ public class ClientConfig
         [UIConfigElement("en-US","Show Detailed Tooltips")]
         public bool ShowDetailedTooltips = true;
 
-        [UIConfigElement("zh-CN","?忽略超级滞后的视觉效果(Yorai 眼睛)")]
+        [UIConfigElement("zh-CN","忽略`Yoraiz0r的魔法`红眼效果")]
         [UIConfigElement("en-US","Ignore super laggy visuals (Yorai eye)")]
         public bool IgnoreReLogicBullshit = true;
 
-        [UIConfigElement("zh-CN","保存控制台历史")]
+        [UIConfigElement("zh-CN","保留控制台历史")]
         [UIConfigElement("en-US","Save Console History")]
         public bool PreserveConsoleHistory = true;
 
-        [UIConfigElement("zh-CN","保存控制台状态")]
+        [UIConfigElement("zh-CN","记忆控制台状态")]
         [UIConfigElement("en-US","Save Console State")]
         public bool ConsoleSaveInReplMode = true;
 
-        [UIConfigElement("zh-CN","?复制原版聊天行为")]
+        [UIConfigElement("zh-CN","按ESC关闭聊天栏而不打开背包")]
         [UIConfigElement("en-US","Chat Replicates Vanilla Behavior")]
         public bool ChatVanillaInvetoryBehavior = true;
 
-        [UIConfigElement("zh-CN","?关闭图格框")]
+        [UIConfigElement("zh-CN","关闭图格边框(疑似没用)")]
         [UIConfigElement("en-US","Default Disable Tile Framing")]
         public bool DefaultDisableTileFraming = false;
 
@@ -197,7 +197,7 @@ public class ClientConfig
         [UIConfigElement("en-US","Toggle All ESP")]
         public Keys ToggleDrawAnyESP = Keys.End;
 
-        [UIConfigElement("zh-CN","?切换可移动的状态窗")]
+        [UIConfigElement("zh-CN","切换可移动的状态窗 (没用)")]
         [UIConfigElement("en-US","Toggle stats window being movable")]
         public Keys ToggleStatsWindowMovability = Keys.NumPad5;
 
@@ -253,7 +253,7 @@ public class ClientConfig
         [UIConfigElement("en-US","Send Client UUID")]
         public bool IsSendClientUUID = true;
 
-        [UIConfigElement("zh-CN","跟随游戏翻译")]
+        [UIConfigElement("zh-CN","关闭多语言翻译")]
         [UIConfigElement("en-US","Follow Game Translation")]
         public bool IsFollowGameTranslation = true;
 

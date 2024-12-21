@@ -2,7 +2,7 @@
 
 public class FreecamTool : Tool
 {
-    public override string Name => "Freecam";
+    public override string Name => GetString("Freecam");
 
     public override ToolTabs Tab => ToolTabs.VisualTools;
 

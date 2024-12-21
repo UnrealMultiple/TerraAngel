@@ -4,7 +4,7 @@ public class OptimizationTool : Tool
 {
     public static OptimizationTool? OptimizationToolCache { get; private set; }
 
-    public override string Name => "Optimization Cringe";
+    public override string Name => GetString("Optimization Cringe");
 
     public override ToolTabs Tab => ToolTabs.VisualTools;
 
@@ -16,8 +16,8 @@ public class OptimizationTool : Tool
 
     public override void DrawUI(ImGuiIOPtr io)
     {
-        ImGui.Checkbox("Disable Dust", ref DisableDust);
-        ImGui.Checkbox("Disable Gore", ref DisableGore);
+        ImGui.Checkbox(GetString("Disable Dust"), ref DisableDust);
+        ImGui.Checkbox(GetString("Disable Gore"), ref DisableGore);
     }
 
     public override void Update()

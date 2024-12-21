@@ -2,7 +2,7 @@
 
 public class DisableFramingTool : Tool
 {
-    public override string Name => "Disable tile framing";
+    public override string Name => GetString("Disable tile framing");
 
     public override ToolTabs Tab => ToolTabs.VisualTools;
 

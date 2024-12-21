@@ -103,4 +103,10 @@ public class ItemBrowserTool : Tool
         InMouse,
         DropInWorld,
     }
+
+    public string[] ItemGiveModeStrings =
+    {
+       GetString("InMouse") ,
+       GetString("DropInWorld"),
+    };
 }

@@ -4,7 +4,7 @@ namespace TerraAngel.Tools.Visuals;
 
 public class ESPTool : Tool
 {
-    public override string Name => "ESP Boxes";
+    public override string Name => GetString("ESP Boxes");
 
     public override ToolTabs Tab => ToolTabs.ESPTools;
 
@@ -43,27 +43,27 @@ public class ESPTool : Tool
 
     public override void DrawUI(ImGuiIOPtr io)
     {
-        ImGui.Checkbox("Draw Any ESP", ref DrawAnyESP);
+        ImGui.Checkbox(GetString("Draw Any ESP"), ref DrawAnyESP);
         if (DrawAnyESP)
         {
-            ImGui.Checkbox("Draw ESP on map", ref MapESP);
-            ImGui.Checkbox("Player hitboxes", ref PlayerBoxes);
-            ImGui.Checkbox("NPC hitboxes", ref NPCBoxes);
-            ImGui.Checkbox("Projectile hitboxes", ref ProjectileBoxes);
-            ImGui.Checkbox("Item hitboxes", ref ItemBoxes);
-            ImGui.Checkbox("Player tracers", ref PlayerTracers);
-            ImGui.Checkbox("Tile Sections", ref ShowTileSections);
-            if (ImGui.CollapsingHeader("ESP Colors"))
+            ImGui.Checkbox(GetString("Draw ESP on map"), ref MapESP);
+            ImGui.Checkbox(GetString("Player hitboxes"), ref PlayerBoxes);
+            ImGui.Checkbox(GetString("NPC hitboxes"), ref NPCBoxes);
+            ImGui.Checkbox(GetString("Projectile hitboxes"), ref ProjectileBoxes);
+            ImGui.Checkbox(GetString("Item hitboxes"), ref ItemBoxes);
+            ImGui.Checkbox(GetString("Player tracers"), ref PlayerTracers);
+            ImGui.Checkbox(GetString("Tile Sections"), ref ShowTileSections);
+            if (ImGui.CollapsingHeader(GetString("ESP Colors")))
             {
                 ImGui.Indent();
-                ImGuiUtil.ColorEdit4("Local player box color", ref LocalPlayerColor);
-                ImGuiUtil.ColorEdit4("Other player box color", ref OtherPlayerColor);
-                ImGuiUtil.ColorEdit4("Other TerraAngel user box color", ref OtherTerraAngelUserColor);
-                ImGuiUtil.ColorEdit4("Player Tracer color", ref TracerColor);
-                ImGuiUtil.ColorEdit4("NPC box color", ref NPCColor);
-                ImGuiUtil.ColorEdit4("NPC net box color", ref NPCNetOffsetColor);
-                ImGuiUtil.ColorEdit4("Projectile box color", ref ProjectileColor);
-                ImGuiUtil.ColorEdit4("Item box color", ref ItemColor);
+                ImGuiUtil.ColorEdit4(GetString("Local player box color"), ref LocalPlayerColor);
+                ImGuiUtil.ColorEdit4(GetString("Other player box color"), ref OtherPlayerColor);
+                ImGuiUtil.ColorEdit4(GetString("Other TerraAngel user box color"), ref OtherTerraAngelUserColor);
+                ImGuiUtil.ColorEdit4(GetString("Player Tracer color"), ref TracerColor);
+                ImGuiUtil.ColorEdit4(GetString("NPC box color"), ref NPCColor);
+                ImGuiUtil.ColorEdit4(GetString("NPC net box color"), ref NPCNetOffsetColor);
+                ImGuiUtil.ColorEdit4(GetString("Projectile box color"), ref ProjectileColor);
+                ImGuiUtil.ColorEdit4(GetString("Item box color"), ref ItemColor);
                 ImGui.Unindent();
             }
         }
