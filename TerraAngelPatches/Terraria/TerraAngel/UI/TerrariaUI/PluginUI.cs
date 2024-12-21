@@ -84,7 +84,7 @@ public class PluginUI : UIState, IHaveBackButtonCommand
             HandleBackButtonUsage();
         };
 
-        ReloadPluginsButton = new UIAutoScaleTextTextPanel<string>("Reload Plugins")
+        ReloadPluginsButton = new UIAutoScaleTextTextPanel<string>(GetString("Reload Plugins"))
         {
             Width = new StyleDimension(-10f, 1f / 3f),
             Height = { Pixels = 40 },
@@ -96,7 +96,7 @@ public class PluginUI : UIState, IHaveBackButtonCommand
 
         ReloadPluginsButton.OnLeftClick += ReloadButton;
 
-        OpenPluginsFolderButton = new UIAutoScaleTextTextPanel<string>("Open Plugins Folder")
+        OpenPluginsFolderButton = new UIAutoScaleTextTextPanel<string>(GetString("Open Plugins Folder"))
         {
             Width = new StyleDimension(-10f, 1f / 3f),
             Height = { Pixels = 40 },

@@ -17,7 +17,7 @@ internal class UpdateChecker
             return false;
         }
 
-        ClientLoader.Console.WriteLine("Checking for updates");
+        ClientLoader.Console.WriteLine(GetString("Checking for updates"));
 
         try
         {
@@ -29,14 +29,14 @@ internal class UpdateChecker
 
             if (updateAvailable)
             {
-                ClientLoader.Console.WriteLine("Updates available");
+                ClientLoader.Console.WriteLine(GetString("Updates available"));
             }
 
             return updateAvailable;
         }
         catch
         {
-            ClientLoader.Console.WriteLine("Error occured while checking for updates");
+            ClientLoader.Console.WriteLine(GetString("Error occured while checking for updates"));
             return false;
         }
     }

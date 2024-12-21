@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Terraria\n"
-"POT-Creation-Date: 2024-12-20 18:56:21+0800\n"
-"PO-Revision-Date: 2024-12-20 19:11+0800\n"
+"POT-Creation-Date: 2024-12-21 16:24:36+0800\n"
+"PO-Revision-Date: 2024-12-21 16:28+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -14,7 +14,7 @@ msgstr ""
 #: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:201
 #, csharp-format
 msgid " ({0})"
-msgstr ""
+msgstr " ({0})"
 
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:189
 #, csharp-format
@@ -31,9 +31,61 @@ msgstr "{0} 客户端 UUID"
 msgid "{0}Message Logs"
 msgstr "{0}数据包日志"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:74
-msgid "Alpha"
-msgstr ""
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:67
+msgid "*Press Ctrl+Alt to select specific cast position"
+msgstr "*按 Ctrl+Alt 来选择指定抛竿位置"
+
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:95
+msgid "Accept"
+msgstr "接受"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:51
+msgid "Accept All Items"
+msgstr "接受所有物品"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:57
+msgid "Accept Common"
+msgstr "接受普通物品"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:55
+msgid "Accept Crates"
+msgstr "接受板条箱"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:50
+msgid "Accept Items"
+msgstr "接受物品"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:61
+msgid "Accept Legendary"
+msgstr "接受传奇物品"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:56
+msgid "Accept Normal"
+msgstr "接受正常物品"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:63
+msgid "Accept NPCs"
+msgstr "接受生物"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:54
+msgid "Accept Quest Fish"
+msgstr "接受渔夫任务鱼"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:59
+msgid "Accept Rare"
+msgstr "接受稀有物品"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:58
+msgid "Accept Uncommon"
+msgstr "接受不常见物品"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:60
+msgid "Accept Very Rare"
+msgstr "接受非常稀有物品"
+
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerJoinUIList.cs:86
+msgid "Add New Server"
+msgstr "添加新服务器"
 
 #: ../../../TerraAngel/UI/ClientWindows/DrawWindow.cs:251
 #, csharp-format
@@ -44,29 +96,65 @@ msgstr ""
 "WorldEdit::Edit 发生错误\n"
 "{0}"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:69
-msgid "Anti-Aliased Fill"
-msgstr ""
+#: ../../../TerraAngel/Tools/Developer/AntiHurtTool.cs:5
+msgid "Anti-hurt/Godmode"
+msgstr "无敌"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:70
-msgid "Anti-Aliased Lines"
-msgstr ""
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:7
+msgid "Auto-Aim"
+msgstr "自动瞄准"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:71
-msgid "Anti-Aliased Lines Use Texture"
-msgstr ""
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:28
+msgid "Auto-Attack Settings"
+msgstr "自动攻击设置"
+
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:19
+msgid "Auto-Butcher Hostiles"
+msgstr "自动屠杀敌对生物"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:9
+msgid "Auto-Fish"
+msgstr "自动钓鱼"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:47
+msgid "Auto-Fish settings"
+msgstr "自动钓鱼设置"
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:75
 msgid "Automation"
 msgstr "自动化"
 
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:51
+msgid "Back"
+msgstr "返回"
+
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:285
+msgid "Borderless Fullscreen"
+msgstr "无边框全屏"
+
 #: ../../../TerraAngel/UI/ClientWindows/StatsWindow.cs:36
 msgid "Builder Mode Active "
 msgstr "已启用建造者模式"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:64
-msgid "Button Text Align"
-msgstr ""
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:5
+msgid "Butcher"
+msgstr "屠杀"
+
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:20
+msgid "Butcher All Friendly NPCs"
+msgstr "屠杀所有友好生物"
+
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:15
+msgid "Butcher All Hostile NPCs"
+msgstr "屠杀所有敌对生物"
+
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:24
+msgid "Butcher All Players"
+msgstr "屠杀所有玩家"
+
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:28
+msgid "Butcher Damage"
+msgstr "屠杀伤害"
 
 #: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:19
 #: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:153
@@ -76,19 +164,11 @@ msgstr "聊天"
 #: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:160
 #, csharp-format
 msgid "Chat {0}"
-msgstr "聊天 {0}"
+msgstr "聊天{0}"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:58
-msgid "Child Border Rounding"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:60
-msgid "Child Border Size"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:72
-msgid "Circle Tessellation Max Error"
-msgstr ""
+#: ../../../TerraAngel/UpdateChecker.cs:20
+msgid "Checking for updates"
+msgstr "正在检查更新"
 
 #: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:311
 msgid "Clear"
@@ -110,10 +190,6 @@ msgstr "点击以复制"
 msgid "Click to reveal"
 msgstr "点击以显示"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:27
-msgid "Colors"
-msgstr ""
-
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:24
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:98
 msgid "Console"
@@ -125,25 +201,17 @@ msgstr "终端"
 msgid "Console script not initialized"
 msgstr "终端脚本系统未初始化"
 
+#: ../../../TerraAngel/Tools/Map/MapScreenshotTool.cs:131
+msgid "Copied map screenshot to clipboard"
+msgstr "复制地图截图到剪贴板"
+
 #: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:330
 msgid "Copy All"
 msgstr "复制全部"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:73
-msgid "Curve Tessellation Tol"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:75
-msgid "Disabled Alpha"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:51
-msgid "Display Safe Area Padding"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:42
-msgid "Display Window Padding"
-msgstr ""
+#: ../../../TerraAngel/UpdateChecker.cs:39
+msgid "Error occured while checking for updates"
+msgstr "检查更新时发生错误"
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:139
 msgid "ESP"
@@ -157,59 +225,74 @@ msgstr "初始化脚本评估器时失败"
 msgid "Finished Initializing Scripting Evaluator"
 msgstr "完成初始化脚本评估器"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:50
-msgid "Frame Border Padding"
-msgstr ""
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:159
+#, csharp-format
+msgid "Fish: {0}"
+msgstr "鱼: {0}"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:61
-msgid "Frame Border Size"
-msgstr ""
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:183
+#, csharp-format
+msgid "FPS Cap Unfocused: {0}"
+msgstr "失焦时帧率限制: {0}"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:56
-msgid "Frame Rounding"
-msgstr ""
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:172
+#, csharp-format
+msgid "FPS Cap: {0}"
+msgstr "帧率限制: {0}"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:62
-msgid "Grab Minimum Size"
-msgstr ""
+#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:27
+msgid "Frames between sync"
+msgstr "同步之间的帧数量"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:57
-msgid "Grab Rounding"
-msgstr ""
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:285
+msgid "Fullscreen"
+msgstr "全屏"
+
+#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:46
+msgid "Give Type"
+msgstr "给予类型"
+
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:63
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:76
+#, csharp-format
+msgid "Go {0}"
+msgstr "转换到 {0} 模式"
 
 #: ../../../TerraAngel/UI/ClientWindows/ImeWindow.cs:11
 msgid "Ime"
 msgstr "输入法"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:47
-msgid "Indent Spacing"
-msgstr ""
+#: ../../../TerraAngel/Tools/Developer/InfiniteManaTool.cs:5
+msgid "Infinite mana"
+msgstr "无限魔力"
+
+#: ../../../TerraAngel/Tools/Developer/InfiniteMinionTool.cs:5
+msgid "Infinite minions"
+msgstr "无限随从"
+
+#: ../../../TerraAngel/Tools/Developer/InfiniteReachTool.cs:5
+msgid "Infinite reach"
+msgstr "无视建造范围限制"
 
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleScriptWindow.cs:77
 msgid "Initializing Scripting Evaluator"
 msgstr "正在初始化脚本评估器"
 
-#: ../../../TerraAngel/UI/ClientWindows/InspectorWindow.cs:9
-msgid "Inspector"
-msgstr "检视器"
-
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:65
+#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:20
 msgid "Item Browser"
 msgstr "物品浏览器"
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:49
-msgid "Item Inner Spacing"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:48
-msgid "Item Spacing"
-msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:61
 #: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:47
 #: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:80
 msgid "Items"
 msgstr "物品"
+
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:205
+#, csharp-format
+msgid "Light Passes: {0}"
+msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:148
 msgid "Lighting"
@@ -236,13 +319,28 @@ msgstr "主窗口"
 msgid "Main Window"
 msgstr "主窗口"
 
+#: ../../../TerraAngel/Tools/Map/MapScreenshotTool.cs:29
+msgid "Map Pixel per Tile"
+msgstr "地图每图格像素"
+
+#: ../../../TerraAngel/Tools/Map/MapScreenshotTool.cs:13
+msgid "Map Screenshot"
+msgstr "地图截图"
+
+#: ../../../TerraAngel/Tools/Map/MapScreenshotTool.cs:27
+msgid "Map Screenshot Settings"
+msgstr "地图截图设置"
+
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:128
 #, csharp-format
 msgid "Map took {0}ms"
-msgstr "地图使用了 {0}ms"
+msgstr "地图花费了 {0}ms"
+
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:31
+msgid "Minimum Target Range"
+msgstr "最小目标范围"
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:181
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:67
 msgid "Misc"
 msgstr "杂项"
 
@@ -255,13 +353,55 @@ msgstr "网络调试器"
 msgid "Net Message Logs"
 msgstr "包日志"
 
+#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:7
+msgid "Noclip"
+msgstr "切出"
+
+#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:21
+msgid "Noclip Settings"
+msgstr "切出设置"
+
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:290
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:295
+msgid "None"
+msgstr "无"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:207
+#, csharp-format
+msgid "NPC: {0}"
+msgstr "生物: {0}"
+
+#: ../../../TerraAngel/UI/TerrariaUI/PluginUI.cs:99
+msgid "Open Plugins Folder"
+msgstr "打开插件文件夹"
+
 #: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:87
 msgid "Packets with traces:"
-msgstr "可跟踪的包:"
+msgstr "跟踪的包:"
+
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:48
+msgid "Prediction Scaling"
+msgstr "预测倍率"
 
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:71
 msgid "Prints help"
 msgstr "打印帮助"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:108
+msgid "Pulled fish"
+msgstr "勾到鱼了"
+
+#: ../../../TerraAngel/Tools/Builder/QuickSlopeTool.cs:14
+msgid "Quick Slope"
+msgstr "快速斜坡"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:66
+msgid "Randomization Max"
+msgstr "最大随机值"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:65
+msgid "Randomization Min"
+msgstr "最小随机值"
 
 #: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:309
 msgid "Raw "
@@ -275,9 +415,17 @@ msgstr "原始包日志"
 msgid "Received packet"
 msgstr "已收到的包"
 
+#: ../../../TerraAngel/UI/TerrariaUI/PluginUI.cs:87
+msgid "Reload Plugins"
+msgstr "重载插件"
+
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:81
 msgid "Reloads plugins"
 msgstr "重载插件"
+
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:44
+msgid "Require Line of Sight"
+msgstr "需要视线"
 
 #: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:176
 msgid "Reset Position"
@@ -287,30 +435,50 @@ msgstr "重置位置"
 msgid "Reveal Map"
 msgstr "显露地图"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:59
-msgid "Scrollbar Rounding"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:63
-msgid "Scrollbar Size"
-msgstr ""
+#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:41
+msgid "Search"
+msgstr "搜索"
 
 #: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:74
 msgid "Search:"
 msgstr "搜索:"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:45
-msgid "Spacing"
-msgstr ""
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:58
+msgid "Server IP"
+msgstr "服务器 IP"
+
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:40
+msgid "Server Name"
+msgstr "服务器名称"
+
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:76
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:80
+msgid "Server Port"
+msgstr "服务器端口"
+
+#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:24
+msgid "Speed"
+msgstr "速度"
 
 #: ../../../TerraAngel/UI/ClientWindows/StatsWindow.cs:15
 msgid "Stat Window"
 msgstr "统计窗口"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:10
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:23
-msgid "Style Editor"
-msgstr "样式编辑器"
+#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:55
+msgid "Sync With Server"
+msgstr "与服务器同步"
+
+#: ../../../TerraAngel/Tools/Map/MapScreenshotTool.cs:107
+msgid "Taking map screenshot"
+msgstr "正在为地图截图"
+
+#: ../../../Main.cs:47987
+msgid "TerraAngel Plugins"
+msgstr "TerraAngel 插件"
+
+#: ../../../Main.cs:47977
+msgid "TerraAngel Settings"
+msgstr "TerraAngel 设置"
 
 #: ../../../TerraAngel/UI/ClientWindows/TimingMetricsWindow.cs:13
 msgid "Timing Metrics"
@@ -327,44 +495,58 @@ msgstr "输入 #help 查看指令列表"
 
 #: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:160
 msgid "Unlocked"
-msgstr "已解锁的"
+msgstr "解锁"
+
+#: ../../../TerraAngel/UpdateChecker.cs:32
+msgid "Updates available"
+msgstr "有可用更新"
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:67
+msgid "Use specific mouse position"
+msgstr "使用指定鼠标位置"
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:101
 msgid "Utility"
 msgstr "工具"
 
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:45
+msgid "Velocity Prediction"
+msgstr "速率预测"
+
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:97
 msgid "Visuals"
 msgstr "视觉"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:54
-msgid "Widgets"
-msgstr "组件"
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:194
+msgid "Vsync"
+msgstr "垂直同步"
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:35
-msgid "Window"
-msgstr "窗口"
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:38
-msgid "Window Border Size"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:41
-msgid "Window Minimum Size"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:39
-msgid "Window Padding"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:37
-msgid "Window Rounding"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:40
-msgid "Window Title Align"
-msgstr ""
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:285
+msgid "Windowed"
+msgstr "窗口化"
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:160
 msgid "World Edit"
 msgstr "世界编辑"
+
+#~ msgid "Colors"
+#~ msgstr "颜色"
+
+#~ msgid "Style Editor"
+#~ msgstr "样式编辑器"
+
+#~ msgid "Widgets"
+#~ msgstr "组件"
+
+#~ msgid "*Not implemented yet"
+#~ msgstr "*还没实现"
+
+#, csharp-format
+#~ msgid "Hostile:     {0}"
+#~ msgstr "敌对: {0}"
+
+#~ msgid "Not implemented yet"
+#~ msgstr "还没实现"
+
+#~ msgid "STS"
+#~ msgstr "发送方形图格(STS)"

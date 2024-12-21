@@ -6,7 +6,7 @@ namespace TerraAngel.UI.ClientWindows;
 
 public class InspectorWindow : ClientWindow
 {
-    public override string Title => GetString("Inspector");
+    public override string Title => "Inspector";
 
     public override bool DefaultEnabled => false;
 

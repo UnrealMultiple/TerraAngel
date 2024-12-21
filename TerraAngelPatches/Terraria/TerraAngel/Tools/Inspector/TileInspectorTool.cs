@@ -71,7 +71,7 @@ public class TileInspectorTool : InspectorTool
         ImGui.InputInt("###tfy", ref y);
         SelectedTile.Value.frameY = (short)Math.Clamp(y, short.MinValue, short.MaxValue);
 
-        ImGui.Text($"Tile Fame Number: {SelectedTile.Value.frameNumber()}");
+        ImGui.Text($"Tile Frame Number: {SelectedTile.Value.frameNumber()}");
         ImGui.Text($"Tile Slope:       {SelectedTile.Value.slope()}");
         ImGui.Text($"Tile Halfbrick:   {SelectedTile.Value.halfBrick()}");
         ImGui.Text($"Tile Paint:       {InternalRepresentation.GetPaintIDName(SelectedTile.Value.color())}/{SelectedTile.Value.color()}");

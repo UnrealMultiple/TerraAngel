@@ -83,7 +83,7 @@ public class MultiplayerJoinUIList : UIState, IHaveBackButtonCommand
 
         RootElement.Append(BackButton);
 
-        AddServerButton = new UIAutoScaleTextTextPanel<string>("Add New Server")
+        AddServerButton = new UIAutoScaleTextTextPanel<string>(GetString("Add New Server"))
         {
             Width = new StyleDimension(-5f, 0.5f),
             Height = { Pixels = 40 },

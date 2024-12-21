@@ -2,7 +2,7 @@
 
 public class InfiniteReachTool : Tool
 {
-    public override string Name => "Infinite reach";
+    public override string Name => GetString("Infinite reach");
 
     public override ToolTabs Tab => ToolTabs.MainTools;
 

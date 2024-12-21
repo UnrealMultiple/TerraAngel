@@ -1110,7 +1110,7 @@
  
              num11++;
 +            num5++;
-+            array9[num11] = "TerraAngel Settings";
++            array9[num11] = GetString("TerraAngel Settings");
 +            if (selectedMenu == num11)
 +            {
 +                SoundEngine.PlaySound(10);
@@ -1120,7 +1120,7 @@
 +
 +            num11++;
 +            num5++;
-+            array9[num11] = "TerraAngel Plugins";
++            array9[num11] = GetString("TerraAngel Plugins");
 +            if (selectedMenu == num11)
 +            {
 +                SoundEngine.PlaySound(10);
@@ -1141,15 +1141,6 @@
                  num20++;
                  array9[num20] = Lang.menu[210].Value;
                  if (selectedMenu == num20)
-@@ -49232,7 +_,7 @@
-             {
-                 bgScroll = (int)Math.Round((1f - caveParallax) * 500f);
-                 int num25 = 0;
--                array9[num25] = Lang.menu[51].Value;
-+                array9[num25] = "Graphics";
-                 if (selectedMenu == num25)
-                 {
-                     SoundEngine.PlaySound(10);
 @@ -49248,14 +_,6 @@
                  }
  

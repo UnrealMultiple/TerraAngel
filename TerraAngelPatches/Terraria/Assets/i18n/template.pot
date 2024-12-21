@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Terraria\n"
-"POT-Creation-Date: 2024-12-20 19:11:17+0800\n"
-"PO-Revision-Date: 2024-12-20 19:11:21+0800\n"
+"POT-Creation-Date: 2024-12-21 16:30:34+0800\n"
+"PO-Revision-Date: 2024-12-21 16:30:39+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -30,8 +30,60 @@ msgstr ""
 msgid "{0}Message Logs"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:74
-msgid "Alpha"
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:67
+msgid "*Press Ctrl+Alt to select specific cast position"
+msgstr ""
+
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:95
+msgid "Accept"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:51
+msgid "Accept All Items"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:57
+msgid "Accept Common"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:55
+msgid "Accept Crates"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:50
+msgid "Accept Items"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:61
+msgid "Accept Legendary"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:56
+msgid "Accept Normal"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:63
+msgid "Accept NPCs"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:54
+msgid "Accept Quest Fish"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:59
+msgid "Accept Rare"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:58
+msgid "Accept Uncommon"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:60
+msgid "Accept Very Rare"
+msgstr ""
+
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerJoinUIList.cs:86
+msgid "Add New Server"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/DrawWindow.cs:251
@@ -41,28 +93,64 @@ msgid ""
 "{0}"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:69
-msgid "Anti-Aliased Fill"
+#: ../../../TerraAngel/Tools/Developer/AntiHurtTool.cs:5
+msgid "Anti-hurt/Godmode"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:70
-msgid "Anti-Aliased Lines"
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:7
+msgid "Auto-Aim"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:71
-msgid "Anti-Aliased Lines Use Texture"
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:28
+msgid "Auto-Attack Settings"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:19
+msgid "Auto-Butcher Hostiles"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:9
+msgid "Auto-Fish"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:47
+msgid "Auto-Fish settings"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:75
 msgid "Automation"
 msgstr ""
 
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:51
+msgid "Back"
+msgstr ""
+
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:285
+msgid "Borderless Fullscreen"
+msgstr ""
+
 #: ../../../TerraAngel/UI/ClientWindows/StatsWindow.cs:36
 msgid "Builder Mode Active "
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:64
-msgid "Button Text Align"
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:5
+msgid "Butcher"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:20
+msgid "Butcher All Friendly NPCs"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:15
+msgid "Butcher All Hostile NPCs"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:24
+msgid "Butcher All Players"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:28
+msgid "Butcher Damage"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:19
@@ -75,16 +163,8 @@ msgstr ""
 msgid "Chat {0}"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:58
-msgid "Child Border Rounding"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:60
-msgid "Child Border Size"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:72
-msgid "Circle Tessellation Max Error"
+#: ../../../TerraAngel/UpdateChecker.cs:20
+msgid "Checking for updates"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:311
@@ -107,10 +187,6 @@ msgstr ""
 msgid "Click to reveal"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:27
-msgid "Colors"
-msgstr ""
-
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:24
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:98
 msgid "Console"
@@ -122,24 +198,16 @@ msgstr ""
 msgid "Console script not initialized"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Map/MapScreenshotTool.cs:131
+msgid "Copied map screenshot to clipboard"
+msgstr ""
+
 #: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:330
 msgid "Copy All"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:73
-msgid "Curve Tessellation Tol"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:75
-msgid "Disabled Alpha"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:51
-msgid "Display Safe Area Padding"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:42
-msgid "Display Window Padding"
+#: ../../../TerraAngel/UpdateChecker.cs:39
+msgid "Error occured while checking for updates"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:139
@@ -154,58 +222,73 @@ msgstr ""
 msgid "Finished Initializing Scripting Evaluator"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:50
-msgid "Frame Border Padding"
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:159
+#, csharp-format
+msgid "Fish: {0}"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:61
-msgid "Frame Border Size"
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:183
+#, csharp-format
+msgid "FPS Cap Unfocused: {0}"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:56
-msgid "Frame Rounding"
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:172
+#, csharp-format
+msgid "FPS Cap: {0}"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:62
-msgid "Grab Minimum Size"
+#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:27
+msgid "Frames between sync"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:57
-msgid "Grab Rounding"
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:285
+msgid "Fullscreen"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:46
+msgid "Give Type"
+msgstr ""
+
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:63
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:76
+#, csharp-format
+msgid "Go {0}"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/ImeWindow.cs:11
 msgid "Ime"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:47
-msgid "Indent Spacing"
+#: ../../../TerraAngel/Tools/Developer/InfiniteManaTool.cs:5
+msgid "Infinite mana"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Developer/InfiniteMinionTool.cs:5
+msgid "Infinite minions"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Developer/InfiniteReachTool.cs:5
+msgid "Infinite reach"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleScriptWindow.cs:77
 msgid "Initializing Scripting Evaluator"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/InspectorWindow.cs:9
-msgid "Inspector"
-msgstr ""
-
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:65
+#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:20
 msgid "Item Browser"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:49
-msgid "Item Inner Spacing"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:48
-msgid "Item Spacing"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:61
 #: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:47
 #: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:80
 msgid "Items"
+msgstr ""
+
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:205
+#, csharp-format
+msgid "Light Passes: {0}"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:148
@@ -233,13 +316,28 @@ msgstr ""
 msgid "Main Window"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Map/MapScreenshotTool.cs:29
+msgid "Map Pixel per Tile"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Map/MapScreenshotTool.cs:13
+msgid "Map Screenshot"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Map/MapScreenshotTool.cs:27
+msgid "Map Screenshot Settings"
+msgstr ""
+
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:128
 #, csharp-format
 msgid "Map took {0}ms"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:31
+msgid "Minimum Target Range"
+msgstr ""
+
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:181
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:67
 msgid "Misc"
 msgstr ""
 
@@ -252,12 +350,54 @@ msgstr ""
 msgid "Net Message Logs"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:7
+msgid "Noclip"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:21
+msgid "Noclip Settings"
+msgstr ""
+
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:290
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:295
+msgid "None"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:207
+#, csharp-format
+msgid "NPC: {0}"
+msgstr ""
+
+#: ../../../TerraAngel/UI/TerrariaUI/PluginUI.cs:99
+msgid "Open Plugins Folder"
+msgstr ""
+
 #: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:87
 msgid "Packets with traces:"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:48
+msgid "Prediction Scaling"
+msgstr ""
+
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:71
 msgid "Prints help"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:108
+msgid "Pulled fish"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Builder/QuickSlopeTool.cs:14
+msgid "Quick Slope"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:66
+msgid "Randomization Max"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:65
+msgid "Randomization Min"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:309
@@ -272,8 +412,16 @@ msgstr ""
 msgid "Received packet"
 msgstr ""
 
+#: ../../../TerraAngel/UI/TerrariaUI/PluginUI.cs:87
+msgid "Reload Plugins"
+msgstr ""
+
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:81
 msgid "Reloads plugins"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:44
+msgid "Require Line of Sight"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:176
@@ -284,29 +432,49 @@ msgstr ""
 msgid "Reveal Map"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:59
-msgid "Scrollbar Rounding"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:63
-msgid "Scrollbar Size"
+#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:41
+msgid "Search"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:74
 msgid "Search:"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:45
-msgid "Spacing"
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:58
+msgid "Server IP"
+msgstr ""
+
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:40
+msgid "Server Name"
+msgstr ""
+
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:76
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:80
+msgid "Server Port"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:24
+msgid "Speed"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/StatsWindow.cs:15
 msgid "Stat Window"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:10
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:23
-msgid "Style Editor"
+#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:55
+msgid "Sync With Server"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Map/MapScreenshotTool.cs:107
+msgid "Taking map screenshot"
+msgstr ""
+
+#: ../../../Main.cs:47987
+msgid "TerraAngel Plugins"
+msgstr ""
+
+#: ../../../Main.cs:47977
+msgid "TerraAngel Settings"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/TimingMetricsWindow.cs:13
@@ -326,40 +494,32 @@ msgstr ""
 msgid "Unlocked"
 msgstr ""
 
+#: ../../../TerraAngel/UpdateChecker.cs:32
+msgid "Updates available"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:67
+msgid "Use specific mouse position"
+msgstr ""
+
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:101
 msgid "Utility"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:45
+msgid "Velocity Prediction"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:97
 msgid "Visuals"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:54
-msgid "Widgets"
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:194
+msgid "Vsync"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:35
-msgid "Window"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:38
-msgid "Window Border Size"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:41
-msgid "Window Minimum Size"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:39
-msgid "Window Padding"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:37
-msgid "Window Rounding"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:40
-msgid "Window Title Align"
+#: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:285
+msgid "Windowed"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:160

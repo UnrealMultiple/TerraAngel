@@ -4,7 +4,7 @@ namespace TerraAngel.Tools.Developer;
 
 public class NoClipTool : Tool
 {
-    public override string Name => "Noclip";
+    public override string Name => GetString("Noclip");
 
     public override ToolTabs Tab => ToolTabs.MainTools;
 
@@ -18,13 +18,13 @@ public class NoClipTool : Tool
         ImGui.Checkbox(Name, ref Enabled);
         if (Enabled)
         {
-            if (ImGui.CollapsingHeader("Noclip Settings"))
+            if (ImGui.CollapsingHeader(GetString("Noclip Settings")))
             {
                 ImGui.Indent();
-                ImGui.TextUnformatted("Speed"); ImGui.SameLine();
+                ImGui.TextUnformatted(GetString("Speed")); ImGui.SameLine();
                 ImGui.SliderFloat("##Speed", ref NoClipSpeed, 1f, 100f);
 
-                ImGui.TextUnformatted("Frames between sync"); ImGui.SameLine();
+                ImGui.TextUnformatted(GetString("Frames between sync")); ImGui.SameLine();
                 ImGui.SliderInt("##SyncTime", ref NoClipPlayerSyncTime, 1, 60);
                 ImGui.Unindent();
             }

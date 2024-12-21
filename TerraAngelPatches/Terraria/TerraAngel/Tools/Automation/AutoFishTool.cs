@@ -6,7 +6,7 @@ namespace TerraAngel.Tools.Automation;
 
 public class AutoFishTool : Tool
 {
-    public override string Name => "Auto-Fish";
+    public override string Name => GetString("Auto-Fish");
 
     public override ToolTabs Tab => ToolTabs.AutomationTools;
 
@@ -44,27 +44,27 @@ public class AutoFishTool : Tool
 
         if (Enabled)
         {
-            if (ImGui.CollapsingHeader("Auto-Fish settings"))
+            if (ImGui.CollapsingHeader(GetString("Auto-Fish settings")))
             {
                 ImGui.Indent();
-                ImGui.Checkbox("Accept Items", ref AcceptItems);
-                ImGui.Checkbox("Accept All Items", ref AcceptAllItems);
+                ImGui.Checkbox(GetString("Accept Items"), ref AcceptItems);
+                ImGui.Checkbox(GetString("Accept All Items"), ref AcceptAllItems);
                 if (AcceptItems && !AcceptAllItems)
                 {
-                    ImGui.Checkbox("Accept Quest Fish", ref AcceptQuestFish);
-                    ImGui.Checkbox("Accept Crates", ref AcceptCrates);
-                    ImGui.Checkbox("Accept Normal", ref AcceptNormal);
-                    ImGui.Checkbox("Accept Common", ref AcceptCommon);
-                    ImGui.Checkbox("Accept Uncommon", ref AcceptUncommon);
-                    ImGui.Checkbox("Accept Rare", ref AcceptRare);
-                    ImGui.Checkbox("Accept Very Rare", ref AcceptVeryRare);
-                    ImGui.Checkbox("Accept Legendary", ref AcceptLegendary);
+                    ImGui.Checkbox(GetString("Accept Quest Fish"), ref AcceptQuestFish);
+                    ImGui.Checkbox(GetString("Accept Crates"), ref AcceptCrates);
+                    ImGui.Checkbox(GetString("Accept Normal"), ref AcceptNormal);
+                    ImGui.Checkbox(GetString("Accept Common"), ref AcceptCommon);
+                    ImGui.Checkbox(GetString("Accept Uncommon"), ref AcceptUncommon);
+                    ImGui.Checkbox(GetString("Accept Rare"), ref AcceptRare);
+                    ImGui.Checkbox(GetString("Accept Very Rare"), ref AcceptVeryRare);
+                    ImGui.Checkbox(GetString("Accept Legendary"), ref AcceptLegendary);
                 }
-                ImGui.Checkbox("Accept NPCs", ref AcceptNPCs);
+                ImGui.Checkbox(GetString("Accept NPCs"), ref AcceptNPCs);
 
-                ImGui.SliderInt("Randomization Min", ref frameCountRandomizationMin, 0, 120);
-                ImGui.SliderInt("Randomization Max", ref frameCountRandomizationMax, frameCountRandomizationMin, frameCountRandomizationMin + 120);
-                ImGui.Checkbox("Use specific mouse position", ref HasSpecialPosition); ImGui.SameLine(); ImGui.TextDisabled("*Press Ctrl+Alt to select specific cast position");
+                ImGui.SliderInt(GetString("Randomization Min"), ref frameCountRandomizationMin, 0, 120);
+                ImGui.SliderInt(GetString("Randomization Max"), ref frameCountRandomizationMax, frameCountRandomizationMin, frameCountRandomizationMin + 120);
+                ImGui.Checkbox(GetString("Use specific mouse position"), ref HasSpecialPosition); ImGui.SameLine(); ImGui.TextDisabled(GetString("*Press Ctrl+Alt to select specific cast position"));
                 ImGui.Unindent();
             }
         }
@@ -105,7 +105,7 @@ public class AutoFishTool : Tool
 
                     }
 
-                    ClientLoader.Console.WriteLine("Pulled fish");
+                    ClientLoader.Console.WriteLine(GetString("Pulled fish"));
                 }
             }
             if (WantToReCast)
@@ -156,7 +156,7 @@ public class AutoFishTool : Tool
             bool wantToCatch = false;
             if (fish.rolledItemDrop > 0)
             {
-                ClientLoader.Console.WriteLine($"Fish: {InternalRepresentation.GetItemIDName(fish.rolledItemDrop)}");
+                ClientLoader.Console.WriteLine(GetString($"Fish: {InternalRepresentation.GetItemIDName(fish.rolledItemDrop)}"));
                 if (AcceptItems)
                 {
                     if (!fish.crate && fish.questFish == -1 && !fish.common && !fish.uncommon && !fish.rare && !fish.veryrare && !fish.legendary && AcceptNormal)
@@ -204,7 +204,7 @@ public class AutoFishTool : Tool
 
             if (fish.rolledEnemySpawn > 0)
             {
-                ClientLoader.Console.WriteLine($"NPC: {InternalRepresentation.GetNPCIDName(fish.rolledEnemySpawn)}");
+                ClientLoader.Console.WriteLine(GetString($"NPC: {InternalRepresentation.GetNPCIDName(fish.rolledEnemySpawn)}"));
                 if (AcceptNPCs)
                 {
                     wantToCatch = true;

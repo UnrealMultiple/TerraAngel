@@ -10,7 +10,7 @@ namespace TerraAngel.Tools.Map;
 
 public class MapScreenshotTool : Tool
 {
-    public override string Name => "Map Screenshot";
+    public override string Name => GetString("Map Screenshot");
 
     public override ToolTabs Tab => ToolTabs.MiscTools;
 
@@ -24,9 +24,9 @@ public class MapScreenshotTool : Tool
 
     public override void DrawUI(ImGuiIOPtr io)
     {
-        if (ImGui.CollapsingHeader("Map Screenshot Settings"))
+        if (ImGui.CollapsingHeader(GetString("Map Screenshot Settings")))
         {
-            ImGui.SliderInt("Map Pixel per Tile", ref PixelsPerTile, 1, 32);
+            ImGui.SliderInt(GetString("Map Pixel per Tile"), ref PixelsPerTile, 1, 32);
             PixelsPerTile = Math.Max(0, PixelsPerTile);
         }
     }
@@ -104,7 +104,7 @@ public class MapScreenshotTool : Tool
 
                     Span2D<Color> bitmapSpan = new Span2D<Color>((void*)bitmapData.Scan0, bitmapData.Height, bitmapData.Width, 0);
 
-                    ClientLoader.Console.WriteLine("Taking map screenshot");
+                    ClientLoader.Console.WriteLine(GetString("Taking map screenshot"));
 
                     for (int y = 0; y < size.Y; y++)
                     {
@@ -128,7 +128,7 @@ public class MapScreenshotTool : Tool
                     bitmap.UnlockBits(bitmapData);
 
                     SetClipboardBitmap(bitmap);
-                    ClientLoader.Console.WriteLine("Copied map screenshot to clipboard");
+                    ClientLoader.Console.WriteLine(GetString("Copied map screenshot to clipboard"));
 
                 }
                 catch (Exception ex)

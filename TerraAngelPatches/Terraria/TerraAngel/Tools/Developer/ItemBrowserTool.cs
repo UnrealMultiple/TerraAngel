@@ -17,7 +17,7 @@ public class ItemBrowserTool : Tool
 
     public static readonly Vector2 ItemDrawSize = new Vector2(32, 32);
 
-    public override string Name => "Item Browser";
+    public override string Name => GetString("Item Browser");
 
     public override ToolTabs Tab => base.Tab;
 
@@ -38,12 +38,12 @@ public class ItemBrowserTool : Tool
     {
         ImGuiStylePtr style = ImGui.GetStyle();
 
-        ImGui.TextUnformatted("Search"); 
+        ImGui.TextUnformatted(GetString("Search")); 
         ImGui.SameLine();
 
         ImGui.InputText("##ItemSearch", ref ItemSearch, 64);
 
-        ImGui.TextUnformatted("Give Type"); 
+        ImGui.TextUnformatted(GetString("Give Type")); 
         ImGui.SameLine();
 
         ImGui.PushItemWidth(MathF.Max(ImGui.GetContentRegionAvail().X / 3.4f, ImGui.CalcTextSize(ItemGiveModeNames[(int)GiveMode]).X + 30f));
@@ -52,7 +52,7 @@ public class ItemBrowserTool : Tool
         ImGui.PopItemWidth();
         ImGui.SameLine();
 
-        ImGui.Checkbox("Sync With Server", ref SyncWithServer);
+        ImGui.Checkbox(GetString("Sync With Server"), ref SyncWithServer);
         bool searchEmpty = ItemSearch.Length == 0;
 
         if (ImGui.BeginChild("ItemBrowserScrolling"))

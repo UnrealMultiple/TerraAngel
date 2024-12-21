@@ -48,7 +48,7 @@ public class GraphicsUI : UIState, IHaveBackButtonCommand
             HAlign = 0.5f
         };
 
-        BackButton = new UIAutoScaleTextTextPanel<string>("Back")
+        BackButton = new UIAutoScaleTextTextPanel<string>(GetString("Back"))
         {
             Width = new StyleDimension(-10f, 1f / 3f),
             Height = { Pixels = 40 },
@@ -60,7 +60,7 @@ public class GraphicsUI : UIState, IHaveBackButtonCommand
 
         BackButton.OnLeftClick += (x, y) => HandleBackButtonUsage();
 
-        ChangeStateButton = new UIAutoScaleTextTextPanel<string>($"Go {GetNextWindowStateString()}")
+        ChangeStateButton = new UIAutoScaleTextTextPanel<string>(GetString($"Go {GetNextWindowStateString()}"))
         {
             Width = new StyleDimension(-10f, 1f / 2.5f),
             Height = { Pixels = 40 },
@@ -73,7 +73,7 @@ public class GraphicsUI : UIState, IHaveBackButtonCommand
         ChangeStateButton.OnLeftClick += (x, y) =>
         {
             ClientLoader.WindowManager!.State = GetNextState();
-            ChangeStateButton.SetText($"Go {GetNextWindowStateString()}");
+            ChangeStateButton.SetText(GetString($"Go {GetNextWindowStateString()}"));
         };
 
         ResolutionPanel = new UIPanel()
@@ -169,7 +169,7 @@ public class GraphicsUI : UIState, IHaveBackButtonCommand
         ResolutionPanel.Append(ResolutionRightText);
         ResolutionPanel.Append(ResolutionLeftText);
 
-        FramerateSlider = new UITextSliderInt(30, 201, () => (ClientLoader.WindowManager.CapFPS ? 201 : ClientLoader.WindowManager.FPSCap), x => { if (x > 200) { ClientLoader.WindowManager.CapFPS = false; } else { ClientLoader.WindowManager.CapFPS = true; ClientLoader.WindowManager.FPSCap = x; } }, () => $"FPS Cap: {GetFramerateText()}")
+        FramerateSlider = new UITextSliderInt(30, 201, () => (ClientLoader.WindowManager.CapFPS ? 201 : ClientLoader.WindowManager.FPSCap), x => { if (x > 200) { ClientLoader.WindowManager.CapFPS = false; } else { ClientLoader.WindowManager.CapFPS = true; ClientLoader.WindowManager.FPSCap = x; } }, () => GetString($"FPS Cap: {GetFramerateText()}"))
         {
             Width = { Pixels = -10, Percent = 0.8f },
             Height = { Pixels = 40 },
@@ -180,7 +180,7 @@ public class GraphicsUI : UIState, IHaveBackButtonCommand
             HAlign = 0.5f,
         };
 
-        FramerateUnfocusedSlider = new UITextSliderInt(10, 201, () => (ClientLoader.WindowManager.CapFPSUnfocused ? 201 : ClientLoader.WindowManager.FPSCapUnfocused), x => { if (x > 200) { ClientLoader.WindowManager.CapFPSUnfocused = false; } else { ClientLoader.WindowManager.CapFPSUnfocused = true; ClientLoader.WindowManager.FPSCapUnfocused = x; } }, () => $"FPS Cap Unfocused: {GetFramerateTextUnfocused()}")
+        FramerateUnfocusedSlider = new UITextSliderInt(10, 201, () => (ClientLoader.WindowManager.CapFPSUnfocused ? 201 : ClientLoader.WindowManager.FPSCapUnfocused), x => { if (x > 200) { ClientLoader.WindowManager.CapFPSUnfocused = false; } else { ClientLoader.WindowManager.CapFPSUnfocused = true; ClientLoader.WindowManager.FPSCapUnfocused = x; } }, () => GetString($"FPS Cap Unfocused: {GetFramerateTextUnfocused()}"))
         {
             Width = { Pixels = -10, Percent = 0.8f },
             Height = { Pixels = 40 },
@@ -191,7 +191,7 @@ public class GraphicsUI : UIState, IHaveBackButtonCommand
             HAlign = 0.5f
         };
 
-        VsyncCheckbox = new UITextCheckbox("Vsync", () => ClientLoader.WindowManager.Vsync, x => ClientLoader.WindowManager.Vsync = x, 1f)
+        VsyncCheckbox = new UITextCheckbox(GetString("Vsync"), () => ClientLoader.WindowManager.Vsync, x => ClientLoader.WindowManager.Vsync = x, 1f)
         {
             Width = { Pixels = -10, Percent = 0.8f },
             Height = { Pixels = 40 },
@@ -202,7 +202,7 @@ public class GraphicsUI : UIState, IHaveBackButtonCommand
             BackgroundColor = UIUtil.ButtonColor * 0.98f,
         };
 
-        LightingPassCountSlider = new UITextSliderInt(1, 8, () => Lighting.NewEngine.BlurPassCount, x => { Lighting.NewEngine.BlurPassCount = x; }, () => $"Light Passes: {GetLightingPassesText()}")
+        LightingPassCountSlider = new UITextSliderInt(1, 8, () => Lighting.NewEngine.BlurPassCount, x => { Lighting.NewEngine.BlurPassCount = x; }, () => GetString($"Light Passes: {GetLightingPassesText()}"))
         {
             Width = { Pixels = -10, Percent = 0.8f },
             Height = { Pixels = 40 },
@@ -282,17 +282,17 @@ public class GraphicsUI : UIState, IHaveBackButtonCommand
 
     public string GetNextWindowStateString()
     {
-        return GetNextState() == WindowManager.WindowState.Windowed ? "Windowed" : (GetNextState() == WindowManager.WindowState.BorderlessFullscreen ? "Borderless Fullscreen" : "Fullscreen");
+        return GetNextState() == WindowManager.WindowState.Windowed ? GetString("Windowed") : (GetNextState() == WindowManager.WindowState.BorderlessFullscreen ? GetString("Borderless Fullscreen") : GetString("Fullscreen"));
     }
 
     public string GetFramerateText()
     {
-        return ClientLoader.WindowManager!.CapFPS ? $"{ClientLoader.WindowManager!.FPSCap}" : "None";
+        return ClientLoader.WindowManager!.CapFPS ? $"{ClientLoader.WindowManager!.FPSCap}" : GetString("None");
     }
 
     public string GetFramerateTextUnfocused()
     {
-        return ClientLoader.WindowManager!.CapFPSUnfocused ? $"{ClientLoader.WindowManager!.FPSCapUnfocused}" : "None";
+        return ClientLoader.WindowManager!.CapFPSUnfocused ? $"{ClientLoader.WindowManager!.FPSCapUnfocused}" : GetString("None");
     }
 
     public string GetLightingPassesText()

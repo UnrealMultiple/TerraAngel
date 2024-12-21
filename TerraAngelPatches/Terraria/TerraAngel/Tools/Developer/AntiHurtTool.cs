@@ -2,7 +2,7 @@
 
 public class AntiHurtTool : Tool
 {
-    public override string Name => "Anti-hurt/Godmode";
+    public override string Name => GetString("Anti-hurt/Godmode");
 
     public override ToolTabs Tab => ToolTabs.MainTools;
 

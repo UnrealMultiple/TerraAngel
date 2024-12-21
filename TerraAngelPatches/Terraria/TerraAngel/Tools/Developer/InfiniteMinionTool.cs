@@ -2,7 +2,7 @@
 
 public class InfiniteMinionTool : Tool
 {
-    public override string Name => "Infinite minions";
+    public override string Name => GetString("Infinite minions");
 
     public override ToolTabs Tab => ToolTabs.MainTools;
 

@@ -11,7 +11,7 @@ namespace TerraAngel.Tools.Builder;
 
 public class QuickSlopeTool : BuilderModeTool
 {
-    public override string Name => "Quick Slope";
+    public override string Name => GetString("Quick Slope");
 
     private Vector2i BeginSlopeTile = Vector2i.Zero;
     private Vector2i EndSlopeTile = Vector2i.Zero;
