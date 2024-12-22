@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Terraria\n"
-"POT-Creation-Date: 2024-12-22 13:35:17+0800\n"
-"PO-Revision-Date: 2024-12-22 13:35:20+0800\n"
+"POT-Creation-Date: 2024-12-22 19:41:04+0800\n"
+"PO-Revision-Date: 2024-12-22 19:41:07+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -116,7 +116,7 @@ msgstr ""
 msgid "AI[{0}]:    {1}"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:136
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:135
 msgid "Alpha"
 msgstr ""
 
@@ -127,15 +127,15 @@ msgid ""
 "{0}"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:131
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:130
 msgid "Anti-Aliased Fill"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:132
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:131
 msgid "Anti-Aliased Lines"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:133
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:132
 msgid "Anti-Aliased Lines Use Texture"
 msgstr ""
 
@@ -232,7 +232,7 @@ msgstr ""
 msgid "Button"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:126
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:125
 msgid "Button Text Align"
 msgstr ""
 
@@ -262,11 +262,11 @@ msgstr ""
 msgid "CheckMark"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:120
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:119
 msgid "Child Border Rounding"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:122
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:121
 msgid "Child Border Size"
 msgstr ""
 
@@ -274,7 +274,7 @@ msgstr ""
 msgid "ChildBg"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:134
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:133
 msgid "Circle Tessellation Max Error"
 msgstr ""
 
@@ -298,7 +298,7 @@ msgstr ""
 msgid "Click to reveal"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:89
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:88
 msgid "Colors"
 msgstr ""
 
@@ -329,7 +329,7 @@ msgstr ""
 msgid "COUNT"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:135
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:134
 msgid "Curve Tessellation Tol"
 msgstr ""
 
@@ -338,8 +338,8 @@ msgstr ""
 msgid "Damage:      {0}"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:82
 #: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:84
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:82
 #, csharp-format
 msgid "Defense:     {0}"
 msgstr ""
@@ -365,15 +365,15 @@ msgstr ""
 msgid "Disabled"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:137
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:136
 msgid "Disabled Alpha"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:113
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:112
 msgid "Display Safe Area Padding"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:104
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:103
 msgid "Display Window Padding"
 msgstr ""
 
@@ -480,15 +480,15 @@ msgstr ""
 msgid "FPS Cap: {0}"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:112
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:111
 msgid "Frame Border Padding"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:123
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:122
 msgid "Frame Border Size"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:118
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:117
 msgid "Frame Rounding"
 msgstr ""
 
@@ -534,11 +534,11 @@ msgstr ""
 msgid "Go {0}"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:124
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:123
 msgid "Grab Minimum Size"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:119
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:118
 msgid "Grab Rounding"
 msgstr ""
 
@@ -554,8 +554,8 @@ msgstr ""
 msgid "HeaderHovered"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:80
 #: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:83
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:80
 #, csharp-format
 msgid "Health:      {0}/{1}"
 msgstr ""
@@ -582,7 +582,7 @@ msgstr ""
 msgid "In mouse"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:109
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:108
 msgid "Indent Spacing"
 msgstr ""
 
@@ -658,7 +658,7 @@ msgstr ""
 msgid "Item hitboxes"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:111
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:110
 msgid "Item Inner Spacing"
 msgstr ""
 
@@ -666,7 +666,7 @@ msgstr ""
 msgid "Item Inspector"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:110
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:109
 msgid "Item Spacing"
 msgstr ""
 
@@ -682,10 +682,10 @@ msgstr ""
 msgid "Items {0}-{1}"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:58
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:57
 #: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:54
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:60
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:58
 #, csharp-format
 msgid "Kill \"{0}\""
 msgstr ""
@@ -792,7 +792,7 @@ msgid "Minimum Target Range"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:181
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:129
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:128
 msgid "Misc"
 msgstr ""
 
@@ -973,9 +973,9 @@ msgstr ""
 msgid "PopupBg"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:85
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:71
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:79
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:85
 #, csharp-format
 msgid "Position:    {0}"
 msgstr ""
@@ -1098,11 +1098,11 @@ msgstr ""
 msgid "Reveal Map"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:121
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:120
 msgid "Scrollbar Rounding"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:125
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:124
 msgid "Scrollbar Size"
 msgstr ""
 
@@ -1172,7 +1172,7 @@ msgstr ""
 msgid "SliderGrabActive"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:107
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:106
 msgid "Spacing"
 msgstr ""
 
@@ -1185,10 +1185,10 @@ msgstr ""
 msgid "Speed"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:86
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:72
 #: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:83
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:80
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:86
 #, csharp-format
 msgid "Speed:       {0}"
 msgstr ""
@@ -1266,10 +1266,10 @@ msgstr ""
 msgid "Taking map screenshot"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:47
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:46
 #: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:43
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:49
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:47
 #, csharp-format
 msgid "Teleport to \"{0}\""
 msgstr ""
@@ -1436,10 +1436,10 @@ msgstr ""
 msgid "Utility"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:88
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:74
 #: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:85
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:82
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:88
 msgid "Velocity Dir: "
 msgstr ""
 
@@ -1447,10 +1447,10 @@ msgstr ""
 msgid "Velocity Prediction"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:87
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:73
 #: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:84
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:81
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:87
 #, csharp-format
 msgid "Velocity:    {0}"
 msgstr ""
@@ -1513,31 +1513,31 @@ msgstr ""
 msgid "Water"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:116
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:115
 msgid "Widgets"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:97
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:96
 msgid "Window"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:100
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:99
 msgid "Window Border Size"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:103
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:102
 msgid "Window Minimum Size"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:101
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:100
 msgid "Window Padding"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:99
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:98
 msgid "Window Rounding"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:102
+#: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:101
 msgid "Window Title Align"
 msgstr ""
 

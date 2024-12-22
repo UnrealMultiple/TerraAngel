@@ -164,7 +164,7 @@ public class ClientConfig
         [UIConfigElement("en-US", "Chat Replicates Vanilla Behavior")]
         public bool ChatVanillaInvetoryBehavior = true;
 
-        [UIConfigElement("zh-CN", "默认关闭图格边框(疑似没用)")]
+        [UIConfigElement("zh-CN", "默认关闭更新周边图格")]
         [UIConfigElement("en-US", "Default Disable Tile Framing")]
         public bool DefaultDisableTileFraming = false;
 
