@@ -106,7 +106,7 @@ public class TileInspectorTool : InspectorTool
         ImGui.Text(GetString($"Wall Coating:     None"));
         ImGui.Text(GetString($"Wall FrameX:      {SelectedTile.Value.wallFrameX()}"));
         ImGui.Text(GetString($"Wall FrameY:      {SelectedTile.Value.wallFrameY()}"));
-        ImGui.Text(GetString($"Wall Fame Number: {SelectedTile.Value.wallFrameNumber()}"));
+        ImGui.Text(GetString($"Wall Frame Number: {SelectedTile.Value.wallFrameNumber()}"));
         ImGui.NewLine();
         ImGui.Text(GetString($"Liquid Type:      {SelectedTile.Value.liquidType() switch
         {

@@ -84,8 +84,7 @@ public class StyleEditorWindow : ClientWindow
         bool open = IsEnabled;
         ImGui.Begin(GetString("Style Editor"), ref open);
         IsEnabled = open;
-
-
+        
         if (ImGui.CollapsingHeader(GetString("Colors")))
         {
             for (int i = 0; i < colors.Count; i++)

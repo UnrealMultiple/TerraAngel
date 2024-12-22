@@ -145,7 +145,7 @@ public class ChatWindow : ClientWindow
         if (!IsChatting) flags |= ImGuiWindowFlags.NoMouseInputs;
         if (IsLocked) flags |= ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize;
 
-        ImGui.Begin(GetString("ChatWindow"), flags);
+        ImGui.Begin("ChatWindow", flags);
 
         if (IsChatting && ImGui.BeginMenuBar())
         {

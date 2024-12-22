@@ -178,7 +178,7 @@ public class ClientRenderer : ImGuiRenderer
     {
         UIInputText.UUpdate();
 
-        MetricsTimer renderTimer = TimeMetrics.GetMetricsTimer(GetString("Client Draw"));
+        MetricsTimer renderTimer = TimeMetrics.GetMetricsTimer("Client Draw");
         renderTimer.Start();
         PreDraw();
         PreRender();

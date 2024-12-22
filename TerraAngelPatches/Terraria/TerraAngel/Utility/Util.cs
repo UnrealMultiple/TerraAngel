@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using Terraria.Localization;
 
 namespace TerraAngel.Utility;
 
@@ -130,6 +132,17 @@ public class Util
                 x += dx2;
                 y += dy2;
             }
+        }
+    }
+
+    public static CultureInfo CurrentCulture
+    {
+        get
+        {
+            var cultureInfo = Language.ActiveCulture?.CultureInfo;
+            if (cultureInfo is null)
+                return new CultureInfo("en-US");
+            return cultureInfo.Name == "zh-Hans" ? new CultureInfo("zh-CN") : cultureInfo;
         }
     }
 }

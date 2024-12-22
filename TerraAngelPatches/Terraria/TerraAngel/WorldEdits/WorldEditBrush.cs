@@ -15,13 +15,13 @@ public class WorldEditBrush : WorldEdit
         Replace,
     }
 
-    public string[] TileEditActionsStrings =
-    {
+    private static string[] TileEditActionsNames =
+    [
         GetString("None"),
         GetString("Break"),
         GetString("Place"),
         GetString("Replace")
-    };
+    ];
     
     public enum WallEditActions
     {
@@ -32,13 +32,13 @@ public class WorldEditBrush : WorldEdit
     }
 
 
-    public string[] WallEditActionsStrings =
-    {
+    private static string[] WallEditActionsNames =
+    [
         GetString("None"),
         GetString("Break"),
         GetString("Place"),
         GetString("Replace")
-    };
+    ];
     public enum LiquidEditActions
     {
         None,
@@ -49,15 +49,15 @@ public class WorldEditBrush : WorldEdit
         Shimmer,
     }
 
-    public string[] LiquidEditActionsStrings =
-    {
+    private static string[] LiquidEditActionsNames =
+    [
         GetString("None"),
         GetString("Remove"),
         GetString("Water"),
         GetString("Lava"),
         GetString("Honey"),
-        GetString("Shimmer"),
-    };
+        GetString("Shimmer")
+    ];
     
 
     private bool sqaureFrame = true;
@@ -157,11 +157,11 @@ public class WorldEditBrush : WorldEdit
                     drawDetailedPreview = true;
             }
             ImGui.Text(GetString("Tile")); ImGui.SameLine();
-            ImGui.Combo("##WorldEditTileActions", ref currentTileAction, TileEditActionsStrings, TileEditActionsStrings.Length);
+            ImGui.Combo("##WorldEditTileActions", ref currentTileAction, TileEditActionsNames, TileEditActionsNames.Length);
             ImGui.Text(GetString("Wall")); ImGui.SameLine();
-            ImGui.Combo("##WorldEditWallActions", ref currentWallAction, WallEditActionsStrings, WallEditActionsStrings.Length);
+            ImGui.Combo("##WorldEditWallActions", ref currentWallAction, WallEditActionsNames, WallEditActionsNames.Length);
             ImGui.Text(GetString("Liquid")); ImGui.SameLine();
-            ImGui.Combo("##WorldEditLiquidActions", ref currentLiquidAction, LiquidEditActionsStrings, LiquidEditActionsStrings.Length);
+            ImGui.Combo("##WorldEditLiquidActions", ref currentLiquidAction, LiquidEditActionsNames, LiquidEditActionsNames.Length);
 
 
             ImGui.EndTabItem();

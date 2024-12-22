@@ -102,7 +102,7 @@ public class ConsoleWindow : ClientWindow
         }
 
         float footerHeight = style.ItemSpacing.Y + ImGui.GetFrameHeightWithSpacing();
-        ImGui.BeginChild(GetString("ConsoleScrollingRegion"), new Vector2(0, -footerHeight), ImGuiChildFlags.None, ImGuiWindowFlags.HorizontalScrollbar);
+        ImGui.BeginChild("ConsoleScrollingRegion", new Vector2(0, -footerHeight), ImGuiChildFlags.None, ImGuiWindowFlags.HorizontalScrollbar);
 
         ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(4, 1));
         float wrapWidth = ImGui.GetContentRegionAvail().X;

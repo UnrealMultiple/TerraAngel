@@ -11,7 +11,7 @@ namespace TerraAngel.Plugin;
 
 public class PluginLoader
 {
-    private static AssemblyLoadContext PluginLoadContext = new AssemblyLoadContext(GetString("PluginLoader"), true);
+    private static AssemblyLoadContext PluginLoadContext = new AssemblyLoadContext("PluginLoader", true);
 
     public static Dictionary<string, bool> AvailablePlugins = new Dictionary<string, bool>();
 
@@ -56,7 +56,7 @@ public class PluginLoader
 
                     plugin.IsInited = true;
 
-                    ClientLoader.Console.WriteLine(GetString($"Loaded  {plugin.Name}"));
+                    ClientLoader.Console.WriteLine(GetString($"Loaded {plugin.Name}"));
                 }
                 catch (Exception ex)
                 {
@@ -77,7 +77,7 @@ public class PluginLoader
         DeinitPlugins();
         LoadedPlugins.Clear();
         PluginLoadContext.Unload();
-        PluginLoadContext = new AssemblyLoadContext(GetString("PluginLoader"), true);
+        PluginLoadContext = new AssemblyLoadContext("PluginLoader", true);
         FindPluginFiles();
     }
 

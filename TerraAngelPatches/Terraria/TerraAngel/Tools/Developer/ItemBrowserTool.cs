@@ -13,7 +13,11 @@ namespace TerraAngel.Tools.Developer;
 
 public class ItemBrowserTool : Tool
 {
-    public static readonly string[] ItemGiveModeNames = StringExtensions.EnumFancyNames<ItemGiveMode>();
+    public static readonly string[] ItemGiveModeNames =
+    [
+        GetString("In mouse") ,
+        GetString("Drop in world")
+    ];
 
     public static readonly Vector2 ItemDrawSize = new Vector2(32, 32);
 
@@ -103,10 +107,4 @@ public class ItemBrowserTool : Tool
         InMouse,
         DropInWorld,
     }
-
-    public string[] ItemGiveModeStrings =
-    {
-       GetString("InMouse") ,
-       GetString("DropInWorld"),
-    };
 }

@@ -11,7 +11,6 @@ public class WorldEditCopyPaste : WorldEdit
     public TileSection? CopiedSection;
     private bool IsCopying = false;
     private Vector2 StartSelectTile;
-    private string[] PlaceModes = StringExtensions.EnumFancyNames<PlaceMode>();
     private int CurrentPlaceMode = 0;
     private bool DestroyTiles = false;
 
@@ -85,7 +84,7 @@ public class WorldEditCopyPaste : WorldEdit
         if (ImGui.BeginTabItem(GetString("Copy/Paste")))
         {
             ImGui.Checkbox(GetString("Destroy Tiles"), ref DestroyTiles);
-            ImGui.Text(GetString("Place Mode")); ImGui.SameLine(); ImGui.Combo("##PlaceMode", ref CurrentPlaceMode, PlaceModeStrings, PlaceModeStrings.Length);
+            ImGui.Text(GetString("Place Mode")); ImGui.SameLine(); ImGui.Combo("##PlaceMode", ref CurrentPlaceMode, PlaceModeNames, PlaceModeNames.Length);
             ImGui.EndTabItem();
             return true;
         }
@@ -230,9 +229,9 @@ public class WorldEditCopyPaste : WorldEdit
         TileManipulation
     }
 
-    private string[] PlaceModeStrings =
+    private string[] PlaceModeNames =
     {
-        GetString("SendTileRect"),
-        GetString("TileManipulation")
+        GetString("Send tile rect"),
+        GetString("Tile manipulation")
     };
 }
