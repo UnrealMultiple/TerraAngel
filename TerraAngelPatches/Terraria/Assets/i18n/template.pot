@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Terraria\n"
-"POT-Creation-Date: 2024-12-22 19:41:04+0800\n"
-"PO-Revision-Date: 2024-12-22 19:41:07+0800\n"
+"POT-Creation-Date: 2024-12-25 02:33:35+0800\n"
+"PO-Revision-Date: 2024-12-25 02:33:39+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,9 +15,23 @@ msgstr ""
 msgid " ({0})"
 msgstr ""
 
+#: ../../../NetMessage.cs:1749
+#, csharp-format
+msgid ""
+"[C2S] Packet deserialization failed:\n"
+"{0}"
+msgstr ""
+
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:189
 #, csharp-format
 msgid "[Error] {0}"
+msgstr ""
+
+#: ../../../NetMessage.cs:2519
+#, csharp-format
+msgid ""
+"[S2C] Packet deserialization failed:\n"
+"{0}"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:201
@@ -25,7 +39,7 @@ msgstr ""
 msgid "{0} Client UUID"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:309
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:301
 #, csharp-format
 msgid "{0}Message Logs"
 msgstr ""
@@ -278,7 +292,7 @@ msgstr ""
 msgid "Circle Tessellation Max Error"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:311
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:303
 msgid "Clear"
 msgstr ""
 
@@ -317,7 +331,7 @@ msgstr ""
 msgid "Copied map screenshot to clipboard"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:330
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:322
 msgid "Copy All"
 msgstr ""
 
@@ -682,10 +696,10 @@ msgstr ""
 msgid "Items {0}-{1}"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:58
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:57
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:54
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:58
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:60
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:54
 #, csharp-format
 msgid "Kill \"{0}\""
 msgstr ""
@@ -740,8 +754,8 @@ msgstr ""
 msgid "Locked"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:81
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:247
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:87
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:251
 msgid "Log Traffic"
 msgstr ""
 
@@ -812,12 +826,12 @@ msgstr ""
 msgid "NavWindowingHighlight"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:17
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:65
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:19
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:71
 msgid "Net Debugger"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:72
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:78
 msgid "Net Message Logs"
 msgstr ""
 
@@ -910,8 +924,17 @@ msgstr ""
 msgid "Owned By:  {0}/{1}"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:87
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:109
+msgid "Packets with details:"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:93
 msgid "Packets with traces:"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:187
+#, csharp-format
+msgid "params: {0},{1},{2},{3},{4},{5},{6}"
 msgstr ""
 
 #: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:22
@@ -973,8 +996,8 @@ msgstr ""
 msgid "PopupBg"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:85
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:71
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:85
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:79
 #, csharp-format
 msgid "Position:    {0}"
@@ -1039,15 +1062,15 @@ msgstr ""
 msgid "Randomization Min"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:309
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:301
 msgid "Raw "
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:239
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:243
 msgid "Raw Message Logs"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:219
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:216
 msgid "Received packet"
 msgstr ""
 
@@ -1126,7 +1149,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:74
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:80
 msgid "Search:"
 msgstr ""
 
@@ -1185,10 +1208,10 @@ msgstr ""
 msgid "Speed"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:86
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:72
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:83
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:86
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:80
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:83
 #, csharp-format
 msgid "Speed:       {0}"
 msgstr ""
@@ -1266,10 +1289,10 @@ msgstr ""
 msgid "Taking map screenshot"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:47
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:46
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:43
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:47
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:49
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:43
 #, csharp-format
 msgid "Teleport to \"{0}\""
 msgstr ""
@@ -1436,10 +1459,10 @@ msgstr ""
 msgid "Utility"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:88
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:74
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:85
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:88
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:82
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:85
 msgid "Velocity Dir: "
 msgstr ""
 
@@ -1447,10 +1470,10 @@ msgstr ""
 msgid "Velocity Prediction"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:87
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:73
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:84
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:87
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:81
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:84
 #, csharp-format
 msgid "Velocity:    {0}"
 msgstr ""

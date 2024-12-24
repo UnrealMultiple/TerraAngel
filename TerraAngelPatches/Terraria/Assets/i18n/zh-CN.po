@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Terraria\n"
-"POT-Creation-Date: 2024-12-22 19:41:04+0800\n"
-"PO-Revision-Date: 2024-12-22 19:40+0800\n"
+"POT-Creation-Date: 2024-12-25 02:29:52+0800\n"
+"PO-Revision-Date: 2024-12-25 02:33+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -16,17 +16,35 @@ msgstr ""
 msgid " ({0})"
 msgstr " ({0})"
 
+#: ../../../NetMessage.cs:1749
+#, csharp-format
+msgid ""
+"[C2S] Packet deserialization failed:\n"
+"{0}"
+msgstr ""
+"[C2S] 数据包解析失败\n"
+"{0}"
+
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:189
 #, csharp-format
 msgid "[Error] {0}"
 msgstr "[错误] {0}"
+
+#: ../../../NetMessage.cs:2519
+#, csharp-format
+msgid ""
+"[S2C] Packet deserialization failed:\n"
+"{0}"
+msgstr ""
+"[S2C] 数据包解析失败\n"
+"{0}"
 
 #: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:201
 #, csharp-format
 msgid "{0} Client UUID"
 msgstr "{0} 客户端 UUID"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:309
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:301
 #, csharp-format
 msgid "{0}Message Logs"
 msgstr "{0}数据包日志"
@@ -281,7 +299,7 @@ msgstr "子窗口背景"
 msgid "Circle Tessellation Max Error"
 msgstr "圆镶嵌最大误差"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:311
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:303
 msgid "Clear"
 msgstr "清除"
 
@@ -320,7 +338,7 @@ msgstr "终端脚本系统未初始化"
 msgid "Copied map screenshot to clipboard"
 msgstr "复制地图截图到剪贴板"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:330
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:322
 msgid "Copy All"
 msgstr "复制全部"
 
@@ -685,10 +703,10 @@ msgstr "物品"
 msgid "Items {0}-{1}"
 msgstr "物品 {0}-{1}"
 
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:58
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:57
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:54
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:58
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:60
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:54
 #, csharp-format
 msgid "Kill \"{0}\""
 msgstr "杀死 \"{0}\""
@@ -743,8 +761,8 @@ msgstr "自己的碰撞箱颜色"
 msgid "Locked"
 msgstr "锁定"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:81
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:247
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:87
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:251
 msgid "Log Traffic"
 msgstr "记录通信"
 
@@ -815,12 +833,12 @@ msgstr "导航窗口暗背景"
 msgid "NavWindowingHighlight"
 msgstr "导航窗口高亮"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:17
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:65
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:19
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:71
 msgid "Net Debugger"
 msgstr "网络调试器"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:72
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:78
 msgid "Net Message Logs"
 msgstr "包日志"
 
@@ -913,9 +931,18 @@ msgstr "其他TerraAngel玩家碰撞箱颜色"
 msgid "Owned By:  {0}/{1}"
 msgstr "所有者: {0}/{1}"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:87
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:109
+msgid "Packets with details:"
+msgstr "带有详细信息的包:"
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:93
 msgid "Packets with traces:"
-msgstr "跟踪的包:"
+msgstr "带有 Stack Trace 的包:"
+
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:187
+#, csharp-format
+msgid "params: {0},{1},{2},{3},{4},{5},{6}"
+msgstr "参数: {0},{1},{2},{3},{4},{5},{6}"
 
 #: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:22
 #: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:39
@@ -976,8 +1003,8 @@ msgstr "折线图悬停"
 msgid "PopupBg"
 msgstr "弹出窗口背景"
 
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:85
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:71
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:85
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:79
 #, csharp-format
 msgid "Position:    {0}"
@@ -1042,15 +1069,15 @@ msgstr "最大随机值"
 msgid "Randomization Min"
 msgstr "最小随机值"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:309
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:301
 msgid "Raw "
 msgstr "原始"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:239
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:243
 msgid "Raw Message Logs"
 msgstr "原始包日志"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:219
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:216
 msgid "Received packet"
 msgstr "已收到的包"
 
@@ -1129,7 +1156,7 @@ msgstr "滚动条抓取悬停"
 msgid "Search"
 msgstr "搜索"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:74
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:80
 msgid "Search:"
 msgstr "搜索:"
 
@@ -1188,10 +1215,10 @@ msgstr "查看 \"{0}\""
 msgid "Speed"
 msgstr "速度"
 
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:86
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:72
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:83
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:86
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:80
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:83
 #, csharp-format
 msgid "Speed:       {0}"
 msgstr "速度: {0}"
@@ -1269,10 +1296,10 @@ msgstr "标签选中上划线"
 msgid "Taking map screenshot"
 msgstr "正在为地图截图"
 
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:47
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:46
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:43
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:47
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:49
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:43
 #, csharp-format
 msgid "Teleport to \"{0}\""
 msgstr "传送至 \"{0}\""
@@ -1439,10 +1466,10 @@ msgstr "使用指定鼠标位置"
 msgid "Utility"
 msgstr "工具"
 
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:88
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:74
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:85
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:88
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:82
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:85
 msgid "Velocity Dir: "
 msgstr "速率方向: "
 
@@ -1450,10 +1477,10 @@ msgstr "速率方向: "
 msgid "Velocity Prediction"
 msgstr "速率预测"
 
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:87
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:73
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:84
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:87
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:81
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:84
 #, csharp-format
 msgid "Velocity:    {0}"
 msgstr "速度向量: {0}"

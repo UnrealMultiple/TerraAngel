@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
+using TrProtocol;
+using MessageID = Terraria.ID.MessageID;
 
 namespace TerraAngel.UI.ClientWindows;
 
@@ -32,7 +34,11 @@ public class NetMessageWindow : ClientWindow
 
     public string FancyLogsTracesFilter = "";
 
+    public string FancyLogsDetailsFilter = "";
+
     public HashSet<int> MessagesTypesToLogTraces = new HashSet<int>();
+    
+    public HashSet<int> MessagesTypesToLogDetails = new HashSet<int>();
 
     public bool FancyLogsShowSent = true;
 
@@ -98,8 +104,23 @@ public class NetMessageWindow : ClientWindow
                         return 0;
                     }); ImGui.PopItemWidth();
                 }
-
                 MessagesTypesToLogTraces = new HashSet<int>(FancyLogsTracesFilter.Split(',').Select(x => { if (int.TryParse(x.Trim(), out int a)) { return a; } return -1; }).Where(x => x != -1));
+                
+                ImGui.Text(GetString("Packets with details:")); ImGui.SameLine();
+                unsafe
+                {
+                    ImGui.PushItemWidth(ImGui.GetContentRegionAvail().X / 2.8f); ImGui.InputText("##DetailFilter", ref FancyLogsDetailsFilter, 512, ImGuiInputTextFlags.CallbackCharFilter, (x) =>
+                    {
+                        switch (x->EventFlag)
+                        {
+                            case ImGuiInputTextFlags.CallbackCharFilter:
+                                if (char.IsNumber((char)x->EventChar) || x->EventChar == ',' || x->EventChar == ' ') return 0;
+                                return 1;
+                        }
+                        return 0;
+                    }); ImGui.PopItemWidth();
+                }
+                MessagesTypesToLogDetails = new HashSet<int>(FancyLogsDetailsFilter.Split(',').Select(x => { if (int.TryParse(x.Trim(), out int a)) { return a; } return -1; }).Where(x => x != -1));
 
                 if (ImGui.BeginChild("##MessageLogScrolling"))
                 {
@@ -163,42 +184,14 @@ public class NetMessageWindow : ClientWindow
                                 {
                                     builder.Clear();
 
-                                    builder.AppendLine();
+                                    builder.Append(GetString($"params: {sent.Number1},{sent.Number2},{sent.Number3},{sent.Number4},{sent.Number5},{sent.Number6},{sent.Number7}"));
 
-                                    builder.Append("  ");
-                                    builder.Append("number1: ");
-                                    builder.Append(sent.Number1);
-                                    builder.AppendLine();
-
-                                    builder.Append("  ");
-                                    builder.Append("number2: ");
-                                    builder.Append(sent.Number2);
-                                    builder.AppendLine();
-
-                                    builder.Append("  ");
-                                    builder.Append("number3: ");
-                                    builder.Append(sent.Number3);
-                                    builder.AppendLine();
-
-                                    builder.Append("  ");
-                                    builder.Append("number4: ");
-                                    builder.Append(sent.Number4);
-                                    builder.AppendLine();
-
-                                    builder.Append("  ");
-                                    builder.Append("number5: ");
-                                    builder.Append(sent.Number5);
-                                    builder.AppendLine();
-
-                                    builder.Append("  ");
-                                    builder.Append("number6: ");
-                                    builder.Append(sent.Number6);
-                                    builder.AppendLine();
-
-                                    builder.Append("  ");
-                                    builder.Append("number7: ");
-                                    builder.Append(sent.Number7);
-
+                                    if (sent.Packet is not null)
+                                    {
+                                        builder.AppendLine();
+                                        builder.Append($"   {sent.Packet}");
+                                    }
+                                    
                                     if (sent.StackTrace is not null)
                                     {
                                         builder.AppendLine();
@@ -207,23 +200,34 @@ public class NetMessageWindow : ClientWindow
 
                                     string builtString = builder.ToString();
 
+                                    ImGui.PushStyleColor(ImGuiCol.Text, Color.LimeGreen.PackedValue);
                                     if (ImGui.Selectable($"{Icon.ArrowUp} {builtString}"))
                                     {
                                         ImGui.SetClipboardText(builtString);
                                     }
+                                    ImGui.PopStyleColor();
                                 }
                                 else if (packetLogProvider[j] is ReceivedNetPacketLog received)
                                 {
                                     builder.Clear();
 
-                                    builder.Append(GetString("Received packet"));
-
+                                    if (received.Packet is null)
+                                    {
+                                        builder.Append(GetString("Received packet"));
+                                    }
+                                    else
+                                    {
+                                        builder.Append(received.Packet);
+                                    }
+                                    
                                     string builtString = builder.ToString();
 
+                                    ImGui.PushStyleColor(ImGuiCol.Text, Color.Crimson.PackedValue);
                                     if (ImGui.Selectable($"{Icon.ArrowDown} {builtString}"))
                                     {
                                         ImGui.SetClipboardText(builtString);
                                     }
+                                    ImGui.PopStyleColor();
                                 }
                             }
 
@@ -262,19 +266,7 @@ public class NetMessageWindow : ClientWindow
 
                     builder.Clear();
 
-                    builder.Append($"T: {log.Type,3} L: {log.Data.Length,5} B: {{ ");
-
-                    for (int j = 0; j < Math.Min(log.Data.Length, 250); j++)
-                    {
-                        builder.Append(log.Data[j]);
-
-                        if (j + 1 < Math.Min(log.Data.Length, 250))
-                        {
-                            builder.Append(", ");
-                        }
-                    }
-
-                    builder.Append(" }");
+                    builder.Append($"T: {log.Type,3} L: {log.Data.Length,5} B: {Convert.ToHexString(log.Data, 0, Math.Min(log.Data.Length, 250))}");
 
                     if (ImGui.Selectable($"{(log.Sent ? Icon.ArrowUp : Icon.ArrowDown)} {builder.ToString()}"))
                     {
@@ -373,6 +365,8 @@ public class NetMessageWindow : ClientWindow
 public abstract class NetPacketLog
 {
     public int Type;
+    
+    public Packet? Packet;
 }
 
 public class ReceivedNetPacketLog : NetPacketLog

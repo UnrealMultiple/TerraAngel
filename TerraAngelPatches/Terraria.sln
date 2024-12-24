@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FNA.Core", "..\..\TNA\FNA.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharpEval", "..\..\CSharpEval\CSharpEval\CSharpEval.csproj", "{3820AE87-754C-4CC2-9EA8-6E9ED7DC1BB3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrProtocol", "..\..\..\TrProtocol\TrProtocol\TrProtocol.csproj", "{4F6FACCB-4046-4DB6-B206-663F3DA3C227}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{3820AE87-754C-4CC2-9EA8-6E9ED7DC1BB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3820AE87-754C-4CC2-9EA8-6E9ED7DC1BB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3820AE87-754C-4CC2-9EA8-6E9ED7DC1BB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F6FACCB-4046-4DB6-B206-663F3DA3C227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F6FACCB-4046-4DB6-B206-663F3DA3C227}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F6FACCB-4046-4DB6-B206-663F3DA3C227}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F6FACCB-4046-4DB6-B206-663F3DA3C227}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

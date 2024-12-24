@@ -1,16 +1,17 @@
 --- src/Terraria/Terraria/NetMessage.cs
 +++ src/TerraAngel/Terraria/NetMessage.cs
-@@ -1,6 +_,8 @@
+@@ -1,6 +_,9 @@
  using System;
 +using System.Diagnostics;
  using System.IO;
 -using Ionic.Zlib;
 +using System.IO.Compression;
 +using System.Runtime.CompilerServices;
++using System.Text;
  using Microsoft.Xna.Framework;
  using Microsoft.Xna.Framework.Graphics.PackedVector;
  using Terraria.Chat;
-@@ -75,13 +_,36 @@
+@@ -75,13 +_,37 @@
          return true;
      }
  
@@ -22,9 +23,10 @@
              return;
          }
  
++        SentNetPacketLog? packetLog = null;
 +        if (NetMessageWindow.Instance.FancyLoggingEnabled)
 +        {
-+            SentNetPacketLog log = new SentNetPacketLog()
++            packetLog = new SentNetPacketLog()
 +            {
 +                Type = msgType,
 +                Number1 = number,
@@ -38,16 +40,40 @@
 +
 +            if (NetMessageWindow.Instance.MessagesTypesToLogTraces.Contains(msgType))
 +            {
-+                log.StackTrace = new StackTrace(2, true).ToString();
++                packetLog.StackTrace = new StackTrace(2, true).ToString();
 +            }
 +
-+            NetMessageWindow.Instance.SentNetPacketLogs[msgType].Add(log);
-+            NetMessageWindow.Instance.AllNetPacketLogs[msgType].Add(log);
++            NetMessageWindow.Instance.SentNetPacketLogs[msgType].Add(packetLog);
++            NetMessageWindow.Instance.AllNetPacketLogs[msgType].Add(packetLog);
 +        }
 +
          if (msgType == 21 && (Main.item[number].shimmerTime > 0f || Main.item[number].shimmered))
          {
              msgType = 145;
+@@ -1707,6 +_,23 @@
+             writer.BaseStream.Position = position;
+             writer.Write((ushort)num21);
+             writer.BaseStream.Position = num21;
++            
++            // FIXME: eliminate the frequent initialization of BinaryReader
++            if (packetLog is not null && NetMessageWindow.Instance.MessagesTypesToLogDetails.Contains(msgType))
++            {
++                writer.BaseStream.Position = position;
++                try
++                {
++                    using var br = new BinaryReader(writer.BaseStream, Encoding.UTF8, true);
++                    packetLog.Packet = TerraAngel.Net.Shared.C2SPacketSerializer.Deserialize(br);
++                }
++                catch (Exception ex)
++                {
++                    ClientLoader.Console.WriteError(GetString($"[C2S] Packet deserialization failed:\n{ex}"));
++                }
++                writer.BaseStream.Position = num21;
++            }
++            
+             if (Main.netMode == 1)
+             {
+                 if (Netplay.Connection.Socket.IsConnected())
 @@ -1716,287 +_,28 @@
                          buffer[num].spamCount++;
                          Main.ActiveNetDiagnosticsUI.CountSentMessage(msgType, num21);
@@ -462,7 +488,7 @@
                  }
              }
          }
-@@ -2697,10 +_,41 @@
+@@ -2697,10 +_,56 @@
                  while (num2 >= 2)
                  {
                      int num3 = BitConverter.ToUInt16(buffer[bufferIndex].readBuffer, num);
@@ -489,13 +515,28 @@
 +
 +                        if (NetMessageWindow.Instance.FancyLoggingEnabled)
 +                        {
-+                            NetPacketLog log = new ReceivedNetPacketLog()
++                            NetPacketLog packetLog = new ReceivedNetPacketLog()
 +                            {
 +                                Type = packetType
 +                            };
++                            
++                            if (NetMessageWindow.Instance.MessagesTypesToLogDetails.Contains(packetType))
++                            {
++                                long origPos = buffer[bufferIndex].reader.BaseStream.Position;
++                                buffer[bufferIndex].reader.BaseStream.Position = num;
++                                try
++                                {
++                                    packetLog.Packet = TerraAngel.Net.Shared.S2CPacketSerializer.Deserialize(buffer[bufferIndex].reader);
++                                }
++                                catch (Exception ex)
++                                {
++                                    ClientLoader.Console.WriteError(GetString($"[S2C] Packet deserialization failed:\n{ex}"));
++                                }
++                                buffer[bufferIndex].reader.BaseStream.Position = origPos;
++                            }
 +
-+                            NetMessageWindow.Instance.ReceivedNetPacketLogs[packetType].Add(log);
-+                            NetMessageWindow.Instance.AllNetPacketLogs[packetType].Add(log);
++                            NetMessageWindow.Instance.ReceivedNetPacketLogs[packetType].Add(packetLog);
++                            NetMessageWindow.Instance.AllNetPacketLogs[packetType].Add(packetLog);
 +                        }
 +
                          long position = buffer[bufferIndex].reader.BaseStream.Position;

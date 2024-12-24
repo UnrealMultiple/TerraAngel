@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Terraria.csproj
 +++ src/TerraAngel/Terraria/Terraria.csproj
-@@ -3,40 +_,200 @@
+@@ -3,40 +_,201 @@
    <PropertyGroup>
      <OutputType>WinExe</OutputType>
      <Nullable>enable</Nullable>
@@ -51,6 +51,7 @@
 +
 +  <!-- New libraries added -->
 +  <ItemGroup>
++    <ProjectReference Include="..\..\..\..\TrProtocol\TrProtocol\TrProtocol.csproj" />
 +    <ProjectReference Include="..\..\..\CSharpEval\CSharpEval\CSharpEval.csproj" />
 +    <ProjectReference Include="..\..\..\TNA\FNA.Core.csproj" />
 +    <ProjectReference Include="..\TerraAngel.PluginAPI\TerraAngel.PluginAPI.csproj" />

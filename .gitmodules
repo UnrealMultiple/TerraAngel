@@ -9,3 +9,6 @@
 	path = TNA
 	url = https://github.com/UnrealMultiple/TNA.git
 	branch = v2
+[submodule "TrProtocol"]
+	path = TrProtocol
+	url = https://github.com/UnrealMultiple/TrProtocol.git
