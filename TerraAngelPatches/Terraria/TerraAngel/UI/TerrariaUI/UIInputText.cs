@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.Xna.Framework.Input;
+using ReLogic.OS;
 using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
@@ -44,7 +45,7 @@ public class UIInputText : UITextPanel<string>
                 }
                 else if (x == '\u0016')
                 {
-                    string s = ImGui.GetClipboardText();
+                    string s = Platform.Get<IClipboard>().Value;
 
                     if (AllLowercase)
                     {
