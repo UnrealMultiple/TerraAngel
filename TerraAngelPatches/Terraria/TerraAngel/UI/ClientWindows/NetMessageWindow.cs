@@ -180,6 +180,7 @@ public class NetMessageWindow : ClientWindow
 
                             for (int j = 0; j < packetLogProvider.Count; j++)
                             {
+                                ImGui.PushID(j);
                                 if (packetLogProvider[j] is SentNetPacketLog sent)
                                 {
                                     builder.Clear();
@@ -229,6 +230,7 @@ public class NetMessageWindow : ClientWindow
                                     }
                                     ImGui.PopStyleColor();
                                 }
+                                ImGui.PopID();
                             }
 
                             ImGui.Unindent(20f);
@@ -267,24 +269,14 @@ public class NetMessageWindow : ClientWindow
                     builder.Clear();
 
                     builder.Append($"T: {log.Type,3} L: {log.Data.Length,5} B: {Convert.ToHexString(log.Data, 0, Math.Min(log.Data.Length, 250))}");
+                    if (log.Data.Length >= 250)
+                        builder.Append("..");
 
-                    if (ImGui.Selectable($"{(log.Sent ? Icon.ArrowUp : Icon.ArrowDown)} {builder.ToString()}"))
+                    if (ImGui.Selectable($"{(log.Sent ? Icon.ArrowUp : Icon.ArrowDown)} {builder}"))
                     {
                         builder.Clear();
 
-                        builder.Append($"T: {log.Type,3} L: {log.Data.Length,5} B: {{ ");
-
-                        for (int j = 0; j < log.Data.Length; j++)
-                        {
-                            builder.Append(log.Data[j]);
-
-                            if (j + 1 < log.Data.Length)
-                            {
-                                builder.Append(", ");
-                            }
-                        }
-
-                        builder.Append(" }");
+                        builder.Append($"T: {log.Type,3} L: {log.Data.Length,5} B: {Convert.ToHexString(log.Data, 0, log.Data.Length)}");
 
                         ImGui.SetClipboardText(builder.ToString());
                     }
@@ -333,19 +325,7 @@ public class NetMessageWindow : ClientWindow
                             if (RawLogsShowReceived && !RawLogsShowSent && log.Sent)
                                 continue;
 
-                            builder.Append($"{(log.Sent ? "↑" : "↓")} T: {log.Type,3} L: {log.Data.Length,5} B: {{ ");
-
-                            for (int j = 0; j < log.Data.Length; j++)
-                            {
-                                builder.Append(log.Data[j]);
-
-                                if (j + 1 < log.Data.Length)
-                                {
-                                    builder.Append(", ");
-                                }
-                            }
-
-                            builder.Append(" }");
+                            builder.Append($"T: {log.Type,3} L: {log.Data.Length,5} B: {Convert.ToHexString(log.Data, 0, log.Data.Length)}");
                             builder.AppendLine();
                         }
 
