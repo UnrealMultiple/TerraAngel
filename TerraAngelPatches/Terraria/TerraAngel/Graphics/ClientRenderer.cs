@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using TerraAngel.Inspector.Tools;
@@ -68,6 +71,19 @@ public class ClientRenderer : ImGuiRenderer
                     io.AddInputCharacter(c);
                 }
             };
+
+            if (!OperatingSystem.IsWindows())
+            {
+                var pio = ImGui.GetPlatformIO();
+                pio.Platform_GetClipboardTextFn = Marshal.GetFunctionPointerForDelegate(new GetClipboardTextFn(static _ =>
+                {
+                    return new StringBuilder(SDL2.SDL.SDL_GetClipboardText());
+                }));
+                pio.Platform_SetClipboardTextFn = Marshal.GetFunctionPointerForDelegate(new SetClipboardTextFn(static (_, text) =>
+                {
+                    SDL2.SDL.SDL_SetClipboardText(text.ToString());
+                }));
+            }
         }
 
         Task.Run(async () =>
@@ -138,14 +154,12 @@ public class ClientRenderer : ImGuiRenderer
         colors[(int)ImGuiCol.TableRowBgAlt] = new Vector4(1.00f, 1.00f, 1.00f, 0.06f);
         colors[(int)ImGuiCol.TextSelectedBg] = new Vector4(0.20f, 0.22f, 0.23f, 1.00f);
         colors[(int)ImGuiCol.DragDropTarget] = new Vector4(0.33f, 0.67f, 0.86f, 1.00f);
-        colors[(int)ImGuiCol.NavHighlight] = new Vector4(1.00f, 0.00f, 0.00f, 1.00f);
+        colors[(int)ImGuiCol.NavCursor] = new Vector4(1.00f, 0.00f, 0.00f, 1.00f);
         colors[(int)ImGuiCol.NavWindowingHighlight] = new Vector4(1.00f, 0.00f, 0.00f, 0.70f);
         colors[(int)ImGuiCol.NavWindowingDimBg] = new Vector4(1.00f, 0.00f, 0.00f, 0.20f);
         colors[(int)ImGuiCol.ModalWindowDimBg] = new Vector4(0f, 0.00f, 0.00f, 0f);
 
         ClientConfig.AfterReadLater();
-
-        colors[(int)ImGuiCol.ModalWindowDimBg] = new Vector4(0f, 0.00f, 0.00f, 0f);
     }
 
     public void SetupWindows()

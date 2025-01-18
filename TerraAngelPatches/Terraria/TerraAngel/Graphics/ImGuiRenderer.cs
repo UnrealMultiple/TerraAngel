@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using Microsoft.Xna.Framework.Input;
 
 namespace TerraAngel.Graphics;
@@ -427,4 +428,9 @@ public class ImGuiRenderer
             );
         }
     }
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    protected delegate StringBuilder GetClipboardTextFn(IntPtr userData);
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    protected delegate void SetClipboardTextFn(IntPtr userData, StringBuilder text);
 }
