@@ -58,6 +58,21 @@
          if (msgType == 21 && (Main.item[number].shimmerTime > 0f || Main.item[number].shimmered))
          {
              msgType = 145;
+@@ -114,7 +_,13 @@
+             switch (msgType)
+             {
+                 case 1:
++                    if (!string.IsNullOrEmpty(ClientConfig.Settings.CustomClientHello))
++                    {
++                        foreach (var s in ClientConfig.Settings.CustomClientHello.Split('/'))
++                            writer.Write(s);
++                    }
++                    else
+-                    writer.Write("Terraria" + 279);
++                        writer.Write("Terraria" + 279);
+                     break;
+                 case 2:
+                     text.Serialize(writer);
 @@ -1707,6 +_,23 @@
              writer.BaseStream.Position = position;
              writer.Write((ushort)num21);

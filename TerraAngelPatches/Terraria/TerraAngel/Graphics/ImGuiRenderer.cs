@@ -104,6 +104,8 @@ public class ImGuiRenderer
     {
         ImGuiIOPtr io = ImGui.GetIO();
         io.DeltaTime = Time.DrawDeltaTime;
+        io.DisplaySize = new Vector2(GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight);
+        io.DisplayFramebufferScale = new Vector2(1f, 1f);
         UpdateInput();
 
         while (PreDrawActionQueue.Count > 0)
@@ -179,9 +181,6 @@ public class ImGuiRenderer
         io.KeyCtrl = (keyboard.IsKeyDown(Keys.LeftControl) || keyboard.IsKeyDown(Keys.RightControl)) && TargetGame.IsActive;
         io.KeyAlt = (keyboard.IsKeyDown(Keys.LeftAlt) || keyboard.IsKeyDown(Keys.RightAlt)) && TargetGame.IsActive;
         io.KeySuper = (keyboard.IsKeyDown(Keys.LeftWindows) || keyboard.IsKeyDown(Keys.RightWindows)) && TargetGame.IsActive;
-
-        io.DisplaySize = new Vector2(GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight);
-        io.DisplayFramebufferScale = new Vector2(1f, 1f);
 
         io.MousePos = new Vector2(mouse.X, mouse.Y);
 

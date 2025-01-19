@@ -119,16 +119,15 @@ public class ItemInspectorTool : InspectorTool
                     if (Main.item[j].active)
                         anyActiveItems = true;
                 }
-
-                bool endedDisableEarly = false;
+                
                 ImGui.BeginDisabled(!anyActiveItems);
                 if (ImGui.BeginMenu(GetString($"Items {i}-{Math.Min(i + 20, 400)}")))
                 {
-                    endedDisableEarly = true;
                     showTooltip = false;
-                    ImGui.EndDisabled();
+                    ImGui.BeginDisabled(false);
                     for (int j = i; j < Math.Min(i + 20, 400); j++)
                     {
+                        ImGui.PushID(j);
                         if (!Main.item[j].active) ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.Text] * new Vector4(1f, 1f, 1f, 0.4f));
 
                         if (ImGui.MenuItem(GetString($"Item \"{Main.item[j].Name.Truncate(60)}\"")))
@@ -137,11 +136,12 @@ public class ItemInspectorTool : InspectorTool
                         }
 
                         if (!Main.item[j].active) ImGui.PopStyleColor();
+                        ImGui.PopID();
                     }
+                    ImGui.EndDisabled();
                     ImGui.EndMenu();
                 }
-                if (!endedDisableEarly)
-                    ImGui.EndDisabled();
+                ImGui.EndDisabled();
                 i += 20;
             }
             ImGui.EndMenu();

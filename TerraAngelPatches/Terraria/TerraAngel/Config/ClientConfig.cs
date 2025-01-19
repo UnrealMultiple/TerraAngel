@@ -257,6 +257,8 @@ public class ClientConfig
         [UIConfigElement("en-US", "Follow Game Translation")]
         public bool IsFollowGameTranslation = true;
 
+        public string CustomClientHello = "";
+
         public int ConsoleHistoryLimit = 5000;
         public int ChatHistoryLimit = 3000;
         public int ChatMessageLimit = 600;

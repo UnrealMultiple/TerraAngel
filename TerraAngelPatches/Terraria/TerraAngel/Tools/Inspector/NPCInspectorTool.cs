@@ -131,16 +131,15 @@ public class NPCInspectorTool : InspectorTool
                     if (Main.npc[j].active)
                         anyActiveNPCs = true;
                 }
-
-                bool endedDisableEarly = false;
+                
                 ImGui.BeginDisabled(!anyActiveNPCs);
                 if (ImGui.BeginMenu(GetString($"NPCs {i}-{Math.Min(i + 20, 200)}")))
                 {
-                    endedDisableEarly = true;
                     showTooltip = false;
-                    ImGui.EndDisabled();
+                    ImGui.BeginDisabled(false);
                     for (int j = i; j < Math.Min(i + 20, 200); j++)
                     {
+                        ImGui.PushID(j);
                         if (!Main.npc[j].active) ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.Text] * new Vector4(1f, 1f, 1f, 0.4f));
 
                         if (ImGui.MenuItem(GetString($"NPC \"{Main.npc[j].FullNameDefault.Truncate(30)}\"/{InternalRepresentation.GetNPCIDName(Main.npc[j].type)}/{Main.npc[j].type}")))
@@ -149,11 +148,12 @@ public class NPCInspectorTool : InspectorTool
                         }
 
                         if (!Main.npc[j].active) ImGui.PopStyleColor();
+                        ImGui.PopID();
                     }
+                    ImGui.EndDisabled();
                     ImGui.EndMenu();
                 }
-                if (!endedDisableEarly)
-                    ImGui.EndDisabled();
+                ImGui.EndDisabled();
                 i += 20;
             }
             ImGui.EndMenu();

@@ -258,6 +258,7 @@ public class NetMessageWindow : ClientWindow
 
                 for (int i = 0; i < RawNetPacketLogs.Count; i++)
                 {
+                    ImGui.PushID(i);
                     RawNetPacketLog log = RawNetPacketLogs[i];
 
                     if (RawLogsShowSent && !RawLogsShowReceived && !log.Sent)
@@ -280,6 +281,7 @@ public class NetMessageWindow : ClientWindow
 
                         ImGui.SetClipboardText(builder.ToString());
                     }
+                    ImGui.PopID();
                 }
 
                 ImGui.EndTabItem();

@@ -76,9 +76,10 @@ public class TimingMetricsWindow : ClientWindow
             ImGui.Button($"{(Icon.ClearAll)}###clearbf{timerName}");
 
             ImGui.SetCursorScreenPos(cursorPosAfter);
-
+            ImGui.Dummy(Vector2.Zero);
         }
 
         ImGui.End();
+        ImGui.PopFont();
     }
 }

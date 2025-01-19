@@ -71,6 +71,7 @@ public class QuickItemBrowserWindow : ClientWindow
             if (ImGui.BeginChild("QuickItemBrowserScrolling"))
             {
                 DrawItemList(style, textChanged, lowerSearch);
+                ImGui.EndChild();
             }
 
             float windowSize = ImGui.GetWindowSize().X;

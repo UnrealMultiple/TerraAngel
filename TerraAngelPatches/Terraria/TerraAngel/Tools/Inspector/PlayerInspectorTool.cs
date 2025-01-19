@@ -207,27 +207,27 @@ public class PlayerInspectorTool : InspectorTool
                     if (Main.player[j].active)
                         anyActivePlayers = true;
                 }
-
-                bool endedDisableEarly = false;
+                
                 ImGui.BeginDisabled(!anyActivePlayers);
                 if (ImGui.BeginMenu(GetString($"Players {i}-{Math.Min(i + 20, 255)}")))
                 {
-                    endedDisableEarly = true;
                     showTooltip = false;
-                    ImGui.EndDisabled();
+                    ImGui.BeginDisabled(false);
                     for (int j = i; j < Math.Min(i + 20, 255); j++)
                     {
+                        ImGui.PushID(j);
                         if (!Main.player[j].active) ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.Text] * new Vector4(1f, 1f, 1f, 0.4f));
                         if (ImGui.MenuItem(GetString($"Player \"{Main.player[j].name.Truncate(30)}\"")))
                         {
                             SelectedPlayer = j;
                         }
                         if (!Main.player[j].active) ImGui.PopStyleColor();
+                        ImGui.PopID();
                     }
+                    ImGui.EndDisabled();
                     ImGui.EndMenu();
                 }
-                if (!endedDisableEarly)
-                    ImGui.EndDisabled();
+                ImGui.EndDisabled();
                 i += 20;
             }
             ImGui.EndMenu();
