@@ -51,9 +51,9 @@
 +
 +  <!-- New libraries added -->
 +  <ItemGroup>
-+    <ProjectReference Include="..\..\..\..\TrProtocol\TrProtocol\TrProtocol.csproj" />
 +    <ProjectReference Include="..\..\..\CSharpEval\CSharpEval\CSharpEval.csproj" />
 +    <ProjectReference Include="..\..\..\TNA\FNA.Core.csproj" />
++    <ProjectReference Include="..\..\..\TrProtocol\TrProtocol\TrProtocol.csproj" />
 +    <ProjectReference Include="..\TerraAngel.PluginAPI\TerraAngel.PluginAPI.csproj" />
 +  </ItemGroup>
 +
