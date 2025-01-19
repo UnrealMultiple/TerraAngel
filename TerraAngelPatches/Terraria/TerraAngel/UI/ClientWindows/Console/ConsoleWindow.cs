@@ -97,6 +97,7 @@ public class ConsoleWindow : ClientWindow
 
         if (!ImGui.Begin(GetString("Console")))
         {
+            ImGui.PopFont();
             ImGui.End();
             return;
         }
