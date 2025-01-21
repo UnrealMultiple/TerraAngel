@@ -19,6 +19,8 @@ public class MultiplayerJoinUIList : UIState, IHaveBackButtonCommand
 
     private readonly UIAutoScaleTextTextPanel<string> AddServerButton;
 
+    private readonly UIAutoScaleTextTextPanel<string> JoinServerButton;
+
     private readonly MultiplayerAddServerUI AddServerUI = new MultiplayerAddServerUI();
 
     public bool NeedsUpdate = false;
@@ -69,7 +71,7 @@ public class MultiplayerJoinUIList : UIState, IHaveBackButtonCommand
 
         BackButton = new UIAutoScaleTextTextPanel<string>(Language.GetTextValue("UI.Back"))
         {
-            Width = new StyleDimension(-5f, 0.5f),
+            Width = new StyleDimension(-5f, 1.0f/3),
             Height = { Pixels = 40 },
             Top = { Pixels = -65 },
             BackgroundColor = UIUtil.ButtonColor * 0.98f,
@@ -85,12 +87,12 @@ public class MultiplayerJoinUIList : UIState, IHaveBackButtonCommand
 
         AddServerButton = new UIAutoScaleTextTextPanel<string>(GetString("Add New Server"))
         {
-            Width = new StyleDimension(-5f, 0.5f),
+            Width = new StyleDimension(-5f, 1.0f/3),
             Height = { Pixels = 40 },
             Top = { Pixels = -65 },
             BackgroundColor = UIUtil.ButtonColor * 0.98f,
             VAlign = 1f,
-            HAlign = 1.0f,
+            HAlign = 0.5f,
         }.WithFadedMouseOver();
 
         AddServerButton.OnLeftClick += (x, y) =>
@@ -100,6 +102,26 @@ public class MultiplayerJoinUIList : UIState, IHaveBackButtonCommand
         };
 
         RootElement.Append(AddServerButton);
+
+        JoinServerButton = new UIAutoScaleTextTextPanel<string>(GetString("Join Server"))
+        {
+            Width = new StyleDimension(-5f, 1.0f/3),
+            Height = { Pixels = 40 },
+            Top = { Pixels = -65 },
+            BackgroundColor = UIUtil.ButtonColor * 0.98f,
+            VAlign = 1f,
+            HAlign = 1.0f,
+        }.WithFadedMouseOver();
+
+        JoinServerButton.OnLeftClick += (x, y) =>
+        {
+            SoundEngine.PlaySound(10);
+            Main.menuMode = 13;
+            Main.MenuUI.SetState(null!);
+            Main.clrInput();
+        };
+
+        RootElement.Append(JoinServerButton);
     }
 
     public override void OnInitialize()
