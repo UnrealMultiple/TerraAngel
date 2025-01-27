@@ -98,13 +98,21 @@ public class NetMessageWindow : ClientWindow
                         switch (x->EventFlag)
                         {
                             case ImGuiInputTextFlags.CallbackCharFilter:
-                                if (char.IsNumber((char)x->EventChar) || x->EventChar == ',' || x->EventChar == ' ') return 0;
+                                if (char.IsNumber((char)x->EventChar) || x->EventChar == ',' || x->EventChar == ' ' || x->EventChar == '*') return 0;
                                 return 1;
                         }
                         return 0;
                     }); ImGui.PopItemWidth();
                 }
-                MessagesTypesToLogTraces = new HashSet<int>(FancyLogsTracesFilter.Split(',').Select(x => { if (int.TryParse(x.Trim(), out int a)) { return a; } return -1; }).Where(x => x != -1));
+                MessagesTypesToLogTraces = FancyLogsTracesFilter.Contains('*')
+                    ? new HashSet<int>(Enumerable.Range(0, MessageID.Count))
+                    : new HashSet<int>(FancyLogsTracesFilter
+                        .Split(',')
+                        .Select(x =>
+                        {
+                            if (int.TryParse(x.Trim(), out int a)) { return a; } return -1;
+                        })
+                        .Where(x => x != -1));
                 
                 ImGui.Text(GetString("Packets with details:")); ImGui.SameLine();
                 unsafe
@@ -114,13 +122,21 @@ public class NetMessageWindow : ClientWindow
                         switch (x->EventFlag)
                         {
                             case ImGuiInputTextFlags.CallbackCharFilter:
-                                if (char.IsNumber((char)x->EventChar) || x->EventChar == ',' || x->EventChar == ' ') return 0;
+                                if (char.IsNumber((char)x->EventChar) || x->EventChar == ',' || x->EventChar == ' ' || x->EventChar == '*') return 0;
                                 return 1;
                         }
                         return 0;
                     }); ImGui.PopItemWidth();
                 }
-                MessagesTypesToLogDetails = new HashSet<int>(FancyLogsDetailsFilter.Split(',').Select(x => { if (int.TryParse(x.Trim(), out int a)) { return a; } return -1; }).Where(x => x != -1));
+                MessagesTypesToLogDetails = FancyLogsDetailsFilter.Contains('*')
+                    ? new HashSet<int>(Enumerable.Range(0, MessageID.Count))
+                    : new HashSet<int>(FancyLogsDetailsFilter
+                        .Split(',')
+                        .Select(x =>
+                        {
+                            if (int.TryParse(x.Trim(), out int a)) { return a; } return -1;
+                        })
+                        .Where(x => x != -1));
 
                 if (ImGui.BeginChild("##MessageLogScrolling"))
                 {
