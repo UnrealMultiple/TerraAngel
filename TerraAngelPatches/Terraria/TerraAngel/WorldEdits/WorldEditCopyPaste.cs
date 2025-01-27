@@ -17,12 +17,12 @@ public class WorldEditCopyPaste : WorldEdit
     public override void DrawPreviewInMap(ImGuiIOPtr io, ImDrawListPtr drawList)
     {
         Vector2 worldMouse = Util.ScreenToWorldFullscreenMap(InputSystem.MousePosition);
-        Vector2 tileMouse = (worldMouse / 16f).Ceiling();
+        Vector2 tileMouse = (worldMouse / 16f).Floor();
         if (InputSystem.IsKeyPressed(ClientConfig.Settings.WorldEditSelectKey))
         {
             IsCopying = true;
 
-            StartSelectTile = (worldMouse / 16f).Floor();
+            StartSelectTile = tileMouse;
         }
 
         if (IsCopying)
@@ -111,8 +111,9 @@ public class WorldEditCopyPaste : WorldEdit
         if (CopiedSection is null)
             return;
 
-        int ox = (int)MathF.Round(originTile.X);
-        int oy = (int)MathF.Round(originTile.Y);
+        originTile = originTile.Floor();
+        int ox = (int)originTile.X;
+        int oy = (int)originTile.Y;
         Task.Run(
             () =>
             {
