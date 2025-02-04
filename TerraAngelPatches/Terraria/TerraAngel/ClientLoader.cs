@@ -219,6 +219,10 @@ public unsafe class ClientLoader
             {
                 return Assembly.LoadFrom($"{TerrariaPath}/{NewLibraryPath}/{PlatformString}/{ArchitectureString}/Steamworks/Steamworks.NET.dll");
             }
+            var fileName = sargs.Name.Split(',')[0] + ".dll";
+            var path = Path.Combine(PluginsPath, fileName);
+            if (File.Exists(path))
+                return Assembly.LoadFrom(path);
             return null;
         };
         LoadClientInteral();
