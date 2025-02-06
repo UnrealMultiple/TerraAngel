@@ -22,6 +22,7 @@ public class PlayerHooks
                 ToolManager.GetTool<AutoAimTool>().LockedOnToTarget = false;
                 Main.mouseX = (int)point.X;
                 Main.mouseY = (int)point.Y;
+                self.controlUseItem |= ToolManager.GetTool<AutoAimTool>().CanAutoUse;
             }
 
             orig(self, i);

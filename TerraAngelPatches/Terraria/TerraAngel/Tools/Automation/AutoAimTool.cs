@@ -15,6 +15,9 @@ public class AutoAimTool : Tool
     public ref float MinAttackRange => ref ClientConfig.Settings.AutoAttackMinTargetRange;
     public ref float VelocityPrectionScaling => ref ClientConfig.Settings.AutoAttackVelocityPredictionScaling;
 
+    public bool AutoUse;
+    public bool CanAutoUse => AutoUse && !Main.playerInventory;
+
     public bool Enabled;
 
     public override void DrawUI(ImGuiIOPtr io)
@@ -42,6 +45,7 @@ public class AutoAimTool : Tool
                 }
 
                 ImGui.Checkbox(GetString("Require Line of Sight"), ref RequireLineOfSight);
+                ImGui.Checkbox(GetString("Auto Use"), ref AutoUse);
                 ImGui.Checkbox(GetString("Velocity Prediction"), ref VelocityPrediction);
                 if (VelocityPrediction)
                 {
