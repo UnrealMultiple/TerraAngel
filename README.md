@@ -25,11 +25,11 @@ To install the client, follow these steps:
 
   ![image](https://user-images.githubusercontent.com/87276335/182042166-c967bcba-cd52-4372-ad75-3bc5faaac0ea.png)
 
-  3. Run `cd TerraAngel` and `./scripts/fast.ps1 -Download -Start` and wait for it to finish. This may take a few minutes</br>
+  3. Run `cd TerraAngel` and `./fast.ps1 -Download -Start` and wait for it to finish. This may take a few minutes</br>
   
      PS: During this step the console may ask you for your steam username and password if you are on Linux platform</br>
      If you dont want to provide your steam account, or you want to use exist Terraria binaries, you can put the binaries under `./steam/Terraria` with `Terraria.exe` located right under this folder</br>
-     Then run `./scripts/fast.ps1 -Download -Start` again
+     Then run `./fast.ps1 -Download -Start` again
 
   ![image](https://user-images.githubusercontent.com/87276335/182042235-9ce87d19-61ee-4636-b3ab-eee0ccb0e428.png)
 
@@ -43,18 +43,18 @@ To install the client, follow these steps:
 Updating
 </h2>
 
-To update the client and pull any changes, run `./scripts/fast.ps1 -Update`
+To update the client and pull any changes, run `./fast.ps1 -Update`
 
-Then run `./scripts/fast.ps1 -Compile` to build the updated client
+Then run `./fast.ps1 -Compile` to build the updated client
 
-(Or run `./scripts/fast.ps1 -Update -Compile` to pull latest changes and compile at the same time)
+(Or run `./fast.ps1 -Update -Compile` to pull latest changes and compile at the same time)
 <h2>
 Development
 </h2>
 
 After installing the client, you can edit the source code of the client in `src/TerraAngel/Terraria`
 
-Run `./scripts/fast.ps1 -Diff` to create patches based on your changes
+Run `./fast.ps1 -Diff` to create patches based on your changes
 
 <h2>
 Client features
