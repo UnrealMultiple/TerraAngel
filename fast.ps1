@@ -13,7 +13,7 @@ param (
     [switch] $I18n
 )
 
-Set-Location "$PSScriptRoot/.."
+Set-Location "$PSScriptRoot"
 
 filter Join-ExecutableExtension
 {
