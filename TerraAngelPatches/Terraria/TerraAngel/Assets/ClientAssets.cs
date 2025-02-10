@@ -1,19 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace TerraAngel.Assets;
 
 public class ClientAssets
 {
-    private static Dictionary<float, ImFontPtr> TerrariaFonts = new Dictionary<float, ImFontPtr>();
-    private static Dictionary<float, ImFontPtr> MonospaceFonts = new Dictionary<float, ImFontPtr>();
+    private static Dictionary<float, ImFontPtr> TerrariaFonts = new();
+    private static Dictionary<float, ImFontPtr> MonospaceFonts = new();
 
-    public static readonly float[] DefaultSizes = new float[] { 14f, 16f, 18f, 22f };
+    public static readonly float[] DefaultSizes = [14f, 16f, 18f, 22f];
 
     public static string TerrariaFontName => $"{ClientLoader.AssetPath}/AndyBold.ttf";
     public static string MonoFontName => $"{ClientLoader.AssetPath}/FiraCode.ttf";
     public static string IconFontName => $"{ClientLoader.AssetPath}/IconFont.ttf";
     public static string FallbackFontName => $"{ClientLoader.AssetPath}/SourceHanSansSC-VF.ttf";
+
+    // FIXME: sharing ttf file data may cause it to be freed multiple times
+    public static Dictionary<string, (IntPtr, int)> FontTTFDataPtrsCache = [];
 
     public static void LoadFonts(ImGuiIOPtr io)
     {
@@ -26,8 +33,9 @@ public class ClientAssets
 
     public static void LoadTerrariaFont(float size, bool withoutSymbols = false)
     {
+        if (TerrariaFonts.ContainsKey(size))
+            return;
         TerrariaFonts.Add(size, LoadFont(TerrariaFontName, size, 0x0020, 0x007F));
-
         LoadFont(FallbackFontName, size, true, Vector2.Zero, Vector2.Zero, 0f, float.MaxValue, 1, 1, true, 2f, 
             0x00A0, 0x00FF, // Latin Supplement
             0x2000, 0x206F, // General Punctuation
@@ -43,6 +51,8 @@ public class ClientAssets
     }
     public static void LoadMonospaceFont(float size, bool withoutSymbols = false)
     {
+        if (MonospaceFonts.ContainsKey(size))
+            return;
         MonospaceFonts.Add(size, LoadFont(MonoFontName, size, 0x0020, 0x00FF, 0x0400, 0x04FF, 0x2020, 0x22FF));
         LoadFont(FallbackFontName, size, true, Vector2.Zero, Vector2.Zero, 0f, float.MaxValue, 1, 1, true, 2f, 
             0x2000, 0x206F, // General Punctuation
@@ -108,31 +118,45 @@ public class ClientAssets
     }
     public unsafe static ImFontPtr LoadFont(string path, float size, bool merge, Vector2 glyphOffset, Vector2 glyphExtraSpacing, float minAdvanceX, float maxAdvanceX, int overSampleH, int overSampleV, bool pixelSnapH, float rasterizerMultiply, params ushort[] glyphRanges)
     {
+        var fullPath = Path.GetFullPath(path);
+        IntPtr ttfDataPtr;
+        int ttfDataSize;
+        if (FontTTFDataPtrsCache.TryGetValue(fullPath, out var ttfDataCache))
+            (ttfDataPtr, ttfDataSize) = ttfDataCache;
+        else
+        {
+            var ttf = File.ReadAllBytes(fullPath);
+            ttfDataPtr = Marshal.AllocHGlobal(ttf.Length);
+            ttfDataSize = ttf.Length;
+            Marshal.Copy(ttf, 0, ttfDataPtr, ttf.Length);
+            FontTTFDataPtrsCache.Add(fullPath, (ttfDataPtr, ttfDataSize));
+        }
+
         ImGuiIOPtr io = ImGui.GetIO();
 
         if (glyphRanges.Length > 0)
         {
-
             glyphRanges = glyphRanges.Append((ushort)0).ToArray();
+            // FIXME: `glyphRangesPtr` memory leak
+            var glyphRangesPtr = Marshal.AllocHGlobal(glyphRanges.Length * sizeof(ushort));
+            Marshal.Copy((short[])(object)glyphRanges, 0, glyphRangesPtr, glyphRanges.Length);
 
-            fixed (ushort* glpyhRangesPtr = &glyphRanges[0])
-            {
-                ImFontConfigPtr config = ImGuiNative.ImFontConfig_ImFontConfig();
+            ImFontConfigPtr config = ImGuiNative.ImFontConfig_ImFontConfig();
 
-                config.MergeMode = merge;
-                config.GlyphOffset = glyphOffset;
-                config.GlyphExtraSpacing = glyphExtraSpacing;
-                config.GlyphMinAdvanceX = minAdvanceX;
-                config.GlyphMaxAdvanceX = maxAdvanceX;
-                config.OversampleH = overSampleH;
-                config.OversampleV = overSampleV;
-                config.PixelSnapH = pixelSnapH;
-                config.RasterizerMultiply = rasterizerMultiply;
+            config.MergeMode = merge;
+            config.GlyphOffset = glyphOffset;
+            config.GlyphExtraSpacing = glyphExtraSpacing;
+            config.GlyphMinAdvanceX = minAdvanceX;
+            config.GlyphMaxAdvanceX = maxAdvanceX;
+            config.OversampleH = overSampleH;
+            config.OversampleV = overSampleV;
+            config.PixelSnapH = pixelSnapH;
+            config.RasterizerMultiply = rasterizerMultiply;
+            config.FontDataOwnedByAtlas = true;
 
-                ImFontPtr font = io.Fonts.AddFontFromFileTTF(path, size, config, (nint)glpyhRangesPtr);
-                config.Destroy();
-                return font;
-            }
+            ImFontPtr font = io.Fonts.AddFontFromMemoryTTF(ttfDataPtr, ttfDataSize, size, config, glyphRangesPtr);
+            config.Destroy();
+            return font;
         }
         else
         {
@@ -147,8 +171,9 @@ public class ClientAssets
             config.OversampleV = overSampleV;
             config.PixelSnapH = pixelSnapH;
             config.RasterizerMultiply = rasterizerMultiply;
+            config.FontDataOwnedByAtlas = true;
 
-            ImFontPtr font = io.Fonts.AddFontFromFileTTF(path, size, config);
+            ImFontPtr font = io.Fonts.AddFontFromMemoryTTF(ttfDataPtr, ttfDataSize, size, config);
             config.Destroy();
             return font;
         }
@@ -179,7 +204,6 @@ public class ClientAssets
     }
     public static ImFontPtr GetTerrariaFont(float size)
     {
-
         if (TerrariaFonts.ContainsKey(size))
             return TerrariaFonts[size];
 
