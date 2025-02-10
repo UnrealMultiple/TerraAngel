@@ -7,19 +7,19 @@ public class Time
     public static float DrawDeltaTime { get; private set; } = 1f / 60f;
     public static float UpdateDeltaTime { get; private set; } = 1f / 60f;
 
-    public static double PerciseDrawDeltaTime { get; private set; } = 1.0 / 60.0;
-    public static double PerciseUpdateDeltaTime { get; private set; } = 1.0 / 60.0;
+    public static double PreciseDrawDeltaTime { get; private set; } = 1.0 / 60.0;
+    public static double PreciseUpdateDeltaTime { get; private set; } = 1.0 / 60.0;
 
-    private static Stopwatch DrawStopwatch = new Stopwatch();
-    private static Stopwatch UpdateStopwatch = new Stopwatch();
+    private static Stopwatch DrawStopwatch = new();
+    private static Stopwatch UpdateStopwatch = new();
 
     public static void UpdateDraw()
     {
         DrawStopwatch.Stop();
 
         TimeMetrics.FramerateDeltaTimeSlices.Add(DrawStopwatch.Elapsed);
-        PerciseDrawDeltaTime = DrawStopwatch.Elapsed.TotalSeconds;
-        DrawDeltaTime = (float)PerciseDrawDeltaTime;
+        PreciseDrawDeltaTime = DrawStopwatch.Elapsed.TotalSeconds;
+        DrawDeltaTime = (float)PreciseDrawDeltaTime;
 
         DrawStopwatch.Restart();
     }
@@ -29,8 +29,8 @@ public class Time
         UpdateStopwatch.Stop();
 
         TimeMetrics.UpdateDeltaTimeSlices.Add(UpdateStopwatch.Elapsed);
-        PerciseUpdateDeltaTime = UpdateStopwatch.Elapsed.TotalSeconds;
-        UpdateDeltaTime = (float)UpdateDeltaTime;
+        PreciseUpdateDeltaTime = UpdateStopwatch.Elapsed.TotalSeconds;
+        UpdateDeltaTime = (float)PreciseUpdateDeltaTime;
 
         UpdateStopwatch.Restart();
     }

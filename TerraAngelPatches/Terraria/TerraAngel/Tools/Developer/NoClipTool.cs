@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework.Input;
-
-namespace TerraAngel.Tools.Developer;
+﻿namespace TerraAngel.Tools.Developer;
 
 public class NoClipTool : Tool
 {
@@ -8,7 +6,7 @@ public class NoClipTool : Tool
 
     public override ToolTabs Tab => ToolTabs.MainTools;
 
-    public float NoClipSpeed = 20.8f;
+    public float NoClipSpeed = 150f;
     public int NoClipPlayerSyncTime = 1;
 
     public bool Enabled;
@@ -22,7 +20,7 @@ public class NoClipTool : Tool
             {
                 ImGui.Indent();
                 ImGui.TextUnformatted(GetString("Speed")); ImGui.SameLine();
-                ImGui.SliderFloat("##Speed", ref NoClipSpeed, 1f, 100f);
+                ImGui.SliderFloat("##Speed", ref NoClipSpeed, 1f, 500f);
 
                 ImGui.TextUnformatted(GetString("Frames between sync")); ImGui.SameLine();
                 ImGui.SliderInt("##SyncTime", ref NoClipPlayerSyncTime, 1, 60);
@@ -50,19 +48,19 @@ public class NoClipTool : Tool
                     self.oldPosition = self.position;
                     if (ImGui.IsKeyDown(ImGuiKey.W))
                     {
-                        self.position.Y -= NoClipSpeed;
+                        self.position.Y -= NoClipSpeed * 16f * Time.DrawDeltaTime;
                     }
                     if (ImGui.IsKeyDown(ImGuiKey.S))
                     {
-                        self.position.Y += NoClipSpeed;
+                        self.position.Y += NoClipSpeed * 16f * Time.DrawDeltaTime;
                     }
                     if (ImGui.IsKeyDown(ImGuiKey.A))
                     {
-                        self.position.X -= NoClipSpeed;
+                        self.position.X -= NoClipSpeed * 16f * Time.DrawDeltaTime;
                     }
                     if (ImGui.IsKeyDown(ImGuiKey.D))
                     {
-                        self.position.X += NoClipSpeed;
+                        self.position.X += NoClipSpeed * 16f * Time.DrawDeltaTime;
                     }
                 }
             }
