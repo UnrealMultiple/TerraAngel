@@ -6,32 +6,38 @@ namespace TerraAngel.Tools;
 
 public class Butcher
 {
-    public static void ButcherAllHostileNPCs(int damage = 1000, int hitCount = -1)
+    public static void ButcherAllHostileNPCs(int damage = 1000, int hitCount = -1, bool bypassTShock = false)
     {
         for (int i = 0; i < Main.npc.Length; i++)
         {
             NPC npc = Main.npc[i];
             if (npc.active && !npc.friendly && npc.type != NPCID.TargetDummy)
             {
-                ButcherNPC(npc, damage, hitCount);
+                if (bypassTShock)
+                    ButcherNPCBypassTShock(npc, hitCount);
+                else
+                    ButcherNPC(npc, damage, hitCount);
             }
         }
     }
-    public static void ButcherAllFriendlyNPCs(int damage = 1000, int hitCount = -1)
+    public static void ButcherAllFriendlyNPCs(int damage = 1000, int hitCount = -1, bool bypassTShock = false)
     {
         for (int i = 0; i < Main.npc.Length; i++)
         {
             NPC npc = Main.npc[i];
             if (npc.active && npc.friendly && npc.type != NPCID.TargetDummy)
             {
-                ButcherNPC(npc, damage, hitCount);
+                if (bypassTShock)
+                    ButcherNPCBypassTShock(npc, hitCount);
+                else
+                    ButcherNPC(npc, damage, hitCount);
             }
         }
     }
-    public static void ButcherAllNPCs(int damage = 1000, int hitCount = -1)
+    public static void ButcherAllNPCs(int damage = 1000, int hitCount = -1, bool bypassTShock = false)
     {
-        ButcherAllHostileNPCs(damage, hitCount);
-        ButcherAllFriendlyNPCs(damage, hitCount);
+        ButcherAllHostileNPCs(damage, hitCount, bypassTShock);
+        ButcherAllFriendlyNPCs(damage, hitCount, bypassTShock);
     }
     public static void ButcherNPC(NPC npc, int damage = 1000, int hitCount = -1)
     {
@@ -48,7 +54,21 @@ public class Butcher
         }
         NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Main.myPlayer);
     }
-
+    public static void ButcherNPCBypassTShock(NPC npc, int hitCount = -1)
+    {
+        int trueHitCount = hitCount;
+        if (hitCount == -1)
+        {
+            var player = Main.player[Main.myPlayer];
+            trueHitCount = (int)Math.Ceiling((float)(npc.life + (int)Math.Ceiling(npc.defense / 2f)) / player.inventory[player.selectedItem].damage);
+        }
+        SpecialNetMessage.SendData(MessageID.PlayerControls, null, Main.myPlayer, npc.position.X, npc.position.Y, (float)Main.LocalPlayer.selectedItem);
+        for (int j = 0; j < trueHitCount; j++)
+        {
+            NetMessage.TrySendData(MessageID.StrikeNPCWithHeldItem, -1, -1, null!, npc.whoAmI, Main.myPlayer);
+        }
+        NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Main.myPlayer);
+    }
     public static void ButcherAllPlayers(int damage = 1000, int hitCount = -1)
     {
         for (int i = 0; i < Main.player.Length; i++)
