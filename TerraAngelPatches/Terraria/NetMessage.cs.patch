@@ -85,7 +85,7 @@
 +                try
 +                {
 +                    using var br = new BinaryReader(writer.BaseStream, Encoding.UTF8, true);
-+                    packetLog.Packet = TerraAngel.Net.Shared.C2SPacketSerializer.Deserialize(br);
++                    packetLog.Packet = TerraAngel.Net.Shared.ServerPacketSerializer.Deserialize(br);
 +                }
 +                catch (Exception ex)
 +                {
@@ -552,7 +552,7 @@
 +                                    try
 +                                    {
 +                                        packetLog.Packet =
-+                                            TerraAngel.Net.Shared.S2CPacketSerializer.Deserialize(buffer[bufferIndex]
++                                            TerraAngel.Net.Shared.ClientPacketSerializer.Deserialize(buffer[bufferIndex]
 +                                                .reader);
 +                                    }
 +                                    catch (Exception ex)

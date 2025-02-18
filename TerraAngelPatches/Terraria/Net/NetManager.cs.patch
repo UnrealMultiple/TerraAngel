@@ -26,7 +26,7 @@
 +                        try
 +                        {
 +                            using var br = new BinaryReader(new MemoryStream(packet.Buffer.Data, 0, packet.Length));
-+                            packetLog.Packet = TerraAngel.Net.Shared.C2SPacketSerializer.Deserialize(br);
++                            packetLog.Packet = TerraAngel.Net.Shared.ServerPacketSerializer.Deserialize(br);
 +                        }
 +                        catch (System.Exception ex)
 +                        {
