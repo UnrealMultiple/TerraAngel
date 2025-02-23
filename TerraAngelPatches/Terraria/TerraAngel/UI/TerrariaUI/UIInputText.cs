@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using ReLogic.OS;
 using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
+using Terraria.GameInput;
 using Terraria.UI;
 
 namespace TerraAngel.UI.TerrariaUI;
@@ -170,6 +171,12 @@ public class UIInputText : UITextPanel<string>
         if (Main.gameMenu && InputSystem.LeftMouseDown)
         {
             EditingInputText = null;
+            PlayerInput.WritingText = false;
+        }
+
+        if (EditingInputText is not null)
+        {
+            PlayerInput.WritingText = true;
         }
     }
 }

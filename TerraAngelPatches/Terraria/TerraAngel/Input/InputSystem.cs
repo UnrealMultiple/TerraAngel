@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using Terraria.GameInput;
 
 namespace TerraAngel.Input;
 
@@ -27,7 +28,7 @@ public class InputSystem
     /// <returns>Whether or not a key is currently down</returns>
     public static bool IsKeyDown(Keys key)
     {
-        if (!Main.instance.IsActive || key == Keys.None || (ClientLoader.MainRenderer is not null && ImGui.GetIO().WantTextInput))
+        if (!Main.instance.IsActive || key == Keys.None || (ClientLoader.MainRenderer is not null && ImGui.GetIO().WantTextInput) || PlayerInput.WritingText)
             return false;
         return KeyboardState.IsKeyDown(key);
     }
@@ -35,7 +36,7 @@ public class InputSystem
     /// <returns>Whether or not a key is currently up</returns>
     public static bool IsKeyUp(Keys key)
     {
-        if (!Main.instance.IsActive || key == Keys.None || (ClientLoader.MainRenderer is not null && ImGui.GetIO().WantTextInput))
+        if (!Main.instance.IsActive || key == Keys.None || (ClientLoader.MainRenderer is not null && ImGui.GetIO().WantTextInput) || PlayerInput.WritingText)
             return false;
         return !KeyboardState.IsKeyDown(key);
     }
@@ -43,7 +44,7 @@ public class InputSystem
     /// <returns>Whether or not a key was pressed this frame</returns>
     public static bool IsKeyPressed(Keys key)
     {
-        if (!Main.instance.IsActive || key == Keys.None || (ClientLoader.MainRenderer is not null && ImGui.GetIO().WantTextInput))
+        if (!Main.instance.IsActive || key == Keys.None || (ClientLoader.MainRenderer is not null && ImGui.GetIO().WantTextInput) || PlayerInput.WritingText)
             return false;
         return KeyboardState.IsKeyDown(key) && !LastKeyboardState.IsKeyDown(key);
     }
@@ -51,7 +52,7 @@ public class InputSystem
     /// <returns>Whether or not a key was released this frame</returns>
     public static bool IsKeyReleased(Keys key)
     {
-        if (!Main.instance.IsActive || key == Keys.None || (ClientLoader.MainRenderer is not null && ImGui.GetIO().WantTextInput))
+        if (!Main.instance.IsActive || key == Keys.None || (ClientLoader.MainRenderer is not null && ImGui.GetIO().WantTextInput) || PlayerInput.WritingText)
             return false;
         return !KeyboardState.IsKeyDown(key) && LastKeyboardState.IsKeyDown(key);
     }

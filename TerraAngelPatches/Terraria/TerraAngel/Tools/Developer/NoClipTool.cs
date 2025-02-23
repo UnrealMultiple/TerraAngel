@@ -1,4 +1,6 @@
-﻿namespace TerraAngel.Tools.Developer;
+﻿using Microsoft.Xna.Framework.Input;
+
+namespace TerraAngel.Tools.Developer;
 
 public class NoClipTool : Tool
 {
@@ -46,19 +48,19 @@ public class NoClipTool : Tool
                 if (Enabled)
                 {
                     self.oldPosition = self.position;
-                    if (ImGui.IsKeyDown(ImGuiKey.W))
+                    if (InputSystem.IsKeyDown(Keys.W))
                     {
                         self.position.Y -= NoClipSpeed * 16f * Time.DrawDeltaTime;
                     }
-                    if (ImGui.IsKeyDown(ImGuiKey.S))
+                    if (InputSystem.IsKeyDown(Keys.S))
                     {
                         self.position.Y += NoClipSpeed * 16f * Time.DrawDeltaTime;
                     }
-                    if (ImGui.IsKeyDown(ImGuiKey.A))
+                    if (InputSystem.IsKeyDown(Keys.A))
                     {
                         self.position.X -= NoClipSpeed * 16f * Time.DrawDeltaTime;
                     }
-                    if (ImGui.IsKeyDown(ImGuiKey.D))
+                    if (InputSystem.IsKeyDown(Keys.D))
                     {
                         self.position.X += NoClipSpeed * 16f * Time.DrawDeltaTime;
                     }
