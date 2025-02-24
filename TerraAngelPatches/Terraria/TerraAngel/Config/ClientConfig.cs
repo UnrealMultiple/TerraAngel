@@ -52,6 +52,10 @@ public class ClientConfig
         [UIConfigElement("en-US", "Default Infinite Minions")]
         public bool DefaultInfiniteMinions = false;
 
+        [UIConfigElement("zh-CN", "默认开启旅行菜单")]
+        [UIConfigElement("en-US", "Default Journey ModeM enu")]
+        public bool DefaultJourneyModeMenu = false;
+
         [UIConfigElement("zh-CN", "默认启用ESP透视")]
         [UIConfigElement("en-US", "Default ESP Draw Any")]
         public bool DefaultDrawAnyESP = false;
