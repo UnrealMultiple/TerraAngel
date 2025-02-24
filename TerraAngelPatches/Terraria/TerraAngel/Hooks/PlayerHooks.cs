@@ -60,6 +60,7 @@ public class PlayerHooks
             if (ToolManager.GetTool<InfiniteMinionTool>().Enabled)
             {
                 self.maxMinions = int.MaxValue - 100000;
+                self.maxTurrets = int.MaxValue - 100000;
             }
 
             if (ToolManager.GetTool<InfiniteManaTool>().Enabled)
@@ -72,6 +73,14 @@ public class PlayerHooks
             {
                 Player.tileRangeX = Main.screenWidth / 32 + 8;
                 Player.tileRangeY = Main.screenHeight / 32 + 8;
+            }
+            if(ToolManager.GetTool<JourneyModeMenu>().Enabled)
+            {
+                self.difficulty = 3;
+            }
+            else
+            {
+                self.difficulty = 0;
             }
 
             if (ToolManager.GetTool<AntiHurtTool>().FramesSinceLastLifePacket > 0)
