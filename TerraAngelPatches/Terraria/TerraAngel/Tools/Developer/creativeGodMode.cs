@@ -1,12 +1,12 @@
 ﻿namespace TerraAngel.Tools.Developer;
 
-public class JourneyModeMenu : Tool
+public class creativeGodMode : Tool
 {
-    public override string Name => GetString("Journey Mode Menu");
+    public override string Name => GetString("GodMode");
 
     public override ToolTabs Tab => ToolTabs.MainTools;
 
-    [DefaultConfigValue(nameof(ClientConfig.Config.DefaultJourneyModeMenu))]
+    [DefaultConfigValue(nameof(ClientConfig.Config.DefaultcreativeGodMode))]
     public bool Enabled;
 
     public override void DrawUI(ImGuiIOPtr io)

@@ -74,13 +74,9 @@ public class PlayerHooks
                 Player.tileRangeX = Main.screenWidth / 32 + 8;
                 Player.tileRangeY = Main.screenHeight / 32 + 8;
             }
-            if(ToolManager.GetTool<JourneyModeMenu>().Enabled)
+            if(ToolManager.GetTool<creativeGodMode>().Enabled)
             {
-                self.difficulty = 3;
-            }
-            else
-            {
-                self.difficulty = 0;
+                self.creativeGodMode = true;
             }
 
             if (ToolManager.GetTool<AntiHurtTool>().FramesSinceLastLifePacket > 0)
