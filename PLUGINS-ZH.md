@@ -1,24 +1,24 @@
-<h1 align="center">
-²å¼şÏµÍ³
+ï»¿<h1 align="center">
+æ’ä»¶ç³»ç»Ÿ
 </h1>
 <p align="center">
-TerraAngel Ö§³ÖÍ¨¹ı²å¼şĞÎÊ½½øĞĞÀ©Õ¹
+TerraAngel æ”¯æŒé€šè¿‡æ’ä»¶å½¢å¼è¿›è¡Œæ‰©å±•
 </p>
 <br>
 
-# ¿ìËÙÈëÃÅ
+# å¿«é€Ÿå…¥é—¨
 
-## ²å¼ş¼ÓÔØ
+## æ’ä»¶åŠ è½½
 
-TerraAngel »á×Ô¶¯Ê¶±ğ `Plugins` ÎÄ¼ş¼ĞÖĞËùÓĞÒÔ `.TAPlugin.dll` ½áÎ²µÄ .NET Àà¿â×÷Îª²å¼ş¡£
+TerraAngel ä¼šè‡ªåŠ¨è¯†åˆ« `Plugins` æ–‡ä»¶å¤¹ä¸­æ‰€æœ‰ä»¥ `.TAPlugin.dll` ç»“å°¾çš„ .NET ç±»åº“ä½œä¸ºæ’ä»¶ã€‚
 
-µ±²å¼ş±»¼ÓÔØÊ±£¬TerraAngel »áÔÚ²å¼ş³ÌĞò¼¯ÖĞ²éÕÒ¼Ì³Ğ×Ô `TerraAngel.PluginAPI` ÖĞ¶¨ÒåµÄ `Plugin` ÀàµÄ¾ßÌåÊµÏÖ¡£
+å½“æ’ä»¶è¢«åŠ è½½æ—¶ï¼ŒTerraAngel ä¼šåœ¨æ’ä»¶ç¨‹åºé›†ä¸­æŸ¥æ‰¾ç»§æ‰¿è‡ª `TerraAngel.PluginAPI` ä¸­å®šä¹‰çš„ `Plugin` ç±»çš„å…·ä½“å®ç°ã€‚
 
-## Ê¾Àı²å¼ş
+## ç¤ºä¾‹æ’ä»¶
 
-´´½¨Ò»¸öÕë¶Ô .NET 7.0 µÄ .NET Àà¿âÏîÄ¿£¬Ãû³ÆÒÔ .TAPlugin ½áÎ²£¨ÀıÈç Example.TAPlugin£©
+åˆ›å»ºä¸€ä¸ªé’ˆå¯¹ .NET 7.0 çš„ .NET ç±»åº“é¡¹ç›®ï¼Œåç§°ä»¥ .TAPlugin ç»“å°¾ï¼ˆä¾‹å¦‚ Example.TAPluginï¼‰
 
-¿ÉÍ¨¹ıÃüÁîĞĞ´´½¨£º`dotnet new classlib --name Example.TAPlugin --framework net7.0`
+å¯é€šè¿‡å‘½ä»¤è¡Œåˆ›å»ºï¼š`dotnet new classlib --name Example.TAPlugin --framework net7.0`
 
 ```cs
 using TerraAngel;
@@ -28,26 +28,26 @@ namespace Example.TAPlugin;
 
 public class ExamplePlugin : Plugin
 {
-    public override string Name => "Ê¾Àı²å¼ş";
+    public override string Name => "ç¤ºä¾‹æ’ä»¶";
 
     public ExamplePlugin(string path) : base(path)
     {
 
     }
 
-    // ²å¼ş¼ÓÔØÊ±µ÷ÓÃÒ»´Î
+    // æ’ä»¶åŠ è½½æ—¶è°ƒç”¨ä¸€æ¬¡
     public override void Load()
     {
 
     }
 
-    // ²å¼şĞ¶ÔØÊ±µ÷ÓÃÒ»´Î
+    // æ’ä»¶å¸è½½æ—¶è°ƒç”¨ä¸€æ¬¡
     public override void Unload()
     {
 
     }
 
-    // ²å¼ş¼ÓÔØÆÚ¼äÃ¿Ö¡µ÷ÓÃ
+    // æ’ä»¶åŠ è½½æœŸé—´æ¯å¸§è°ƒç”¨
     public override void Update()
     {
 
@@ -55,22 +55,22 @@ public class ExamplePlugin : Plugin
 }
 ```
 
-ĞèÒªÌí¼Ó¶ÔÒÔÏÂ³ÌĞò¼¯µÄÒıÓÃ£º
+éœ€è¦æ·»åŠ å¯¹ä»¥ä¸‹ç¨‹åºé›†çš„å¼•ç”¨ï¼š
 - `TerraAngelPluginAPI.dll`
 - `Terraria.dll`
 
-½¨ÒéÍ¬Ê±ÒıÓÃ£º
+å»ºè®®åŒæ—¶å¼•ç”¨ï¼š
  - `ReLogic.dll`
  - `ImGui.NET.dll`
  - `TNA.dll`
 
-ÕâĞ©ÎÄ¼şÎ»ÓÚ TerraAngel µÄ¹¹½¨Ä¿Â¼ÖĞ£¨`TerraAngel/Terraria/bin/Release/net7.0/`£©
+è¿™äº›æ–‡ä»¶ä½äº TerraAngel çš„æ„å»ºç›®å½•ä¸­ï¼ˆ`TerraAngel/Terraria/bin/Release/net7.0/`ï¼‰
 
-°²×°²å¼şÊ±£¬½«²å¼ş DLL ¸´ÖÆµ½ TerraAngel µÄ²å¼şÄ¿Â¼¼´¿É¡£
+å®‰è£…æ’ä»¶æ—¶ï¼Œå°†æ’ä»¶ DLL å¤åˆ¶åˆ° TerraAngel çš„æ’ä»¶ç›®å½•å³å¯ã€‚
 
-# ÆäËûÊ¾Àı
+# å…¶ä»–ç¤ºä¾‹
 
-## Ìí¼Ó¿ØÖÆÌ¨ÃüÁî
+## æ·»åŠ æ§åˆ¶å°å‘½ä»¤
 
 ```cs
 using TerraAngel;
@@ -81,32 +81,32 @@ namespace Console.TAPlugin;
 
 public class ConsoleExamplePlugin : Plugin
 {
-    public override string Name => "¿ØÖÆÌ¨Ê¾Àı²å¼ş";
+    public override string Name => "æ§åˆ¶å°ç¤ºä¾‹æ’ä»¶";
 
     public ConsoleExample(string path) : base(path)
     {
 
     }
 
-    // ²å¼ş¼ÓÔØÊ±µ÷ÓÃ
+    // æ’ä»¶åŠ è½½æ—¶è°ƒç”¨
     public override void Load()
     {
-        // Ïò¿ØÖÆÌ¨Ìí¼ÓÃüÁî
+        // å‘æ§åˆ¶å°æ·»åŠ å‘½ä»¤
         ClientLoader.Console.AddCommand("kill_player",
             (x) =>
             {
                 Main.LocalPlayer.KillMe(PlayerDeathReason.ByPlayer(Main.myPlayer), 1, 0);
             },
-            "É±ËÀÍæ¼Ò");
+            "æ€æ­»ç©å®¶");
     }
 
-    // ²å¼şĞ¶ÔØÊ±µ÷ÓÃ
+    // æ’ä»¶å¸è½½æ—¶è°ƒç”¨
     public override void Unload()
     {
 
     }
 
-    // Ã¿Ö¡¸üĞÂ
+    // æ¯å¸§æ›´æ–°
     public override void Update()
     {
         

@@ -1,5 +1,5 @@
 #!/usr/bin/env pwsh
-#Requires -Version 5
+#Requires -Version 7
 
 param (
     [switch] $Update,
