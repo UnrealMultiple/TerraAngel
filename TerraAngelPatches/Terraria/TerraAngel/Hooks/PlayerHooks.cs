@@ -60,6 +60,7 @@ public class PlayerHooks
             if (ToolManager.GetTool<InfiniteMinionTool>().Enabled)
             {
                 self.maxMinions = int.MaxValue - 100000;
+                self.maxTurrets = int.MaxValue - 100000;
             }
 
             if (ToolManager.GetTool<InfiniteManaTool>().Enabled)
