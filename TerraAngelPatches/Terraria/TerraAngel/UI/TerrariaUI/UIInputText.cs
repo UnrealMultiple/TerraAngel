@@ -13,6 +13,9 @@ public class UIInputText : UITextPanel<string>
 {
     public static UIInputText? EditingInputText;
 
+    public event Action OnTab;
+    public event Action OnEnter;
+
     public int CursorPosition;
 
     private int FrameCount = 0;
@@ -75,6 +78,14 @@ public class UIInputText : UITextPanel<string>
                         CursorPosition = Math.Clamp(CursorPosition, 0, Text.Length);
                         FrameCount = 10;
                     }
+                }
+                else if (x == '\t')
+                {
+                    OnTab?.Invoke();
+                }
+                else if (x == '\r')
+                {
+                    OnEnter?.Invoke();
                 }
                 else
                 {

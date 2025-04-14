@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Localization;
 using Terraria.UI;
+using Terraria.UI.Gamepad;
 
 namespace TerraAngel.UI.TerrariaUI;
 
@@ -77,6 +79,7 @@ public class MultiplayerJoinUIList : UIState, IHaveBackButtonCommand
             BackgroundColor = UIUtil.ButtonColor * 0.98f,
             VAlign = 1f,
         }.WithFadedMouseOver();
+        BackButton.SetSnapPoint("Back", 0);
 
         BackButton.OnLeftClick += (x, y) =>
         {
@@ -94,6 +97,7 @@ public class MultiplayerJoinUIList : UIState, IHaveBackButtonCommand
             VAlign = 1f,
             HAlign = 0.5f,
         }.WithFadedMouseOver();
+        AddServerButton.SetSnapPoint("Add Server", 0);
 
         AddServerButton.OnLeftClick += (x, y) =>
         {
@@ -112,6 +116,7 @@ public class MultiplayerJoinUIList : UIState, IHaveBackButtonCommand
             VAlign = 1f,
             HAlign = 1.0f,
         }.WithFadedMouseOver();
+        JoinServerButton.SetSnapPoint("Join Server", 0);
 
         JoinServerButton.OnLeftClick += (x, y) =>
         {
@@ -131,10 +136,16 @@ public class MultiplayerJoinUIList : UIState, IHaveBackButtonCommand
         Append(RootElement);
     }
 
+    public override void OnActivate()
+    {
+        base.OnActivate();
+        UILinkPointNavigator.ChangePoint(3003);
+    }
+
     public override void Draw(SpriteBatch spriteBatch)
     {
-
         base.Draw(spriteBatch);
+        SetupGamepadPoints(spriteBatch);
 
         if (InputSystem.IsKeyDown(Keys.Escape))
             HandleBackButtonUsage();
@@ -148,9 +159,10 @@ public class MultiplayerJoinUIList : UIState, IHaveBackButtonCommand
 
             ClientConfig.Settings.MultiplayerServers.Sort((x, y) => y.LastInteractedTime.CompareTo(x.LastInteractedTime));
 
+            var index = 0;
             foreach (MultiplayerServerInfo server in ClientConfig.Settings.MultiplayerServers)
             {
-                ServerListContainer.Add(new ServerCardUI(server)
+                ServerListContainer.Add(new ServerCardUI(server, index++)
                 {
                     Width = { Percent = 1.0f, },
                     Height = { Pixels = 80f }
@@ -171,6 +183,38 @@ public class MultiplayerJoinUIList : UIState, IHaveBackButtonCommand
         SoundEngine.PlaySound(SoundID.MenuClose);
     }
 
+    private void SetupGamepadPoints(SpriteBatch spriteBatch)
+    {
+        var offset = 3000; // hardcoded
+        var snapPoints = GetSnapPoints();
+
+        UIUtil.BuildHorizontalSnapPoints(
+            offset,
+            snapPoints,
+            ["Back", "Add Server", "Join Server"]);
+        var offset2 = offset + 3;
+
+        List<string> cardPointNames = ["Card Join Server", "Card Delete Server"];
+        var height = ClientConfig.Settings.MultiplayerServers.Count;
+        var stride = cardPointNames.Count;
+        UIUtil.BuildVerticalListSnapPoints(offset2, snapPoints, cardPointNames, height);
+
+        UIUtil.SetHorizontalSnapPoints(offset2 + (height - 1) * stride, stride, x =>
+        {
+            x.Down = offset + 1;
+        });
+
+        UIUtil.SetHorizontalSnapPoints(offset, 3, x =>
+        {
+            x.Up = offset2 + (height - 1) * stride;
+        });
+
+        if (UILinkPointNavigator.CurrentPoint >= offset2 + ClientConfig.Settings.MultiplayerServers.Count * stride)
+        {
+            UILinkPointNavigator.ChangePoint(3000);
+        }
+    }
+
     private class ServerCardUI : UIElement
     {
         private UIPanel BackgroundPanel;
@@ -183,17 +227,18 @@ public class MultiplayerJoinUIList : UIState, IHaveBackButtonCommand
 
         private UIImageButton DeleteButton;
 
-        public ServerCardUI(MultiplayerServerInfo serverInfo)
+        public ServerCardUI(MultiplayerServerInfo serverInfo, int index)
         {
             ServerInfo = serverInfo;
 
-            BackgroundPanel = new UIPanel()
+            BackgroundPanel = new UIPanel
             {
                 Width = { Percent = 1.0f },
                 Height = { Percent = 1.0f },
                 BorderColor = Color.Black,
                 BackgroundColor = UIUtil.BGColor2
             }.WithFadedMouseOver(origColor: UIUtil.BGColor2, hoverdColor: UIUtil.ButtonHoveredColor);
+            BackgroundPanel.SetSnapPoint("Card Join Server", index);
 
             ServerNameText = new UIText(ServerInfo.Name, 0.6f, true)
             {
@@ -205,18 +250,19 @@ public class MultiplayerJoinUIList : UIState, IHaveBackButtonCommand
 
             ServerIPPortText = new UIText($"{ServerInfo.IP}:{ServerInfo.Port}")
             {
-                VAlign = 1.0f,
                 HAlign = 0.0f,
+                VAlign = 1.0f,
             };
 
             BackgroundPanel.Append(ServerIPPortText);
 
             DeleteButton = new UIImageButton(Main.Assets.Request<Texture2D>("Images/UI/ButtonDelete"))
             {
+                HAlign = 1.0f,
                 VAlign = 1.0f,
-                Top = { Pixels = 5 },
-                Left = { Pixels = ServerIPPortText.GetDimensions().Width + 10f }
+                Top = { Pixels = 5 }
             };
+            DeleteButton.SetSnapPoint("Card Delete Server", index);
 
             DeleteButton.OnLeftClick += (x, y) =>
             {
