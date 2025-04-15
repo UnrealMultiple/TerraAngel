@@ -1,6 +1,7 @@
 ﻿using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
+using Terraria.GameInput;
 using Terraria.Localization;
 using Terraria.UI;
 
@@ -25,6 +26,8 @@ public class MultiplayerAddServerUI : UIState, IHaveBackButtonCommand
     public readonly UIText ServerPortText;
 
     public readonly UIInputText ServerPortInput;
+
+    public UIInputText? NextInputText;
 
     public MultiplayerAddServerUI()
     {
@@ -53,6 +56,12 @@ public class MultiplayerAddServerUI : UIState, IHaveBackButtonCommand
             BackgroundColor = UIUtil.BGColor * 0.98f,
         };
 
+        ServerNameInput.OnTab += () =>
+        {
+            NextInputText = ServerIPInput;
+        };
+        ServerNameInput.OnEnter += HandleAcceptButtonUsage;
+
         RootElement.Append(ServerNameInput);
 
         ServerIPText = new UIText(GetString("Server IP"))
@@ -70,6 +79,12 @@ public class MultiplayerAddServerUI : UIState, IHaveBackButtonCommand
             HAlign = 0f,
             BackgroundColor = UIUtil.BGColor * 0.98f,
         };
+
+        ServerIPInput.OnTab += () =>
+        {
+            NextInputText = ServerPortInput;
+        };
+        ServerIPInput.OnEnter += HandleAcceptButtonUsage;
 
         RootElement.Append(ServerIPInput);
 
@@ -90,6 +105,12 @@ public class MultiplayerAddServerUI : UIState, IHaveBackButtonCommand
             BackgroundColor = UIUtil.BGColor * 0.98f,
         };
 
+        ServerPortInput.OnTab += () =>
+        {
+            NextInputText = ServerNameInput;
+        };
+        ServerPortInput.OnEnter += HandleAcceptButtonUsage;
+
         RootElement.Append(ServerPortInput);
 
         AcceptButton = new UIAutoScaleTextTextPanel<string>(GetString("Accept"))
@@ -102,44 +123,7 @@ public class MultiplayerAddServerUI : UIState, IHaveBackButtonCommand
 
         AcceptButton.OnLeftClick += (x, y) =>
         {
-            if (ServerNameInput.Text.Length < 1)
-            {
-                UIInputText.EditingInputText = ServerNameInput;
-                return;
-            }
-
-            if (ServerIPInput.Text.Length < 1)
-            {
-                UIInputText.EditingInputText = ServerIPInput;
-                return;
-            }
-
-            if (ServerPortInput.Text.Length < 1)
-            {
-                UIInputText.EditingInputText = ServerPortInput;
-                return;
-            }
-
-            if (int.Parse(ServerPortInput.Text) > ushort.MaxValue)
-            {
-                ServerPortInput.SetText(ushort.MaxValue.ToString());
-            }
-
-            ClientConfig.Settings.MultiplayerServers.Add(new MultiplayerServerInfo()
-            {
-                IP = ServerIPInput.Text,
-                Port = ushort.Parse(ServerPortInput.Text),
-                Name = ServerNameInput.Text
-            });
-
-            ServerNameInput.SetText("");
-            ServerIPInput.SetText("");
-            ServerPortInput.SetText("");
-
-            ClientLoader.MultiplayerJoinUI!.NeedsUpdate = true;
-
-            Main.MenuUI.SetState(ClientLoader.MultiplayerJoinUI!);
-            SoundEngine.PlaySound(SoundID.MenuOpen);
+            HandleAcceptButtonUsage();
         };
 
         RootElement.Append(AcceptButton);
@@ -165,6 +149,19 @@ public class MultiplayerAddServerUI : UIState, IHaveBackButtonCommand
         Append(RootElement);
     }
 
+    public override void OnActivate()
+    {
+        base.OnActivate();
+        UIInputText.EditingInputText = ServerNameInput;
+    }
+
+    public override void OnDeactivate()
+    {
+        base.OnDeactivate();
+        UIInputText.EditingInputText = null;
+        PlayerInput.WritingText = false;
+    }
+
     public override void Update(GameTime gameTime)
     {
         if (ServerPortInput.Text.Length > 5)
@@ -177,7 +174,55 @@ public class MultiplayerAddServerUI : UIState, IHaveBackButtonCommand
             ServerPortInput.SetText(ushort.MaxValue.ToString());
         }
 
+        if (NextInputText is not null)
+        {
+            UIInputText.EditingInputText = NextInputText;
+            NextInputText = null;
+        }
+
         base.Update(gameTime);
+    }
+
+    public void HandleAcceptButtonUsage()
+    {
+        if (ServerNameInput.Text.Length < 1)
+        {
+            UIInputText.EditingInputText = ServerNameInput;
+            return;
+        }
+
+        if (ServerIPInput.Text.Length < 1)
+        {
+            UIInputText.EditingInputText = ServerIPInput;
+            return;
+        }
+
+        if (ServerPortInput.Text.Length < 1)
+        {
+            UIInputText.EditingInputText = ServerPortInput;
+            return;
+        }
+
+        if (int.Parse(ServerPortInput.Text) > ushort.MaxValue)
+        {
+            ServerPortInput.SetText(ushort.MaxValue.ToString());
+        }
+
+        ClientConfig.Settings.MultiplayerServers.Add(new MultiplayerServerInfo()
+        {
+            IP = ServerIPInput.Text,
+            Port = ushort.Parse(ServerPortInput.Text),
+            Name = ServerNameInput.Text
+        });
+
+        ServerNameInput.SetText("");
+        ServerIPInput.SetText("");
+        ServerPortInput.SetText("");
+
+        ClientLoader.MultiplayerJoinUI!.NeedsUpdate = true;
+
+        Main.MenuUI.SetState(ClientLoader.MultiplayerJoinUI!);
+        SoundEngine.PlaySound(SoundID.MenuOpen);
     }
 
     public void HandleBackButtonUsage()
