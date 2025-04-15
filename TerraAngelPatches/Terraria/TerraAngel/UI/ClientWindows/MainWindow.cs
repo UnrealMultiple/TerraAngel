@@ -192,6 +192,10 @@ public class MainWindow : ClientWindow
     }
 
     private int framesToShowUUIDFor = 0;
+    private string customUUIDInput = "";
+    private int invalidUUIDFrames = 0;
+    private int customUUIDAppliedFrames = 0;
+
     public void DrawInMenu(ImGuiIOPtr io)
     {
         if (ImGui.BeginTabBar("##MainTabBar"))
@@ -218,6 +222,37 @@ public class MainWindow : ClientWindow
                 {
                     framesToShowUUIDFor--;
                     ImGui.Text(Main.clientUUID);
+                }
+
+                ImGui.Separator();
+
+                ImGui.Text(GetString("Set Custom UUID:"));
+                ImGui.InputText("##CustomUUID", ref customUUIDInput, 256);
+
+                if (ImGui.Button(GetString("Apply Custom UUID")))
+                {
+                    if (!string.IsNullOrWhiteSpace(customUUIDInput))
+                    {
+                        Main.clientUUID = customUUIDInput;
+                        Main.SaveSettings();
+                        customUUIDInput = "";
+                        customUUIDAppliedFrames = 60;
+                    }
+                    else
+                    {
+                        invalidUUIDFrames = 60; 
+                    }
+                }
+                if (customUUIDAppliedFrames > 0)
+                {
+                    customUUIDAppliedFrames--;
+                    ImGui.TextColored(new System.Numerics.Vector4(0, 1, 0, 1), GetString("Custom UUID applied successfully!"));
+                }
+
+                if (invalidUUIDFrames > 0)
+                {
+                    invalidUUIDFrames--;
+                    ImGui.TextColored(new System.Numerics.Vector4(1, 0, 0, 1), GetString("UUID cannot be empty!"));
                 }
 
                 ImGui.EndTabItem();

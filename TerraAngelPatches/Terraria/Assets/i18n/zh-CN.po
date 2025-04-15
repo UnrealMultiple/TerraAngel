@@ -1,22 +1,22 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Terraria\n"
-"POT-Creation-Date: 2024-12-25 02:29:52+0800\n"
-"PO-Revision-Date: 2024-12-25 02:33+0800\n"
+"POT-Creation-Date: 2025-04-15 09:58:54+0800\n"
+"PO-Revision-Date: 2025-04-15 10:00+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 
 #: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:201
 #, csharp-format
 msgid " ({0})"
 msgstr " ({0})"
 
-#: ../../../NetMessage.cs:1749
+#: ../../../NetMessage.cs:1763 ../../../Net/NetManager.cs:164
 #, csharp-format
 msgid ""
 "[C2S] Packet deserialization failed:\n"
@@ -25,12 +25,24 @@ msgstr ""
 "[C2S] 数据包解析失败\n"
 "{0}"
 
-#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:189
+#: ../../../NetMessage.cs:116 ../../../Net/NetManager.cs:171
+#, fuzzy, csharp-format
+#| msgid ""
+#| "[C2S] Packet deserialization failed:\n"
+#| "{0}"
+msgid ""
+"[C2S] Packet logging failed:\n"
+"{0}"
+msgstr ""
+"[C2S] 数据包解析失败\n"
+"{0}"
+
+#: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:190
 #, csharp-format
 msgid "[Error] {0}"
 msgstr "[错误] {0}"
 
-#: ../../../NetMessage.cs:2519
+#: ../../../NetMessage.cs:2538
 #, csharp-format
 msgid ""
 "[S2C] Packet deserialization failed:\n"
@@ -39,18 +51,30 @@ msgstr ""
 "[S2C] 数据包解析失败\n"
 "{0}"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:201
+#: ../../../NetMessage.cs:2550
+#, fuzzy, csharp-format
+#| msgid ""
+#| "[S2C] Packet deserialization failed:\n"
+#| "{0}"
+msgid ""
+"[S2C] Packet logging failed:\n"
+"{0}"
+msgstr ""
+"[S2C] 数据包解析失败\n"
+"{0}"
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:298
 #, csharp-format
 msgid "{0} Client UUID"
 msgstr "{0} 客户端 UUID"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:301
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:311
 #, csharp-format
 msgid "{0}Message Logs"
 msgstr "{0}数据包日志"
 
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:58
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:61
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:58
 msgid "*Not implemented yet"
 msgstr "*还没实现"
 
@@ -67,6 +91,16 @@ msgstr "<按下按键>"
 #: ../../../TerraAngel/UI/TerrariaUI/UIKeySelect.cs:89
 msgid "<Unbound>"
 msgstr "<未绑定>"
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:145
+#, csharp-format
+msgid "地图大小: {0}, 区块数量: {1}, 行数: {2}, 列数: {3}"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:194
+#, csharp-format
+msgid "地图生成耗时 {0}毫秒"
+msgstr ""
 
 #: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:95
 msgid "Accept"
@@ -116,7 +150,7 @@ msgstr "接受不常见物品"
 msgid "Accept Very Rare"
 msgstr "接受非常稀有物品"
 
-#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerJoinUIList.cs:86
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerJoinUIList.cs:88
 msgid "Add New Server"
 msgstr "添加新服务器"
 
@@ -164,19 +198,27 @@ msgstr "抗锯齿纹理"
 msgid "Anti-hurt/Godmode"
 msgstr "无敌"
 
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:328
+msgid "Apply Custom UUID"
+msgstr "应用自定义UUID"
+
 #: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:150
 msgid "Attempt to bypass TShock"
 msgstr "尝试绕过TShock"
+
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:48
+msgid "Auto Use"
+msgstr ""
 
 #: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:7
 msgid "Auto-Aim"
 msgstr "自动瞄准"
 
-#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:28
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:31
 msgid "Auto-Attack Settings"
 msgstr "自动攻击设置"
 
-#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:19
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:21
 msgid "Auto-Butcher Hostiles"
 msgstr "自动屠杀敌对生物"
 
@@ -188,7 +230,7 @@ msgstr "自动钓鱼"
 msgid "Auto-Fish settings"
 msgstr "自动钓鱼设置"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:75
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:76
 msgid "Automation"
 msgstr "自动辅助"
 
@@ -233,19 +275,19 @@ msgstr "已启用建造者模式"
 msgid "Butcher"
 msgstr "屠杀"
 
-#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:20
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:22
 msgid "Butcher All Friendly NPCs"
 msgstr "屠杀所有友好生物"
 
-#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:15
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:17
 msgid "Butcher All Hostile NPCs"
 msgstr "屠杀所有敌对生物"
 
-#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:24
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:26
 msgid "Butcher All Players"
 msgstr "屠杀所有玩家"
 
-#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:28
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:30
 msgid "Butcher Damage"
 msgstr "屠杀伤害"
 
@@ -264,6 +306,12 @@ msgstr "按钮激活"
 #: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:37
 msgid "ButtonHovered"
 msgstr "按钮悬停"
+
+#: ../../../TerraAngel/Tools/Automation/ButcherTool.cs:31
+#, fuzzy
+#| msgid "Attempt to bypass TShock"
+msgid "Bypass TShock"
+msgstr "尝试绕过TShock"
 
 #: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:19
 #: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:153
@@ -299,7 +347,7 @@ msgstr "子窗口背景"
 msgid "Circle Tessellation Max Error"
 msgstr "圆镶嵌最大误差"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:303
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:313
 msgid "Clear"
 msgstr "清除"
 
@@ -311,11 +359,11 @@ msgstr "清除聊天记录"
 msgid "Clears the console"
 msgstr "清空终端"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:212
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:309
 msgid "Click to copy"
 msgstr "点击以复制"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:207
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:304
 msgid "Click to reveal"
 msgstr "点击以显示"
 
@@ -338,7 +386,7 @@ msgstr "终端脚本系统未初始化"
 msgid "Copied map screenshot to clipboard"
 msgstr "复制地图截图到剪贴板"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:322
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:332
 msgid "Copy All"
 msgstr "复制全部"
 
@@ -353,6 +401,10 @@ msgstr "计数"
 #: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:134
 msgid "Curve Tessellation Tol"
 msgstr "曲线镶嵌工具"
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:347
+msgid "Custom UUID applied successfully!"
+msgstr "自定义 UUID 应用成功！"
 
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:76
 #, csharp-format
@@ -457,7 +509,7 @@ msgstr "检查更新时发生错误"
 msgid "Error unloading {0}/{1}: {2}"
 msgstr "卸载时发生错误 {0}/{1}: {2}"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:139
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:235
 msgid "ESP"
 msgstr "透视追踪(ESP)"
 
@@ -469,11 +521,15 @@ msgstr "ESP碰撞箱"
 msgid "ESP Colors"
 msgstr "ESP颜色"
 
-#: ../../../TerraAngel/Graphics/ImGuiRenderer.cs:125
+#: ../../../TerraAngel/Tools/Exploit/MsgUpdateSign.cs:17
+msgid "Exploit Current Sign"
+msgstr ""
+
+#: ../../../TerraAngel/Graphics/ImGuiRenderer.cs:128
 msgid "Failed to build font"
 msgstr "字体构建失败"
 
-#: ../../../TerraAngel/Graphics/ImGuiRenderer.cs:129
+#: ../../../TerraAngel/Graphics/ImGuiRenderer.cs:132
 #, csharp-format
 msgid "Failed to get font data '{0}' was null"
 msgstr "无法获取字体数据, '{0}'为空值"
@@ -647,6 +703,7 @@ msgstr "正在查看弹幕[{0}] \"{1}\"/{2}/{3}"
 msgid "Inspector"
 msgstr "检视器"
 
+#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:117
 #: ../../../TerraAngel/Utility/InternalRepresentation.cs:40
 #: ../../../TerraAngel/Utility/InternalRepresentation.cs:50
 #: ../../../TerraAngel/Utility/InternalRepresentation.cs:60
@@ -657,11 +714,10 @@ msgstr "检视器"
 #: ../../../TerraAngel/Utility/InternalRepresentation.cs:110
 #: ../../../TerraAngel/Utility/InternalRepresentation.cs:120
 #: ../../../TerraAngel/Utility/InternalRepresentation.cs:130
-#: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:117
 msgid "Invalid"
 msgstr "无效"
 
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:134
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:133
 #, csharp-format
 msgid "Item \"{0}\""
 msgstr "物品 \"{0}\""
@@ -670,8 +726,8 @@ msgstr "物品 \"{0}\""
 msgid "Item box color"
 msgstr "物品碰撞箱颜色"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:65
 #: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:24
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:66
 msgid "Item Browser"
 msgstr "物品浏览器"
 
@@ -691,22 +747,28 @@ msgstr "物品检视器"
 msgid "Item Spacing"
 msgstr "项目间距"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:61
-#: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:47
-#: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:80
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:112
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:62
+#: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:47
+#: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:81
 msgid "Items"
 msgstr "物品"
 
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:125
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:124
 #, csharp-format
 msgid "Items {0}-{1}"
 msgstr "物品 {0}-{1}"
 
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:57
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerJoinUIList.cs:106
+#, fuzzy
+#| msgid "None/Server"
+msgid "Join Server"
+msgstr "无/服务器"
+
 #: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:58
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:60
 #: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:54
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:57
 #, csharp-format
 msgid "Kill \"{0}\""
 msgstr "杀死 \"{0}\""
@@ -721,7 +783,7 @@ msgstr "岩浆"
 msgid "Light Passes: {0}"
 msgstr "光照渲染次数: {0}"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:148
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:244
 msgid "Lighting"
 msgstr "光照"
 
@@ -762,19 +824,19 @@ msgid "Locked"
 msgstr "锁定"
 
 #: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:87
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:251
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:269
 msgid "Log Traffic"
 msgstr "记录通信"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:52
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:53
 msgid "Main Tools"
 msgstr "主工具集"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:27
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:28
 msgid "Main window"
 msgstr "主窗口"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:14
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:15
 msgid "Main Window"
 msgstr "主窗口"
 
@@ -795,7 +857,7 @@ msgstr "地图截图"
 msgid "Map Screenshot Settings"
 msgstr "地图截图设置"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:128
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:223
 #, csharp-format
 msgid "Map took {0}ms"
 msgstr "点亮小地图花费了{0}ms"
@@ -808,11 +870,11 @@ msgstr "最大预测步数"
 msgid "MenuBarBg"
 msgstr "菜单栏背景"
 
-#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:31
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:34
 msgid "Minimum Target Range"
 msgstr "最小目标范围"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:181
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:277
 #: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:128
 msgid "Misc"
 msgstr "杂项"
@@ -820,6 +882,11 @@ msgstr "杂项"
 #: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:72
 msgid "ModalWindowDimBg"
 msgstr "模态窗口暗背景"
+
+#: ../../../TerraAngel/Tools/Exploit/MsgUpdateSign.cs:7
+#: ../../../TerraAngel/Tools/Exploit/MsgUpdateSign.cs:15
+msgid "Msg Update Sign"
+msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:69
 msgid "NavHighlight"
@@ -858,19 +925,19 @@ msgstr "幽灵模式设置"
 msgid "None"
 msgstr "无"
 
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:99
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:101
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:114
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:116
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:99
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:101
 msgid "None/Server"
 msgstr "无/服务器"
 
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:52
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:55
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:52
 msgid "Not implemented yet"
 msgstr "还没实现"
 
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:146
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:145
 #, csharp-format
 msgid "NPC \"{0}\"/{1}/{2}"
 msgstr "生物 \"{0}\"/{1}/{2}"
@@ -900,7 +967,7 @@ msgstr "生物: {0}"
 msgid "NPCs"
 msgstr "生物"
 
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:137
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:136
 #, csharp-format
 msgid "NPCs {0}-{1}"
 msgstr "生物: {0}-{1}"
@@ -925,13 +992,13 @@ msgstr "其他玩家"
 msgid "Other TerraAngel user box color"
 msgstr "其他TerraAngel玩家碰撞箱颜色"
 
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:97
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:112
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:97
 #, csharp-format
 msgid "Owned By:  {0}/{1}"
 msgstr "所有者: {0}/{1}"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:109
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:117
 msgid "Packets with details:"
 msgstr "带有详细信息的包:"
 
@@ -939,7 +1006,7 @@ msgstr "带有详细信息的包:"
 msgid "Packets with traces:"
 msgstr "带有 Stack Trace 的包:"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:187
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:204
 #, csharp-format
 msgid "params: {0},{1},{2},{3},{4},{5},{6}"
 msgstr "参数: {0},{1},{2},{3},{4},{5},{6}"
@@ -953,7 +1020,7 @@ msgstr "放置"
 msgid "Place Mode"
 msgstr "放置模式"
 
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:221
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:220
 #, csharp-format
 msgid "Player \"{0}\""
 msgstr "玩家 \"{0}\""
@@ -978,7 +1045,7 @@ msgstr "玩家跟踪器颜色"
 msgid "Player tracers"
 msgstr "玩家跟踪器"
 
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:213
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:212
 #, csharp-format
 msgid "Players {0}-{1}"
 msgstr "玩家 {0}-{1}"
@@ -1003,14 +1070,14 @@ msgstr "折线图悬停"
 msgid "PopupBg"
 msgstr "弹出窗口背景"
 
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:71
 #: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:85
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:79
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:71
 #, csharp-format
 msgid "Position:    {0}"
 msgstr "位置: {0}"
 
-#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:48
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:52
 msgid "Prediction Scaling"
 msgstr "预测倍率"
 
@@ -1018,7 +1085,7 @@ msgstr "预测倍率"
 msgid "Prints help"
 msgstr "打印帮助"
 
-#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:191
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:190
 #, csharp-format
 msgid "Projectile \"{0}\"/{1}/{2}"
 msgstr "弹幕 \"{0}\"/{1}/{2}"
@@ -1048,7 +1115,7 @@ msgstr "弹幕轨迹预测设置"
 msgid "Projectiles"
 msgstr "弹幕"
 
-#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:182
+#: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:181
 #, csharp-format
 msgid "Projectiles {0}-{1}"
 msgstr "弹幕 {0}-{1}"
@@ -1069,15 +1136,15 @@ msgstr "最大随机值"
 msgid "Randomization Min"
 msgstr "最小随机值"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:301
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:311
 msgid "Raw "
 msgstr "原始"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:243
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:261
 msgid "Raw Message Logs"
 msgstr "原始包日志"
 
-#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:216
+#: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:233
 msgid "Received packet"
 msgstr "已收到的包"
 
@@ -1103,7 +1170,7 @@ msgstr "移除"
 msgid "Replace"
 msgstr "替换"
 
-#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:44
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:47
 msgid "Require Line of Sight"
 msgstr "需要视线"
 
@@ -1123,9 +1190,15 @@ msgstr "调整抓取激活"
 msgid "ResizeGripHovered"
 msgstr "调整抓取悬停"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:108
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:109
 #: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:151
 msgid "Reveal Map"
+msgstr "点亮小地图"
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:203
+#, fuzzy
+#| msgid "Reveal Map"
+msgid "Reveal Map2"
 msgstr "点亮小地图"
 
 #: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:120
@@ -1160,7 +1233,7 @@ msgstr "搜索"
 msgid "Search:"
 msgstr "搜索:"
 
-#: ../../../TerraAngel/WorldEdits/WorldEditCopyPaste.cs:234
+#: ../../../TerraAngel/WorldEdits/WorldEditCopyPaste.cs:235
 msgid "Send tile rect"
 msgstr "发送矩形区块"
 
@@ -1189,6 +1262,10 @@ msgstr "服务器名称"
 msgid "Server Port"
 msgstr "服务器端口"
 
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:324
+msgid "Set Custom UUID:"
+msgstr "设置自定义 UUID："
+
 #: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:116
 #: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:59
 msgid "Shimmer"
@@ -1215,10 +1292,10 @@ msgstr "查看 \"{0}\""
 msgid "Speed"
 msgstr "速度"
 
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:72
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:86
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:80
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:86
 #: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:83
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:72
 #, csharp-format
 msgid "Speed:       {0}"
 msgstr "速度: {0}"
@@ -1296,10 +1373,10 @@ msgstr "标签选中上划线"
 msgid "Taking map screenshot"
 msgstr "正在为地图截图"
 
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:46
 #: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:47
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:49
 #: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:43
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:46
 #, csharp-format
 msgid "Teleport to \"{0}\""
 msgstr "传送至 \"{0}\""
@@ -1308,11 +1385,11 @@ msgstr "传送至 \"{0}\""
 msgid "Teleport to the selected tile"
 msgstr "传送到选定的图格"
 
-#: ../../../Main.cs:47987
+#: ../../../Main.cs:48050
 msgid "TerraAngel Plugins"
 msgstr "TerraAngel 插件"
 
-#: ../../../Main.cs:47977
+#: ../../../Main.cs:48040
 msgid "TerraAngel Settings"
 msgstr "TerraAngel 设置"
 
@@ -1332,7 +1409,7 @@ msgstr "文本链接"
 msgid "TextSelectedBg"
 msgstr "文本选中背景"
 
-#: ../../../TerraAngel/Graphics/ClientRenderer.cs:295
+#: ../../../TerraAngel/Graphics/ClientRenderer.cs:309
 msgid "There is an update for TerraAngel available on GitHub"
 msgstr "Wow, TerraAngel在GitHub有新的版本啦~"
 
@@ -1388,7 +1465,7 @@ msgstr "图格inActive: {0}"
 msgid "Tile Inspector"
 msgstr "图格检视器"
 
-#: ../../../TerraAngel/WorldEdits/WorldEditCopyPaste.cs:235
+#: ../../../TerraAngel/WorldEdits/WorldEditCopyPaste.cs:236
 msgid "Tile manipulation"
 msgstr "图格操控"
 
@@ -1437,8 +1514,8 @@ msgstr "标题背景激活"
 msgid "TitleBgCollapsed"
 msgstr "标题背景折叠"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:48
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:199
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:49
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:295
 msgid "Tools"
 msgstr "工具集"
 
@@ -1450,7 +1527,7 @@ msgstr "输入 #help 查看指令列表"
 msgid "Unlocked"
 msgstr "解锁"
 
-#: ../../../TerraAngel/Graphics/ClientRenderer.cs:293
+#: ../../../TerraAngel/Graphics/ClientRenderer.cs:307
 msgid "Update Available"
 msgstr "有可用更新"
 
@@ -1462,30 +1539,34 @@ msgstr "有可用更新"
 msgid "Use specific mouse position"
 msgstr "使用指定鼠标位置"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:101
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:102
 msgid "Utility"
 msgstr "工具"
 
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:74
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:88
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:354
+msgid "UUID cannot be empty!"
+msgstr "UUID 不能为空！"
+
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:82
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:88
 #: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:85
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:74
 msgid "Velocity Dir: "
 msgstr "速率方向: "
 
-#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:45
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:49
 msgid "Velocity Prediction"
 msgstr "速率预测"
 
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:73
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:87
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:81
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:87
 #: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:84
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:73
 #, csharp-format
 msgid "Velocity:    {0}"
 msgstr "速度向量: {0}"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:97
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:98
 msgid "Visuals"
 msgstr "视觉"
 
@@ -1579,7 +1660,7 @@ msgstr "窗口背景"
 msgid "Windowed"
 msgstr "窗口化"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:160
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:256
 msgid "World Edit"
 msgstr "世界编辑"
 
