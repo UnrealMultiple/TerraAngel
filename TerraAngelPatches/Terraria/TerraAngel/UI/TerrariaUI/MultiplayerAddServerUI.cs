@@ -1,4 +1,4 @@
-﻿using Terraria.Audio;
+﻿﻿using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.GameInput;
