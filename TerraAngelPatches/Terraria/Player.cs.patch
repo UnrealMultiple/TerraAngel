@@ -29,6 +29,15 @@
          int num = 0;
          num += bodyFrame.Y / 56;
          if (num >= Main.OffsetsPlayerHeadgear.Length)
+@@ -13809,7 +_,7 @@
+             shinyStone = true;
+         }
+ 
+-        if (currentItem.type == 4989)
++        if (currentItem.type == 4989 || ToolManager.GetTool<InfiniteFlightTool>().Enabled)
+         {
+             empressBrooch = true;
+             moveSpeed += 0.075f;
 @@ -16368,6 +_,7 @@
          ZoneLihzhardTemple = false;
          int num3 = (int)base.Center.X / 16;

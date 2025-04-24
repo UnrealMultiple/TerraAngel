@@ -1,5 +1,8 @@
 ﻿using System;
+using System.IO;
 using TerraAngel.Inspector.Tools;
+using Terraria;
+using Terraria.Net.Sockets;
 using ImGuiUtil = TerraAngel.Graphics.ImGuiUtil;
 
 namespace TerraAngel.Tools.Inspector;
@@ -49,13 +52,25 @@ public class ItemInspectorTool : InspectorTool
 
         if (ImGui.Button($"{Icon.CircleSlash}"))
         {
-            ClientLoader.Console.WriteError(GetString("Not implemented yet"));
+            //Taken from ZaZaClient
+            if (SelectedItem.active && SelectedItem.type > 0 && !SelectedItem.beingGrabbed)
+            {
+                SelectedItem.active = false;
+                SelectedItem.type = 0;
+                SelectedItem.stack = 0;
+                if (Main.netMode == 1)
+                {
+                    Util.FalsePlayerPacket(new Vector2(SelectedItem.position.X, SelectedItem.position.Y));
+                    NetMessage.SendData(21, -1, -1, null, SelectedItem.netID, 0f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(13, -1, -1, null, Main.myPlayer, 0f, 0f, 0f, 0, 0, 0);
+                }
+            }
+            ClientLoader.Console.WriteLine($"Item \"{SelectedItem.Name.Truncate(30)}\" removed");
         }
         if (ImGui.IsItemHovered())
         {
             ImGui.BeginTooltip();
             ImGui.Text(GetString($"Kill \"{SelectedItem.Name.Truncate(30)}\""));
-            ImGui.Text(GetString($"*Not implemented yet"));
             ImGui.EndTooltip();
         }
     }
@@ -119,7 +134,7 @@ public class ItemInspectorTool : InspectorTool
                     if (Main.item[j].active)
                         anyActiveItems = true;
                 }
-                
+
                 ImGui.BeginDisabled(!anyActiveItems);
                 if (ImGui.BeginMenu(GetString($"Items {i}-{Math.Min(i + 20, 400)}")))
                 {

@@ -65,7 +65,7 @@ public class PlayerHooks
 
             if (ToolManager.GetTool<InfiniteManaTool>().Enabled)
             {
-                self.statMana = self.statLifeMax2;
+                self.statMana = self.statManaMax2;
                 self.manaCost = 0.0f;
             }
 
@@ -73,6 +73,11 @@ public class PlayerHooks
             {
                 Player.tileRangeX = Main.screenWidth / 32 + 8;
                 Player.tileRangeY = Main.screenHeight / 32 + 8;
+            }
+
+            if (ToolManager.GetTool<CreativeGodModeTool>().Enabled)
+            {
+                self.creativeGodMode = true;
             }
 
             if (ToolManager.GetTool<AntiHurtTool>().FramesSinceLastLifePacket > 0)
