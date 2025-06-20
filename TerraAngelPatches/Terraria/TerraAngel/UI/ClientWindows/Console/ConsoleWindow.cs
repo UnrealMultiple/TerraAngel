@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -71,7 +71,7 @@ public class ConsoleWindow : ClientWindow
             }, GetString("Prints help"));
 
         AddCommand(
-            "reload_plugins",
+            "reload",
             (x) =>
             {
                 ClientConfig.WriteToFile();
