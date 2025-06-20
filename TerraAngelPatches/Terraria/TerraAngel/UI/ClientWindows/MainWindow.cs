@@ -67,6 +67,11 @@ public class MainWindow : ClientWindow
                                 ToolManager.GetTool<ItemBrowserTool>().DrawUI(io);
                                 ImGui.EndTabItem();
                             }
+                            if (ImGui.BeginTabItem(ToolManager.GetTool<ItemEditorTool>().Name))
+                            {
+                                ToolManager.GetTool<ItemEditorTool>().DrawUI(io);
+                                ImGui.EndTabItem();
+                            }
                             ImGui.EndTabBar();
                         }
                         ImGui.EndTabItem();
@@ -240,7 +245,7 @@ public class MainWindow : ClientWindow
                     }
                     else
                     {
-                        invalidUUIDFrames = 60; 
+                        invalidUUIDFrames = 60;
                     }
                 }
                 if (customUUIDAppliedFrames > 0)

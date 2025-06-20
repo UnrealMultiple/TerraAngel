@@ -1,23 +1,37 @@
-﻿namespace TerraAngel.Tools.Map;
+﻿using Terraria;
+
+namespace TerraAngel.Tools.Map;
 
 public class MapTeleportTool : Tool
 {
+    public override string Name => GetString("Map Teleport");
+
+    public override ToolTabs Tab => ToolTabs.MainTools;
+
+    [DefaultConfigValue(nameof(ClientConfig.Config.RightClickOnMapToTeleport))]
+    public bool Enabled;
+
+    public override void DrawUI(ImGuiIOPtr io)
+    {
+        ImGui.Checkbox(Name, ref Enabled);
+    }
+
     public override void Update()
     {
-        if (Main.mapFullscreen && ClientConfig.Settings.RightClickOnMapToTeleport && !ImGui.GetIO().WantCaptureMouse)
+        if (Main.mapFullscreen && Enabled && !ImGui.GetIO().WantCaptureMouse)
         {
             if (InputSystem.RightMousePressed || (InputSystem.Ctrl && InputSystem.RightMouseDown))
             {
                 Main.LocalPlayer.velocity = Vector2.Zero;
                 if (InputSystem.Ctrl)
                 {
-                    Main.LocalPlayer.Bottom = Util.ScreenToWorldFullscreenMap(InputSystem.MousePosition);
+                    Main.LocalPlayer.Center = Util.ScreenToWorldFullscreenMap(InputSystem.MousePosition);
                 }
                 else
                 {
                     if (Util.IsMouseHoveringRect(Vector2.Zero, ImGui.GetIO().DisplaySize))
                     {
-                        Main.mapFullscreen = false;
+						Main.mapFullscreen = false;
                         Main.LocalPlayer.Teleport(Util.ScreenToWorldFullscreenMap(InputSystem.MousePosition) - new Vector2(Main.LocalPlayer.width / 2f, Main.LocalPlayer.height), TeleportationStyleID.RodOfDiscord);
                         if (ClientConfig.Settings.TeleportSendRODPacket)
                         {
