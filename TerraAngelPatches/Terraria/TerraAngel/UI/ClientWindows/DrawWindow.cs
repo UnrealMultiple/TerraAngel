@@ -6,6 +6,7 @@ namespace TerraAngel.UI.ClientWindows;
 
 public class DrawWindow : ClientWindow
 {
+    public override bool IsCheat => true;
     public override bool IsToggleable => false;
 
     public override bool DefaultEnabled => true;

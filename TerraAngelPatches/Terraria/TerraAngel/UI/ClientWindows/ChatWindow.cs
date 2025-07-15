@@ -10,6 +10,7 @@ namespace TerraAngel.UI.ClientWindows;
 
 public class ChatWindow : ClientWindow
 {
+    public override bool IsCheat => false;
     public override bool DefaultEnabled => false;
 
     public override bool IsToggleable => false;

@@ -15,6 +15,7 @@ namespace TerraAngel.UI.ClientWindows.Console;
 
 public class ConsoleWindow : ClientWindow
 {
+    public override bool IsCheat => true;
     public override bool DefaultEnabled => true;
 
     public override bool IsEnabled => ClientConfig.Settings.ShowConsoleWindow;

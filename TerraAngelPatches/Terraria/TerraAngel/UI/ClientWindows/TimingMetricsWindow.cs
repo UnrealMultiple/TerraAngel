@@ -11,6 +11,8 @@ public class TimingMetricsWindow : ClientWindow
     public override Keys ToggleKey => ClientConfig.Settings.ShowTimingMetrics;
 
     public override string Title => GetString("Timing Metrics");
+    
+    public override bool IsCheat => true;
 
     public override bool DefaultEnabled => false;
 

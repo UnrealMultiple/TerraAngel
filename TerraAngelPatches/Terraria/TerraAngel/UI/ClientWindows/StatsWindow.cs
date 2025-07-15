@@ -7,6 +7,8 @@ namespace TerraAngel.UI.ClientWindows;
 public class StatsWindow : ClientWindow
 {
     public override Keys ToggleKey => Keys.None;
+    
+    public override bool IsCheat => true;
 
     public override bool IsToggleable => false;
 

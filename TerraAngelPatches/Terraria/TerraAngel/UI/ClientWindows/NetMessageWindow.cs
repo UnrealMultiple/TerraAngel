@@ -12,8 +12,9 @@ public class NetMessageWindow : ClientWindow
 {
     public static NetMessageWindow Instance { get; private set; } = new NetMessageWindow();
 
+    public override bool IsCheat => false;
     public override bool IsToggleable => true;
-
+    
     public override bool DefaultEnabled => false;
 
     public override string Title => GetString("Net Debugger");

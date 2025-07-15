@@ -1044,18 +1044,24 @@
          {
              spriteBatch.Draw(TextureAssets.Logo.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color2, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
              spriteBatch.Draw(TextureAssets.Logo2.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color3, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
-@@ -48188,6 +_,26 @@
+@@ -48186,6 +_,30 @@
+                     OpenResourcePacksMenu(null);
+                 }
              }
- 
-             num11++;
-+            num5++;
-+            array9[num11] = GetString("TerraAngel Settings");
-+            if (selectedMenu == num11)
-+            {
-+                SoundEngine.PlaySound(10);
-+                menuMode = 888;
-+                MenuUI.SetState(ClientLoader.ConfigUI!);
++            
++            if (TerraAngel.Tools.ToolManager.AllowCheat)
++           {
++                num11++;
++                num5++;
++                array9[num11] = GetString("TerraAngel Settings");
++                if (selectedMenu == num11)
++                {
++                    SoundEngine.PlaySound(10);
++                    menuMode = 888;
++                    MenuUI.SetState(ClientLoader.ConfigUI!);
++                }
 +            }
++            
 +
 +            num11++;
 +            num5++;
@@ -1066,11 +1072,9 @@
 +                menuMode = 888;
 +                MenuUI.SetState(ClientLoader.PluginUI!);
 +            }
-+
-+            num11++;
+ 
+             num11++;
              array9[num11] = Lang.menu[14].Value;
-             if (selectedMenu == num11)
-             {
 @@ -48962,6 +_,8 @@
                      menuMode = 112;
                  }
