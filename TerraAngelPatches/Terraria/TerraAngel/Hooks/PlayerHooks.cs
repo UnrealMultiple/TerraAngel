@@ -75,11 +75,6 @@ public class PlayerHooks
                 Player.tileRangeY = Main.screenHeight / 32 + 8;
             }
 
-            if (ToolManager.GetTool<CreativeGodModeTool>().Enabled)
-            {
-                self.creativeGodMode = true;
-            }
-
             if (ToolManager.GetTool<AntiHurtTool>().FramesSinceLastLifePacket > 0)
                 ToolManager.GetTool<AntiHurtTool>().FramesSinceLastLifePacket--;
 
