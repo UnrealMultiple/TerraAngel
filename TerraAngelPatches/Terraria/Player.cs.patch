@@ -1,5 +1,13 @@
 --- src/Terraria/Terraria/Player.cs
 +++ src/TerraAngel/Terraria/Player.cs
+@@ -35,6 +_,7 @@
+ using Terraria.UI.Gamepad;
+ using Terraria.Utilities;
+ using Terraria.WorldBuilding;
++using TerraAngel.Tools;
+ 
+ namespace Terraria;
+ public class Player : Entity, IFixLoadedData
 @@ -533,6 +_,7 @@
          }
      }
@@ -156,6 +164,24 @@
      {
          int num;
          if (!controlLeft && !controlRight && !controlUp && !controlDown && PlayerInput.UsingGamepad && Main.SmartCursorIsUsed)
+@@ -37782,6 +_,17 @@
+ 
+     public void Teleport(Vector2 newPos, int Style = 0, int extraInfo = 0)
+     {
++        
++        if (ToolManager.GetTool<TeleportTool>().LogTargetPosition)
++        {
++            ClientLoader.Console.WriteLine(GetString($"Teleported to {newPos.ToString()} (Style: {Style}, ExtraInfo: {extraInfo})"));
++        }
++        
++        if (!ToolManager.GetTool<TeleportTool>().AllowTeleport)
++        {
++            return;
++        }
++        
+         try
+         {
+             _funkytownAchievementCheckCooldown = 100;
 @@ -38121,6 +_,8 @@
              Main.ActivePlayerFileData.StartPlayTimer();
              Hooks.EnterWorld(whoAmI);
