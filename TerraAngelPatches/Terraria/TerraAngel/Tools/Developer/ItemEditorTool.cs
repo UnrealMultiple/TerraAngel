@@ -1,174 +1,126 @@
-﻿using System.Collections.Generic;
-
-namespace TerraAngel.Tools.Developer;
+﻿namespace TerraAngel.Tools.Developer;
 
 public class ItemEditorTool : Tool
 {
-    public static readonly Vector2 ItemDrawSize = new Vector2(32, 32);
-    public Item? heldItem => Main.LocalPlayer?.inventory[Main.LocalPlayer.selectedItem];
+    private static Item HeldItem => Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem];
 
     public override string Name => GetString("Item Editor");
 
-    public override ToolTabs Tab => base.Tab;
-
+    public string[]? ItemPrefixes;
+    
     public override void DrawUI(ImGuiIOPtr io)
     {
-        if (heldItem.stack != 0)
-            ImGuiUtil.ItemButton(heldItem, "InspectorItem", new Vector2(32f), true);
-        ImGui.SameLine();
-        ImGui.Text(heldItem.Name);
-        ImGui.NewLine();
-        if (heldItem.stack == 0)
+        if (HeldItem.stack == 0)
         {
-            ImGui.NewLine();
-            ImGui.NewLine();
+            ImGui.Text(GetString("Hold a item to modify!!!"));
+            return;
         }
-
-        ImGui.Text("Forge: ");
+        ImGuiUtil.ItemButton(HeldItem, "InspectorItem", new Vector2(32f));
         ImGui.SameLine();
-        int prefixIndex = heldItem.prefix;
-        if (ImGui.Combo("##Prefix", ref prefixIndex, ItemPrefixes.ToArray(), ItemPrefixes.ToArray().Length))
+        ImGui.Text(HeldItem.Name);
+        
+        if (ImGui.BeginTable("ItemTable", 2))
         {
-            heldItem.prefix = (byte)prefixIndex;
+            ImGui.TableSetupColumn("Label", ImGuiTableColumnFlags.WidthFixed, 150.0f);
+            ImGui.TableSetupColumn("Input", ImGuiTableColumnFlags.WidthStretch);
+            
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("Prefix: "));
+            int prefixIndex = HeldItem.prefix;
+            ItemPrefixes ??= GetItemPrefixes();
+            ImGui.TableNextColumn();
+            if (ImGui.Combo("##Prefix", ref prefixIndex, ItemPrefixes, ItemPrefixes.Length))
+            {
+                HeldItem.prefix = (byte)prefixIndex;
+            }
+            
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("Damage: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemDamage", ref HeldItem.damage);
+    
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("Usetime: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemUseTime", ref HeldItem.useTime);
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("Animation Speed: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemAnimationSpeed", ref HeldItem.useAnimation);
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("Size: "));
+            ImGui.TableNextColumn();
+            ImGui.InputFloat("##ItemSize", ref HeldItem.scale);
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("Projectile: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemProjectile", ref HeldItem.shoot);
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("Projectile Speed: "));
+            ImGui.TableNextColumn();
+            ImGui.InputFloat("##ItemProjectileSpeed", ref HeldItem.shootSpeed);
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("Pick Power: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemPickPower", ref HeldItem.pick);
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("Axe Power: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemAxePower", ref HeldItem.axe);
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("Hammer Power: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemHammerPower", ref HeldItem.hammer);
+    
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("Stack: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemStack", ref HeldItem.stack);
+            
+            ImGui.EndTable();
         }
+        
 
-        ImGui.Text("Damage: ");
-        ImGui.SameLine();
-        ImGui.SliderInt("##ItemDamage", ref heldItem.damage, 0, 100000);
+        ImGui.Checkbox(GetString("Auto-Swing"), ref HeldItem.autoReuse);
 
-        ImGui.Text("Usetime: ");
-        ImGui.SameLine();
-        ImGui.SliderInt("##ItemUseTime", ref heldItem.useTime, 0, 100);
-
-        ImGui.Text("Animation Speed: ");
-        ImGui.SameLine();
-        ImGui.SliderInt("##ItemAnimationSpeed", ref heldItem.useAnimation, 0, 100);
-
-        ImGui.Text("Size: ");
-        ImGui.SameLine();
-        ImGui.SliderFloat("##ItemSize", ref heldItem.scale, 0, 10);
-
-        ImGui.Text("Projectile: ");
-        ImGui.SameLine();
-        ImGui.SliderInt("##ItemProjectile", ref heldItem.shoot, 0, 1021);
-
-        ImGui.Text("Projectile Speed: ");
-        ImGui.SameLine();
-        ImGui.SliderFloat("##ItemProjectileSpeed", ref heldItem.shootSpeed, 0f, 1000f);
-
-        ImGui.Text("Pick Power: ");
-        ImGui.SameLine();
-        ImGui.SliderInt("##ItemPickPower", ref heldItem.pick, 0, 10000);
-
-        ImGui.Text("Axe Power: ");
-        ImGui.SameLine();
-        ImGui.SliderInt("##ItemAxePower", ref heldItem.axe, 0, 10000);
-
-        ImGui.Text("Hammer Power: ");
-        ImGui.SameLine();
-        ImGui.SliderInt("##ItemHammerPower", ref heldItem.hammer, 0, 10000);
-
-        ImGui.Text("Stack: ");
-        ImGui.SameLine();
-        ImGui.SliderInt("##ItemStack", ref heldItem.stack, 1, Item.CommonMaxStack);
-
-        ImGui.Checkbox("Auto-Swing", ref heldItem.autoReuse);
-
-        if (ImGui.Button("Restore Item to Default"))
+        if (ImGui.Button(GetString("Restore Item to Default")))
         {
-            int stack = heldItem.stack;
-            byte prefix = heldItem.prefix;
-            heldItem.SetDefaults(heldItem.type);
-            heldItem.stack = stack;
-            heldItem.prefix = prefix;
+            int stack = HeldItem.stack;
+            byte prefix = HeldItem.prefix;
+            HeldItem.SetDefaults(HeldItem.type);
+            HeldItem.stack = stack;
+            HeldItem.prefix = prefix;
         }
     }
-    private static readonly List<string> ItemPrefixes = new()
+
+    private static string[] GetItemPrefixes()
     {
-        "Unmodified Item",
-        "Large",
-        "Massive",
-        "Dangerous",
-        "Savage",
-        "Sharp",
-        "Pointy",
-        "Tiny",
-        "Terrible",
-        "Small",
-        "Dull",
-        "Unhappy",
-        "Bulky",
-        "Shameful",
-        "Heavy",
-        "Light",
-        "Sighted",
-        "Rapid",
-        "Hasty",
-        "Intimidating",
-        "Deadly (Ranged weapons)",
-        "Staunch",
-        "Awful",
-        "Lethargic",
-        "Awkward",
-        "Powerful",
-        "Mystic",
-        "Adept",
-        "Masterful",
-        "Inept",
-        "Ignorant",
-        "Deranged",
-        "Intense",
-        "Taboo",
-        "Celestial",
-        "Furious",
-        "Keen",
-        "Superior",
-        "Forceful",
-        "Broken",
-        "Damaged",
-        "Shoddy",
-        "Quick",
-        "Deadly",
-        "Agile",
-        "Nimble",
-        "Murderous",
-        "Slow",
-        "Sluggish",
-        "Lazy",
-        "Annoying",
-        "Nasty",
-        "Manic",
-        "Hurtful",
-        "Strong",
-        "Unpleasant",
-        "Weak",
-        "Ruthless",
-        "Frenzying",
-        "Godly",
-        "Demonic",
-        "Zealous",
-        "Hard",
-        "Guarding",
-        "Armored",
-        "Warding",
-        "Arcane",
-        "Precise",
-        "Lucky",
-        "Jagged",
-        "Spiked",
-        "Angry",
-        "Menacing",
-        "Brisk",
-        "Fleeting",
-        "Hasty",
-        "Quick",
-        "Wild",
-        "Rash",
-        "Intrepid",
-        "Violent",
-        "Legendary",
-        "Unreal",
-        "Mythical",
-        "Legendary (Terrarian variant)"
-    };
+        string[] prefixes = new string[PrefixID.Count];
+        for (var i = 0; i < PrefixID.Count; i++)
+        {
+            prefixes[i] = Lang.prefix[i].Value;
+        }
+        prefixes[0] = GetString("None");
+        return prefixes;
+        
+    }
 }
