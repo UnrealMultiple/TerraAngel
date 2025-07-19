@@ -7,8 +7,6 @@ public class JourneyMenuTool : Tool
 
     public override ToolTabs Tab => ToolTabs.MainTools;
 
-    [DefaultConfigValue(nameof(ClientConfig.Config.ForceAllCreativeUnlocks))]
-
     public bool Enabled;
 
     public override void DrawUI(ImGuiIOPtr io)
