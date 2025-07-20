@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Terraria\n"
-"POT-Creation-Date: 2025-07-20 00:57:28+0800\n"
-"PO-Revision-Date: 2025-07-20 00:57:32+0800\n"
+"POT-Creation-Date: 2025-04-15 09:58:54+0800\n"
+"PO-Revision-Date: 2025-04-15 09:59:00+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgid ""
 "{0}"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:210
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:298
 #, csharp-format
 msgid "{0} Client UUID"
 msgstr ""
@@ -61,6 +61,7 @@ msgid "{0}Message Logs"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:61
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:58
 msgid "*Not implemented yet"
 msgstr ""
 
@@ -78,11 +79,17 @@ msgstr ""
 msgid "<Unbound>"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/ExtendedPickupTool.cs:28
-msgid "Acceleration"
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:145
+#, csharp-format
+msgid "地图大小: {0}, 区块数量: {1}, 行数: {2}, 列数: {3}"
 msgstr ""
 
-#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:116
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:194
+#, csharp-format
+msgid "地图生成耗时 {0}毫秒"
+msgstr ""
+
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:95
 msgid "Accept"
 msgstr ""
 
@@ -130,7 +137,7 @@ msgstr ""
 msgid "Accept Very Rare"
 msgstr ""
 
-#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerJoinUIList.cs:91
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerJoinUIList.cs:88
 msgid "Add New Server"
 msgstr ""
 
@@ -160,10 +167,6 @@ msgid ""
 "{0}"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/ItemEditorTool.cs:53
-msgid "Animation Speed: "
-msgstr ""
-
 #: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:130
 msgid "Anti-Aliased Fill"
 msgstr ""
@@ -180,7 +183,7 @@ msgstr ""
 msgid "Anti-hurt/Godmode"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:237
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:328
 msgid "Apply Custom UUID"
 msgstr ""
 
@@ -212,16 +215,8 @@ msgstr ""
 msgid "Auto-Fish settings"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/ItemEditorTool.cs:103
-msgid "Auto-Swing"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:80
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:76
 msgid "Automation"
-msgstr ""
-
-#: ../../../TerraAngel/Tools/Developer/ItemEditorTool.cs:83
-msgid "Axe Power: "
 msgstr ""
 
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:51
@@ -347,11 +342,11 @@ msgstr ""
 msgid "Clears the console"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:221
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:309
 msgid "Click to copy"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:216
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:304
 msgid "Click to reveal"
 msgstr ""
 
@@ -386,20 +381,12 @@ msgstr ""
 msgid "COUNT"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:33
-msgid "CTRL Speed"
-msgstr ""
-
 #: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:134
 msgid "Curve Tessellation Tol"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:254
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:347
 msgid "Custom UUID applied successfully!"
-msgstr ""
-
-#: ../../../TerraAngel/Tools/Developer/ItemEditorTool.cs:40
-msgid "Damage: "
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:76
@@ -478,7 +465,7 @@ msgstr ""
 msgid "Draw Hostile"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:18
+#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:19
 msgid "Drop in world"
 msgstr ""
 
@@ -505,7 +492,7 @@ msgstr ""
 msgid "Error unloading {0}/{1}: {2}"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:144
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:235
 msgid "ESP"
 msgstr ""
 
@@ -519,14 +506,6 @@ msgstr ""
 
 #: ../../../TerraAngel/Tools/Exploit/MsgUpdateSign.cs:17
 msgid "Exploit Current Sign"
-msgstr ""
-
-#: ../../../TerraAngel/Tools/Developer/ExtendedPickupTool.cs:7
-msgid "Extended pickup"
-msgstr ""
-
-#: ../../../TerraAngel/Tools/Developer/ExtendedPickupTool.cs:22
-msgid "Extended pickup Settings"
 msgstr ""
 
 #: ../../../TerraAngel/Graphics/ImGuiRenderer.cs:128
@@ -585,7 +564,7 @@ msgstr ""
 msgid "FrameBgHovered"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:36
+#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:27
 msgid "Frames between sync"
 msgstr ""
 
@@ -605,7 +584,7 @@ msgstr ""
 msgid "Fullscreen"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:49
+#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:50
 msgid "Give Type"
 msgstr ""
 
@@ -621,10 +600,6 @@ msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:118
 msgid "Grab Rounding"
-msgstr ""
-
-#: ../../../TerraAngel/Tools/Developer/ItemEditorTool.cs:89
-msgid "Hammer Power: "
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:39
@@ -645,10 +620,6 @@ msgstr ""
 msgid "Health:      {0}/{1}"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/ItemEditorTool.cs:15
-msgid "Hold a item to modify!!!"
-msgstr ""
-
 #: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:114
 #: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:58
 msgid "Honey"
@@ -667,16 +638,12 @@ msgstr ""
 msgid "Ime"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:17
+#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:18
 msgid "In mouse"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:108
 msgid "Indent Spacing"
-msgstr ""
-
-#: ../../../TerraAngel/Tools/Developer/InfiniteFlightTool.cs:5
-msgid "Infinite Flight"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Developer/InfiniteManaTool.cs:5
@@ -695,7 +662,7 @@ msgstr ""
 msgid "Initializing Scripting Evaluator"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:85
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:70
 #, csharp-format
 msgid "Inspecting Item[{0}] \"{1}\""
 msgstr ""
@@ -733,7 +700,7 @@ msgstr ""
 msgid "Invalid"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:148
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:133
 #, csharp-format
 msgid "Item \"{0}\""
 msgstr ""
@@ -742,13 +709,9 @@ msgstr ""
 msgid "Item box color"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:23
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:65
+#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:24
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:66
 msgid "Item Browser"
-msgstr ""
-
-#: ../../../TerraAngel/Tools/Developer/ItemEditorTool.cs:7
-msgid "Item Editor"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Visuals/ESPTool.cs:53
@@ -759,7 +722,7 @@ msgstr ""
 msgid "Item Inner Spacing"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:12
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:9
 msgid "Item Inspector"
 msgstr ""
 
@@ -767,30 +730,26 @@ msgstr ""
 msgid "Item Spacing"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:127
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:112
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:62
 #: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:47
 #: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:81
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:61
 msgid "Items"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:139
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:124
 #, csharp-format
 msgid "Items {0}-{1}"
 msgstr ""
 
-#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerJoinUIList.cs:110
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerJoinUIList.cs:106
 msgid "Join Server"
-msgstr ""
-
-#: ../../../TerraAngel/Tools/Developer/JourneyMenuTool.cs:6
-msgid "Journey Menu"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:58
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:60
 #: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:54
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:73
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:57
 #, csharp-format
 msgid "Kill \"{0}\""
 msgstr ""
@@ -805,7 +764,7 @@ msgstr ""
 msgid "Light Passes: {0}"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:153
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:244
 msgid "Lighting"
 msgstr ""
 
@@ -850,15 +809,15 @@ msgstr ""
 msgid "Log Traffic"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:52
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:53
 msgid "Main Tools"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:27
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:28
 msgid "Main window"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:14
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:15
 msgid "Main Window"
 msgstr ""
 
@@ -879,11 +838,7 @@ msgstr ""
 msgid "Map Screenshot Settings"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Map/MapTeleportTool.cs:7
-msgid "Map Teleport"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:133
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:223
 #, csharp-format
 msgid "Map took {0}ms"
 msgstr ""
@@ -900,8 +855,8 @@ msgstr ""
 msgid "Minimum Target Range"
 msgstr ""
 
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:277
 #: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:128
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:186
 msgid "Misc"
 msgstr ""
 
@@ -936,14 +891,13 @@ msgid "Net Message Logs"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:7
-msgid "No-Clip"
+msgid "Noclip"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:24
-msgid "No-Clip Settings"
+#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:21
+msgid "Noclip Settings"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/ItemEditorTool.cs:122
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:290
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:295
 #: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:20
@@ -954,12 +908,13 @@ msgstr ""
 
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:114
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:116
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:114
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:116
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:99
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:101
 msgid "None/Server"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:55
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:52
 msgid "Not implemented yet"
 msgstr ""
 
@@ -1019,7 +974,7 @@ msgid "Other TerraAngel user box color"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:112
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:112
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:97
 #, csharp-format
 msgid "Owned By:  {0}/{1}"
 msgstr ""
@@ -1035,10 +990,6 @@ msgstr ""
 #: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:204
 #, csharp-format
 msgid "params: {0},{1},{2},{3},{4},{5},{6}"
-msgstr ""
-
-#: ../../../TerraAngel/Tools/Developer/ItemEditorTool.cs:77
-msgid "Pick Power: "
 msgstr ""
 
 #: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:22
@@ -1102,17 +1053,13 @@ msgstr ""
 
 #: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:85
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:79
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:86
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:71
 #, csharp-format
 msgid "Position:    {0}"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:52
 msgid "Prediction Scaling"
-msgstr ""
-
-#: ../../../TerraAngel/Tools/Developer/ItemEditorTool.cs:29
-msgid "Prefix: "
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/Console/ConsoleWindow.cs:71
@@ -1145,14 +1092,6 @@ msgstr ""
 msgid "Projectile Prediction Settings"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/ItemEditorTool.cs:71
-msgid "Projectile Speed: "
-msgstr ""
-
-#: ../../../TerraAngel/Tools/Developer/ItemEditorTool.cs:65
-msgid "Projectile: "
-msgstr ""
-
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:169
 msgid "Projectiles"
 msgstr ""
@@ -1176,10 +1115,6 @@ msgstr ""
 
 #: ../../../TerraAngel/Tools/Automation/AutoFishTool.cs:65
 msgid "Randomization Min"
-msgstr ""
-
-#: ../../../TerraAngel/Tools/Developer/ExtendedPickupTool.cs:31
-msgid "Range"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/NetMessageWindow.cs:311
@@ -1236,13 +1171,13 @@ msgstr ""
 msgid "ResizeGripHovered"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/ItemEditorTool.cs:105
-msgid "Restore Item to Default"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:113
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:109
 #: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:151
 msgid "Reveal Map"
+msgstr ""
+
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:203
+msgid "Reveal Map2"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:120
@@ -1269,7 +1204,7 @@ msgstr ""
 msgid "ScrollbarGrabHovered"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:44
+#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:45
 msgid "Search"
 msgstr ""
 
@@ -1293,34 +1228,26 @@ msgstr ""
 msgid "SeparatorHovered"
 msgstr ""
 
-#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:67
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:58
 msgid "Server IP"
 msgstr ""
 
-#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:43
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:40
 msgid "Server Name"
 msgstr ""
 
-#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:91
-#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:95
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:76
+#: ../../../TerraAngel/UI/TerrariaUI/MultiplayerAddServerUI.cs:80
 msgid "Server Port"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:234
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:324
 msgid "Set Custom UUID:"
-msgstr ""
-
-#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:30
-msgid "Shift Speed"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Inspector/TileInspectorTool.cs:116
 #: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:59
 msgid "Shimmer"
-msgstr ""
-
-#: ../../../TerraAngel/Tools/Developer/ItemEditorTool.cs:59
-msgid "Size: "
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/StyleEditorWindow.cs:34
@@ -1340,25 +1267,20 @@ msgstr ""
 msgid "Spectate \"{0}\""
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/ExtendedPickupTool.cs:25
-#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:27
+#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:24
 msgid "Speed"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:86
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:80
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:86
 #: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:83
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:87
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:72
 #, csharp-format
 msgid "Speed:       {0}"
 msgstr ""
 
 #: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:149
 msgid "Square tile frame"
-msgstr ""
-
-#: ../../../TerraAngel/Tools/Developer/ItemEditorTool.cs:95
-msgid "Stack: "
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/StatsWindow.cs:15
@@ -1374,7 +1296,7 @@ msgstr ""
 msgid "Style Editor"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:58
+#: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:59
 msgid "Sync With Server"
 msgstr ""
 
@@ -1433,7 +1355,7 @@ msgstr ""
 #: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:47
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:49
 #: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:43
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:49
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:46
 #, csharp-format
 msgid "Teleport to \"{0}\""
 msgstr ""
@@ -1571,8 +1493,8 @@ msgstr ""
 msgid "TitleBgCollapsed"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:48
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:208
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:49
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:295
 msgid "Tools"
 msgstr ""
 
@@ -1596,22 +1518,18 @@ msgstr ""
 msgid "Use specific mouse position"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/ItemEditorTool.cs:47
-msgid "Usetime: "
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:106
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:102
 msgid "Utility"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:260
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:354
 msgid "UUID cannot be empty!"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:88
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:82
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:88
 #: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:85
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:89
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:74
 msgid "Velocity Dir: "
 msgstr ""
 
@@ -1619,15 +1537,15 @@ msgstr ""
 msgid "Velocity Prediction"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:87
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:81
+#: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:87
 #: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:84
-#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:88
+#: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:73
 #, csharp-format
 msgid "Velocity:    {0}"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:102
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:98
 msgid "Visuals"
 msgstr ""
 
@@ -1721,11 +1639,7 @@ msgstr ""
 msgid "Windowed"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/WipeGroundItems.cs:11
-msgid "Wipe Ground Items"
-msgstr ""
-
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:165
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:256
 msgid "World Edit"
 msgstr ""
 
