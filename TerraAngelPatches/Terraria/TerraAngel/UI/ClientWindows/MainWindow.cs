@@ -8,7 +8,6 @@ namespace TerraAngel.UI.ClientWindows;
 public class MainWindow : ClientWindow
 {
     public override bool DefaultEnabled => true;
-    public override bool IsCheat => true;
 
     public override bool IsToggleable => false;
 
@@ -18,7 +17,6 @@ public class MainWindow : ClientWindow
 
     public override void Draw(ImGuiIOPtr io)
     {
-        
         ImGui.PushFont(ClientAssets.GetMonospaceFont(16f));
 
         Vector2 windowSize = io.DisplaySize / new Vector2(3f, 2f);
@@ -200,7 +198,6 @@ public class MainWindow : ClientWindow
 
     public void DrawInMenu(ImGuiIOPtr io)
     {
-        
         if (ImGui.BeginTabBar("##MainTabBar"))
         {
             if (ImGui.BeginTabItem(GetString("Tools")))

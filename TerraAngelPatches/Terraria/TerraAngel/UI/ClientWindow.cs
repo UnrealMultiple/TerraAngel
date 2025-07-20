@@ -6,8 +6,6 @@ public abstract class ClientWindow
 {
     public virtual bool IsEnabled { get; set; }
 
-    public virtual bool IsCheat => false; 
-
     public virtual bool DefaultEnabled => true;
 
     public virtual bool IsToggleable => true;

@@ -8,7 +8,7 @@ public class ToolManager
     private static Dictionary<int, Tool> LoadedTools = new Dictionary<int, Tool>();
     private static List<Tool>[] ToolTabs;
     private static List<Tool> AllTools;
-    internal static bool AllowCheat = false;
+
     static ToolManager()
     {
         ToolTabs = new List<Tool>[Enum.GetValues<ToolTabs>().Length];
@@ -63,11 +63,6 @@ public class ToolManager
 
     public static void Update()
     {
-        if (!AllowCheat)
-        {
-            return;
-        }
-        
         for (int i = 0; i < AllTools.Count; i++)
         {
             Tool tool = AllTools[i];
