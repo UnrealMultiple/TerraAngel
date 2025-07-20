@@ -4,6 +4,7 @@ using TerraAngel.Inspector.Tools;
 using Terraria;
 using Terraria.Net.Sockets;
 using ImGuiUtil = TerraAngel.Graphics.ImGuiUtil;
+using Terraria.ID;
 
 namespace TerraAngel.Tools.Inspector;
 
@@ -56,13 +57,12 @@ public class ItemInspectorTool : InspectorTool
             if (SelectedItem.active && SelectedItem.type > 0 && !SelectedItem.beingGrabbed)
             {
                 SelectedItem.active = false;
-                SelectedItem.type = 0;
                 SelectedItem.stack = 0;
                 if (Main.netMode == 1)
                 {
                     Util.FalsePlayerPacket(new Vector2(SelectedItem.position.X, SelectedItem.position.Y));
-                    NetMessage.SendData(21, -1, -1, null, SelectedItem.netID, 0f, 0f, 0f, 0, 0, 0);
-                    NetMessage.SendData(13, -1, -1, null, Main.myPlayer, 0f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, SelectedItem.netID, 0f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Main.myPlayer, 0f, 0f, 0f, 0, 0, 0);
                 }
             }
             ClientLoader.Console.WriteLine($"Item \"{SelectedItem.Name.Truncate(30)}\" removed");
@@ -112,7 +112,7 @@ public class ItemInspectorTool : InspectorTool
             ImGui.Text(GetString($"Owned By:  {SelectedItem.playerIndexTheItemIsReservedFor switch
             {
                 >= 255 => GetString("None/Server"),
-                          >= 0 => $"{Main.player[SelectedItem.playerIndexTheItemIsReservedFor].name}",
+                >= 0 => $"{Main.player[SelectedItem.playerIndexTheItemIsReservedFor].name}",
                 _ => GetString("None/Server"),
             }}/{SelectedItem.playerIndexTheItemIsReservedFor}"));
         }
