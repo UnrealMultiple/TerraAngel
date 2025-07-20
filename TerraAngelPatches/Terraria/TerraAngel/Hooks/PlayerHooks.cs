@@ -65,7 +65,7 @@ public class PlayerHooks
 
             if (ToolManager.GetTool<InfiniteManaTool>().Enabled)
             {
-                self.statMana = self.statLifeMax2;
+                self.statMana = self.statManaMax2;
                 self.manaCost = 0.0f;
             }
 
