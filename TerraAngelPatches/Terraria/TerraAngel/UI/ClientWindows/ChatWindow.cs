@@ -183,84 +183,84 @@ public class ChatWindow : ClientWindow
 
         float footerHeight = style.ItemSpacing.Y + ImGui.GetFrameHeightWithSpacing();
 
-        if (ImGui.BeginChild("##ChatScrolling", new Vector2(0, -footerHeight), ImGuiChildFlags.None, IsChatting ? ImGuiWindowFlags.None : ImGuiWindowFlags.NoInputs))
+        bool childStarted = ImGui.BeginChild("##ChatScrolling", new Vector2(0, -footerHeight), ImGuiChildFlags.None, IsChatting ? ImGuiWindowFlags.None : ImGuiWindowFlags.NoInputs);
+
+        ImDrawListPtr drawList = ImGui.GetWindowDrawList();
+        drawList.PushClipRect(drawList.GetClipRectMin(), drawList.GetClipRectMax() + new Vector2(0, 5f));
+        Vector2 tip = style.ItemSpacing;
+        float wrapWidth = ImGui.GetContentRegionAvail().X;
+
+        lock (ChatLock)
         {
-            ImDrawListPtr drawList = ImGui.GetWindowDrawList();
-            drawList.PushClipRect(drawList.GetClipRectMin(), drawList.GetClipRectMax() + new Vector2(0, 5f));
-            Vector2 tip = style.ItemSpacing;
-            float wrapWidth = ImGui.GetContentRegionAvail().X;
-
-            lock (ChatLock)
+            for (int i = 0; i < ChatItems.Count; i++)
             {
-                for (int i = 0; i < ChatItems.Count; i++)
+                ChatItem item = ChatItems[i];
+
+                if (item.CountAbove > 0)
                 {
-                    ChatItem item = ChatItems[i];
+                    item.TextSnippets[^1].Text = $" ({item.CountAbove})";
+                }
 
-                    if (item.CountAbove > 0)
+                style.ItemSpacing = new Vector2(4f, 1f);
+
+                if (item.LastWrapWidth != wrapWidth)
+                {
+                    item.LastWrapWidth = wrapWidth;
+                    item.CachedSize = ImGuiUtil.CalcTextSizeWithTags(item.TextSnippets, wrapWidth);
+                }
+
+                bool showMessageFade = false;
+                if (item.TimeMessageHasBeenVisible < ClientConfig.Settings.framesForMessageToBeVisible + 60)
+                {
+                    showMessageFade = true;
+                    item.TimeMessageHasBeenVisible++;
+                }
+
+                if (ImGui.IsRectVisible(item.CachedSize) && (IsChatting || showMessageFade))
+                {
+                    if (!IsChatting && showMessageFade && item.TimeMessageHasBeenVisible > (ClientConfig.Settings.framesForMessageToBeVisible))
                     {
-                        item.TextSnippets[^1].Text = $" ({item.CountAbove})";
-                    }
-
-                    style.ItemSpacing = new Vector2(4f, 1f);
-
-                    if (item.LastWrapWidth != wrapWidth)
-                    {
-                        item.LastWrapWidth = wrapWidth;
-                        item.CachedSize = ImGuiUtil.CalcTextSizeWithTags(item.TextSnippets, wrapWidth);
-                    }
-
-                    bool showMessageFade = false;
-                    if (item.TimeMessageHasBeenVisible < ClientConfig.Settings.framesForMessageToBeVisible + 60)
-                    {
-                        showMessageFade = true;
-                        item.TimeMessageHasBeenVisible++;
-                    }
-
-                    if (ImGui.IsRectVisible(item.CachedSize) && (IsChatting || showMessageFade))
-                    {
-                        if (!IsChatting && showMessageFade && item.TimeMessageHasBeenVisible > (ClientConfig.Settings.framesForMessageToBeVisible))
+                        float alpha = 1.0f - ((float)(item.TimeMessageHasBeenVisible - ClientConfig.Settings.framesForMessageToBeVisible) / 60f);
+                        if (ImGuiUtil.WrappedSelectableWithTextBorderWithTags($"CHID{i}", item.TextSnippets, wrapWidth, new Color(0f, 0f, 0f), item.CachedSize, alpha))
                         {
-                            float alpha = 1.0f - ((float)(item.TimeMessageHasBeenVisible - ClientConfig.Settings.framesForMessageToBeVisible) / 60f);
-                            if (ImGuiUtil.WrappedSelectableWithTextBorderWithTags($"CHID{i}", item.TextSnippets, wrapWidth, new Color(0f, 0f, 0f), item.CachedSize, alpha))
-                            {
-                                ImGui.SetClipboardText(item.OriginalText);
-                            }
-                        }
-                        else
-                        {
-                            if (ImGuiUtil.WrappedSelectableWithTextBorderWithTags($"CHID{i}", item.TextSnippets, wrapWidth, Color.Black, item.CachedSize))
-                            {
-                                ImGui.SetClipboardText(item.OriginalText);
-                            }
+                            ImGui.SetClipboardText(item.OriginalText);
                         }
                     }
                     else
                     {
-                        ImGui.SetCursorPosY(ImGui.GetCursorPosY() + item.CachedSize.Y + (i + 1 < ChatItems.Count ? style.ItemSpacing.Y : 0f));
-                        style.ItemSpacing.Y = 0f;
-                        ImGui.Dummy(Vector2.Zero);
+                        if (ImGuiUtil.WrappedSelectableWithTextBorderWithTags($"CHID{i}", item.TextSnippets, wrapWidth, Color.Black, item.CachedSize))
+                        {
+                            ImGui.SetClipboardText(item.OriginalText);
+                        }
                     }
                 }
+                else
+                {
+                    ImGui.SetCursorPosY(ImGui.GetCursorPosY() + item.CachedSize.Y + (i + 1 < ChatItems.Count ? style.ItemSpacing.Y : 0f));
+                    style.ItemSpacing.Y = 0f;
+                    ImGui.Dummy(Vector2.Zero);
+                }
             }
-
-            AutoScrollFixPrevMaxY = AutoScrollFixMaxY;
-            AutoScrollFixMaxY = ImGui.GetScrollMaxY();
-            if (ScrollToBottom || (ClientConfig.Settings.ChatAutoScroll && (ImGui.GetScrollY() >= ImGui.GetScrollMaxY() || (AutoScrollFix && AutoScrollFixMaxY > AutoScrollFixPrevMaxY))) || !IsChatting || OpenedThisFrame)
-            {
-                AutoScrollFix = false;
-                if (ClientConfig.Settings.ChatAutoScroll && (ImGui.GetScrollY() >= ImGui.GetScrollMaxY()))
-                    AutoScrollFix = true;
-                ImGui.SetScrollY(ImGui.GetScrollMaxY());
-            }
-            else
-            {
-                AutoScrollFix = false;
-            }
-            style.ItemSpacing = tip;
-            ScrollToBottom = false;
-            drawList.PopClipRect();
-            ImGui.EndChild();
         }
+
+        AutoScrollFixPrevMaxY = AutoScrollFixMaxY;
+        AutoScrollFixMaxY = ImGui.GetScrollMaxY();
+        if (ScrollToBottom || (ClientConfig.Settings.ChatAutoScroll && (ImGui.GetScrollY() >= ImGui.GetScrollMaxY() || (AutoScrollFix && AutoScrollFixMaxY > AutoScrollFixPrevMaxY))) || !IsChatting || OpenedThisFrame)
+        {
+            AutoScrollFix = false;
+            if (ClientConfig.Settings.ChatAutoScroll && (ImGui.GetScrollY() >= ImGui.GetScrollMaxY()))
+                AutoScrollFix = true;
+            ImGui.SetScrollY(ImGui.GetScrollMaxY());
+        }
+        else
+        {
+            AutoScrollFix = false;
+        }
+        style.ItemSpacing = tip;
+        ScrollToBottom = false;
+        drawList.PopClipRect();
+
+        ImGui.EndChild();
 
         bool chatBoxFocus = false;
         if (IsChatting)
