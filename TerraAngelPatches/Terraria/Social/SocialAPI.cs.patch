@@ -18,7 +18,7 @@
      public static SocialMode Mode => _mode;
      public static void Initialize(SocialMode? mode = null)
      {
-@@ -46,9 +_,6 @@
+@@ -35,9 +_,6 @@
              case SocialMode.Steam:
                  LoadSteam();
                  break;
@@ -28,7 +28,7 @@
          }
  
          foreach (ISocialModule module in _modules)
-@@ -62,7 +_,7 @@
+@@ -51,7 +_,7 @@
          _modules.Reverse();
          foreach (ISocialModule module in _modules)
          {
@@ -37,7 +37,7 @@
          }
      }
  
-@@ -106,25 +_,5 @@
+@@ -95,25 +_,5 @@
          {
              Network = LoadModule<Terraria.Social.Steam.NetClientSocialModule>();
          }

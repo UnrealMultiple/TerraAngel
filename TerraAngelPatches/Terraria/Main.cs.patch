@@ -33,6 +33,17 @@
      public static Camera Camera = new Camera();
      public static IPlayerRenderer PlayerRenderer = new LegacyPlayerRenderer();
      public static IPlayerRenderer PotionOfReturnRenderer = new ReturnGatePlayerRenderer();
+@@ -395,8 +_,8 @@
+     public static string defaultIP = "";
+     public static int dayRate = 1;
+     public static int desiredWorldTilesUpdateRate = 1;
+-    public static int maxScreenW = 1920;
++    public static int maxScreenW = 3480;
+-    public static int maxScreenH = 1200;
++    public static int maxScreenH = 2160;
+     public static int minScreenW = 800;
+     public static int minScreenH = 600;
+     public static float iS = 1f;
 @@ -714,7 +_,8 @@
      public static float invAlpha = 1f;
      public static float invDir = 1f;
@@ -60,13 +71,17 @@
      public static int teamNamePlateDistance = 2000;
      public static int multiplayerNPCSmoothingRange = 300;
      public static bool Setting_UseReducedMaxLiquids = false;
-@@ -962,8 +_,8 @@
+@@ -960,10 +_,10 @@
+     public static WorkshopPublishingIndicator WorkshopPublishingIndicator = new WorkshopPublishingIndicator();
+     public static IssueReportsIndicator IssueReporterIndicator = new IssueReportsIndicator();
      public static bool Support4K = true;
-     public static float MinimumZoomComparerX = 1920f;
-     public static float MinimumZoomComparerY = 1200f;
+-    public static float MinimumZoomComparerX = 1920f;
++    public static float MinimumZoomComparerX = 3480f;
+-    public static float MinimumZoomComparerY = 1200f;
++    public static float MinimumZoomComparerY = 2160f;
 -    private static int _renderTargetMaxSize = 2048;
--    private static GraphicsProfile _selectedGraphicsProfile = ((!Program.IsXna) ? GraphicsProfile.HiDef : GraphicsProfile.Reach);
 +    private static int _renderTargetMaxSize = 8192;
+-    private static GraphicsProfile _selectedGraphicsProfile = ((!Program.IsXna) ? GraphicsProfile.HiDef : GraphicsProfile.Reach);
 +    private static GraphicsProfile _selectedGraphicsProfile = GraphicsProfile.HiDef;
      private static GraphicsProfile _currentGraphicsProfile = _selectedGraphicsProfile;
      public static int LogicCheckScreenWidth = 1920;

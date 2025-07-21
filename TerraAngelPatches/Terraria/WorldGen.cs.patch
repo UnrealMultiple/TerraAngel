@@ -45,7 +45,7 @@
          }
  
          for (int n = 0; n < Main.countsAsHostForGameplay.Length; n++)
-@@ -66206,30 +_,21 @@
+@@ -66203,30 +_,21 @@
          }
      }
  
@@ -80,7 +80,7 @@
          {
              return Main.tile[i, j].inActive();
          }
-@@ -66237,9 +_,11 @@
+@@ -66234,9 +_,11 @@
          return true;
      }
  
@@ -94,7 +94,7 @@
          {
              return !tile.inActive();
          }
-@@ -66259,22 +_,30 @@
+@@ -66256,22 +_,30 @@
  
      public static bool SolidOrSlopedTile(int x, int y)
      {
@@ -129,7 +129,7 @@
          {
              return true;
          }
-@@ -66289,16 +_,15 @@
+@@ -66286,16 +_,15 @@
  
      public static bool SolidTile(int i, int j, bool noDoors = false)
      {
@@ -151,7 +151,7 @@
                  {
                      return false;
                  }
-@@ -66317,11 +_,6 @@
+@@ -66314,11 +_,6 @@
      {
          try
          {
@@ -163,7 +163,7 @@
              if (testTile.active() && Main.tileSolid[testTile.type] && testTile.slope() == 0 && !testTile.halfBrick() && !testTile.inActive())
              {
                  return true;
-@@ -66352,13 +_,11 @@
+@@ -66349,13 +_,11 @@
  
      public static bool SolidTileAllowBottomSlope(int i, int j)
      {
@@ -180,7 +180,7 @@
  
              if (tile.active() && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type]) && (!tile.topSlope() || (TileID.Sets.Platforms[tile.type] && PlatformProperTopFrame(tile.frameX))) && !tile.halfBrick() && !tile.inActive())
              {
-@@ -66374,13 +_,11 @@
+@@ -66371,13 +_,11 @@
  
      public static bool ActiveAndWalkableTile(int i, int j)
      {
@@ -197,7 +197,7 @@
  
              if (tile.active() && Main.tileSolid[tile.type] && !tile.inActive())
              {
-@@ -66396,13 +_,11 @@
+@@ -66393,13 +_,11 @@
  
      public static bool SolidTileAllowTopSlope(int i, int j)
      {
@@ -214,7 +214,7 @@
  
              if (tile.active() && (Main.tileSolid[tile.type] || tile.type == 380) && (!tile.bottomSlope() || (TileID.Sets.Platforms[tile.type] && tile.halfBrick())) && !tile.inActive())
              {
-@@ -66418,13 +_,11 @@
+@@ -66415,13 +_,11 @@
  
      public static bool SolidTileAllowLeftSlope(int i, int j)
      {
@@ -231,7 +231,7 @@
  
              if (tile.active() && Main.tileSolid[tile.type] && !tile.rightSlope() && !TileID.Sets.Platforms[tile.type] && !tile.inActive())
              {
-@@ -66440,13 +_,11 @@
+@@ -66437,13 +_,11 @@
  
      public static bool SolidTileAllowRightSlope(int i, int j)
      {
@@ -248,7 +248,7 @@
  
              if (tile.active() && Main.tileSolid[tile.type] && !tile.leftSlope() && !TileID.Sets.Platforms[tile.type] && !tile.inActive())
              {
-@@ -66462,13 +_,11 @@
+@@ -66459,13 +_,11 @@
  
      public static bool TopEdgeCanBeAttachedTo(int i, int j)
      {
@@ -265,7 +265,7 @@
  
              if (tile.active() && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type]) && (!tile.topSlope() || (TileID.Sets.Platforms[tile.type] && PlatformProperTopFrame(tile.frameX))) && !tile.halfBrick() && !tile.inActive())
              {
-@@ -66484,13 +_,11 @@
+@@ -66481,13 +_,11 @@
  
      public static bool RightEdgeCanBeAttachedTo(int i, int j)
      {
@@ -282,7 +282,7 @@
  
              if (tile.active() && Main.tileSolid[tile.type] && !Main.tileSolidTop[tile.type] && !tile.rightSlope() && !tile.halfBrick() && !tile.inActive() && !Main.tileNoAttach[tile.type])
              {
-@@ -66506,13 +_,11 @@
+@@ -66503,13 +_,11 @@
  
      public static bool LeftEdgeCanBeAttachedTo(int i, int j)
      {
@@ -299,7 +299,7 @@
  
              if (tile.active() && Main.tileSolid[tile.type] && !Main.tileSolidTop[tile.type] && !tile.leftSlope() && !tile.halfBrick() && !tile.inActive() && !Main.tileNoAttach[tile.type])
              {
-@@ -66528,13 +_,11 @@
+@@ -66525,13 +_,11 @@
  
      public static bool BottomEdgeCanBeAttachedTo(int i, int j)
      {
@@ -316,7 +316,7 @@
  
              if (tile.active() && Main.tileSolid[tile.type] && !Main.tileSolidTop[tile.type] && !tile.bottomSlope() && !tile.inActive() && !Main.tileNoAttach[tile.type])
              {
-@@ -66555,16 +_,13 @@
+@@ -66552,16 +_,13 @@
              return false;
          }
  
@@ -335,7 +335,7 @@
          if (t.active() && !t.inActive() && Main.tileSolid[t.type])
          {
              return !Main.tileSolidTop[t.type];
-@@ -66575,14 +_,13 @@
+@@ -66572,14 +_,13 @@
  
      public static bool SolidTile2(int i, int j)
      {
@@ -354,7 +354,7 @@
              {
                  return true;
              }
-@@ -66596,14 +_,13 @@
+@@ -66593,14 +_,13 @@
  
      public static bool SolidTileNoAttach(int i, int j)
      {
@@ -373,7 +373,7 @@
              {
                  return true;
              }
-@@ -77506,10 +_,13 @@
+@@ -77503,10 +_,13 @@
  
      public static void TileFrame(int i, int j, bool resetFrame = false, bool noBreak = false)
      {
@@ -388,7 +388,7 @@
              {
                  if (SkipFramingBecauseOfGen && !Main.tileFrameImportant[Main.tile[i, j].type])
                  {
-@@ -82519,7 +_,7 @@
+@@ -82516,7 +_,7 @@
          {
              for (int j = y - 1; j <= y + 1; j++)
              {
@@ -397,7 +397,7 @@
                  {
                      return;
                  }
-@@ -82823,17 +_,6 @@
+@@ -82820,17 +_,6 @@
  
          Tile tile = Main.tile[num2, num3 - 1];
          Tile tile2 = Main.tile[num2, num3 + 3];
@@ -415,7 +415,7 @@
  
          if (!SolidTile(tile) || !SolidTile(tile2))
          {
-@@ -82890,35 +_,6 @@
+@@ -82887,35 +_,6 @@
              Tile tile3 = Main.tile[i, num + 1];
              Tile tile4 = Main.tile[i, num + 2];
              Tile tile5 = Main.tile[i, num + 3];
@@ -451,7 +451,7 @@
  
              if (!SolidTile(tile))
              {
-@@ -83015,7 +_,7 @@
+@@ -83012,7 +_,7 @@
          }
  
          Tile tile = Main.tile[i, j + 1];
@@ -460,7 +460,7 @@
          {
              return false;
          }
-@@ -83041,7 +_,7 @@
+@@ -83038,7 +_,7 @@
          }
  
          Tile tile = Main.tile[i, j + 1];
@@ -469,7 +469,7 @@
          {
              return false;
          }
-@@ -83064,11 +_,6 @@
+@@ -83061,11 +_,6 @@
  
      public static bool AllowsSandfall(Tile tileTopCache)
      {
@@ -481,7 +481,7 @@
          bool result = true;
          if (tileTopCache.active() && (TileID.Sets.BasicChest[tileTopCache.type] || TileID.Sets.BasicChestFake[tileTopCache.type] || tileTopCache.type == 323 || tileTopCache.type == 88 || tileTopCache.type == 80 || tileTopCache.type == 77 || tileTopCache.type == 26 || tileTopCache.type == 475 || tileTopCache.type == 470 || tileTopCache.type == 597))
          {
-@@ -83303,7 +_,7 @@
+@@ -83300,7 +_,7 @@
  
      public static bool CanCutTile(int x, int y, TileCuttingContext context)
      {
@@ -490,7 +490,7 @@
          {
              if (Main.tile[x, y].type == 254)
              {
-@@ -83345,11 +_,8 @@
+@@ -83342,11 +_,8 @@
          {
              for (int j = 0; j < height; j++)
              {
