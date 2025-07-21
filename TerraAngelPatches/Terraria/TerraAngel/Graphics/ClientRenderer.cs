@@ -268,11 +268,6 @@ public class ClientRenderer : ImGuiRenderer
         {
             ClientWindow window = ClientWindows[i];
 
-            if (!ToolManager.AllowCheat && window.IsCheat)
-            {
-                continue;
-            }
-            
             if (window.IsToggleable && InputSystem.IsKeyPressed(window.ToggleKey))
             {
                 window.IsEnabled = !window.IsEnabled;

@@ -8,7 +8,6 @@ namespace TerraAngel.UI.ClientWindows;
 public class MainWindow : ClientWindow
 {
     public override bool DefaultEnabled => true;
-    public override bool IsCheat => true;
 
     public override bool IsToggleable => false;
 
@@ -18,7 +17,6 @@ public class MainWindow : ClientWindow
 
     public override void Draw(ImGuiIOPtr io)
     {
-        
         ImGui.PushFont(ClientAssets.GetMonospaceFont(16f));
 
         Vector2 windowSize = io.DisplaySize / new Vector2(3f, 2f);
@@ -67,6 +65,11 @@ public class MainWindow : ClientWindow
                             if (ImGui.BeginTabItem(GetString("Item Browser")))
                             {
                                 ToolManager.GetTool<ItemBrowserTool>().DrawUI(io);
+                                ImGui.EndTabItem();
+                            }
+                            if (ImGui.BeginTabItem(ToolManager.GetTool<ItemEditorTool>().Name))
+                            {
+                                ToolManager.GetTool<ItemEditorTool>().DrawUI(io);
                                 ImGui.EndTabItem();
                             }
                             ImGui.EndTabBar();
@@ -200,7 +203,6 @@ public class MainWindow : ClientWindow
 
     public void DrawInMenu(ImGuiIOPtr io)
     {
-        
         if (ImGui.BeginTabBar("##MainTabBar"))
         {
             if (ImGui.BeginTabItem(GetString("Tools")))
@@ -243,7 +245,7 @@ public class MainWindow : ClientWindow
                     }
                     else
                     {
-                        invalidUUIDFrames = 60; 
+                        invalidUUIDFrames = 60;
                     }
                 }
                 if (customUUIDAppliedFrames > 0)

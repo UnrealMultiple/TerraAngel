@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Input;
 using Steamworks;
 using Color = Microsoft.Xna.Framework.Color;
 using ImGuiUtil = TerraAngel.Graphics.ImGuiUtil;
-
 namespace TerraAngel.Tools.Developer;
 
 public class ItemBrowserTool : Tool

@@ -5,8 +5,6 @@ namespace TerraAngel.UI.ClientWindows;
 public class StyleEditorWindow : ClientWindow
 {
     public override bool DefaultEnabled => false;
-    
-    public override bool IsCheat => true;
     public override bool IsGlobalToggle => true;
     public override bool IsToggleable => true;
     public override string Title => GetString("Style Editor");

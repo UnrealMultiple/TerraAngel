@@ -34,11 +34,11 @@ public class ClientConfig
     {
         [UIConfigElement("zh-CN", "显示主窗口")]
         [UIConfigElement("en-US", "Show Stats Window")]
-        public bool ShowStatsWindow = false;
+        public bool ShowStatsWindow = true;
 
         [UIConfigElement("zh-CN", "显示终端")]
         [UIConfigElement("en-US", "Show Console Window")]
-        public bool ShowConsoleWindow = false;
+        public bool ShowConsoleWindow = true;
 
         [UIConfigElement("zh-CN", "默认启用无敌")]
         [UIConfigElement("en-US", "Default Anti-Hurt")]
@@ -51,6 +51,10 @@ public class ClientConfig
         [UIConfigElement("zh-CN", "默认启用无限仆从")]
         [UIConfigElement("en-US", "Default Infinite Minions")]
         public bool DefaultInfiniteMinions = false;
+
+        [UIConfigElement("zh-CN", "默认开启旅行无敌")]
+        [UIConfigElement("en-US", "Default creativeGodMode")]
+        public bool DefaultcreativeGodMode = false;
 
         [UIConfigElement("zh-CN", "默认启用ESP透视")]
         [UIConfigElement("en-US", "Default ESP Draw Any")]
@@ -66,7 +70,7 @@ public class ClientConfig
 
         [UIConfigElement("zh-CN", "ESP默认显示玩家碰撞箱")]
         [UIConfigElement("en-US", "Default ESP Player Hitboxes")]
-        public bool DefaultPlayerESPBoxes = false;
+        public bool DefaultPlayerESPBoxes = true;
 
         [UIConfigElement("zh-CN", "ESP默认显示NPC碰撞箱")]
         [UIConfigElement("en-US", "Default ESP NPC Hitboxes")]
@@ -94,15 +98,15 @@ public class ClientConfig
 
         [UIConfigElement("zh-CN", "右键地图传送")]
         [UIConfigElement("en-US", "Right click on the map to teleport")]
-        public bool RightClickOnMapToTeleport = false;
+        public bool RightClickOnMapToTeleport = true;
 
         [UIConfigElement("zh-CN", "Ctrl+右键 检查对象")]
         [UIConfigElement("en-US", "Ctrl + Right click on object to inspect")]
-        public bool CtrlRightClickOnObjectToInspect = false;
+        public bool CtrlRightClickOnObjectToInspect = true;
 
         [UIConfigElement("zh-CN", "阻止星云数据包")]
         [UIConfigElement("en-US", "Disable Nebula Packet")]
-        public bool DisableNebulaLagPacket = false;
+        public bool DisableNebulaLagPacket = true;
 
         [UIConfigElement("zh-CN", "控制台自动滚动")]
         [UIConfigElement("en-US", "Console Auto Scroll")]
@@ -118,7 +122,7 @@ public class ClientConfig
 
         [UIConfigElement("zh-CN", "默认启用弹幕预测")]
         [UIConfigElement("en-US", "Default Projectile Prediction")]
-        public bool DefaultDrawActiveProjectilePrediction = false;
+        public bool DefaultDrawActiveProjectilePrediction = true;
 
         [UIConfigElement("zh-CN", "默认预测友方弹幕轨迹")]
         [UIConfigElement("en-US", "Default Projectile Prediction Draw Friendly")]
@@ -126,7 +130,7 @@ public class ClientConfig
 
         [UIConfigElement("zh-CN", "默认预测敌方弹幕轨迹")]
         [UIConfigElement("en-US", "Default Projectile Prediction Draw Hostile")]
-        public bool DefaultDrawHostileProjectilePrediction = false;
+        public bool DefaultDrawHostileProjectilePrediction = true;
 
         [UIConfigElement("zh-CN", "默认关闭血污")]
         [UIConfigElement("en-US", "Default Disable Gore")]
@@ -142,7 +146,7 @@ public class ClientConfig
 
         [UIConfigElement("zh-CN", "向服务器摊牌你的古神身份 (实验性)")]
         [UIConfigElement("en-US", "Tell server that you're using a modified client (Experimental)")]
-        public bool BroadcastPresence = true;
+        public bool BroadcastPresence = false;
 
         [UIConfigElement("zh-CN", "显示详细工具提示")]
         [UIConfigElement("en-US", "Show Detailed Tooltips")]

@@ -2,7 +2,7 @@
 
 public class HeldItemViewerTool : Tool
 {
-    public override string Name => "Show Held Item";
+    public override string Name => GetString("Show Held Item");
 
     public override ToolTabs Tab => ToolTabs.VisualTools;
 

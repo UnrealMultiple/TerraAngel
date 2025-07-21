@@ -4,8 +4,6 @@ namespace TerraAngel.UI.ClientWindows;
 
 public class QuickItemBrowserWindow : ClientWindow
 {
-    public override bool IsCheat => true;
-    
     public bool ShowQuickItemBrowser = false;
 
     public bool JustOpenedQuickBrowser = false;
