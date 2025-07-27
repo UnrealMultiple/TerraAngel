@@ -10,14 +10,18 @@ public class PacketBuilder : IDisposable, IAsyncDisposable
 {
     public static PacketBuilder NewBuilder() => new();
 
-    public PacketBuilder()
+    public PacketBuilder(bool doSanityCheck = true)
     {
         Buffer = ArrayPool<byte>.Shared.Rent(MessageBuffer.writeBufferMax);
         Ms = new MemoryStream(Buffer);
         Bw = new BinaryWriter(Ms);
         Ms.SetLength(0);
         Ms.Position = sizeof(ushort);
+        
+        _packetEndSanityCheck = !doSanityCheck;
     }
+
+    private bool _packetEndSanityCheck;
 
     public byte[]? Buffer;
     public readonly MemoryStream Ms;
@@ -216,13 +220,18 @@ public class PacketBuilder : IDisposable, IAsyncDisposable
 
         PacketHead = Ms.Position;
         Ms.Position += sizeof(ushort);
+        
+        Ms.Flush();
+
+        _packetEndSanityCheck = true;
         return this;
     }
 
     public byte[] Build(bool isDispose = true)
     {
-        EndPacket();
-        Ms.Flush();
+        if (!_packetEndSanityCheck)
+            ClientLoader.Console.WriteError($"[{nameof(PacketBuilder)}] {nameof(PacketBuilder)}.{nameof(Build)}() Warning: EndPacket had never been called, probably a bug");
+        
         var ret = Ms.ToArray();
         if (isDispose)
             Dispose();
@@ -233,11 +242,12 @@ public class PacketBuilder : IDisposable, IAsyncDisposable
     {
         if (Main.netMode != 1 || !Netplay.Connection.Socket.IsConnected())
             return;
-        EndPacket();
-        Ms.Flush();
+        if (!_packetEndSanityCheck)
+            ClientLoader.Console.WriteError($"[{nameof(PacketBuilder)}] {nameof(PacketBuilder)}.{nameof(Send)}() Warning: EndPacket had never been called, probably a bug");
         try
         {
             NetMessage.buffer[256].spamCount++;
+            // Main.ActiveNetDiagnosticsUI.CountSentMessage(msgType, packetLength);
             Netplay.Connection.Socket.AsyncSend(Buffer!, 0, (int)Ms.Length, Netplay.Connection.ClientWriteCallBack);
         }
         catch (Exception ex)
