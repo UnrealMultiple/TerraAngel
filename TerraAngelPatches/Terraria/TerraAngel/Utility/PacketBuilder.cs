@@ -12,11 +12,14 @@ public class PacketBuilder : IDisposable, IAsyncDisposable
 
     public PacketBuilder()
     {
-        Ms = new MemoryStream(ArrayPool<byte>.Shared.Rent());
+        Buffer = ArrayPool<byte>.Shared.Rent(MessageBuffer.writeBufferMax);
+        Ms = new MemoryStream(Buffer);
         Bw = new BinaryWriter(Ms);
-        Ms.Position += sizeof(ushort);
+        Ms.SetLength(0);
+        Ms.Position = sizeof(ushort);
     }
 
+    public byte[]? Buffer;
     public readonly MemoryStream Ms;
     public readonly BinaryWriter Bw;
     public long PacketHead;
@@ -30,9 +33,9 @@ public class PacketBuilder : IDisposable, IAsyncDisposable
         return this;
     }
     
-    public PacketBuilder If(Func<bool> condition, Action<PacketBuilder> action)
+    public PacketBuilder If(Func<PacketBuilder, bool> condition, Action<PacketBuilder> action)
     {
-        if (condition())
+        if (condition(this))
             action(this);
         return this;
     }
@@ -216,27 +219,33 @@ public class PacketBuilder : IDisposable, IAsyncDisposable
         return this;
     }
 
-    public byte[] Build()
+    public byte[] Build(bool isDispose = true)
     {
         EndPacket();
         Ms.Flush();
-        return Ms.ToArray();
+        var ret = Ms.ToArray();
+        if (isDispose)
+            Dispose();
+        return ret;
     }
 
-    public void Send()
+    public void Send(bool isDispose = true)
     {
         if (Main.netMode != 1 || !Netplay.Connection.Socket.IsConnected())
             return;
-        var buffer = Build();
+        EndPacket();
+        Ms.Flush();
         try
         {
             NetMessage.buffer[256].spamCount++;
-            Netplay.Connection.Socket.AsyncSend(buffer, 0, buffer.Length, Netplay.Connection.ClientWriteCallBack);
+            Netplay.Connection.Socket.AsyncSend(Buffer!, 0, (int)Ms.Length, Netplay.Connection.ClientWriteCallBack);
         }
         catch (Exception ex)
         {
             ClientLoader.Console.WriteError($"[{nameof(PacketBuilder)}] {nameof(PacketBuilder)}.{nameof(Send)}() Error: {ex.Message}");
         }
+        if (isDispose)
+            Dispose();
     }
 
     public PacketBuilder Clear()
@@ -249,12 +258,18 @@ public class PacketBuilder : IDisposable, IAsyncDisposable
 
     public void Dispose()
     {
+        if (Buffer is not null)
+            ArrayPool<byte>.Shared.Return(Buffer);
+        Buffer = null;
         Ms.Dispose();
         Bw.Dispose();
     }
 
     public async ValueTask DisposeAsync()
     {
+        if (Buffer is not null)
+            ArrayPool<byte>.Shared.Return(Buffer);
+        Buffer = null;
         await Ms.DisposeAsync();
         await Bw.DisposeAsync();
     }
