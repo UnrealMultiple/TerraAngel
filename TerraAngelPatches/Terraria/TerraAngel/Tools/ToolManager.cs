@@ -6,6 +6,7 @@ namespace TerraAngel.Tools;
 public class ToolManager
 {
     private static Dictionary<string, Tool> LoadedTools = new Dictionary<string, Tool>();
+    private static Dictionary<Type, string> TypeToKeyCache = new Dictionary<Type, string>();
     private static List<Tool>[] ToolTabs;
     private static List<Tool> AllTools;
 
@@ -34,17 +35,25 @@ public class ToolManager
 
     public static Tool GetTool(Type type)
     {
+        // Check cache first
+        if (TypeToKeyCache.TryGetValue(type, out string? cachedKey))
+        {
+            return LoadedTools[cachedKey];
+        }
+
         string key = GetToolKey(type);
         if (LoadedTools.TryGetValue(key, out Tool? tool))
         {
+            TypeToKeyCache[type] = key;
             return tool;
         }
         
-        // Fallback: try to find by type full name only (for backward compatibility)
+        // Fallback: try to find by type match and cache the result
         foreach (var kvp in LoadedTools)
         {
             if (kvp.Value.GetType() == type)
             {
+                TypeToKeyCache[type] = kvp.Key;
                 return kvp.Value;
             }
         }
@@ -65,6 +74,7 @@ public class ToolManager
         Tool cringe = (Tool)Activator.CreateInstance(type)!;
         ToolTabs[(int)cringe.Tab].Add(cringe);
         LoadedTools.Add(key, cringe);
+        TypeToKeyCache[type] = key;
         AllTools.Add(cringe);
     }
 
@@ -75,6 +85,7 @@ public class ToolManager
         
         ToolTabs[(int)cringe.Tab].Remove(cringe);
         LoadedTools.Remove(key);
+        TypeToKeyCache.Remove(type);
         AllTools.Remove(cringe);
     }
 
@@ -104,6 +115,7 @@ public class ToolManager
     public static void Clear()
     {
         LoadedTools.Clear();
+        TypeToKeyCache.Clear();
         AllTools.Clear();
         Array.Clear(ToolTabs);
 

@@ -1,4 +1,6 @@
 ﻿using TerraAngel.Physics;
+using System.Collections.Generic;
+using System;
 
 namespace TerraAngel.Tools.Automation;
 
@@ -139,119 +141,94 @@ public class AutoAimTool : Tool
     public bool wantToShoot = false;
     public bool LockedOnToTarget = false;
 
+    private struct TargetCandidate
+    {
+        public Vector2 Center;
+        public Vector2 Velocity;
+        public bool IsValid;
+    }
+
+    private bool TryFindBestTarget(
+        Vector2 playerCenter,
+        Func<int, TargetCandidate> getCandidate,
+        int maxCount,
+        out Vector2 bestTarget)
+    {
+        float minDistSq = float.MaxValue;
+        bestTarget = Vector2.Zero;
+        bool foundTarget = false;
+
+        for (int i = 0; i < maxCount; i++)
+        {
+            TargetCandidate candidate = getCandidate(i);
+            if (!candidate.IsValid)
+                continue;
+
+            float distToPlayer = playerCenter.Distance(candidate.Center);
+            if (distToPlayer > MinAttackRange)
+                continue;
+
+            RaycastData raycast = Raycast.Cast(playerCenter, (candidate.Center - playerCenter).Normalized(), distToPlayer + 1f);
+            if (RequireLineOfSight && raycast.Hit)
+                continue;
+
+            Vector2 targetPoint = candidate.Center;
+            if (VelocityPrediction)
+            {
+                float shootSpeed = CalcPlayerShootSpeed();
+                if (shootSpeed > 0 && (candidate.Velocity.X != 0 || candidate.Velocity.Y != 0))
+                {
+                    float timeToTarget = (raycast.Distance / shootSpeed) * VelocityPrectionScaling;
+                    RaycastData predictionRaycast = Raycast.Cast(
+                        candidate.Center,
+                        (candidate.Velocity * timeToTarget).Normalized(),
+                        (candidate.Velocity * timeToTarget).Length() + 0.1f);
+                    targetPoint = predictionRaycast.End;
+                }
+            }
+
+            float distSq = targetPoint.DistanceSQ(playerCenter);
+            if (distSq < minDistSq)
+            {
+                bestTarget = targetPoint;
+                minDistSq = distSq;
+                foundTarget = true;
+            }
+        }
+
+        return foundTarget;
+    }
+
     public override void Update()
     {
         ImDrawListPtr drawList = ImGui.GetBackgroundDrawList();
         if (Enabled && !Main.gameMenu)
         {
             Vector2 correctedPlayerCenter = Main.LocalPlayer.RotatedRelativePoint(Main.LocalPlayer.MountedCenter, reverseRotation: true);
-            float minDist = float.MaxValue;
+            LockedOnToTarget = false;
 
-            // 瞄准 NPC
+            // Target NPCs
             if (TargetHostileNPCs)
             {
-                for (int i = 0; i < Main.maxNPCs; i++)
+                if (TryFindBestTarget(correctedPlayerCenter, GetNPCCandidate, Main.maxNPCs, out Vector2 npcTarget))
                 {
-                    NPC npc = Main.npc[i];
-
-                    if (npc.active)
-                    {
-                        if (npc.friendly)
-                            continue;
-
-                        if (npc.immortal || npc.dontTakeDamage)
-                            continue;
-
-                        float distToPlayer = correctedPlayerCenter.Distance(npc.Center);
-
-                        if (distToPlayer > MinAttackRange)
-                            continue;
-
-                        RaycastData raycast = Raycast.Cast(correctedPlayerCenter, (npc.Center - correctedPlayerCenter).Normalized(), distToPlayer + 1f);
-                        if (RequireLineOfSight)
-                        {
-                            if (raycast.Hit)
-                            {
-                                continue;
-                            }
-                        }
-
-                        Vector2 targetPoint = npc.Center;
-                        if (VelocityPrediction)
-                        {
-                            float sp = CalcPlayerShootSpeed();
-                            if (sp > 0 && (npc.velocity.X != 0 || npc.velocity.Y != 0))
-                            {
-                                float ttt = (raycast.Distance / sp) * VelocityPrectionScaling;
-                                RaycastData tttCorrection = Raycast.Cast(npc.Center, (npc.velocity * ttt).Normalized(), (npc.velocity * ttt).Length() + 0.1f);
-                                targetPoint = tttCorrection.End;
-                            }
-                        }
-
-                        float d = targetPoint.DistanceSQ(correctedPlayerCenter);
-                        if (d < minDist)
-                        {
-                            TargetPoint = targetPoint;
-                            LockedOnToTarget = true;
-                            minDist = d;
-                        }
-                    }
+                    TargetPoint = npcTarget;
+                    LockedOnToTarget = true;
                 }
             }
 
-            // 瞄准玩家
+            // Target Players
             if (TargetPlayers)
             {
-                for (int i = 0; i < Main.maxPlayers; i++)
+                if (TryFindBestTarget(correctedPlayerCenter, GetPlayerCandidate, Main.maxPlayers, out Vector2 playerTarget))
                 {
-                    Player player = Main.player[i];
-
-                    if (!player.active || player.dead || i == Main.myPlayer)
-                        continue;
-
-                    // 如果开启了仅锁定PVP玩家，则跳过非PVP玩家
-                    if (OnlyPvPPlayers && !player.hostile)
-                        continue;
-
-                    // 如果指定了玩家名称，则仅锁定该玩家
-                    if (!string.IsNullOrWhiteSpace(TargetPlayerName) && player.name != TargetPlayerName)
-                        continue;
-                   
-                    if (player.team == Main.LocalPlayer.team && player.team != 0)
-                        continue;
-
-                    float distToPlayer = correctedPlayerCenter.Distance(player.Center);
-
-                    if (distToPlayer > MinAttackRange)
-                        continue;
-
-                    RaycastData raycast = Raycast.Cast(correctedPlayerCenter, (player.Center - correctedPlayerCenter).Normalized(), distToPlayer + 1f);
-                    if (RequireLineOfSight)
+                    float currentBestDistSq = LockedOnToTarget ? TargetPoint.DistanceSQ(correctedPlayerCenter) : float.MaxValue;
+                    float newDistSq = playerTarget.DistanceSQ(correctedPlayerCenter);
+                    
+                    if (newDistSq < currentBestDistSq)
                     {
-                        if (raycast.Hit)
-                        {
-                            continue;
-                        }
-                    }
-
-                    Vector2 targetPoint = player.Center;
-                    if (VelocityPrediction)
-                    {
-                        float sp = CalcPlayerShootSpeed();
-                        if (sp > 0 && (player.velocity.X != 0 || player.velocity.Y != 0))
-                        {
-                            float ttt = (raycast.Distance / sp) * VelocityPrectionScaling;
-                            RaycastData tttCorrection = Raycast.Cast(player.Center, (player.velocity * ttt).Normalized(), (player.velocity * ttt).Length() + 0.1f);
-                            targetPoint = tttCorrection.End;
-                        }
-                    }
-
-                    float d = targetPoint.DistanceSQ(correctedPlayerCenter);
-                    if (d < minDist)
-                    {
-                        TargetPoint = targetPoint;
+                        TargetPoint = playerTarget;
                         LockedOnToTarget = true;
-                        minDist = d;
                     }
                 }
             }
@@ -259,6 +236,45 @@ public class AutoAimTool : Tool
             if (!Main.mapFullscreen && LockedOnToTarget)
                 drawList.AddCircleFilled(Util.WorldToScreenWorld(TargetPoint), 5f, Color.Red.PackedValue);
         }
+    }
+
+    private TargetCandidate GetNPCCandidate(int index)
+    {
+        NPC npc = Main.npc[index];
+        
+        if (!npc.active || npc.friendly || npc.immortal || npc.dontTakeDamage)
+            return new TargetCandidate { IsValid = false };
+
+        return new TargetCandidate
+        {
+            Center = npc.Center,
+            Velocity = npc.velocity,
+            IsValid = true
+        };
+    }
+
+    private TargetCandidate GetPlayerCandidate(int index)
+    {
+        Player player = Main.player[index];
+
+        if (!player.active || player.dead || index == Main.myPlayer)
+            return new TargetCandidate { IsValid = false };
+
+        if (OnlyPvPPlayers && !player.hostile)
+            return new TargetCandidate { IsValid = false };
+
+        if (!string.IsNullOrWhiteSpace(TargetPlayerName) && player.name != TargetPlayerName)
+            return new TargetCandidate { IsValid = false };
+
+        if (player.team == Main.LocalPlayer.team && player.team != 0)
+            return new TargetCandidate { IsValid = false };
+
+        return new TargetCandidate
+        {
+            Center = player.Center,
+            Velocity = player.velocity,
+            IsValid = true
+        };
     }
 
     public float CalcPlayerShootSpeed()
