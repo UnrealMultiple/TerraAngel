@@ -5,7 +5,7 @@ namespace TerraAngel.Tools;
 
 public class ToolManager
 {
-    private static Dictionary<int, Tool> LoadedTools = new Dictionary<int, Tool>();
+    private static Dictionary<string, Tool> LoadedTools = new Dictionary<string, Tool>();
     private static List<Tool>[] ToolTabs;
     private static List<Tool> AllTools;
 
@@ -26,24 +26,55 @@ public class ToolManager
 
     public static void RemoveTool<T>() where T : Tool => RemoveTool(typeof(T));
 
+    private static string GetToolKey(Type type)
+    {
+        // Use a combination of module name and full type name to ensure uniqueness across assemblies
+        return $"{type.Module.Name}:{type.FullName}";
+    }
+
     public static Tool GetTool(Type type)
     {
-        return LoadedTools[type.MetadataToken];
+        string key = GetToolKey(type);
+        if (LoadedTools.TryGetValue(key, out Tool? tool))
+        {
+            return tool;
+        }
+        
+        // Fallback: try to find by type full name only (for backward compatibility)
+        foreach (var kvp in LoadedTools)
+        {
+            if (kvp.Value.GetType() == type)
+            {
+                return kvp.Value;
+            }
+        }
+        
+        throw new KeyNotFoundException($"Tool of type {type.FullName} is not registered.");
     }
 
     public static void AddTool(Type type)
     {
+        string key = GetToolKey(type);
+        
+        // Check if already registered
+        if (LoadedTools.ContainsKey(key))
+        {
+            return;
+        }
+
         Tool cringe = (Tool)Activator.CreateInstance(type)!;
         ToolTabs[(int)cringe.Tab].Add(cringe);
-        LoadedTools.Add(type.MetadataToken, cringe);
+        LoadedTools.Add(key, cringe);
         AllTools.Add(cringe);
     }
 
     public static void RemoveTool(Type type)
     {
         Tool cringe = GetTool(type);
+        string key = GetToolKey(type);
+        
         ToolTabs[(int)cringe.Tab].Remove(cringe);
-        LoadedTools.Remove(type.MetadataToken);
+        LoadedTools.Remove(key);
         AllTools.Remove(cringe);
     }
 
