@@ -32,6 +32,7 @@ public class ClientConfig
 
     public class Config
     {
+        public bool AutoAttackTargetPlayers = false;
         [UIConfigElement("zh-CN", "显示主窗口")]
         [UIConfigElement("en-US", "Show Stats Window")]
         public bool ShowStatsWindow = true;
@@ -309,8 +310,10 @@ public class ClientConfig
         public bool AutoAttackTargetHostileNPCs = true;
         public bool AutoAttackRequireLineOfSight = true;
         public bool AutoAttackVelocityPrediction = true;
-        public float AutoAttackVelocityPredictionScaling = 0.2269f;
+        public float AutoAttackVelocityPredictionScaling = 0.1f;  // 从 0.2269f 降低到 0.1f
         public float AutoAttackMinTargetRange = 800f;
+        public bool AutoAttackOnlyPvPPlayers = false;
+        public string AutoAttackTargetPlayerName = "";
 
         public float StatsWindowHoveredTransperency = 0.65f;
 
