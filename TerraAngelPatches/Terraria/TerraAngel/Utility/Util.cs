@@ -62,21 +62,13 @@ public class Util
 
     public static Vector2 ScreenToWorldFullscreenMap(Vector2 screenPoint)
     {
-        screenPoint -= ScreenSize / 2f;
-        screenPoint /= Main.mapFullscreenScale;
-        screenPoint *= 16f;
-        screenPoint = Main.mapFullscreenPos * 16f + screenPoint;
-        return screenPoint;
+        return (((screenPoint - (ImGui.GetIO().DisplaySize / 2f)) / Main.mapFullscreenScale) + Main.mapFullscreenPos) * 16f;
     }
 
 
     public static Vector2 WorldToScreenFullscreenMap(Vector2 worldPoint)
     {
-        worldPoint *= Main.mapFullscreenScale;
-        worldPoint /= 16f;
-        worldPoint -= Main.mapFullscreenPos * Main.mapFullscreenScale;
-        worldPoint += ScreenSize / 2f;
-        return worldPoint;
+        return (((worldPoint / 16f) - Main.mapFullscreenPos) * Main.mapFullscreenScale) + (ImGui.GetIO().DisplaySize / 2f);
     }
 
     public static Vector2 WorldToScreenWorld(Vector2 worldPosition)
