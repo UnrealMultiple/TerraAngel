@@ -153,7 +153,7 @@
 +    <None Update="Libraries\osx\x64\FNA\libMoltenVK.dylib">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
-+    <None Update="Libraries\osx\x64\FNA\libSDL2-2.0.0.dylib">
++    <None Update="Libraries\osx\x64\FNA\libSDL3.0.dylib">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
 +    <None Update="Libraries\osx\x64\FNA\libtheorafile.dylib">
@@ -172,7 +172,7 @@
 +    <None Update="Libraries\osx\x86\FNA\libMoltenVK.dylib">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
-+    <None Update="Libraries\osx\x86\FNA\libSDL2-2.0.0.dylib">
++    <None Update="Libraries\osx\x86\FNA\libSDL3.0.dylib">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
 +    <None Update="Libraries\osx\x86\FNA\libtheorafile.dylib">
@@ -191,7 +191,7 @@
 +    <None Update="Libraries\win\x64\FNA\libtheorafile.dll">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
-+    <None Update="Libraries\win\x64\FNA\SDL2.dll">
++    <None Update="Libraries\win\x64\FNA\SDL3.dll">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
 +    <None Update="Libraries\win\x64\Steamworks\Steamworks.NET.dll">
@@ -210,7 +210,7 @@
 +    <None Update="Libraries\win\x86\FNA\libtheorafile.dll">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
-+    <None Update="Libraries\win\x86\FNA\SDL2.dll">
++    <None Update="Libraries\win\x86\FNA\SDL3.dll">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
 +    <None Update="Libraries\win\x86\Steamworks\Steamworks.NET.dll">
