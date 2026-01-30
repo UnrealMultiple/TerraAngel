@@ -36,6 +36,24 @@
          ThreadPool.SetMinThreads(8, 8);
          InitializeConsoleOutput();
          SetupLogging();
+@@ -200,7 +_,7 @@
+         {
+             Main.OnEngineLoad += delegate
+             {
+-                Main.instance.IsMouseVisible = false;
++                Main.instance.IsMouseVisible = TerraAngel.Hooks.MiscHooks.ShouldMouseBeVisible(false);
+             };
+         }
+         else if (Platform.IsWindows)
+@@ -211,7 +_,7 @@
+                 {
+                     if (connected)
+                     {
+-                        Main.instance.IsMouseVisible = true;
++                        Main.instance.IsMouseVisible = TerraAngel.Hooks.MiscHooks.ShouldMouseBeVisible(true);
+                         Main.instance.ReHideCursor = true;
+                     }
+                 });
 @@ -219,10 +_,15 @@
          }
  

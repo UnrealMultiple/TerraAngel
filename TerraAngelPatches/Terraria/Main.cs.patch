@@ -512,7 +512,7 @@
                      }
  
                      if (netMode != 2 && myPlayer >= 0)
-@@ -16497,7 +_,7 @@
+@@ -16497,12 +_,12 @@
  
                  if (!Platform.IsOSX)
                  {
@@ -521,6 +521,12 @@
                  }
  
                  if (Platform.IsWindows && ReHideCursor)
+                 {
+-                    base.IsMouseVisible = false;
++                    base.IsMouseVisible = TerraAngel.Hooks.MiscHooks.ShouldMouseBeVisible(false);
+                     ReHideCursor = false;
+                     Platform.Get<IMouseNotifier>()?.ForceCursorHidden();
+                 }
 @@ -16527,7 +_,6 @@
              DoUpdate_F8_ToggleNetDiagnostics();
              DoUpdate_F7_ToggleGraphicsDiagnostics();
@@ -538,7 +544,7 @@
              }
              else if (shimmerAlpha > 0f)
              {
-@@ -16671,13 +_,13 @@
+@@ -16671,13 +_,31 @@
  
          if (netMode != 2)
          {
@@ -549,6 +555,24 @@
          {
              Main.OnTickForThirdPartySoftwareOnly();
          }
++
++        // TerraAngel: Moved stackSplit countdown from DoDraw to DoUpdate
++        // to maintain correct 60 FPS timing regardless of draw framerate
++        if (!PlayerInput.Triggers.Current.MouseRight && !PlayerInput.Triggers.Current.MouseLeft && (!quickCraftStackSplit || !PlayerInput.Triggers.Current.Grapple))
++        {
++            stackSplit = 0;
++        }
++
++        if (stackSplit > 0)
++        {
++            stackSplit--;
++        }
++
++        if (stackSplit == 0)
++        {
++            quickCraftStackSplit = false;
++        }
++
 +        updateTimer.Stop();
      }
  
@@ -1328,6 +1352,28 @@
          Cloud.UpdateCloudParallax();
          sunCircle += 0.01f;
          if ((double)sunCircle > 6.285)
+@@ -65120,20 +_,7 @@
+             mouseRightRelease = true;
+         }
+ 
+-        if (!PlayerInput.Triggers.Current.MouseRight && !PlayerInput.Triggers.Current.MouseLeft && (!quickCraftStackSplit || !PlayerInput.Triggers.Current.Grapple))
+-        {
+-            stackSplit = 0;
+-        }
+-
+-        if (stackSplit > 0)
+-        {
+-            stackSplit--;
+-        }
+-
+-        if (stackSplit == 0)
+-        {
+-            quickCraftStackSplit = false;
+-        }
++        // TerraAngel: stackSplit countdown moved to DoUpdate for correct 60 FPS timing
+ 
+         if (drawDiag > 0)
+         {
 @@ -65150,7 +_,7 @@
          {
              TimeLogger.StartTimestamp fromTimestamp15 = TimeLogger.Start();

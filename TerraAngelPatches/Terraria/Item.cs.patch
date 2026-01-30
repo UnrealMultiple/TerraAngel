@@ -1,17 +1,5 @@
 --- src/Terraria/Terraria/Item.cs
 +++ src/TerraAngel/Terraria/Item.cs
-@@ -319,10 +_,7 @@
-         return $"Name: \"{Name}\" Type: {type} Stack: {stack}";
-     }
- 
--    public bool CanHavePrefixes()
--    {
--        return GetRollablePrefixes() != null;
--    }
-+    public bool CanHavePrefixes() => true;
- 
-     public bool Prefix(int prefixWeWant)
-     {
 @@ -1078,7 +_,9 @@
          return false;
      }
