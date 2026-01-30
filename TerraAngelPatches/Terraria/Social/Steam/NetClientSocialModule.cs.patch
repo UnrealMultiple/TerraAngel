@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Social/Steam/NetClientSocialModule.cs
 +++ src/TerraAngel/Terraria/Social/Steam/NetClientSocialModule.cs
-@@ -4,7 +_,6 @@
+@@ -3,7 +_,6 @@
  using Terraria.Localization;
  using Terraria.Net;
  using Terraria.Net.Sockets;
@@ -8,15 +8,7 @@
  
  namespace Terraria.Social.Steam;
  public class NetClientSocialModule : NetSocialModule
-@@ -48,7 +_,6 @@
-                 playerData.SetAsActive();
-                 Main.menuMode = 882;
-                 Main.statusText = Language.GetTextValue("Social.Joining");
--                WeGameHelper.WriteDebugString(" CheckParameters， lobby.join");
-                 _lobby.Join(lobbySteamId, OnLobbyEntered);
-             });
-         }
-@@ -56,7 +_,6 @@
+@@ -52,7 +_,6 @@
  
      public override void LaunchLocalServer(Process process, ServerMode mode)
      {
@@ -24,7 +16,7 @@
          if (_lobby.State != 0)
          {
              _lobby.Leave();
-@@ -150,7 +_,6 @@
+@@ -146,7 +_,6 @@
  
      private void OnLobbyJoinRequest(GameLobbyJoinRequested_t result)
      {
@@ -32,7 +24,7 @@
          if (_lobby.State != 0)
          {
              _lobby.Leave();
-@@ -172,7 +_,6 @@
+@@ -163,7 +_,6 @@
  
      private void OnLobbyEntered(LobbyEnter_t result, bool failure)
      {
@@ -40,15 +32,21 @@
          SteamNetworking.AllowP2PPacketRelay(bAllow: true);
          SendAuthTicket(_lobby.Owner);
          int num = 0;
-@@ -219,7 +_,6 @@
+@@ -210,12 +_,11 @@
  
      private void SendAuthTicket(CSteamID address)
      {
 -        WeGameHelper.WriteDebugString(" SendAuthTicket");
          if (_authTicket == HAuthTicket.Invalid)
          {
-             _authTicket = SteamUser.GetAuthSessionTicket(_authData, _authData.Length, out _authDataLength);
-@@ -263,13 +_,11 @@
+             SteamNetworkingIdentity pSteamNetworkingIdentity = default(SteamNetworkingIdentity);
+             pSteamNetworkingIdentity.SetSteamID(address);
+-            _authTicket = SteamUser.GetAuthSessionTicket(_authData, _authData.Length, out _authDataLength, ref pSteamNetworkingIdentity);
++            _authTicket = SteamUser.GetAuthSessionTicket(_authData, _authData.Length, out _authDataLength);
+         }
+ 
+         int num = (int)(_authDataLength + 3);
+@@ -256,13 +_,11 @@
  
      private void OnSessionConnectFail(P2PSessionConnectFail_t result)
      {

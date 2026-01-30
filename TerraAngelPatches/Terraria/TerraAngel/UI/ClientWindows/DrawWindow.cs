@@ -116,7 +116,7 @@ public class DrawWindow : ClientWindow
                         {
                             if (Main.item[i].active && Main.item[i].stack > 0)
                             {
-                                Item currentItem = Main.item[i];
+                                WorldItem currentItem = Main.item[i];
                                 if (esp.ItemBoxes)
                                 {
                                     if (!currentItem.position.ContainsInvalidValues())

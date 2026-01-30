@@ -65,7 +65,7 @@ public class UITextSliderInt : UIPanel
         this.getString = getString;
         this.setValue = setValue;
 
-        value = (getValue() - (float)this.min) / (float)this.max;
+        value = (getValue() - (float)this.min) / ((float)this.max - (float)this.min);
 
         slider = new UIColoredSlider(Terraria.Localization.LocalizedText.Empty, () => value, x => { value = x; setValue((int)MathF.Round(Util.Lerp((float)this.min, (float)this.max, value))); }, () => { }, x => Color.White, Color.White)
         {

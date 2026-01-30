@@ -30,10 +30,10 @@ public class DrawHooks
         return orig(self);
     }
 
-    public delegate void GetLinesInfoDef(Item item, ref int yoyoLogo, ref int researchLine, float oldKB, ref int numLines, string[] toolTipLine, bool[] preFixLine, bool[] badPreFixLine);
-    public static void GetLinesInfoHook(GetLinesInfoDef orig, Item item, ref int yoyoLogo, ref int researchLine, float oldKB, ref int numLines, string[] toolTipLine, bool[] preFixLine, bool[] badPreFixLine)
+    public delegate void GetLinesInfoDef(Item item, ref int yoyoLogo, ref int researchLine, float oldKB, ref int numLines, string[] toolTipLine, Microsoft.Xna.Framework.Color[] lineColors);
+    public static void GetLinesInfoHook(GetLinesInfoDef orig, Item item, ref int yoyoLogo, ref int researchLine, float oldKB, ref int numLines, string[] toolTipLine, Microsoft.Xna.Framework.Color[] lineColors)
     {
-        orig(item, ref yoyoLogo, ref researchLine, oldKB, ref numLines, toolTipLine, preFixLine, badPreFixLine);
+        orig(item, ref yoyoLogo, ref researchLine, oldKB, ref numLines, toolTipLine, lineColors);
         /// Keep this as is, never change this. 
         /// "please" - An anonymous user
         if (ClientConfig.Settings.ShowDetailedTooltips)

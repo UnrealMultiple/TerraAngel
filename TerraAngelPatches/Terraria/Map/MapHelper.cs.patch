@@ -1,11 +1,11 @@
 --- src/Terraria/Terraria/Map/MapHelper.cs
 +++ src/TerraAngel/Terraria/Map/MapHelper.cs
-@@ -1756,22 +_,22 @@
-         return oldColor;
+@@ -1860,22 +_,20 @@
+         return mapType >= skyPosition;
      }
  
 +    // patch context
-     public static MapTile CreateMapTile(int i, int j, byte Light)
+     public static MapTile CreateMapTile(int i, int j, byte Light, int backgroundOverride = 0)
      {
 -        Tile tile = Main.tile[i, j];
 -        if (tile == null)
@@ -15,89 +15,48 @@
 +        // patch context
 +        ref TileData tile = ref Main.tile.GetTileRef(i, j);
  
-         int num = 0;
-         int num2 = Light;
--        _ = Main.Map[i, j];
-+        // patch context
-         int num3 = 0;
-+        // patch context
+         int newColor = 0;
+         int newLight = Light;
+         int baseType = 0;
          int baseOption = 0;
-         if (tile.active())
+-        GetTileType(i, j, tile, ref newColor, ref newLight, ref baseType, ref baseOption);
++        GetTileType(i, j, ref tile, ref newColor, ref newLight, ref baseType, ref baseOption);
+         if (baseType == 0)
          {
-             int num4 = tile.type;
-+            // patch context
-             num3 = tileLookup[num4];
-             bool flag = tile.invisibleBlock();
-             if (tile.fullbrightBlock() && !flag)
-@@ -1822,7 +_,7 @@
- 
-                 if (num3 != 0)
-                 {
--                    GetTileBaseOption(i, j, num4, tile, ref baseOption);
-+                    GetTileBaseOption(i, j, num4, ref tile, ref baseOption);
-                     num = ((num4 != 160) ? tile.color() : 0);
-                 }
-             }
-@@ -1885,59 +_,26 @@
-                     num2 = 255;
-                     num = 0;
-                 }
--            }
-+            } 
-             else if (j < Main.UnderworldLayer)
-             {
-+                // Patch Context
-                 num = 0;
--                byte b = 0;
--                float num7 = Main.screenPosition.X / 16f - 5f;
--                float num8 = (Main.screenPosition.X + (float)Main.screenWidth) / 16f + 5f;
--                float num9 = Main.screenPosition.Y / 16f - 5f;
--                float num10 = (Main.screenPosition.Y + (float)Main.screenHeight) / 16f + 5f;
--                if (((float)i < num7 || (float)i > num8 || (float)j < num9 || (float)j > num10) && i > 40 && i < Main.maxTilesX - 40 && j > 40 && j < Main.maxTilesY - 40)
--                {
--                    for (int k = i - 36; k <= i + 30; k += 10)
--                    {
--                        for (int l = j - 36; l <= j + 30; l += 10)
--                        {
--                            int type = Main.Map[k, l].Type;
--                            for (int m = 0; m < snowTypes.Length; m++)
--                            {
--                                if (snowTypes[m] == type)
--                                {
--                                    b = byte.MaxValue;
--                                    k = i + 31;
--                                    l = j + 31;
--                                    break;
--                                }
--                            }
--                        }
--                    }
--                }
--                else
--                {
--                    float num11 = (float)Main.SceneMetrics.SnowTileCount / (float)SceneMetrics.SnowTileMax;
--                    num11 *= 255f;
--                    if (num11 > 255f)
--                    {
--                        num11 = 255f;
--                    }
--
--                    b = (byte)num11;
--                }
--
--                num3 = ((!((double)j < Main.rockLayer)) ? (rockPosition + b) : (dirtPosition + b));
-+
-+                num3 = ((!((double)j < Main.rockLayer)) ? rockPosition : dirtPosition);
-+                // Patch Context
-             }
-             else
-             {
-                 num3 = hellPosition;
-+                // Patch context
-             }
+-            GetWallType(i, j, tile, ref newColor, ref newLight, ref baseType, ref baseOption);
++            GetWallType(i, j, ref tile, ref newColor, ref newLight, ref baseType, ref baseOption);
          }
  
-         return MapTile.Create((ushort)(num3 + baseOption), (byte)num2, (byte)num);
+         if (baseType == 0)
+@@ -1888,7 +_,7 @@
+         return MapTile.Create((ushort)(baseType + baseOption), (byte)newLight, (byte)newColor);
+     }
+ 
+-    private static void GetTileType(int i, int j, Tile tileCache, ref int newColor, ref int newLight, ref int baseType, ref int baseOption)
++    private static void GetTileType(int i, int j, ref TileData tileCache, ref int newColor, ref int newLight, ref int baseType, ref int baseOption)
+     {
+         if ((DebugOptions.ShowUnbreakableWall && tileCache.wall == 350) || !tileCache.active())
+         {
+@@ -1946,7 +_,7 @@
+ 
+         if (baseType != 0)
+         {
+-            GetTileBaseOption(i, j, num, tileCache, ref baseOption);
++            GetTileBaseOption(i, j, num, ref tileCache, ref baseOption);
+             if (num == 160)
+             {
+                 newColor = 0;
+@@ -1958,7 +_,7 @@
+         }
+     }
+ 
+-    private static void GetWallType(int i, int j, Tile tileCache, ref int newColor, ref int newLight, ref int baseType, ref int baseOption)
++    private static void GetWallType(int i, int j, ref TileData tileCache, ref int newColor, ref int newLight, ref int baseType, ref int baseOption)
+     {
+         bool flag = tileCache.invisibleWall();
+         if (tileCache.wall > 0 && tileCache.fullbrightWall() && !flag)
+@@ -2061,7 +_,7 @@
+         return skyPosition + num;
      }
  
 -    public static void GetTileBaseOption(int x, int y, int tileType, Tile tileCache, ref int baseOption)

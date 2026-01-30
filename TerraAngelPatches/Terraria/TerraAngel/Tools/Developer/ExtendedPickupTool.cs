@@ -43,7 +43,7 @@ public class ExtendedPickupTool : Tool
             Player localPlayer = Main.LocalPlayer;
             for (int i = 0; i < 400; i++)
             {
-                Item item = Main.item[i];
+                WorldItem item = Main.item[i];
                 Player.ItemSpaceStatus itemSpaceStatus = localPlayer.ItemSpace(item);
                 if (item.active && item.shimmerTime == 0f && localPlayer.CanAcceptItemIntoInventory(item) && localPlayer.CanPullItem(item, itemSpaceStatus) && new Rectangle((int)localPlayer.position.X - Range, (int)localPlayer.position.Y - Range, localPlayer.width + Range * 2, localPlayer.height + Range * 2).Intersects(item.Hitbox))
                 {

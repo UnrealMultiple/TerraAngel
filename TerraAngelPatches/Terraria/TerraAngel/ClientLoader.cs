@@ -115,7 +115,7 @@ public unsafe class ClientLoader
             IntPtr handle = IntPtr.Zero;
 
             if (OperatingSystem.IsWindows() && 
-                libraryName is "FAudio" or "FNA3D" or "libtheorafile" or "SDL2")
+                libraryName is "FAudio" or "FNA3D" or "libtheorafile" or "SDL3")
             {
                 if (!NativeLibrary.TryLoad($"{TerrariaPath}/{NewLibraryPath}/{PlatformString}/{ArchitectureString}/FNA/{libraryName}", out handle))
                 {
@@ -140,9 +140,9 @@ public unsafe class ClientLoader
                 }
             }
             if (OperatingSystem.IsLinux() &&
-                libraryName is "SDL2")
+                libraryName is "SDL3")
             {
-                if (!NativeLibrary.TryLoad($"{TerrariaPath}/{NewLibraryPath}/{PlatformString}/{ArchitectureString}/FNA/lib{libraryName}-2.0.so.0", out handle))
+                if (!NativeLibrary.TryLoad($"{TerrariaPath}/{NewLibraryPath}/{PlatformString}/{ArchitectureString}/FNA/lib{libraryName}.so.0", out handle))
                 {
                     throw new DllNotFoundException($"Could not load {libraryName}");
                 }

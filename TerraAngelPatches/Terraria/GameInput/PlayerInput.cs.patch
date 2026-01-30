@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/GameInput/PlayerInput.cs
 +++ src/TerraAngel/Terraria/GameInput/PlayerInput.cs
-@@ -595,7 +_,9 @@
+@@ -671,7 +_,9 @@
          return _buttonsLocked.Contains(keyName);
      }
  
@@ -11,8 +11,8 @@
      {
          SettingsForUI.UpdateCounters();
          Triggers.Reset();
-@@ -1056,8 +_,6 @@
-                     MouseY = num10 + num5;
+@@ -1159,8 +_,6 @@
+                     MouseY = num11 + num6;
                      flag6 = true;
                  }
 -
@@ -20,7 +20,7 @@
              }
  
              if (CurrentInputMode == InputMode.XBoxGamepad)
-@@ -1145,7 +_,9 @@
+@@ -1243,7 +_,9 @@
          return flag;
      }
  
@@ -31,7 +31,7 @@
      {
          bool flag = false;
          MouseInfoOld = MouseInfo;
-@@ -1227,8 +_,6 @@
+@@ -1325,8 +_,6 @@
              {
                  flag2 = true;
              }
@@ -40,7 +40,7 @@
          }
  
          if (Main.blockKey != Keys.None.ToString())
-@@ -1429,7 +_,6 @@
+@@ -1537,7 +_,6 @@
              ListenFor(null, InputMode.Keyboard);
              Main.blockKey = newKey;
              Main.blockInput = false;
@@ -48,7 +48,7 @@
          }
  
          if (CurrentlyRebinding && _listeningInputMode == InputMode.KeyboardUI)
-@@ -1449,7 +_,6 @@
+@@ -1557,7 +_,6 @@
              ListenFor(null, InputMode.KeyboardUI);
              Main.blockKey = newKey;
              Main.blockInput = false;
@@ -56,16 +56,12 @@
          }
  
          FixDerpedRebinds();
-@@ -1548,10 +_,9 @@
+@@ -1656,7 +_,7 @@
          {
              Main.SmartCursorWanted_GamePad = false;
-             Matrix zoomMatrix = Main.GameViewMatrix.ZoomMatrix;
--            Matrix matrix = Matrix.Invert(zoomMatrix);
-             Vector2 mouseScreen = Main.MouseScreen;
--            Vector2.Transform(Main.screenPosition, matrix);
-+            Vector2.Transform(Main.screenPosition, Main.GameViewMatrix.InverseZoomMatrix);
--            Vector2 vector2 = Vector2.Transform((Vector2.Transform(mouseScreen, matrix) + zero * new Vector2(16f) + Main.screenPosition).ToTileCoordinates().ToWorldCoordinates() - Main.screenPosition, zoomMatrix);
-+            Vector2 vector2 = Vector2.Transform((Vector2.Transform(mouseScreen, Main.GameViewMatrix.InverseZoomMatrix) + zero * new Vector2(16f) + Main.screenPosition).ToTileCoordinates().ToWorldCoordinates() - Main.screenPosition, zoomMatrix);
-             MouseX = (int)vector2.X;
-             MouseY = (int)vector2.Y;
-             SettingsForUI.SetCursorMode(CursorMode.Gamepad);
+             Matrix matrix = Main.GameViewMatrix.ZoomMatrix * Main.GameViewMatrix.EffectMatrix;
+-            Matrix matrix2 = Matrix.Invert(matrix);
++            Matrix.Invert(matrix, out Matrix matrix2);
+             Vector2 vector2 = Vector2.Transform(Main.MouseScreen, matrix2);
+             zero.Y *= Main.LocalPlayer.gravDir;
+             Vector2 vector3 = Vector2.Transform((vector2 + zero * new Vector2(16f) + Main.screenPosition).ToTileCoordinates().ToWorldCoordinates() - Main.screenPosition, matrix);

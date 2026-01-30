@@ -1,4 +1,4 @@
-﻿using SDL2;
+﻿using SDL3;
 using Terraria;
 
 namespace TerraAngel.Tests.WindowTests;
@@ -26,7 +26,6 @@ public class WindowStateTests
         {
             Assert.That((int)(windowFlags & SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE),          Is.Not.EqualTo(0));
             Assert.That((int)(windowFlags & SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN),         Is.EqualTo(0));
-            Assert.That((int)(windowFlags & SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP), Is.EqualTo(0));
             Assert.That((int)(windowFlags & SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS),         Is.EqualTo(0));
         });
     }
@@ -46,7 +45,6 @@ public class WindowStateTests
         {
             Assert.That((int)(windowFlags & SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE),          Is.EqualTo(0));
             Assert.That((int)(windowFlags & SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN),         Is.Not.EqualTo(0));
-            Assert.That((int)(windowFlags & SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP), Is.Not.EqualTo(0));
             Assert.That((int)(windowFlags & SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS),         Is.Not.EqualTo(0));
 
             Assert.That(windowWidth, Is.EqualTo(ClientLoader.WindowManager.MaximumWindowSize.X));
@@ -69,7 +67,6 @@ public class WindowStateTests
         {
             Assert.That((int)(windowFlags & SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE),          Is.EqualTo(0));
             Assert.That((int)(windowFlags & SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN),         Is.EqualTo(0));
-            Assert.That((int)(windowFlags & SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP), Is.EqualTo(0));
             Assert.That((int)(windowFlags & SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS),         Is.Not.EqualTo(0));
 
             Assert.That(windowWidth, Is.EqualTo(ClientLoader.WindowManager.MaximumWindowSize.X));

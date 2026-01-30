@@ -1,0 +1,9 @@
+--- src/Terraria/ReLogic/OS/Windows/WindowsMouseNotifier.cs
++++ src/TerraAngel/ReLogic/OS/Windows/WindowsMouseNotifier.cs
+@@ -1,6 +_,5 @@
+ using System;
+ using System.Runtime.InteropServices;
+-using System.Windows.Forms;
+ 
+ namespace ReLogic.OS.Windows;
+ internal class WindowsMouseNotifier : IMessageFilter, IMouseNotifier

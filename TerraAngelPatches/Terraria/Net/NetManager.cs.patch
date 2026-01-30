@@ -1,45 +1,45 @@
 --- src/Terraria/Terraria/Net/NetManager.cs
 +++ src/TerraAngel/Terraria/Net/NetManager.cs
-@@ -135,6 +_,42 @@
-         if (Main.netMode != 0)
-         {
-             packet.ShrinkToFit();
-+            if (Main.netMode == 1 && NetMessageWindow.Instance.FancyLoggingEnabled)
+@@ -174,6 +_,42 @@
+         }
+ 
+         packet.ShrinkToFit();
++        if (Main.netMode == 1 && NetMessageWindow.Instance.FancyLoggingEnabled)
++        {
++            try
 +            {
-+                try
++                var packetLog = new SentNetPacketLog
 +                {
-+                    var packetLog = new SentNetPacketLog
-+                    {
-+                        Type = MessageID.NetModules
-+                    };
++                    Type = MessageID.NetModules
++                };
 +
-+                    if (NetMessageWindow.Instance.MessagesTypesToLogTraces.Contains(MessageID.NetModules))
-+                    {
-+                        packetLog.StackTrace = new System.Diagnostics.StackTrace(2, true).ToString();
-+                    }
-+
-+                    NetMessageWindow.Instance.SentNetPacketLogs[MessageID.NetModules].Add(packetLog);
-+                    NetMessageWindow.Instance.AllNetPacketLogs[MessageID.NetModules].Add(packetLog);
-+
-+                    if (NetMessageWindow.Instance.MessagesTypesToLogDetails.Contains(MessageID.NetModules))
-+                    {
-+                        try
-+                        {
-+                            using var br = new BinaryReader(new MemoryStream(packet.Buffer.Data, 0, packet.Length));
-+                            packetLog.Packet = TerraAngel.Net.Shared.ServerPacketSerializer.Deserialize(br);
-+                        }
-+                        catch (System.Exception ex)
-+                        {
-+                            ClientLoader.Console.WriteError(GetString($"[C2S] Packet deserialization failed:\n{ex}"));
-+                        }
-+                    }
++                if (NetMessageWindow.Instance.MessagesTypesToLogTraces.Contains(MessageID.NetModules))
++                {
++                    packetLog.StackTrace = new System.Diagnostics.StackTrace(2, true).ToString();
 +                }
-+                catch (System.Exception ex)
++
++                NetMessageWindow.Instance.SentNetPacketLogs[MessageID.NetModules].Add(packetLog);
++                NetMessageWindow.Instance.AllNetPacketLogs[MessageID.NetModules].Add(packetLog);
++
++                if (NetMessageWindow.Instance.MessagesTypesToLogDetails.Contains(MessageID.NetModules))
 +                {
-+                    ClientLoader.Console.WriteError(
-+                        GetString($"[C2S] Packet logging failed:\n{ex}"));
++                    try
++                    {
++                        using var br = new BinaryReader(new MemoryStream(packet.Buffer.Data, 0, packet.Length));
++                        packetLog.Packet = TerraAngel.Net.Shared.ServerPacketSerializer.Deserialize(br);
++                    }
++                    catch (System.Exception ex)
++                    {
++                        ClientLoader.Console.WriteError(GetString($"[C2S] Packet deserialization failed:\n{ex}"));
++                    }
 +                }
 +            }
-             try
-             {
-                 socket.AsyncSend(packet.Buffer.Data, 0, packet.Length, SendCallback, packet);
++            catch (System.Exception ex)
++            {
++                ClientLoader.Console.WriteError(
++                    GetString($"[C2S] Packet logging failed:\n{ex}"));
++            }
++        }
+         try
+         {
+             Main.ActiveNetDiagnosticsUI.CountSentModuleMessage(packet.Id, packet.Length);

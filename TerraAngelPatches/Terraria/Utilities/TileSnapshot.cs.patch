@@ -1,0 +1,49 @@
+--- src/Terraria/Terraria/Utilities/TileSnapshot.cs
++++ src/TerraAngel/Terraria/Utilities/TileSnapshot.cs
+@@ -237,14 +_,13 @@
+         Array.Resize(ref _tiles, Main.maxTilesX * Main.maxTilesY);
+         FastParallel.For(0, Main.maxTilesX, delegate (int x0, int x1, object _)
+         {
+-            Tile[,] tile = Main.tile;
+             TileStruct[] tiles = _tiles;
+             int maxTilesY = Main.maxTilesY;
+             for (int i = x0; i < x1; i++)
+             {
+                 for (int j = 0; j < maxTilesY; j++)
+                 {
+-                    tiles[i * maxTilesY + j] = TileStruct.From(tile[i, j]);
++                    tiles[i * maxTilesY + j] = TileStruct.From(Main.tile[i, j]);
+                 }
+             }
+         });
+@@ -336,13 +_,12 @@
+         FastParallel.For(0, Main.maxTilesX, delegate (int x0, int x1, object _)
+         {
+             TileStruct[] tiles = _tiles;
+-            Tile[,] tile = Main.tile;
+             int maxTilesY = Main.maxTilesY;
+             for (int i = x0; i < x1; i++)
+             {
+                 for (int j = 0; j < maxTilesY; j++)
+                 {
+-                    tiles[i * maxTilesY + j].Apply(tile[i, j]);
++                    tiles[i * maxTilesY + j].Apply(Main.tile[i, j]);
+                 }
+             }
+ 
+@@ -407,14 +_,13 @@
+         Array.Resize(ref _tiles, Main.maxTilesX * Main.maxTilesY);
+         FastParallel.For(0, Main.maxTilesX, delegate (int x0, int x1, object _)
+         {
+-            Tile[,] tile = Main.tile;
+             TileStruct[] tiles = _tiles;
+             int maxTilesY = Main.maxTilesY;
+             for (int i = x0; i < x1; i++)
+             {
+                 for (int j = 0; j < maxTilesY; j++)
+                 {
+-                    Tile tile2 = tile[i, j];
++                    Tile tile2 = Main.tile[i, j];
+                     TileStruct t = TileStruct.From(tile2);
+                     Utils.Swap(ref tiles[i * maxTilesY + j], ref t);
+                     t.Apply(tile2);

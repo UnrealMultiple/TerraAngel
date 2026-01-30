@@ -1,28 +1,12 @@
 --- src/Terraria/Terraria/GameContent/Creative/ItemsSacrificedUnlocksTracker.cs
 +++ src/TerraAngel/Terraria/GameContent/Creative/ItemsSacrificedUnlocksTracker.cs
-@@ -30,12 +_,25 @@
+@@ -86,6 +_,9 @@
  
-     public void FillListOfItemsThatCanBeObtainedInfinitely(List<int> toObtainInfinitely)
+     public bool IsFullyResearched(int itemId)
      {
-+        if (ClientConfig.Settings.ForceAllCreativeUnlocks)
-+        {
-+            for (int i = 1; i < ItemID.Count; i++)
-+            {
-+                if (!ItemID.Sets.Deprecated[i])
-+                {
-+                    toObtainInfinitely.Add(i);
-+                }
-+            }
-+        }
-+        else
-+        {
-         foreach (KeyValuePair<int, int> item in _sacrificesCountByItemIdCache)
++        if (ClientConfig.Settings.ForceAllCreativeUnlocks && !ItemID.Sets.Deprecated[itemId])
++            return true;
++
+         if (TryGetSacrificeNumbers(itemId, out var amountWeHave, out var amountNeededTotal))
          {
-             if (TryGetSacrificeNumbers(item.Key, out var _, out var amountNeededTotal) && item.Value >= amountNeededTotal)
-             {
-                 toObtainInfinitely.Add(item.Key);
-             }
-+        }
-         }
-     }
- 
+             return amountWeHave >= amountNeededTotal;

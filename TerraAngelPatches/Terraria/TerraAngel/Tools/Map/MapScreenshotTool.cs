@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using CommunityToolkit.HighPerformance;
-using SDL2;
+using SDL3;
 using Color = Microsoft.Xna.Framework.Color;
 
 namespace TerraAngel.Tools.Map;
@@ -113,7 +113,7 @@ public class MapScreenshotTool : Tool
                             int tileX = x + start.X;
                             int tileY = y + start.Y;
                             Terraria.Map.MapTile mapTile = Main.Map[tileX, tileY];
-                            Color col = Terraria.Map.MapHelper.GetMapTileXnaColor(ref mapTile);
+                            Color col = Terraria.Map.MapHelper.GetMapTileXnaColor(mapTile);
                             (col.B, col.R) = (col.R, col.B);
 
                             for (int yp = 0; yp < ppt; yp++)
@@ -141,10 +141,8 @@ public class MapScreenshotTool : Tool
     [SupportedOSPlatform("Windows")]
     private unsafe void SetClipboardBitmap(System.Drawing.Bitmap bitmap)
     {
-        SDL.SDL_SysWMinfo wmInfo = new SDL.SDL_SysWMinfo();
-        SDL.SDL_VERSION(out wmInfo.version);
-        SDL.SDL_GetWindowWMInfo(Main.instance.Window.Handle, ref wmInfo);
-        nint hwnd = wmInfo.info.win.window;
+        var props = SDL.SDL_GetWindowProperties(Main.instance.Window.Handle);
+        nint hwnd = SDL.SDL_GetPointerProperty(props, SDL.SDL_PROP_WINDOW_WIN32_HWND_POINTER, IntPtr.Zero);
 
         if (!NativeClipboard.OpenClipboard(hwnd))
         {

@@ -1,0 +1,18 @@
+--- src/Terraria/Terraria/WorldBuilding/WorldGenerator.cs
++++ src/TerraAngel/Terraria/WorldBuilding/WorldGenerator.cs
+@@ -519,14 +_,13 @@
+         uint[] line_hashes = new uint[Main.maxTilesX];
+         FastParallel.For(0, Main.maxTilesX, delegate (int x0, int x1, object _)
+         {
+-            Tile[,] tile = Main.tile;
+             int maxTilesY = Main.maxTilesY;
+             for (int j = x0; j < x1; j++)
+             {
+                 uint num3 = 0u;
+                 for (int k = 0; k < maxTilesY; k++)
+                 {
+-                    num3 ^= (uint)TileSnapshot.TileStruct.From(tile[j, k]).GetHashCode();
++                    num3 ^= (uint)TileSnapshot.TileStruct.From(Main.tile[j, k]).GetHashCode();
+                     num3 = (num3 << 13) | (num3 >> 19);
+                     num3 = num3 * 5 + 3864292196u;
+                 }

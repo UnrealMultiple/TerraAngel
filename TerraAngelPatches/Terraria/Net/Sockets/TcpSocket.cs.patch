@@ -1,14 +1,14 @@
 --- src/Terraria/Terraria/Net/Sockets/TcpSocket.cs
 +++ src/TerraAngel/Terraria/Net/Sockets/TcpSocket.cs
-@@ -17,6 +_,7 @@
+@@ -13,6 +_,7 @@
      private SocketConnectionAccepted _listenerCallback;
      private RemoteAddress _remoteAddress;
      private bool _isListening;
 +    private NetworkStream networkStream;
-     public int MessagesInQueue => _messagesInQueue;
-     public TcpSocket()
+     private DebugNetworkStream _debugStream;
+     private DebugNetworkStream GetStream()
      {
-@@ -52,20 +_,25 @@
+@@ -58,6 +_,7 @@
          TcpAddress tcpAddress = (TcpAddress)address;
          _connection.Connect(tcpAddress.Address, tcpAddress.Port);
          _remoteAddress = address;
@@ -16,13 +16,17 @@
      }
  
      private void ReadCallback(IAsyncResult result)
-     {
-         Tuple<SocketReceiveCallback, object> tuple = (Tuple<SocketReceiveCallback, object>)result.AsyncState;
--        tuple.Item1(tuple.Item2, _connection.GetStream().EndRead(result));
-+        int messageLength = networkStream.EndRead(result);
-+        tuple.Item1(tuple.Item2, messageLength);
-     }
- 
+@@ -65,7 +_,8 @@
+         try
+         {
+             Tuple<SocketReceiveCallback, object> tuple = (Tuple<SocketReceiveCallback, object>)result.AsyncState;
+-            tuple.Item1(tuple.Item2, GetStream().EndRead(result));
++            int messageLength = networkStream.EndRead(result);
++            tuple.Item1(tuple.Item2, messageLength);
+         }
+         catch (ObjectDisposedException)
+         {
+@@ -76,9 +_,12 @@
      private void SendCallback(IAsyncResult result)
      {
          Tuple<SocketSendCallback, object> tuple;
@@ -36,48 +40,41 @@
          }
          else
          {
-@@ -76,13 +_,14 @@
+@@ -89,7 +_,7 @@
  
          try
          {
--            _connection.GetStream().EndWrite(result);
+-            GetStream().EndWrite(result);
 +            networkStream.EndWrite(result);
              tuple.Item1(tuple.Item2);
          }
          catch (Exception)
-         {
-             ((ISocket)this).Close();
-         }
-+
-     }
- 
-     void ISocket.SendQueuedPackets()
-@@ -94,17 +_,17 @@
+@@ -103,17 +_,17 @@
          if (!Platform.IsWindows)
          {
              byte[] array = LegacyNetBufferPool.RequestBuffer(data, offset, size);
--            _connection.GetStream().BeginWrite(array, 0, size, SendCallback, new object[2] { new Tuple<SocketSendCallback, object>(callback, state), array });
+-            GetStream().BeginWrite(array, 0, size, SendCallback, new object[2] { new Tuple<SocketSendCallback, object>(callback, state), array });
 +            networkStream.BeginWrite(array, 0, size, SendCallback, new object[] { new Tuple<SocketSendCallback, object>(callback, state), array });
          }
          else
          {
--            _connection.GetStream().BeginWrite(data, 0, size, SendCallback, new Tuple<SocketSendCallback, object>(callback, state));
+-            GetStream().BeginWrite(data, 0, size, SendCallback, new Tuple<SocketSendCallback, object>(callback, state));
 +            networkStream.BeginWrite(data, 0, size, SendCallback, new object[] { new Tuple<SocketSendCallback, object>(callback, state), size });
          }
      }
  
      void ISocket.AsyncReceive(byte[] data, int offset, int size, SocketReceiveCallback callback, object state)
      {
--        _connection.GetStream().BeginRead(data, offset, size, ReadCallback, new Tuple<SocketReceiveCallback, object>(callback, state));
+-        GetStream().BeginRead(data, offset, size, ReadCallback, new Tuple<SocketReceiveCallback, object>(callback, state));
 +        networkStream.BeginRead(data, offset, size, ReadCallback, new Tuple<SocketReceiveCallback, object>(callback, state));
      }
  
      bool ISocket.IsDataAvailable()
-@@ -114,7 +_,7 @@
+@@ -123,7 +_,7 @@
              return false;
          }
  
--        return _connection.GetStream().DataAvailable;
+-        return GetStream().DataAvailable;
 +        return networkStream.DataAvailable;
      }
  

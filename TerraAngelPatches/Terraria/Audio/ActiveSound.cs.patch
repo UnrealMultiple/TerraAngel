@@ -5,17 +5,18 @@
  using Microsoft.Xna.Framework;
  using Microsoft.Xna.Framework.Audio;
  
-@@ -17,32 +_,41 @@
-     public bool IsPlaying => Sound.State == SoundState.Playing;
-     public ActiveSound(SoundStyle style, Vector2 position)
+@@ -37,6 +_,8 @@
+ 
+     public ActiveSound(SoundStyle style, Vector2 position, SoundPlayOverrides overrides)
      {
 +        lock (SoundEngine.AudioLock)
 +        {
          Position = position;
          Volume = 1f;
          Pitch = style.PitchVariance;
-         IsGlobal = false;
+@@ -44,20 +_,26 @@
          Style = style;
+         UseOverrides(overrides);
          Play();
 +        }
      }
@@ -33,26 +34,27 @@
 +        }
      }
  
-     public ActiveSound(SoundStyle style, Vector2 position, LoopedPlayCondition condition)
+     public ActiveSound(SoundStyle style, Vector2 position, LoopedPlayCondition condition, SoundPlayOverrides overrides)
      {
 +        lock (SoundEngine.AudioLock)
 +        {
          Position = position;
          Volume = 1f;
          Pitch = style.PitchVariance;
-         IsGlobal = false;
+@@ -65,6 +_,7 @@
          Style = style;
+         UseOverrides(overrides);
          PlayLooped(condition);
 +        }
      }
  
      private void Play()
-@@ -95,7 +_,7 @@
+@@ -92,7 +_,7 @@
  
-     public void Update()
+     public void Stop()
      {
--        if (Sound == null)
+-        if (Sound != null)
 +        if (Sound == null || (Sound != null && Sound.IsDisposed))
          {
-             return;
+             Sound.Stop();
          }

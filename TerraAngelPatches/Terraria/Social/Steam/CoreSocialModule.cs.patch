@@ -1,12 +1,5 @@
 --- src/Terraria/Terraria/Social/Steam/CoreSocialModule.cs
 +++ src/TerraAngel/Terraria/Social/Steam/CoreSocialModule.cs
-@@ -1,6 +_,5 @@
- using System;
- using System.Threading;
--using System.Windows.Forms;
- using ReLogic.OS;
- using Steamworks;
- using Terraria.Localization;
 @@ -23,16 +_,12 @@
      public void Initialize()
      {
@@ -19,15 +12,15 @@
  
          if (!SteamAPI.Init())
          {
--            MessageBox.Show(Language.GetTextValue("Error.LaunchFromSteam"), Language.GetTextValue("Error.Error"));
+-            MessageBox.Show(Language.GetTextValue("Error.LaunchFromSteam"), Language.GetTextValue("Error.Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 -            Environment.Exit(1);
 +            ClientConfig.Settings.UseSteamSocialAPI = false;
 +            SDL2.SDL.SDL_ShowSimpleMessageBox(SDL2.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR, "Terraria: Error", Language.GetTextValue("Error.LaunchFromSteam"), Main.instance.Window.Handle);
 +            Environment.Exit(-1);
          }
  
-         IsSteamValid = true;
-@@ -122,6 +_,6 @@
+         SteamInput.Init(bExplicitlyCallRunFrame: false);
+@@ -123,6 +_,6 @@
  
      public void OnOverlayActivated(GameOverlayActivated_t result)
      {

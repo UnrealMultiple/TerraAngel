@@ -204,8 +204,8 @@ public class Util
             controls3[1] = player.IsVoidVaultEnabled;
             controls3[2] = player.sitting.isSitting;
             controls3[3] = player.downedDD2EventAnyDifficulty;
-            controls3[4] = player.isPettingAnimal;
-            controls3[5] = player.isTheAnimalBeingPetSmall;
+            controls3[4] = player.petting.isPetting;
+            controls3[5] = player.petting.isPetSmall;
             controls3[6] = player.PotionOfReturnOriginalUsePosition != null;
             controls3[7] = player.tryKeepingHoveringDown;
             writer.Write(controls3);
@@ -296,12 +296,6 @@ public class Util
                     }
                 }
 
-                // Update player network skip counter
-                Main.player[playerIndex].netSkip++;
-                if (Main.player[playerIndex].netSkip > 2)
-                {
-                    Main.player[playerIndex].netSkip = 0;
-                }
             }
 
             if (Main.verboseNetplay)

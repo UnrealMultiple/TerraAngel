@@ -72,8 +72,8 @@ public class SpecialNetMessage
                     bitsByte11[1] = false;
                     bitsByte11[2] = player6.sitting.isSitting;
                     bitsByte11[3] = player6.downedDD2EventAnyDifficulty;
-                    bitsByte11[4] = player6.isPettingAnimal;
-                    bitsByte11[5] = player6.isTheAnimalBeingPetSmall;
+                    bitsByte11[4] = player6.petting.isPetting;
+                    bitsByte11[5] = player6.petting.isPetSmall;
                     bitsByte11[6] = player6.PotionOfReturnOriginalUsePosition.HasValue;
                     bitsByte11[7] = false;
                     writer.Write(bitsByte11);

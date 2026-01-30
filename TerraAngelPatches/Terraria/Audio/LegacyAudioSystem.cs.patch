@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Audio/LegacyAudioSystem.cs
 +++ src/TerraAngel/Terraria/Audio/LegacyAudioSystem.cs
-@@ -116,10 +_,11 @@
+@@ -118,10 +_,11 @@
  
      public LegacyAudioSystem()
      {
@@ -10,8 +10,8 @@
 +        SoundBank = new SoundBank(Engine, $"{Main.instance.Content.RootDirectory}\\Sound Bank.xsb");
          Engine.Update();
 -        WaveBank = new WaveBank(Engine, "Content\\Wave Bank.xwb", 0, 512);
-+        if (File.Exists("LContent\\Wave Bank.xwb")) WaveBank = new WaveBank(Engine, $"LContent\\Wave Bank.xwb");
-+        else WaveBank = new WaveBank(Engine, $"{Main.instance.Content.RootDirectory}\\Wave Bank.xwb");
++        if (File.Exists("LContent\\Wave Bank.xwb")) WaveBank = new WaveBank(Engine, $"LContent\\Wave Bank.xwb", 0, 512);
++        else WaveBank = new WaveBank(Engine, $"{Main.instance.Content.RootDirectory}\\Wave Bank.xwb", 0, 512);
          Engine.Update();
          AudioTracks = new IAudioTrack[Main.maxMusic];
          TrackNamesByIndex = new Dictionary<int, string>();

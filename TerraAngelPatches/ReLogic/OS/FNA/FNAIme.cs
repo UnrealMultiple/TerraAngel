@@ -8,7 +8,7 @@ namespace ReLogic.OS.FNA
         public override uint CandidateCount => 0u;
         public override string CompositionString => string.Empty;
         public override bool IsCandidateListVisible => false;
-        public override uint SelectedCandidate => 0u;
+        public override uint? SelectedCandidate => 0u;
 
         public override string GetCandidate(uint index)
         {
@@ -30,12 +30,14 @@ namespace ReLogic.OS.FNA
 
         protected override void OnEnable()
         {
+            TextInputEXT.StartTextInput();
             TextInputEXT.TextInput += KeyPressCallback;
         }
 
         protected override void OnDisable()
         {
             TextInputEXT.TextInput -= KeyPressCallback;
+            TextInputEXT.StopTextInput();
         }
 
         private void KeyPressCallback(char c)

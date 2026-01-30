@@ -21,16 +21,15 @@ public class WipeGroundItems : Tool
             int num = 0;
             for (int i = 0; i < 400; i++)
             {
-                Item item = Main.item[i];
+                WorldItem item = Main.item[i];
                 if (item.active && item.type > 0 && !item.beingGrabbed)
                 {
-                    item.active = false;
-                    item.type = 0;
-                    item.stack = 0;
+                    Vector2 itemPos = item.position;
+                    item.TurnToAir();
                     num++;
                     if (Main.netMode == 1)
                     {
-                        Util.FalsePlayerPacket(new Vector2(item.position.X, item.position.Y));
+                        Util.FalsePlayerPacket(itemPos);
                         NetMessage.SendData(21, -1, -1, null, i, 0f, 0f, 0f, 0, 0, 0);
                         NetMessage.SendData(13, -1, -1, null, Main.myPlayer, 0f, 0f, 0f, 0, 0, 0);
                     }

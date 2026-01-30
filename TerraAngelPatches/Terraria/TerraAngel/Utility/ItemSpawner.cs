@@ -25,18 +25,18 @@ public static class ItemSpawner
     {
         int itemIndex = Item.NewItem(null, (int)position.X, (int)position.Y, 1, 1, id, stack, !syncWithServer, 0, true);
 
-        Item item = Main.item[itemIndex];
+        WorldItem worldItem = Main.item[itemIndex];
 
-        item.velocity = velocity;
-        item.newAndShiny = false;
-        item.stack = Utils.Clamp(stack, 1, item.maxStack);
+        worldItem.velocity = velocity;
+        worldItem.newAndShiny = false;
+        worldItem.stack = Utils.Clamp(stack, 1, worldItem.maxStack);
 
         if (syncWithServer)
         {
-            NetMessage.SendData(MessageID.SyncItem, number: itemIndex, number2: item.netID);
+            NetMessage.SendData(MessageID.SyncItem, number: itemIndex, number2: worldItem.inner.type);
         }
 
-        return item;
+        return worldItem.inner;
     }
 
     public static Item? SpawnItemInSelected(int type, int stack = 1, bool syncWithServer = true)

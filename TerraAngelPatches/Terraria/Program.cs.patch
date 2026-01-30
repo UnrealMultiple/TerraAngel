@@ -1,17 +1,14 @@
 --- src/Terraria/Terraria/Program.cs
 +++ src/TerraAngel/Terraria/Program.cs
-@@ -6,9 +_,9 @@
- using System.Runtime.CompilerServices;
- using System.Text;
+@@ -8,6 +_,7 @@
  using System.Threading;
--using System.Windows.Forms;
  using ReLogic.IO;
  using ReLogic.OS;
 +using TerraAngel;
  using Terraria.Initializers;
  using Terraria.Localization;
  using Terraria.Social;
-@@ -17,8 +_,8 @@
+@@ -16,8 +_,8 @@
  namespace Terraria;
  public static class Program
  {
@@ -22,7 +19,7 @@
      public static bool IsMono = Type.GetType("Mono.Runtime") != null;
      public const bool IsDebug = false;
      public static Dictionary<string, string> LaunchParameters = new Dictionary<string, string>();
-@@ -57,7 +_,7 @@
+@@ -56,7 +_,7 @@
  
      public static void ForceLoadThread(object threadContext)
      {
@@ -31,7 +28,7 @@
          LoadedEverything = true;
      }
  
-@@ -187,6 +_,7 @@
+@@ -186,6 +_,7 @@
  
          LaunchParameters = Utils.ParseArguements(args);
          SavePath = (LaunchParameters.ContainsKey("-savedirectory") ? LaunchParameters["-savedirectory"] : Platform.Get<IPathService>().GetStoragePath("Terraria"));
@@ -39,13 +36,7 @@
          ThreadPool.SetMinThreads(8, 8);
          InitializeConsoleOutput();
          SetupLogging();
-@@ -201,15 +_,18 @@
-         {
-             Main.OnEngineLoad += delegate
-             {
--                Main.instance.IsMouseVisible = false;
-+                Main.instance.IsMouseVisible = TerraAngel.Hooks.MiscHooks.ShouldMouseBeVisible(false);
-             };
+@@ -219,10 +_,15 @@
          }
  
          using Main main = new Main();
@@ -54,13 +45,15 @@
          {
 +#endif
              Lang.InitializeLegacyLocalization();
++            if (ClientConfig.Settings.UseSteamSocialAPI)
 -            SocialAPI.Initialize();
-+            if (!File.Exists($"{ClientLoader.TerrariaPath}/steam_appid.txt")) ClientConfig.Settings.UseSteamSocialAPI = false;
-+            SocialAPI.Initialize(ClientConfig.Settings.UseSteamSocialAPI ? SocialMode.Steam : SocialMode.None);
++                SocialAPI.Initialize();
++            else
++                SocialAPI.Initialize(SocialMode.None);
              LaunchInitializer.LoadParameters(main);
              Main.OnEnginePreload += StartForceLoad;
              if (Main.dedServ)
-@@ -218,11 +_,13 @@
+@@ -231,14 +_,16 @@
              }
  
              main.Run();
@@ -73,8 +66,12 @@
 +#endif
      }
  
-     private static void TrySettingFNAToOpenGL(string[] args)
-@@ -243,7 +_,7 @@
+-    private static void TrySettingDefaultFNADriver(string[] args)
++    public static void TrySettingDefaultFNADriver(string[] args)
+     {
+         bool flag = false;
+         for (int i = 0; i < args.Length; i++)
+@@ -256,7 +_,7 @@
          }
      }
  
@@ -83,12 +80,12 @@
      {
          try
          {
-@@ -271,7 +_,7 @@
+@@ -284,7 +_,7 @@
                  Console.WriteLine(Language.GetTextValue("Error.ServerCrash"), DateTime.Now, text);
              }
  
--            MessageBox.Show(text, "Terraria: Error");
-+            SDL2.SDL.SDL_ShowSimpleMessageBox(SDL2.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR, "Terraria: Error", text, Main.instance.Window.Handle);
+-            MessageBox.Show(text, "Terraria: Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
++            SDL3.SDL.SDL_ShowSimpleMessageBox(SDL3.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR, "Terraria: Error", text, Main.instance.Window.Handle);
          }
          catch
          {

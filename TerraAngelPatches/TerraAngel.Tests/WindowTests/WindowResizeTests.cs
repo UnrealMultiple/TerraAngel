@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SDL2;
+using SDL3;
 using TerraAngel.Timing;
 using TerraAngel.Vectors;
 using Terraria;

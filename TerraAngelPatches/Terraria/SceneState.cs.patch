@@ -1,0 +1,19 @@
+--- src/Terraria/Terraria/SceneState.cs
++++ src/TerraAngel/Terraria/SceneState.cs
+@@ -3,7 +_,6 @@
+ using ReLogic.Utilities;
+ using Terraria.Audio;
+ using Terraria.GameContent.Events;
+-using Terraria.GameContent.RGB;
+ using Terraria.Graphics.Effects;
+ using Terraria.Graphics.Shaders;
+ using Terraria.ID;
+@@ -524,8 +_,6 @@
+         {
+             highestTierBossOrEvent = 398;
+         }
+-
+-        CommonConditions.Boss.HighestTierBossOrEvent = highestTierBossOrEvent;
+     }
+ 
+     public void MoveTowards(ref float value, float target, float amount)

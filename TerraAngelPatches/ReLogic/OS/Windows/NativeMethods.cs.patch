@@ -44,12 +44,8 @@
          {
              FlashInfo result = default(FlashInfo);
              result._cbSize = Convert.ToUInt32(Marshal.SizeOf(typeof(FlashInfo)));
-@@ -94,44 +_,65 @@
-         FO_RENAME
-     }
- 
--    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
-+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+@@ -97,48 +_,72 @@
+     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
      private struct SHFILEOPSTRUCT
      {
 -        public IntPtr hwnd;
@@ -73,6 +69,17 @@
          public string lpszProgressTitle;
      }
  
++
+     internal struct RAWINPUTDEVICELIST
+     {
+-        public IntPtr hDevice;
++
++        public nint hNameMappings;
++
+         public uint dwType;
+     }
+ 
+     internal const int RIM_TYPEMOUSE = 0;
      [DllImport("user32.dll", CharSet = CharSet.Unicode)]
 -    public static extern IntPtr CallWindowProc(IntPtr lpPrevWndFunc, IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 +    public static extern nint CallWindowProc(nint lpPrevWndFunc, nint hWnd, int msg, nint wParam, nint lParam);
@@ -121,7 +128,7 @@
      private static bool Send(string path, FileOperationFlags flags)
      {
          try
-@@ -181,5 +_,16 @@
+@@ -188,6 +_,17 @@
      private static bool DeleteCompletelySilent(string path)
      {
          return DeleteFile(path, FileOperationFlags.FOF_SILENT | FileOperationFlags.FOF_NOCONFIRMATION | FileOperationFlags.FOF_NOERRORUI);
@@ -137,4 +144,5 @@
 +    {
 +        ShowWindow(GetConsoleWindow(), 0);
      }
- }
+ 
+     [DllImport("user32.dll")]

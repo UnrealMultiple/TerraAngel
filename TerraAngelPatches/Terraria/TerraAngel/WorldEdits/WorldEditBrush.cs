@@ -349,7 +349,7 @@ public class WorldEditBrush : WorldEdit
             needsResetPlayerPosition = true;
             WorldGen.EmptyLiquid(x, y);
 
-            SpecialNetMessage.SendInventorySlot(0, Main.LocalPlayer.inventory[0].netID, Main.LocalPlayer.inventory[0].stack, Main.LocalPlayer.inventory[0].prefix);
+            SpecialNetMessage.SendInventorySlot(0, Main.LocalPlayer.inventory[0].type, Main.LocalPlayer.inventory[0].stack, Main.LocalPlayer.inventory[0].prefix);
         }
     }
 
@@ -379,7 +379,7 @@ public class WorldEditBrush : WorldEdit
             needsResetPlayerPosition = true;
             WorldGen.PlaceLiquid(x, y, (byte)liquid, 255);
 
-            SpecialNetMessage.SendInventorySlot(0, Main.LocalPlayer.inventory[0].netID, Main.LocalPlayer.inventory[0].stack, Main.LocalPlayer.inventory[0].prefix);
+            SpecialNetMessage.SendInventorySlot(0, Main.LocalPlayer.inventory[0].type, Main.LocalPlayer.inventory[0].stack, Main.LocalPlayer.inventory[0].prefix);
         }
     }
 }

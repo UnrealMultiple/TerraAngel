@@ -14,7 +14,7 @@ public class ItemInspectorTool : InspectorTool
 
     private int SelectedItemIndex = -1;
 
-    private Item? SelectedItem => SelectedItemIndex > -1 ? Main.item[SelectedItemIndex] : null;
+    private WorldItem? SelectedItem => SelectedItemIndex > -1 ? Main.item[SelectedItemIndex] : null;
 
     private bool ShowTooltip = true;
 
@@ -56,12 +56,12 @@ public class ItemInspectorTool : InspectorTool
             //Taken from ZaZaClient
             if (SelectedItem.active && SelectedItem.type > 0 && !SelectedItem.beingGrabbed)
             {
-                SelectedItem.active = false;
+                SelectedItem.type = 0;
                 SelectedItem.stack = 0;
                 if (Main.netMode == 1)
                 {
                     Util.FalsePlayerPacket(new Vector2(SelectedItem.position.X, SelectedItem.position.Y));
-                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, SelectedItem.netID, 0f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, SelectedItemIndex, 0f, 0f, 0f, 0, 0, 0);
                     NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Main.myPlayer, 0f, 0f, 0f, 0, 0, 0);
                 }
             }
@@ -117,7 +117,7 @@ public class ItemInspectorTool : InspectorTool
             }}/{SelectedItem.playerIndexTheItemIsReservedFor}"));
         }
 
-        ImGuiUtil.ItemButton(SelectedItem, "InspectorItem", new Vector2(32f), ShowTooltip);
+        ImGuiUtil.ItemButton(SelectedItem.inner, "InspectorItem", new Vector2(32f), ShowTooltip);
     }
 
     private void DrawItemSelectMenu(out bool showTooltip)
@@ -167,7 +167,7 @@ public class ItemInspectorTool : InspectorTool
     {
         for (int i = 0; i < 400; i++)
         {
-            Item item = Main.item[i];
+            WorldItem item = Main.item[i];
             if (item.active)
             {
                 Microsoft.Xna.Framework.Rectangle drawHitbox = Item.GetDrawHitbox(item.type, null);

@@ -1,10 +1,10 @@
 --- src/Terraria/ReLogic/OS/Windows/WindowsPlatform.cs
 +++ src/TerraAngel/ReLogic/OS/Windows/WindowsPlatform.cs
-@@ -1,29 +_,33 @@
+@@ -1,30 +_,32 @@
  using System;
  using ReLogic.Localization.IME;
 +using ReLogic.OS.FNA;
-+using SDL2;
++using SDL3;
  
  namespace ReLogic.OS.Windows;
  internal class WindowsPlatform : Platform
@@ -31,10 +31,9 @@
 -        }
 -
 -        RegisterService((IImeService)new WindowsIme(_wndProcHook, windowHandle));
-+        SDL.SDL_SysWMinfo info = default(SDL.SDL_SysWMinfo);
-+        SDL.SDL_VERSION(out info.version);
-+        SDL.SDL_GetWindowWMInfo(windowHandle, ref info);
-+        var realWindowHandle = info.info.win.window;
+         RegisterService((IMouseNotifier)new WindowsMouseNotifier(_wndProcHook));
++        var props = SDL.SDL_GetWindowProperties(windowHandle);
++        var realWindowHandle = SDL.SDL_GetPointerProperty(props, SDL.SDL_PROP_WINDOW_WIN32_HWND_POINTER, IntPtr.Zero);
 +        
 +        _wndProcHook ??= new WindowsMessageHook(realWindowHandle);
 +        RegisterService((IImeService)new WinImm32Ime(_wndProcHook, realWindowHandle));
@@ -44,7 +43,7 @@
      protected override void Dispose(bool disposing)
      {
          if (!_disposedValue)
-@@ -33,7 +_,6 @@
+@@ -34,7 +_,6 @@
                  _wndProcHook.Dispose();
                  _wndProcHook = null;
              }

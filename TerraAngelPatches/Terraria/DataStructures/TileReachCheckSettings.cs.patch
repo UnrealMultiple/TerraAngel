@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/DataStructures/TileReachCheckSettings.cs
 +++ src/TerraAngel/Terraria/DataStructures/TileReachCheckSettings.cs
-@@ -66,5 +_,11 @@
+@@ -35,6 +_,12 @@
          {
              y = OverrideYReach.Value;
          }
@@ -11,4 +11,5 @@
 +            y = Main.screenHeight / 32 + 8;
 +        }
      }
- }
+ 
+     public void GetTileRegion(Player player, out int LX, out int LY, out int HX, out int HY, int TB = 0)

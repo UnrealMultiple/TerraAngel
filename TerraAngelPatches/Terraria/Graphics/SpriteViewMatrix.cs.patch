@@ -8,7 +8,7 @@
      private Matrix _transformationMatrix = Matrix.Identity;
      private Matrix _normalizedTransformationMatrix = Matrix.Identity;
      private SpriteEffects _effects;
-@@ -58,6 +_,19 @@
+@@ -60,6 +_,19 @@
          }
      }
  
@@ -28,13 +28,15 @@
      public Matrix TransformationMatrix
      {
          get
-@@ -143,9 +_,11 @@
+@@ -147,11 +_,13 @@
          Matrix matrix = Matrix.CreateOrthographicOffCenter(0f, vector.X, vector.Y, 0f, 0f, 1f);
          _translation = translation;
-         _zoomMatrix = Matrix.CreateTranslation(0f - translation.X, 0f - translation.Y, 0f) * Matrix.CreateScale(_zoom.X, _zoom.Y, 1f);
+         _zoomMatrix = Matrix.CreateTranslation(0f - translation.X, 0f - translation.Y, 0f) * Matrix.CreateScale(vector2.X, vector2.Y, 1f);
 +        Matrix.Invert(_zoomMatrix, out _inverseZoomMatrix);
          _effectMatrix = identity;
          _transformationMatrix = identity * _zoomMatrix;
+         Matrix matrix2 = Matrix.CreateTranslation(0.00390625f, 0.00390625f, 0f);
+         _transformationMatrix *= matrix2;
 -        _normalizedTransformationMatrix = Matrix.Invert(identity) * _zoomMatrix * matrix;
 +        Matrix.Invert(identity, out Matrix inverseIdentity);
 +        _normalizedTransformationMatrix = inverseIdentity * _zoomMatrix * matrix;

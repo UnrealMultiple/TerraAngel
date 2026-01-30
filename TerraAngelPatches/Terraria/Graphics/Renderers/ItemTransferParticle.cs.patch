@@ -1,11 +1,11 @@
 --- src/Terraria/Terraria/Graphics/Renderers/ItemTransferParticle.cs
 +++ src/TerraAngel/Terraria/Graphics/Renderers/ItemTransferParticle.cs
-@@ -54,7 +_,7 @@
-         float fromValue = (float)_lifeTimeCounted / (float)_lifeTimeTotal;
-         float toMin = Utils.Remap(fromValue, 0.1f, 0.5f, 0f, 0.85f);
-         toMin = Utils.Remap(fromValue, 0.5f, 0.9f, toMin, 1f);
+@@ -65,7 +_,7 @@
+         float num = (float)_lifeTimeCounted / (float)_lifeTimeTotal;
+         float toMin = Utils.Remap(num, 0.1f, 0.5f, 0f, 0.85f);
+         toMin = Utils.Remap(num, 0.5f, 0.9f, toMin, 1f);
 -        Vector2.Hermite(ref StartPosition, ref BezierHelper1, ref EndPosition, ref BezierHelper2, toMin, out var result);
 +        VectorExtensions.Hermite(ref StartPosition, ref BezierHelper1, ref EndPosition, ref BezierHelper2, toMin, out var result);
-         float toMin2 = Utils.Remap(fromValue, 0f, 0.1f, 0f, 1f);
-         toMin2 = Utils.Remap(fromValue, 0.85f, 0.95f, toMin2, 0f);
-         float num = Utils.Remap(fromValue, 0f, 0.25f, 0f, 1f) * Utils.Remap(fromValue, 0.85f, 0.95f, 1f, 0f);
+         Vector2 zero = Vector2.Zero;
+         zero = ((num <= 0.15f) ? Vector2.Lerp(Vector2.Zero, StartOffset, num / 0.15f) : ((num <= 0.5f) ? Vector2.Lerp(StartOffset, EndOffset, (num - 0.15f) / 0.35f) : ((!(num <= 0.85f)) ? Vector2.Lerp(EndOffset, Vector2.Zero, Utils.Remap(num, 0.85f, 0.95f, 0f, 1f)) : EndOffset)));
+         result += zero;

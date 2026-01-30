@@ -36,10 +36,6 @@ public class FullbrightEngine : ILightingEngine
                 Rectangle value = new Rectangle(0, 0, Main.maxTilesX, Main.maxTilesY);
                 value.Inflate(-40, -40);
                 area = Rectangle.Intersect(area, value);
-                Main.mapMinX = area.Left;
-                Main.mapMinY = area.Top;
-                Main.mapMaxX = area.Right;
-                Main.mapMaxY = area.Bottom;
 
                 FastParallel.For(area.Left, area.Right, delegate (int start, int end, object context)
                 {
@@ -52,7 +48,7 @@ public class FullbrightEngine : ILightingEngine
                     }
                 });
 
-                Main.updateMap = true;
+                Main.updateMap = area;
             }
         }
     }

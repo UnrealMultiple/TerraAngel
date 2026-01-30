@@ -1,0 +1,12 @@
+--- src/Terraria/Terraria/GameContent/Drawing/NextNatureRenderer.cs
++++ src/TerraAngel/Terraria/GameContent/Drawing/NextNatureRenderer.cs
+@@ -131,7 +_,8 @@
+         }
+ 
+         MiscShaderData miscShaderData = GameShaders.Misc["LitNature"];
++        Matrix.Invert(Main.Transform, out Matrix invertedTransform);
+-        Vector2 vector = Vector2.Transform(Main.ReverseGravitySupport(sunPosition * Main.ScreenSize.ToVector2()), Matrix.Invert(Main.Transform));
++        Vector2 vector = Vector2.Transform(Main.ReverseGravitySupport(sunPosition * Main.ScreenSize.ToVector2()), invertedTransform);
+         Vector4 specificData = new Vector4(vector.X, vector.Y, visibility, 0f);
+         miscShaderData.UseImage1(Main.HorizonHelper.SunVisibilityPixelTexture);
+         miscShaderData.UseSpriteTransformMatrix(beginner.transformMatrix);

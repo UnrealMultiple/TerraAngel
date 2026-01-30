@@ -19,19 +19,39 @@ namespace ReLogic.OS.FNA
 
         }
 
+        public void Activate(GameWindow window)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsSizeable(GameWindow window)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetPosition(GameWindow window, int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Rectangle GetBounds(GameWindow window)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SetUnicodeTitle(GameWindow window, string title)
         {
-            SDL2.SDL.SDL_SetWindowTitle(window.Handle, title);
+            SDL3.SDL.SDL_SetWindowTitle(window.Handle, title);
         }
 
         public void StartFlashingIcon(GameWindow window)
         {
-            SDL2.SDL.SDL_FlashWindow(window.Handle, SDL2.SDL.SDL_FlashOperation.SDL_FLASH_BRIEFLY);
+            SDL3.SDL.SDL_FlashWindow(window.Handle, SDL3.SDL.SDL_FlashOperation.SDL_FLASH_BRIEFLY);
         }
 
         public void StopFlashingIcon(GameWindow window)
         {
-            SDL2.SDL.SDL_FlashWindow(window.Handle, SDL2.SDL.SDL_FlashOperation.SDL_FLASH_CANCEL);
+            SDL3.SDL.SDL_FlashWindow(window.Handle, SDL3.SDL.SDL_FlashOperation.SDL_FLASH_CANCEL);
         }
     }
 }

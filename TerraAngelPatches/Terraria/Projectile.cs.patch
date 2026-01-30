@@ -1,56 +1,26 @@
 --- src/Terraria/Terraria/Projectile.cs
 +++ src/TerraAngel/Terraria/Projectile.cs
-@@ -17953,6 +_,7 @@
-             flag = true;
-         }
- 
-+        ToolManager.GetTool<AutoFishTool>().FishingCheck(this, fisher);
-         if (!flag && fisher.inLava)
+@@ -38875,8 +_,8 @@
+         Vector2 value = master.MountedCenter + new Vector2(master.direction * 10, 0f);
+         Vector2 tangent = new Vector2(0f, -100f);
+         Vector2 tangent2 = new Vector2(0f, -100f);
+-        Vector2 vector = Vector2.Hermite(value, tangent, base.Center, tangent2, num2);
++        Vector2 vector = VectorExtensions.Hermite(value, tangent, base.Center, tangent2, num2);
+-        Vector2 vector2 = Vector2.Hermite(value, tangent, base.Center, tangent2, num3);
++        Vector2 vector2 = VectorExtensions.Hermite(value, tangent, base.Center, tangent2, num3);
+         for (float num4 = 0f; num4 <= 1f; num4 += 0.1f)
          {
-             int num5 = 0;
-@@ -24565,7 +_,9 @@
-                 localAI[1] = base.Center.Y - velocity.Y * 1.5f;
-             }
- 
--            Vector2 vector27 = new Vector2(localAI[0], localAI[1]);
-+            float lai0 = localAI[0];
-+            float lai1 = localAI[1];
-+            Vector2 vector27 = new Vector2(lai0, lai1);
-             rotation = (base.Center - vector27).ToRotation() - (float)Math.PI / 2f;
-             if (this.ai[0] == 0f)
-             {
-@@ -30870,7 +_,9 @@
-         }
-         else if (aiStyle == 98)
-         {
--            Vector2 vector104 = new Vector2(this.ai[0], this.ai[1]);
-+            float ai0 = this.ai[0];
-+            float ai1 = this.ai[1];
-+            Vector2 vector104 = new Vector2(ai0, ai1);
-             Vector2 value12 = vector104 - base.Center;
-             if (value12.Length() < velocity.Length())
-             {
-@@ -34297,7 +_,9 @@
-                 }
- 
-                 velocity = Vector2.Zero;
--                Point point4 = new Vector2(this.ai[0], this.ai[1]).ToPoint();
-+                float ai0 = this.ai[0];
-+                float ai1 = this.ai[1];
-+                Point point4 = new Vector2(ai0, ai1).ToPoint();
-                 Point point5 = base.Center.ToTileCoordinates();
-                 int num1010 = Math.Abs(point4.X - point5.X);
-                 int num1011 = Math.Abs(point4.Y - point5.Y);
-@@ -39974,7 +_,7 @@
+             Dust dust = Dust.NewDustPerfect(Vector2.Lerp(vector, vector2, num4), 306, (vector2 - vector) * 0.1f, 0, new Color(100, 227, 255, 127), 1f + num3);
+@@ -45680,7 +_,7 @@
              }
  
              float amount = MathHelper.Lerp(value, value2, Utils.GetLerpValue(num, 30f, timeLeft, clamped: true));
 -            velocity = Vector2.SmoothStep(velocity, value3, amount);
 +            velocity = VectorExtensions.SmoothStep(velocity, value3, amount);
-             if (type == 931)
+             if (type == 931 || type == 1039)
              {
                  velocity *= MathHelper.Lerp(0.85f, 1f, Utils.GetLerpValue(0f, 90f, timeLeft, clamped: true));
-@@ -41033,7 +_,7 @@
+@@ -46801,7 +_,7 @@
          Vector2 vector2 = -velocity;
          Vector2 value = center + vector2 * 2f;
          Vector2 value2 = vector + vector2 * (1f - num2 * 3f);
@@ -59,7 +29,7 @@
          int num3 = type;
          if (num3 == 856)
          {
-@@ -41202,7 +_,7 @@
+@@ -46971,7 +_,7 @@
          }
  
          ai[0] += 1f / ai[1];
@@ -68,7 +38,7 @@
          if (flag)
          {
              for (float num3 = 0f; num3 < 1f; num3 += 0.5f)
-@@ -44806,7 +_,7 @@
+@@ -52036,7 +_,7 @@
                  AI_GetMyGroupIndexAndFillBlackList(blacklist, out var index2, out var totalIndexesInGroup2);
                  AI_156_GetIdlePosition(index2, totalIndexesInGroup2, out var idleSpot2, out var _);
                  velocity = Vector2.Zero;
@@ -77,7 +47,7 @@
                  if (Main.rand.Next(20) == 0)
                  {
                      int num6 = AI_156_TryAttackingNPCs(blacklist);
-@@ -44829,7 +_,7 @@
+@@ -52059,7 +_,7 @@
              AI_GetMyGroupIndexAndFillBlackList(blacklist, out var index3, out var totalIndexesInGroup3);
              AI_156_GetIdlePosition(index3, totalIndexesInGroup3, out var idleSpot3, out var idleRotation3);
              velocity = Vector2.Zero;
@@ -86,34 +56,12 @@
              rotation = rotation.AngleLerp(idleRotation3, 0.45f);
              if (Main.rand.Next(20) == 0)
              {
-@@ -51141,7 +_,9 @@
-             }
-             else if (type == 485)
-             {
--                Vector2 vector34 = new Vector2(ai[0], ai[1]);
-+                float ai0 = ai[0];
-+                float ai1 = ai[1];
-+                Vector2 vector34 = new Vector2(ai0, ai1);
-                 velocity = (velocity * 39f + vector34) / 40f;
-                 int num246 = Dust.NewDust(position, width, height, 6);
-                 Main.dust[num246].noGravity = true;
-@@ -66952,7 +_,9 @@
-                     num355++;
-                 }
- 
--                Vector2 vector43 = new Vector2(ai[0], ai[1]);
-+                float ai0 = ai[0];
-+                float ai1 = ai[1];
-+                Vector2 vector43 = new Vector2(ai0, ai1);
-                 NewProjectile(GetProjectileSource_FromThis(), localAI[0], localAI[1], vector43.X, vector43.Y, 640, damage, knockBack, owner, 0f, num355);
-             }
-         }
-@@ -70219,7 +_,7 @@
-                                 Vector2 value12 = vector69.RotatedBy(((num831 == 0) ? 1f : (-1f)) * ((float)Math.PI * 2f) / (num826 * 2f));
-                                 for (float num832 = 0f; num832 < num829; num832++)
+@@ -79421,7 +_,7 @@
+                                 Vector2 value13 = vector73.RotatedBy(((num904 == 0) ? 1f : (-1f)) * ((float)Math.PI * 2f) / (num899 * 2f));
+                                 for (float num905 = 0f; num905 < num902; num905++)
                                  {
--                                    Vector2 vector70 = Vector2.SmoothStep(vector69, value12, num832 / num829);
-+                                    Vector2 vector70 = VectorExtensions.SmoothStep(vector69, value12, num832 / num829);
-                                     float num833 = MathHelper.SmoothStep(num827, num828, num832 / num829);
-                                     int num834 = Dust.NewDust(new Vector2(position.X, position.Y), 6, 6, 134, 0f, 0f, 100, default(Color), 1.3f);
-                                     Dust dust2 = Main.dust[num834];
+-                                    Vector2 vector74 = Vector2.SmoothStep(vector73, value13, num905 / num902);
++                                    Vector2 vector74 = VectorExtensions.SmoothStep(vector73, value13, num905 / num902);
+                                     float num906 = MathHelper.SmoothStep(num900, num901, num905 / num902);
+                                     int num907 = Dust.NewDust(new Vector2(position.X, position.Y), 6, 6, 134, 0f, 0f, 100, default(Color), 1.3f);
+                                     Dust dust2 = Main.dust[num907];

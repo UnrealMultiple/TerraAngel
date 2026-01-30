@@ -1,0 +1,40 @@
+--- src/Terraria/Terraria/Utilities/MessageBox.cs
++++ src/TerraAngel/Terraria/Utilities/MessageBox.cs
+@@ -1,10 +_,35 @@
+-using System.Windows.Forms;
++using System;
++using SDL3;
+ 
+ namespace Terraria.Utilities;
+ public static class MessageBox
+ {
+     public static DialogResult Show(string message, string title, MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None)
+     {
+-        return (DialogResult)System.Windows.Forms.MessageBox.Show(message, title, (System.Windows.Forms.MessageBoxButtons)buttons, (System.Windows.Forms.MessageBoxIcon)icon);
++        SDL.SDL_MessageBoxFlags flags = icon switch
++        {
++            MessageBoxIcon.Error => SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR,
++            MessageBoxIcon.Warning => SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_WARNING,
++            MessageBoxIcon.Information => SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION,
++            _ => 0
++        };
++
++        IntPtr windowHandle = IntPtr.Zero;
++        try
++        {
++            windowHandle = Main.instance?.Window?.Handle ?? IntPtr.Zero;
++        }
++        catch { }
++
++        SDL.SDL_ShowSimpleMessageBox(flags, title, message, windowHandle);
++
++        // SDL_ShowSimpleMessageBox only supports OK button, return sensible defaults
++        return buttons switch
++        {
++            MessageBoxButtons.YesNo or MessageBoxButtons.YesNoCancel => DialogResult.Yes,
++            MessageBoxButtons.OKCancel => DialogResult.OK,
++            MessageBoxButtons.RetryCancel => DialogResult.Retry,
++            _ => DialogResult.OK
++        };
+     }
+ }

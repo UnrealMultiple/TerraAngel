@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/IngameOptions.cs
 +++ src/TerraAngel/Terraria/IngameOptions.cs
-@@ -895,42 +_,6 @@
+@@ -927,42 +_,6 @@
          if (category == 2)
          {
              int num18 = 0;
@@ -43,7 +43,7 @@
  
              num18++;
              vector6.X -= num;
-@@ -971,17 +_,6 @@
+@@ -1003,17 +_,6 @@
              if (rightHover == num18)
              {
                  UILinkPointNavigator.Shortcuts.OPTIONS_BUTTON_SPECIALFEATURE = 1;

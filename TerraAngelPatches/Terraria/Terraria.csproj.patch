@@ -1,13 +1,13 @@
 --- src/Terraria/Terraria/Terraria.csproj
 +++ src/TerraAngel/Terraria/Terraria.csproj
-@@ -3,40 +_,201 @@
+@@ -3,41 +_,201 @@
    <PropertyGroup>
      <OutputType>WinExe</OutputType>
      <Nullable>enable</Nullable>
 +    <Deterministic>true</Deterministic>
-     <Version>1.4.4.9</Version>
+     <Version>1.4.5.2</Version>
      <Company>Re-Logic</Company>
-     <Company>Copyright © 2022 Re-Logic</Company>
+     <Company>Copyright © 2026 Re-Logic</Company>
      <RootNamespace>Terraria</RootNamespace>
 +    <TargetFramework>net8.0</TargetFramework>
 +    <Platforms>AnyCPU</Platforms>
@@ -28,6 +28,7 @@
 -    <Reference Include="CsvHelper" />
 -    <Reference Include="Ionic.Zip.CF" />
 -    <Reference Include="Microsoft.Xna.Framework" />
+-    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline" />
 -    <Reference Include="Microsoft.Xna.Framework.Game" />
 -    <Reference Include="Microsoft.Xna.Framework.Graphics" />
 -    <Reference Include="Microsoft.Xna.Framework.Xact" />
@@ -117,7 +118,7 @@
 +    <None Update="Libraries\lin\x64\FNA\libFNA3D.so.0">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
-+    <None Update="Libraries\lin\x64\FNA\libSDL2-2.0.so.0">
++    <None Update="Libraries\lin\x64\FNA\libSDL3.so.0">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
 +    <None Update="Libraries\lin\x64\FNA\libtheorafile.so">
@@ -136,7 +137,7 @@
 +    <None Update="Libraries\lin\x86\FNA\libFNA3D.so.0">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
-+    <None Update="Libraries\lin\x86\FNA\libSDL2-2.0.so.0">
++    <None Update="Libraries\lin\x86\FNA\libSDL3.so.0">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
 +    <None Update="Libraries\lin\x86\FNA\libtheorafile.so">

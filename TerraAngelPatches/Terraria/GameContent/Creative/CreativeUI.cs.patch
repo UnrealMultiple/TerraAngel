@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/GameContent/Creative/CreativeUI.cs
 +++ src/TerraAngel/Terraria/GameContent/Creative/CreativeUI.cs
-@@ -64,6 +_,7 @@
+@@ -72,6 +_,7 @@
          _uiState = new UICreativePowersMenu();
          _powersUI.SetState(_uiState);
          _initialized = true;
@@ -8,7 +8,7 @@
      }
  
      public void Update(GameTime gameTime)
-@@ -78,18 +_,13 @@
+@@ -86,18 +_,13 @@
      {
          if (!_initialized)
          {

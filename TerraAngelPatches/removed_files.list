@@ -148,6 +148,7 @@ Terraria/Libraries/NVorbis/NVorbis.dll
 Terraria/Libraries/RailSDK.Windows/RailSDK.Net.dll
 Terraria/Libraries/Steamworks.NET.Windows/Steamworks.NET.dll
 Terraria/Net/WeGameAddress.cs
+Terraria/ScriptSandbox.cs
 Terraria/Social/WeGame/AchievementsSocialModule.cs
 Terraria/Social/WeGame/AsyncTaskHelper.cs
 Terraria/Social/WeGame/CloudSocialModule.cs
@@ -174,3 +175,4 @@ Terraria/Social/WeGame/WeGameFriendListInfo.cs
 Terraria/Social/WeGame/WeGameHelper.cs
 Terraria/Social/WeGame/WeGameP2PReader.cs
 Terraria/Social/WeGame/WeGameP2PWriter.cs
+Terraria/Testing/FxReader.cs

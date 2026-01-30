@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using SDL2;
+using SDL3;
 using Terraria.GameInput;
 using Terraria.UI;
 
@@ -127,9 +127,9 @@ public class WindowManager
             {
                 case WindowState.Windowed:
                     {
-                        SDL.SDL_SetWindowFullscreen(WindowHandle, 0u);
-                        SDL.SDL_SetWindowBordered(WindowHandle, SDL.SDL_bool.SDL_TRUE);
-                        SDL.SDL_SetWindowResizable(WindowHandle, SDL.SDL_bool.SDL_TRUE);
+                        SDL.SDL_SetWindowFullscreen(WindowHandle, false);
+                        SDL.SDL_SetWindowBordered(WindowHandle, true);
+                        SDL.SDL_SetWindowResizable(WindowHandle, true);
                         SDL.SDL_SetWindowSize(WindowHandle, Width, Height);
 
                         centerWindow = true;
@@ -139,9 +139,9 @@ public class WindowManager
                     break;
                 case WindowState.BorderlessFullscreen:
                     {
-                        SDL.SDL_SetWindowFullscreen(WindowHandle, 0u);
-                        SDL.SDL_SetWindowBordered(WindowHandle, SDL.SDL_bool.SDL_FALSE);
-                        SDL.SDL_SetWindowResizable(WindowHandle, SDL.SDL_bool.SDL_FALSE);
+                        SDL.SDL_SetWindowFullscreen(WindowHandle, false);
+                        SDL.SDL_SetWindowBordered(WindowHandle, false);
+                        SDL.SDL_SetWindowResizable(WindowHandle, false);
 
                         Graphics!.IsFullScreen = false;
                         wantToResizeGraphics = true;
@@ -149,9 +149,9 @@ public class WindowManager
                     break;
                 case WindowState.Fullscreen:
                     {
-                        SDL.SDL_SetWindowFullscreen(WindowHandle, (uint)SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP);
-                        SDL.SDL_SetWindowBordered(WindowHandle, SDL.SDL_bool.SDL_FALSE);
-                        SDL.SDL_SetWindowResizable(WindowHandle, SDL.SDL_bool.SDL_FALSE);
+                        SDL.SDL_SetWindowFullscreen(WindowHandle, true);
+                        SDL.SDL_SetWindowBordered(WindowHandle, false);
+                        SDL.SDL_SetWindowResizable(WindowHandle, false);
 
                         Graphics!.IsFullScreen = true;
                         wantToResizeGraphics = true;
@@ -180,7 +180,7 @@ public class WindowManager
     {
         get
         {
-            SDL.SDL_GetDisplayBounds(SDL.SDL_GetWindowDisplayIndex(WindowHandle), out SDL.SDL_Rect rect);
+            SDL.SDL_GetDisplayBounds(SDL.SDL_GetDisplayForWindow(WindowHandle), out SDL.SDL_Rect rect);
             return new Vector2i(rect.w, rect.h);
         }
     }
@@ -291,15 +291,15 @@ public class WindowManager
 
         if (State == WindowState.Windowed && centerWindow && !maximized)
         {
-            SDL.SDL_GetDisplayBounds(SDL.SDL_GetWindowDisplayIndex(WindowHandle), out SDL.SDL_Rect rect);
+            SDL.SDL_GetDisplayBounds(SDL.SDL_GetDisplayForWindow(WindowHandle), out SDL.SDL_Rect rect);
             SDL.SDL_SetWindowPosition(WindowHandle, rect.x + rect.w / 2 - Width / 2, rect.y + rect.h / 2 - Height / 2);
             centerWindow = false;
         }
         if (State == WindowState.Windowed)
         {
-            uint flags = SDL.SDL_GetWindowFlags(WindowHandle);
+            SDL.SDL_WindowFlags flags = SDL.SDL_GetWindowFlags(WindowHandle);
 
-            maximized = (flags & (uint)SDL.SDL_WindowFlags.SDL_WINDOW_MAXIMIZED) != 0;
+            maximized = (flags & SDL.SDL_WindowFlags.SDL_WINDOW_MAXIMIZED) != 0;
 
             SDL.SDL_GetWindowSize(WindowHandle, out int w, out int h);
 
@@ -356,7 +356,7 @@ public class WindowManager
         }
         if (State == WindowState.Fullscreen || State == WindowState.BorderlessFullscreen)
         {
-            SDL.SDL_GetDisplayBounds(SDL.SDL_GetWindowDisplayIndex(WindowHandle), out SDL.SDL_Rect rect);
+            SDL.SDL_GetDisplayBounds(SDL.SDL_GetDisplayForWindow(WindowHandle), out SDL.SDL_Rect rect);
 
             int w = rect.w;
             int h = rect.h;
@@ -373,7 +373,7 @@ public class WindowManager
         }
         if (State == WindowState.Fullscreen || State == WindowState.BorderlessFullscreen)
         {
-            SDL.SDL_GetDisplayBounds(SDL.SDL_GetWindowDisplayIndex(WindowHandle), out SDL.SDL_Rect rect);
+            SDL.SDL_GetDisplayBounds(SDL.SDL_GetDisplayForWindow(WindowHandle), out SDL.SDL_Rect rect);
 
             int w = rect.w;
             int h = rect.h;

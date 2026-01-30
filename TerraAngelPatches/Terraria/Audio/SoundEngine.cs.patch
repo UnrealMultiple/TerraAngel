@@ -15,7 +15,7 @@
      public static LegacySoundPlayer LegacySoundPlayer;
      public static SoundPlayer SoundPlayer;
      public static bool AreSoundsPaused;
-@@ -93,8 +_,10 @@
+@@ -106,8 +_,10 @@
          {
              return null;
          }

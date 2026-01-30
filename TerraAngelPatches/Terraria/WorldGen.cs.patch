@@ -1,505 +1,99 @@
 --- src/Terraria/Terraria/WorldGen.cs
 +++ src/TerraAngel/Terraria/WorldGen.cs
-@@ -3557,15 +_,9 @@
-         LiquidBuffer.numLiquidBuffer = 0;
-         if (Main.netMode == 1 || lastMaxTilesX > Main.maxTilesX || lastMaxTilesY > Main.maxTilesY)
-         {
--            for (int j = 0; j < lastMaxTilesX; j++)
--            {
--                float num = (float)j / (float)lastMaxTilesX;
--                Main.statusText = Lang.gen[46].Value + " " + (int)(num * 100f + 1f) + "%";
--                for (int k = 0; k < lastMaxTilesY; k++)
--                {
--                    Main.tile[j, k] = null;
--                }
--            }
-+            Main.statusText = Lang.gen[46].Value + " 0%";
-+            Main.tile.ResetHeap();
-+            Main.statusText = Lang.gen[46].Value + " 100%";
-         }
- 
-         lastMaxTilesX = Main.maxTilesX;
-@@ -3577,22 +_,9 @@
- 
-         if (Main.netMode != 1)
-         {
--            for (int l = 0; l < Main.maxTilesX; l++)
--            {
--                float num2 = (float)l / (float)Main.maxTilesX;
--                Main.statusText = Lang.gen[47].Value + " " + (int)(num2 * 100f + 1f) + "%";
--                for (int m = 0; m < Main.maxTilesY; m++)
--                {
--                    if (Main.tile[l, m] == null)
--                    {
--                        Main.tile[l, m] = new Tile();
--                    }
--                    else
--                    {
--                        Main.tile[l, m].ClearEverything();
--                    }
--                }
--            }
-+            Main.statusText = Lang.gen[46].Value + " 0%";
-+            Main.tile.ResetHeap();
-+            Main.statusText = Lang.gen[46].Value + " 100%";
-         }
- 
-         for (int n = 0; n < Main.countsAsHostForGameplay.Length; n++)
-@@ -66206,30 +_,21 @@
-         }
-     }
- 
--    public static bool SolidTile(Tile testTile)
--    {
--        try
--        {
--            if (testTile == null)
--            {
--                return true;
--            }
-+    public static unsafe bool SolidTile(Tile testTile) => testTile.Data == null || SolidTile(ref testTile.RefData);
- 
-+    public static bool SolidTile(ref TileData testTile)
-+    {
-             if (testTile.active() && Main.tileSolid[testTile.type] && !Main.tileSolidTop[testTile.type] && !testTile.halfBrick() && testTile.slope() == 0 && !testTile.inActive())
-             {
-                 return true;
-             }
--        }
--        catch
--        {
--        }
- 
-         return false;
-     }
- 
-     public static bool TileEmpty(int i, int j)
-     {
--        if (Main.tile[i, j] != null && Main.tile[i, j].active())
-+        if (Main.tile.IsTileInLoadedSection(i, j) && Main.tile[i, j].active())
-         {
-             return Main.tile[i, j].inActive();
-         }
-@@ -66237,9 +_,11 @@
-         return true;
-     }
- 
-+    public static bool SolidOrSlopedTile(Tile tile) => SolidOrSlopedTile(ref tile.RefData);
-+
--    public static bool SolidOrSlopedTile(Tile tile)
-+    public static bool SolidOrSlopedTile(ref TileData tile)
-     {
--        if (tile != null && tile.active() && Main.tileSolid[tile.type] && !Main.tileSolidTop[tile.type])
-+        if (tile.active() && Main.tileSolid[tile.type] && !Main.tileSolidTop[tile.type])
-         {
-             return !tile.inActive();
-         }
-@@ -66259,22 +_,30 @@
- 
-     public static bool SolidOrSlopedTile(int x, int y)
-     {
--        return SolidOrSlopedTile(Main.tile[x, y]);
-+        if (!Main.tile.IsTileInLoadedSection(x, y)) return true;
-+        return SolidOrSlopedTile(ref Main.tile.GetTileRef(x, y));
-     }
- 
-     public static bool IsRope(int x, int y)
-     {
-+        if (!Main.tile.IsTileInLoadedSection(x, y))
-+        {
-+            return false;
-+        }
-+
-+        ref TileData tile = ref Main.tile.GetTileRef(x, y);
-+
--        if (Main.tile[x, y] == null || !Main.tile[x, y].active())
-+        if (!tile.active())
-         {
-             return false;
-         }
- 
--        if (Main.tileRope[Main.tile[x, y].type])
-+        if (Main.tileRope[tile.type])
-         {
-             return true;
-         }
- 
--        if ((Main.tile[x, y].type == 314 || TileID.Sets.Platforms[Main.tile[x, y].type]) && Main.tile[x, y - 1] != null && Main.tile[x, y + 1] != null && Main.tile[x, y - 1].active() && Main.tile[x, y + 1].active() && Main.tileRope[Main.tile[x, y - 1].type] && Main.tileRope[Main.tile[x, y + 1].type])
-+        if ((tile.type == 314 || TileID.Sets.Platforms[tile.type]) && Main.tile.IsTileInLoadedSection(x, y - 1) && Main.tile.IsTileInLoadedSection(x, y + 1) && Main.tile[x, y - 1].active() && Main.tile[x, y + 1].active() && Main.tileRope[Main.tile[x, y - 1].type] && Main.tileRope[Main.tile[x, y + 1].type])
-         {
-             return true;
-         }
-@@ -66289,16 +_,15 @@
- 
-     public static bool SolidTile(int i, int j, bool noDoors = false)
-     {
-+        if (!Main.tile.IsTileInLoadedSection(i, j)) return true;
-+
-         try
-         {
--            if (Main.tile[i, j] == null)
--            {
--                return true;
--            }
-+            ref TileData tile = ref Main.tile.GetTileRef(i, j);
- 
--            if (Main.tile[i, j].active() && Main.tileSolid[Main.tile[i, j].type] && !Main.tileSolidTop[Main.tile[i, j].type] && !Main.tile[i, j].halfBrick() && Main.tile[i, j].slope() == 0 && !Main.tile[i, j].inActive())
-+            if (tile.active() && Main.tileSolid[tile.type] && !Main.tileSolidTop[tile.type] && !tile.halfBrick() && tile.slope() == 0 && !tile.inActive())
-             {
--                if (noDoors && Main.tile[i, j].type == 10)
-+                if (noDoors && tile.type == 10)
-                 {
-                     return false;
+@@ -1039,18 +_,20 @@
+                     continue;
                  }
-@@ -66317,11 +_,6 @@
-     {
-         try
-         {
--            if (testTile == null)
--            {
--                return true;
--            }
--
-             if (testTile.active() && Main.tileSolid[testTile.type] && testTile.slope() == 0 && !testTile.halfBrick() && !testTile.inActive())
-             {
-                 return true;
-@@ -66352,13 +_,11 @@
  
-     public static bool SolidTileAllowBottomSlope(int i, int j)
-     {
-+        if (!Main.tile.IsTileInLoadedSection(i, j)) return true;
-+
-         try
-         {
--            Tile tile = Main.tile[i, j];
--            if (tile == null)
--            {
--                return true;
--            }
-+            ref TileData tile = ref Main.tile.GetTileRef(i, j);
- 
-             if (tile.active() && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type]) && (!tile.topSlope() || (TileID.Sets.Platforms[tile.type] && PlatformProperTopFrame(tile.frameX))) && !tile.halfBrick() && !tile.inActive())
-             {
-@@ -66374,13 +_,11 @@
- 
-     public static bool ActiveAndWalkableTile(int i, int j)
-     {
-+        if (!Main.tile.IsTileInLoadedSection(i, j)) return true;
-+
-         try
-         {
--            Tile tile = Main.tile[i, j];
--            if (tile == null)
--            {
--                return true;
--            }
-+            ref TileData tile = ref Main.tile.GetTileRef(i, j);
- 
-             if (tile.active() && Main.tileSolid[tile.type] && !tile.inActive())
-             {
-@@ -66396,13 +_,11 @@
- 
-     public static bool SolidTileAllowTopSlope(int i, int j)
-     {
-+        if (!Main.tile.IsTileInLoadedSection(i, j)) return true;
-+
-         try
-         {
--            Tile tile = Main.tile[i, j];
--            if (tile == null)
--            {
--                return true;
--            }
-+            ref TileData tile = ref Main.tile.GetTileRef(i, j);
- 
-             if (tile.active() && (Main.tileSolid[tile.type] || tile.type == 380) && (!tile.bottomSlope() || (TileID.Sets.Platforms[tile.type] && tile.halfBrick())) && !tile.inActive())
-             {
-@@ -66418,13 +_,11 @@
- 
-     public static bool SolidTileAllowLeftSlope(int i, int j)
-     {
-+        if (!Main.tile.IsTileInLoadedSection(i, j)) return true;
-+
-         try
-         {
--            Tile tile = Main.tile[i, j];
--            if (tile == null)
--            {
--                return true;
--            }
-+            ref TileData tile = ref Main.tile.GetTileRef(i, j);
- 
-             if (tile.active() && Main.tileSolid[tile.type] && !tile.rightSlope() && !TileID.Sets.Platforms[tile.type] && !tile.inActive())
-             {
-@@ -66440,13 +_,11 @@
- 
-     public static bool SolidTileAllowRightSlope(int i, int j)
-     {
-+        if (!Main.tile.IsTileInLoadedSection(i, j)) return true;
-+
-         try
-         {
--            Tile tile = Main.tile[i, j];
--            if (tile == null)
--            {
--                return true;
--            }
-+            ref TileData tile = ref Main.tile.GetTileRef(i, j);
- 
-             if (tile.active() && Main.tileSolid[tile.type] && !tile.leftSlope() && !TileID.Sets.Platforms[tile.type] && !tile.inActive())
-             {
-@@ -66462,13 +_,11 @@
- 
-     public static bool TopEdgeCanBeAttachedTo(int i, int j)
-     {
-+        if (!Main.tile.IsTileInLoadedSection(i, j)) return true;
-+
-         try
-         {
--            Tile tile = Main.tile[i, j];
--            if (tile == null)
--            {
--                return true;
--            }
-+            ref TileData tile = ref Main.tile.GetTileRef(i, j);
- 
-             if (tile.active() && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type]) && (!tile.topSlope() || (TileID.Sets.Platforms[tile.type] && PlatformProperTopFrame(tile.frameX))) && !tile.halfBrick() && !tile.inActive())
-             {
-@@ -66484,13 +_,11 @@
- 
-     public static bool RightEdgeCanBeAttachedTo(int i, int j)
-     {
-+        if (!Main.tile.IsTileInLoadedSection(i, j)) return true;
-+
-         try
-         {
--            Tile tile = Main.tile[i, j];
--            if (tile == null)
--            {
--                return true;
--            }
-+            ref TileData tile = ref Main.tile.GetTileRef(i, j);
- 
-             if (tile.active() && Main.tileSolid[tile.type] && !Main.tileSolidTop[tile.type] && !tile.rightSlope() && !tile.halfBrick() && !tile.inActive() && !Main.tileNoAttach[tile.type])
-             {
-@@ -66506,13 +_,11 @@
- 
-     public static bool LeftEdgeCanBeAttachedTo(int i, int j)
-     {
-+        if (!Main.tile.IsTileInLoadedSection(i, j)) return true;
-+
-         try
-         {
--            Tile tile = Main.tile[i, j];
--            if (tile == null)
--            {
--                return true;
--            }
-+            ref TileData tile = ref Main.tile.GetTileRef(i, j);
- 
-             if (tile.active() && Main.tileSolid[tile.type] && !Main.tileSolidTop[tile.type] && !tile.leftSlope() && !tile.halfBrick() && !tile.inActive() && !Main.tileNoAttach[tile.type])
-             {
-@@ -66528,13 +_,11 @@
- 
-     public static bool BottomEdgeCanBeAttachedTo(int i, int j)
-     {
-+        if (!Main.tile.IsTileInLoadedSection(i, j)) return true;
-+
-         try
-         {
--            Tile tile = Main.tile[i, j];
--            if (tile == null)
--            {
--                return true;
--            }
-+            ref TileData tile = ref Main.tile.GetTileRef(i, j);
- 
-             if (tile.active() && Main.tileSolid[tile.type] && !Main.tileSolidTop[tile.type] && !tile.bottomSlope() && !tile.inActive() && !Main.tileNoAttach[tile.type])
-             {
-@@ -66555,16 +_,13 @@
-             return false;
-         }
- 
-+        if (!Main.tile.IsTileInLoadedSection(i, j)) return true;
-+
-         return SolidTile3(Main.tile[i, j]);
-     }
- 
-     public static bool SolidTile3(Tile t)
-     {
--        if (t == null)
--        {
--            return false;
--        }
--
-         if (t.active() && !t.inActive() && Main.tileSolid[t.type])
-         {
-             return !Main.tileSolidTop[t.type];
-@@ -66575,14 +_,13 @@
- 
-     public static bool SolidTile2(int i, int j)
-     {
-+        if (!Main.tile.IsTileInLoadedSection(i, j)) return true;
-+
-         try
-         {
--            if (Main.tile[i, j] == null)
--            {
--                return true;
--            }
-+            ref TileData tile = ref Main.tile.GetTileRef(i, j);
- 
--            if (Main.tile[i, j].active() && Main.tileSolid[Main.tile[i, j].type] && ((TileID.Sets.Platforms[Main.tile[i, j].type] && (Main.tile[i, j].halfBrick() || Main.tile[i, j].topSlope())) || Main.tile[i, j].slope() == 0) && !Main.tile[i, j].halfBrick() && !Main.tile[i, j].inActive())
-+            if (tile.active() && Main.tileSolid[tile.type] && ((TileID.Sets.Platforms[tile.type] && (tile.halfBrick() || tile.topSlope())) || tile.slope() == 0) && !tile.halfBrick() && !tile.inActive())
-             {
-                 return true;
+-                Tile tile = new Tile(Main.tile[num6, num7]);
+-                Tile tile2 = new Tile(Main.tile[num8, num9]);
+-                Main.tile[num6, num7].active(tile2.active());
+-                Main.tile[num6, num7].type = tile2.type;
+-                Main.tile[num6, num7].color(tile2.color());
+-                Main.tile[num6, num7].fullbrightBlock(tile2.fullbrightBlock());
+-                Main.tile[num6, num7].invisibleBlock(tile2.invisibleBlock());
+-                Main.tile[num8, num9].active(tile.active());
+-                Main.tile[num8, num9].type = tile.type;
+-                Main.tile[num8, num9].color(tile.color());
+-                Main.tile[num8, num9].fullbrightBlock(tile.fullbrightBlock());
+-                Main.tile[num8, num9].invisibleBlock(tile.invisibleBlock());
++                ref TileData tile = ref Main.tile.GetTileRef(num6, num7);
++                ref TileData tile2 = ref Main.tile.GetTileRef(num8, num9);
++                TileData tileCopy = tile;
++                TileData tile2Copy = tile2;
++                tile.active(tile2Copy.active());
++                tile.type = tile2Copy.type;
++                tile.color(tile2Copy.color());
++                tile.fullbrightBlock(tile2Copy.fullbrightBlock());
++                tile.invisibleBlock(tile2Copy.invisibleBlock());
++                tile2.active(tileCopy.active());
++                tile2.type = tileCopy.type;
++                tile2.color(tileCopy.color());
++                tile2.fullbrightBlock(tileCopy.fullbrightBlock());
++                tile2.invisibleBlock(tileCopy.invisibleBlock());
              }
-@@ -66596,14 +_,13 @@
  
-     public static bool SolidTileNoAttach(int i, int j)
-     {
-+        if (!Main.tile.IsTileInLoadedSection(i, j)) return true;
-+
-         try
-         {
--            if (Main.tile[i, j] == null)
--            {
--                return true;
--            }
-+            ref TileData tile = ref Main.tile.GetTileRef(i, j);
- 
--            if (Main.tile[i, j].active() && Main.tileSolid[Main.tile[i, j].type] && !Main.tileNoAttach[Main.tile[i, j].type] && Main.tile[i, j].slope() == 0 && !Main.tile[i, j].halfBrick() && !Main.tile[i, j].inActive())
-+            if (tile.active() && Main.tileSolid[tile.type] && !Main.tileNoAttach[tile.type] && tile.slope() == 0 && !tile.halfBrick() && !tile.inActive())
-             {
-                 return true;
-             }
-@@ -77506,10 +_,13 @@
- 
-     public static void TileFrame(int i, int j, bool resetFrame = false, bool noBreak = false)
-     {
-+        if (DisableFramingTool.FramingDsiabledCache)
-+            return;
-+
-         bool addToList = false;
-         try
-         {
--            if (i > 5 && j > 5 && i < Main.maxTilesX - 5 && j < Main.maxTilesY - 5 && Main.tile[i, j] != null)
-+            if (i > 5 && j > 5 && i < Main.maxTilesX - 5 && j < Main.maxTilesY - 5)
-             {
-                 if (SkipFramingBecauseOfGen && !Main.tileFrameImportant[Main.tile[i, j].type])
+             num3 = Main.maxTilesX / 2 / Variations.errorWorldAdjustment(1.0);
+@@ -1135,18 +_,20 @@
                  {
-@@ -82519,7 +_,7 @@
-         {
-             for (int j = y - 1; j <= y + 1; j++)
-             {
--                if (Main.tile[i, j] == null)
-+                if (!Main.tile.InWorldAndLoaded(i, j))
-                 {
-                     return;
+                     for (int num18 = 0; num18 < num11; num18++)
+                     {
+-                        Tile tile3 = new Tile(Main.tile[num12 + num17, num13 + num18]);
+-                        Tile tile4 = new Tile(Main.tile[num14 + num17, num15 + num18]);
+-                        Main.tile[num12 + num17, num13 + num18].active(tile4.active());
+-                        Main.tile[num12 + num17, num13 + num18].type = tile4.type;
+-                        Main.tile[num12 + num17, num13 + num18].color(tile4.color());
+-                        Main.tile[num12 + num17, num13 + num18].fullbrightBlock(tile4.fullbrightBlock());
+-                        Main.tile[num12 + num17, num13 + num18].invisibleBlock(tile4.invisibleBlock());
+-                        Main.tile[num14 + num17, num15 + num18].active(tile3.active());
+-                        Main.tile[num14 + num17, num15 + num18].type = tile3.type;
+-                        Main.tile[num14 + num17, num15 + num18].color(tile3.color());
+-                        Main.tile[num14 + num17, num15 + num18].fullbrightBlock(tile3.fullbrightBlock());
+-                        Main.tile[num14 + num17, num15 + num18].invisibleBlock(tile3.invisibleBlock());
++                        ref TileData tile3 = ref Main.tile.GetTileRef(num12 + num17, num13 + num18);
++                        ref TileData tile4 = ref Main.tile.GetTileRef(num14 + num17, num15 + num18);
++                        TileData tile3Copy = tile3;
++                        TileData tile4Copy = tile4;
++                        tile3.active(tile4Copy.active());
++                        tile3.type = tile4Copy.type;
++                        tile3.color(tile4Copy.color());
++                        tile3.fullbrightBlock(tile4Copy.fullbrightBlock());
++                        tile3.invisibleBlock(tile4Copy.invisibleBlock());
++                        tile4.active(tile3Copy.active());
++                        tile4.type = tile3Copy.type;
++                        tile4.color(tile3Copy.color());
++                        tile4.fullbrightBlock(tile3Copy.fullbrightBlock());
++                        tile4.invisibleBlock(tile3Copy.invisibleBlock());
+                     }
                  }
-@@ -82823,17 +_,6 @@
- 
-         Tile tile = Main.tile[num2, num3 - 1];
-         Tile tile2 = Main.tile[num2, num3 + 3];
--        if (tile == null)
--        {
--            tile = new Tile();
--            Main.tile[num2, num3 - 1] = tile;
--        }
--
--        if (tile2 == null)
--        {
--            tile2 = new Tile();
--            Main.tile[num2, num3 + 3] = tile2;
--        }
- 
-         if (!SolidTile(tile) || !SolidTile(tile2))
-         {
-@@ -82890,35 +_,6 @@
-             Tile tile3 = Main.tile[i, num + 1];
-             Tile tile4 = Main.tile[i, num + 2];
-             Tile tile5 = Main.tile[i, num + 3];
--            if (tile == null)
--            {
--                tile = new Tile();
--                Main.tile[i, num - 1] = tile;
--            }
--
--            if (tile2 == null)
--            {
--                tile2 = new Tile();
--                Main.tile[i, num] = tile2;
--            }
--
--            if (tile3 == null)
--            {
--                tile3 = new Tile();
--                Main.tile[i, num + 1] = tile3;
--            }
--
--            if (tile4 == null)
--            {
--                tile4 = new Tile();
--                Main.tile[i, num + 2] = tile4;
--            }
--
--            if (tile5 == null)
--            {
--                tile5 = new Tile();
--                Main.tile[i, num + 3] = tile5;
--            }
- 
-             if (!SolidTile(tile))
-             {
-@@ -83015,7 +_,7 @@
-         }
- 
-         Tile tile = Main.tile[i, j + 1];
--        if (tile == null)
-+        if (!Main.tile.InWorldAndLoaded(i, j + 1))
-         {
-             return false;
-         }
-@@ -83041,7 +_,7 @@
-         }
- 
-         Tile tile = Main.tile[i, j + 1];
--        if (tile == null)
-+        if (!Main.tile.InWorldAndLoaded(i, j + 1))
-         {
-             return false;
-         }
-@@ -83064,11 +_,6 @@
- 
-     public static bool AllowsSandfall(Tile tileTopCache)
-     {
--        if (tileTopCache == null)
--        {
--            return false;
--        }
--
-         bool result = true;
-         if (tileTopCache.active() && (TileID.Sets.BasicChest[tileTopCache.type] || TileID.Sets.BasicChestFake[tileTopCache.type] || tileTopCache.type == 323 || tileTopCache.type == 88 || tileTopCache.type == 80 || tileTopCache.type == 77 || tileTopCache.type == 26 || tileTopCache.type == 475 || tileTopCache.type == 470 || tileTopCache.type == 597))
-         {
-@@ -83303,7 +_,7 @@
- 
-     public static bool CanCutTile(int x, int y, TileCuttingContext context)
-     {
--        if (Main.tile[x, y + 1] != null && Main.tile[x, y + 1].type != 78 && Main.tile[x, y + 1].type != 380 && Main.tile[x, y + 1].type != 579)
-+        if (Main.tile.InWorldAndLoaded(x, y + 1) && Main.tile[x, y + 1].type != 78 && Main.tile[x, y + 1].type != 380 && Main.tile[x, y + 1].type != 579)
-         {
-             if (Main.tile[x, y].type == 254)
-             {
-@@ -83345,11 +_,8 @@
-         {
-             for (int j = 0; j < height; j++)
-             {
-+                if (!Main.tile.InWorldAndLoaded(x + i, y + j)) continue;
-                 Tile tile = Main.tile[x + i, y + j];
--                if (tile == null)
--                {
--                    return false;
--                }
- 
-                 if (tile.liquid > 0 || (tile.wall > 0 && !WallID.Sets.AllowsWind[tile.wall]))
+             }
+@@ -1186,7 +_,7 @@
+                 int num22 = genRand.Next(5, 21);
+                 int num23 = num20;
+                 int num24 = num21;
+-                Tile tile5 = new Tile(Main.tile[num20, num21]);
++                Tile tile5 = Main.tile[num20, num21];
+                 for (int num25 = 0; num25 < num22; num25++)
                  {
+                     num23 += (int)vector2D.X;
+@@ -89259,8 +_,8 @@
+                                     break;
+                             }
+ 
+-                            int num2 = tile2?.frameY ?? (-1);
+-                            int num3 = tile?.frameY ?? (-1);
++                            int num2 = tile2.frameY;
++                            int num3 = tile.frameY;
+                             bool flag = false;
+                             switch (num)
+                             {
+@@ -89298,8 +_,8 @@
+                                 up = num;
+                             }
+ 
+-                            int num4 = tile2?.frameY ?? (-1);
+-                            int num5 = tile?.frameY ?? (-1);
++                            int num4 = tile2.frameY;
++                            int num5 = tile.frameY;
+                             bool flag4 = false;
+                             switch (num)
+                             {

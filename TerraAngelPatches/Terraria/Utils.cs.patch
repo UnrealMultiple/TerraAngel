@@ -1,6 +1,16 @@
 --- src/Terraria/Terraria/Utils.cs
 +++ src/TerraAngel/Terraria/Utils.cs
-@@ -1997,7 +_,7 @@
+@@ -1131,7 +_,8 @@
+ 
+     public static Vector2 ScreenToWorldPosition(this Vector2 screenPosition)
+     {
+-        return Vector2.Transform(screenPosition * Main.UIScale, Matrix.Invert(Main.GameViewMatrix.TransformationMatrix)) + Main.screenPosition;
++        Matrix.Invert(Main.GameViewMatrix.TransformationMatrix, out var invertedTransformMatrix);
++        return Vector2.Transform(screenPosition * Main.UIScale, invertedTransformMatrix) + Main.screenPosition;
+     }
+ 
+     public static string PrettifyPercentDisplay(float percent, string originalFormat)
+@@ -2661,7 +_,7 @@
  
      public static string ReadEmbeddedResource(string path)
      {

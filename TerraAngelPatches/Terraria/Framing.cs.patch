@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Framing.cs
 +++ src/TerraAngel/Terraria/Framing.cs
-@@ -417,13 +_,6 @@
+@@ -416,13 +_,6 @@
              return new Tile();
          }
  

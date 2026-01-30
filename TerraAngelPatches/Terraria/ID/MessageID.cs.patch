@@ -9,7 +9,7 @@
      public const byte TileManipulation = 17;
      public const byte SetTime = 18;
      public const byte ToggleDoorState = 19;
--    public const byte Unknown20 = 20;
+-    public const byte AreaTileChange = 20;
 +    public const byte SendTileSquare = 20;
      public const byte SyncItem = 21;
      public const byte ItemOwner = 22;
@@ -22,25 +22,24 @@
 @@ -49,13 +_,13 @@
      public const byte ReleaseItemOwnership = 39;
      public const byte SyncTalkNPC = 40;
-     public const byte ShotAnimationAndSound = 41;
+     public const byte ItemRotationAndAnimation = 41;
 -    public const byte Unknown42 = 42;
 +    public const byte PlayerMana = 42;
--    public const byte Unknown43 = 43;
-+    public const byte ManaEffect = 43;
+     public const byte ManaEffect = 43;
      [Old("Deprecated.")]
      public const byte Unknown44 = 44;
--    public const byte Unknown45 = 45;
+-    public const byte TeamChange = 45;
 +    public const byte PlayerTeam = 45;
--    public const byte Unknown46 = 46;
+-    public const byte OpenSignRequest = 46;
 +    public const byte RequestSign = 46;
--    public const byte Unknown47 = 47;
+-    public const byte OpenSignResponse = 47;
 +    public const byte UpdateSign = 47;
      [Old("Deprecated. Use NetLiquidModule instead.")]
      public const byte LiquidUpdate = 48;
      public const byte InitialSpawn = 49;
 @@ -66,18 +_,18 @@
      public const byte NPCBuffs = 54;
-     public const byte AddPlayerBuff = 55;
+     public const byte AddPlayerBuffPvP = 55;
      public const byte UniqueTownNPCInfoSyncRequest = 56;
 -    public const byte Unknown57 = 57;
 +    public const byte UpdateWorldEvil = 57;
@@ -51,9 +50,9 @@
      public const byte SpawnBossUseLicenseStartEvent = 61;
 -    public const byte Unknown62 = 62;
 +    public const byte PlayerDodge = 62;
--    public const byte Unknown63 = 63;
+-    public const byte SyncTilePaintOrCoating = 63;
 +    public const byte PaintTile = 63;
--    public const byte Unknown64 = 64;
+-    public const byte SyncWallPaintOrCoating = 64;
 +    public const byte PaintWall = 64;
      public const byte TeleportEntity = 65;
 -    public const byte Unknown66 = 66;

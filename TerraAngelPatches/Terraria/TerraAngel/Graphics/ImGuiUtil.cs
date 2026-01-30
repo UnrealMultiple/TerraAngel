@@ -388,17 +388,15 @@ public static class ImGuiUtil
         int researchLine = 0;
         int numLines = 1;
         string[] array = new string[30];
-        bool[] goodPrefixLine = new bool[30];
-        bool[] badPrefixLine = new bool[30];
+        Color[] lineColors = new Color[30];
 
-        Main.MouseText_DrawItemTooltip_GetLinesInfo(item, ref yoyoLogo, ref researchLine, item.knockBack, ref numLines, array, goodPrefixLine, badPrefixLine);
+        Main.MouseText_DrawItemTooltip_GetLinesInfo(item, ref yoyoLogo, ref researchLine, item.knockBack, ref numLines, array, lineColors);
 
         for (int i = 0; i < numLines; i++)
         {
-            Color color = Color.White;
+            Color color = lineColors[i];
+            if (color == default) color = Color.White;
             if (i == 0) color = ItemRarity.GetColor(item.rare);
-            if (goodPrefixLine[i]) color = new Color(117, 185, 117);
-            if (badPrefixLine[i]) color = new Color(185, 117, 117);
             TextColored(ChatManager.ParseMessage(array[i], color).Aggregate("", (x, y) => x + y.Text), color);
         }
 
