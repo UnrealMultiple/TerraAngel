@@ -424,7 +424,7 @@
              return;
          }
  
-@@ -16255,22 +_,10 @@
+@@ -16255,23 +_,11 @@
          {
              DoUpdate_AutoSave();
          }
@@ -445,9 +445,11 @@
 -                graphics.SynchronizeWithVerticalRetrace = true;
 -            }
 -
-             base.InactiveSleepTime = (ThrottleWhenInactive ? TimeSpan.FromMilliseconds(20.0) : TimeSpan.Zero);
+-            base.InactiveSleepTime = (ThrottleWhenInactive ? TimeSpan.FromMilliseconds(20.0) : TimeSpan.Zero);
++            // TerraAngel: InactiveSleepTime is now managed by WindowManager for proper unfocused FPS capping
              if (showSplash)
              {
+                 return;
 @@ -16324,40 +_,23 @@
                  }
              }

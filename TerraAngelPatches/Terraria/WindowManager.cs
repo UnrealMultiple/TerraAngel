@@ -285,6 +285,8 @@ public class WindowManager
     }
 
     private int updateCount = 0;
+    private bool wasActive = true;
+    
     public void Update()
     {
         updateCount++;
@@ -336,6 +338,30 @@ public class WindowManager
             wantToApplyGraphics = false;
             ApplyGraphics();
         }
+        
+        // Handle unfocused FPS cap
+        bool isActive = Main.instance.IsActive;
+        if (isActive != wasActive)
+        {
+            wasActive = isActive;
+            if (!isActive && CapFPSUnfocused)
+            {
+                // Window lost focus - apply unfocused FPS cap
+                Main.instance.IsFixedTimeStep = true;
+                Main.instance.TargetElapsedTime = TimeSpan.FromSeconds(1d / (double)FPSCapUnfocused);
+            }
+            else if (isActive)
+            {
+                // Window gained focus - restore focused settings
+                Main.instance.IsFixedTimeStep = CapFPS;
+                if (CapFPS)
+                {
+                    Main.instance.TargetElapsedTime = TimeSpan.FromSeconds(1d / (double)FPSCap);
+                }
+            }
+        }
+        
+        // Set InactiveSleepTime for additional throttling when unfocused
         if (CapFPSUnfocused)
         {
             Main.instance.InactiveSleepTime = TimeSpan.FromSeconds(1d / (double)FPSCapUnfocused);
