@@ -8,25 +8,19 @@ namespace TerraAngel.Utility;
 
 public class PacketBuilder : IDisposable, IAsyncDisposable
 {
-    public static PacketBuilder NewBuilder() => new();
-
-    public PacketBuilder(bool doSanityCheck = true)
+    public PacketBuilder()
     {
         Buffer = ArrayPool<byte>.Shared.Rent(MessageBuffer.writeBufferMax);
         Ms = new MemoryStream(Buffer);
         Bw = new BinaryWriter(Ms);
         Ms.SetLength(0);
-        Ms.Position = sizeof(ushort);
-        
-        _packetEndSanityCheck = !doSanityCheck;
+        Ms.Position = 0;
     }
-
-    private bool _packetEndSanityCheck;
 
     public byte[]? Buffer;
     public readonly MemoryStream Ms;
     public readonly BinaryWriter Bw;
-    public long PacketHead;
+    public long PacketHead = -1;
     
     // searching for BitsByte? Use BitsByte constructor instead
 
@@ -41,12 +35,6 @@ public class PacketBuilder : IDisposable, IAsyncDisposable
     {
         if (condition(this))
             action(this);
-        return this;
-    }
-    
-    public PacketBuilder Do(Action<PacketBuilder> action)
-    {
-        action(this);
         return this;
     }
     
@@ -209,8 +197,30 @@ public class PacketBuilder : IDisposable, IAsyncDisposable
         return this;
     }
 
+    public PacketBuilder MakePacket(byte msgType, Action<PacketBuilder> contentBuilder)
+    {
+        StartPacket(msgType);
+        contentBuilder(this);
+        EndPacket();
+        return this;
+    }
+
+    public PacketBuilder StartPacket(byte msgType)
+    {
+        if (PacketHead >= 0)
+            throw new InvalidOperationException("A packet is already being built. Call EndPacket() before starting a new one.");
+
+        PacketHead = Ms.Position;
+        Ms.Position += sizeof(ushort);
+        Bw.Write(msgType);
+        return this;
+    }
+
     public PacketBuilder EndPacket()
     {
+        if (PacketHead < 0)
+            throw new InvalidOperationException("No packet is being built. Call StartPacket() before calling EndPacket().");
+
         var length = Ms.Position - PacketHead;
 
         var origPos = Ms.Position;
@@ -218,32 +228,21 @@ public class PacketBuilder : IDisposable, IAsyncDisposable
         Bw.Write((ushort)length);
         Ms.Position = origPos;
 
-        PacketHead = Ms.Position;
-        Ms.Position += sizeof(ushort);
-        
-        Ms.Flush();
+        PacketHead = -1;
 
-        _packetEndSanityCheck = true;
+        Ms.Flush();
         return this;
     }
 
-    public byte[] Build(bool isDispose = true)
+    public byte[] Build()
     {
-        if (!_packetEndSanityCheck)
-            ClientLoader.Console.WriteError($"[{nameof(PacketBuilder)}] {nameof(PacketBuilder)}.{nameof(Build)}() Warning: EndPacket had never been called, probably a bug");
-        
-        var ret = Ms.ToArray();
-        if (isDispose)
-            Dispose();
-        return ret;
+        return Ms.ToArray();
     }
 
-    public void Send(bool isDispose = true)
+    public void Send()
     {
         if (Main.netMode != 1 || !Netplay.Connection.Socket.IsConnected())
             return;
-        if (!_packetEndSanityCheck)
-            ClientLoader.Console.WriteError($"[{nameof(PacketBuilder)}] {nameof(PacketBuilder)}.{nameof(Send)}() Warning: EndPacket had never been called, probably a bug");
         try
         {
             NetMessage.buffer[256].spamCount++;
@@ -254,8 +253,6 @@ public class PacketBuilder : IDisposable, IAsyncDisposable
         {
             ClientLoader.Console.WriteError($"[{nameof(PacketBuilder)}] {nameof(PacketBuilder)}.{nameof(Send)}() Error: {ex.Message}");
         }
-        if (isDispose)
-            Dispose();
     }
 
     public PacketBuilder Clear()
@@ -282,5 +279,23 @@ public class PacketBuilder : IDisposable, IAsyncDisposable
         Buffer = null;
         await Ms.DisposeAsync();
         await Bw.DisposeAsync();
+    }
+
+    public static void FastSendPacket(byte msgType, Action<PacketBuilder> contentBuilder)
+    {
+        using var builder = new PacketBuilder();
+        builder.StartPacket(msgType);
+        contentBuilder(builder);
+        builder.EndPacket();
+        builder.Send();
+    }
+
+    public static byte[] FastBuildPacket(byte msgType, Action<PacketBuilder> contentBuilder)
+    {
+        using var builder = new PacketBuilder();
+        builder.StartPacket(msgType);
+        contentBuilder(builder);
+        builder.EndPacket();
+        return builder.Build();
     }
 }

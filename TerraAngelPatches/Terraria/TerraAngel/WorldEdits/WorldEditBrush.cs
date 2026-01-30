@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using TerraAngel.ID;
 using TerraAngel.Net;
@@ -201,7 +201,7 @@ public class WorldEditBrush : WorldEdit
         }
 
         if (needsResetPlayerPosition)
-            SpecialNetMessage.SendData(MessageID.PlayerControls, null, Main.myPlayer, Main.LocalPlayer.position.X, Main.LocalPlayer.position.Y, (float)Main.LocalPlayer.selectedItem);
+            SpecialNetMessage.SendPlayerControl(Main.LocalPlayer.position);
     }
 
     private Vector2 lastTeleportPosition;
@@ -285,7 +285,7 @@ public class WorldEditBrush : WorldEdit
             {
                 needsResetPlayerPosition = true;
                 lastTeleportPosition = new Vector2(x * 16f, y * 16f);
-                SpecialNetMessage.SendData(MessageID.PlayerControls, null, Main.myPlayer, x * 16f, y * 16f, (float)Main.LocalPlayer.selectedItem);
+                SpecialNetMessage.SendPlayerControl(lastTeleportPosition);
             }
             tile.active(true);
             tile.type = (ushort)otherType;
@@ -316,7 +316,7 @@ public class WorldEditBrush : WorldEdit
             {
                 needsResetPlayerPosition = true;
                 lastTeleportPosition = new Vector2(x * 16f, y * 16f);
-                SpecialNetMessage.SendData(MessageID.PlayerControls, null, Main.myPlayer, x * 16f, y * 16f, (float)Main.LocalPlayer.selectedItem);
+                SpecialNetMessage.SendPlayerControl(lastTeleportPosition);
             }
 
             tile.wall = (ushort)otherType;

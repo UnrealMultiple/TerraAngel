@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using TerraAngel.Net;
 using Terraria.DataStructures;
 
@@ -83,7 +83,7 @@ public class PlayerHooks
             {
                 if (Main.GameUpdateCount % noClip.NoClipPlayerSyncTime == 0)
                 {
-                    SpecialNetMessage.SendData(MessageID.PlayerControls, null, self.whoAmI, self.position.X, self.position.Y, (float)self.selectedItem);
+                    SpecialNetMessage.SendPlayerControlsPacket(self.whoAmI, self.position, self.selectedItem);
                 }
             }
 

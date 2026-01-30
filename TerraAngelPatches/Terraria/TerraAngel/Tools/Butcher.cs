@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using TerraAngel.Net;
 using Terraria.DataStructures;
 
@@ -46,7 +46,7 @@ public class Butcher
         {
             trueHitCount = (int)Math.Ceiling((float)(npc.life + (int)Math.Ceiling(npc.defense / 2f)) / damage);
         }
-        SpecialNetMessage.SendData(MessageID.PlayerControls, null, Main.myPlayer, npc.position.X, npc.position.Y, (float)Main.LocalPlayer.selectedItem);
+        SpecialNetMessage.SendPlayerControl(npc.position);
         for (int j = 0; j < trueHitCount; j++)
         {
             npc.StrikeNPCNoInteraction(damage, 0f, 0, crit: true, noEffect: false, fromNet: false);
@@ -62,7 +62,7 @@ public class Butcher
             var player = Main.player[Main.myPlayer];
             trueHitCount = (int)Math.Ceiling((float)(npc.life + (int)Math.Ceiling(npc.defense / 2f)) / player.inventory[player.selectedItem].damage);
         }
-        SpecialNetMessage.SendData(MessageID.PlayerControls, null, Main.myPlayer, npc.position.X, npc.position.Y, (float)Main.LocalPlayer.selectedItem);
+        SpecialNetMessage.SendPlayerControl(npc.position);
         for (int j = 0; j < trueHitCount; j++)
         {
             NetMessage.TrySendData(MessageID.StrikeNPCWithHeldItem, -1, -1, null!, npc.whoAmI, Main.myPlayer);
@@ -87,7 +87,7 @@ public class Butcher
         {
             trueHitCount = (int)Math.Ceiling((float)(player.statLife + player.statDefense / 2) / (float)damage);
         }
-        SpecialNetMessage.SendData(MessageID.PlayerControls, null, Main.myPlayer, player.position.X, player.position.Y, (float)Main.LocalPlayer.selectedItem);
+        SpecialNetMessage.SendPlayerControl(player.position);
         for (int j = 0; j < trueHitCount; j++)
         {
             NetMessage.SendPlayerHurt(player.whoAmI, PlayerDeathReason.ByPlayer(Main.myPlayer), damage, 0, critical: true, pvp: true, 0);
