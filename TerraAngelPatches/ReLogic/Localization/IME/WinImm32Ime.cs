@@ -1,4 +1,6 @@
-﻿namespace ReLogic.Localization.IME;
+﻿using Microsoft.Xna.Framework.Input;
+
+namespace ReLogic.Localization.IME;
 
 using System;
 using System.Runtime.InteropServices;
@@ -59,7 +61,11 @@ internal class WinImm32Ime : PlatformIme, IMessageFilter
 
     private void SetEnabled(bool bEnable)
     {
-        ReLogic.Localization.IME.WinImm32.NativeMethods.ImmAssociateContext(_hWnd, bEnable ? _hImc : IntPtr.Zero);
+        if (bEnable)
+            TextInputEXT.StartTextInput();
+        else
+            TextInputEXT.StopTextInput();
+        // ReLogic.Localization.IME.WinImm32.NativeMethods.ImmAssociateContext(_hWnd, bEnable ? _hImc : IntPtr.Zero);
     }
 
     private void FinalizeString(bool bSend = false)
