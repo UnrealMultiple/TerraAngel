@@ -61,6 +61,17 @@ public class WindowManager
     [JsonIgnore]
     public IntPtr WindowHandle = IntPtr.Zero;
 
+    /// <summary>
+    /// Gets the display scale factor (pixel size / logical size)
+    /// </summary>
+    private float GetDisplayScale()
+    {
+        SDL.SDL_GetWindowSize(WindowHandle, out int logicalW, out int logicalH);
+        SDL.SDL_GetWindowSizeInPixels(WindowHandle, out int pixelW, out int pixelH);
+        if (logicalW == 0 || logicalH == 0) return 1f;
+        return (float)pixelW / logicalW;
+    }
+
     [JsonIgnore]
     public int Width
     {
@@ -77,7 +88,9 @@ public class WindowManager
             }
 
             width = value;
-            SDL.SDL_SetWindowSize(WindowHandle, width, height);
+            // Convert pixel dimensions to logical for SDL_SetWindowSize
+            float scale = GetDisplayScale();
+            SDL.SDL_SetWindowSize(WindowHandle, (int)(width / scale), (int)(height / scale));
             wantToResizeGraphics = true;
         }
     }
@@ -98,7 +111,9 @@ public class WindowManager
             }
 
             height = value;
-            SDL.SDL_SetWindowSize(WindowHandle, width, height);
+            // Convert pixel dimensions to logical for SDL_SetWindowSize
+            float scale = GetDisplayScale();
+            SDL.SDL_SetWindowSize(WindowHandle, (int)(width / scale), (int)(height / scale));
             wantToResizeGraphics = true;
         }
     }
@@ -111,7 +126,9 @@ public class WindowManager
         {
             width = value.X;
             height = value.Y;
-            SDL.SDL_SetWindowSize(WindowHandle, width, height);
+            // Convert pixel dimensions to logical for SDL_SetWindowSize
+            float scale = GetDisplayScale();
+            SDL.SDL_SetWindowSize(WindowHandle, (int)(width / scale), (int)(height / scale));
             wantToResizeGraphics = true;
         }
     }
@@ -130,7 +147,9 @@ public class WindowManager
                         SDL.SDL_SetWindowFullscreen(WindowHandle, false);
                         SDL.SDL_SetWindowBordered(WindowHandle, true);
                         SDL.SDL_SetWindowResizable(WindowHandle, true);
-                        SDL.SDL_SetWindowSize(WindowHandle, Width, Height);
+                        // Convert pixel dimensions to logical for SDL_SetWindowSize
+                        float scale = GetDisplayScale();
+                        SDL.SDL_SetWindowSize(WindowHandle, (int)(Width / scale), (int)(Height / scale));
 
                         centerWindow = true;
                         Graphics!.IsFullScreen = false;
@@ -303,7 +322,8 @@ public class WindowManager
 
             maximized = (flags & SDL.SDL_WindowFlags.SDL_WINDOW_MAXIMIZED) != 0;
 
-            SDL.SDL_GetWindowSize(WindowHandle, out int w, out int h);
+            // Use pixel dimensions to match what we're actually rendering at
+            SDL.SDL_GetWindowSizeInPixels(WindowHandle, out int w, out int h);
 
             if (width != w || height != h)
             {
@@ -376,36 +396,16 @@ public class WindowManager
 
     public void HandleResize()
     {
-        if (State == WindowState.Windowed)
-        {
-            ResizeGraphics(Width, Height);
-        }
-        if (State == WindowState.Fullscreen || State == WindowState.BorderlessFullscreen)
-        {
-            SDL.SDL_GetDisplayBounds(SDL.SDL_GetDisplayForWindow(WindowHandle), out SDL.SDL_Rect rect);
-
-            int w = rect.w;
-            int h = rect.h;
-
-            ResizeGraphics(w, h);
-        }
+        // Use pixel dimensions for backbuffer to ensure crisp rendering with DPI scaling
+        SDL.SDL_GetWindowSizeInPixels(WindowHandle, out int pixelW, out int pixelH);
+        ResizeGraphics(pixelW, pixelH);
     }
 
     public void HandleMove()
     {
-        if (State == WindowState.Windowed)
-        {
-            MoveGraphics(Width, Height);
-        }
-        if (State == WindowState.Fullscreen || State == WindowState.BorderlessFullscreen)
-        {
-            SDL.SDL_GetDisplayBounds(SDL.SDL_GetDisplayForWindow(WindowHandle), out SDL.SDL_Rect rect);
-
-            int w = rect.w;
-            int h = rect.h;
-
-            MoveGraphics(w, h);
-        }
+        // Use pixel dimensions for consistency with HandleResize
+        SDL.SDL_GetWindowSizeInPixels(WindowHandle, out int pixelW, out int pixelH);
+        MoveGraphics(pixelW, pixelH);
     }
 
     public void ApplyGraphics()
@@ -426,6 +426,8 @@ public class WindowManager
         Main.screenWidth = w;
         Main.screenHeight = h;
 
+        // With HIGHDPI + SDL_VIDEO_WAYLAND_SCALE_TO_DISPLAY=0,
+        // mouse coordinates are already in pixel space
         PlayerInput.RawMouseScale = Vector2.One;
 
         Main.TryPickingDefaultUIScale(h);
@@ -450,6 +452,8 @@ public class WindowManager
         Main.screenWidth = w;
         Main.screenHeight = h;
 
+        // With HIGHDPI + SDL_VIDEO_WAYLAND_SCALE_TO_DISPLAY=0,
+        // mouse coordinates are already in pixel space
         PlayerInput.RawMouseScale = Vector2.One;
 
         Main.TryPickingDefaultUIScale(h);

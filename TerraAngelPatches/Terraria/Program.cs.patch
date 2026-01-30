@@ -28,7 +28,19 @@
          LoadedEverything = true;
      }
  
-@@ -186,6 +_,7 @@
+@@ -182,10 +_,19 @@
+         if (IsFna)
+         {
+             TrySettingDefaultFNADriver(args);
++            // Disable system DPI scaling on Linux
++            // This prevents the compositor from scaling the window and ensures 1:1 pixel rendering
++            if (Platform.IsLinux)
++            {
++                Environment.SetEnvironmentVariable("FNA_GRAPHICS_ENABLE_HIGHDPI", "1");
++                Environment.SetEnvironmentVariable("SDL_VIDEO_WAYLAND_SCALE_TO_DISPLAY", "0");
++                Environment.SetEnvironmentVariable("SDL_VIDEO_X11_SCALING_FACTOR", "1");
++            }
+         }
  
          LaunchParameters = Utils.ParseArguements(args);
          SavePath = (LaunchParameters.ContainsKey("-savedirectory") ? LaunchParameters["-savedirectory"] : Platform.Get<IPathService>().GetStoragePath("Terraria"));
