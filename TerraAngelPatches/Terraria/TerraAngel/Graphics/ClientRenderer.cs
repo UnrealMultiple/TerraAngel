@@ -77,11 +77,11 @@ public class ClientRenderer : ImGuiRenderer
                 var pio = ImGui.GetPlatformIO();
                 pio.Platform_GetClipboardTextFn = Marshal.GetFunctionPointerForDelegate(new GetClipboardTextFn(static _ =>
                 {
-                    return new StringBuilder(SDL2.SDL.SDL_GetClipboardText());
+                    return new StringBuilder(SDL3.SDL.SDL_GetClipboardText());
                 }));
                 pio.Platform_SetClipboardTextFn = Marshal.GetFunctionPointerForDelegate(new SetClipboardTextFn(static (_, text) =>
                 {
-                    SDL2.SDL.SDL_SetClipboardText(text.ToString());
+                    SDL3.SDL.SDL_SetClipboardText(text.ToString());
                 }));
             }
         }

@@ -15,7 +15,7 @@
 -            MessageBox.Show(Language.GetTextValue("Error.LaunchFromSteam"), Language.GetTextValue("Error.Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 -            Environment.Exit(1);
 +            ClientConfig.Settings.UseSteamSocialAPI = false;
-+            SDL2.SDL.SDL_ShowSimpleMessageBox(SDL2.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR, "Terraria: Error", Language.GetTextValue("Error.LaunchFromSteam"), Main.instance.Window.Handle);
++            SDL3.SDL.SDL_ShowSimpleMessageBox(SDL3.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR, "Terraria: Error", Language.GetTextValue("Error.LaunchFromSteam"), Main.instance.Window.Handle);
 +            Environment.Exit(-1);
          }
  
