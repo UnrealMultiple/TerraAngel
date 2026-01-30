@@ -55,6 +55,16 @@
      {
          bool flag = tileCache.invisibleWall();
          if (tileCache.wall > 0 && tileCache.fullbrightWall() && !flag)
+@@ -2024,6 +_,9 @@
+                     {
+                         for (int l = j - 36; l <= j + 30; l += 10)
+                         {
++                            if (k < 0 || k >= Main.Map.MaxWidth || l < 0 || l >= Main.Map.MaxHeight)
++                                continue;
++                            
+                             int type = Main.Map[k, l].Type;
+                             for (int m = 0; m < snowTypes.Length; m++)
+                             {
 @@ -2061,7 +_,7 @@
          return skyPosition + num;
      }
