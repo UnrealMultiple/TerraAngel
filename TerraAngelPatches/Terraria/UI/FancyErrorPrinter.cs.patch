@@ -5,7 +5,7 @@
          if (!Main.dedServ)
          {
 -            MessageBox.Show(preparedMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-+            SDL2.SDL.SDL_ShowSimpleMessageBox(SDL2.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR, "Terraria: Error", preparedMessage, Main.instance.Window.Handle);
++            SDL3.SDL.SDL_ShowSimpleMessageBox(SDL3.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR, "Terraria: Error", preparedMessage, Main.instance.Window.Handle);
          }
      }
  }

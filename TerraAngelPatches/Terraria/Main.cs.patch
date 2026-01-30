@@ -738,22 +738,6 @@
          TimeLogger.StartTimestamp fromTimestamp = TimeLogger.Start();
          TextSnippet[] array = null;
          if (drawingPlayerChat)
-@@ -44703,13 +_,13 @@
-         {
-             return;
-         }
--
-+        
-         string text = Lang.inter[37].Value;
-         if (player[myPlayer].inventory[player[myPlayer].selectedItem].Name != null && player[myPlayer].inventory[player[myPlayer].selectedItem].Name != "")
-         {
-             text = player[myPlayer].inventory[player[myPlayer].selectedItem].AffixName();
-         }
--
-+        
-         Vector2 vector = FontAssets.MouseText.Value.MeasureString(text) / 2f;
-         spriteBatch.DrawString(FontAssets.MouseText.Value, text, new Vector2(236f - vector.X, 0f), new Microsoft.Xna.Framework.Color(mouseTextColor, mouseTextColor, mouseTextColor, mouseTextColor), 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
-         int num = 20;
 @@ -46245,6 +_,7 @@
  
      private static void DrawInterface_41_InterfaceLogic4()

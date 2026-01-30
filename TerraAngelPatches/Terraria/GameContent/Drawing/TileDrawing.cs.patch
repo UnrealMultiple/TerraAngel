@@ -26,10 +26,8 @@
                  Tile tile = Main.tile[j, i];
 -                if (tile != null)
 -                {
--                    Main.tileBatch.SetLayer(0u, 0);
-+                Main.tileBatch.SetLayer(0u, 0);
--                    DrawTile_LiquidBehindTile(solidLayer: false, waterStyleOverride, unscaledPosition, drawOffSet, j, i, tile);
-+                DrawTile_LiquidBehindTile(solidLayer: false, waterStyleOverride, unscaledPosition, drawOffSet, j, i, tile);
+                     Main.tileBatch.SetLayer(0u, 0);
+                     DrawTile_LiquidBehindTile(solidLayer: false, waterStyleOverride, unscaledPosition, drawOffSet, j, i, tile);
 -                }
              }
          }
@@ -238,12 +236,9 @@
              Tile tile = Main.tile[tileX, topRopeY];
 -            if (tile != null)
 -            {
--                int y = (tileY + tileX) % 3 * 18;
-+            int y = (tileY + tileX) % 3 * 18;
--                Texture2D tileDrawTexture = GetTileDrawTexture(tile, tileX, tileY);
-+            Texture2D tileDrawTexture = GetTileDrawTexture(tile, tileX, tileY);
--                Main.tileBatch.Draw(tileDrawTexture, new Vector2(tileX * 16 - (int)screenPosition.X, tileY * 16 - (int)screenPosition.Y) + screenOffset, new Rectangle(90, y, 16, 16), drawData.tileLight, default(Vector2), 1f, drawData.tileSpriteEffect);
-+            Main.tileBatch.Draw(tileDrawTexture, new Vector2(tileX * 16 - (int)screenPosition.X, tileY * 16 - (int)screenPosition.Y) + screenOffset, new Rectangle(90, y, 16, 16), drawData.tileLight, default(Vector2), 1f, drawData.tileSpriteEffect);
+                 int y = (tileY + tileX) % 3 * 18;
+                 Texture2D tileDrawTexture = GetTileDrawTexture(tile, tileX, tileY);
+                 Main.tileBatch.Draw(tileDrawTexture, new Vector2(tileX * 16 - (int)screenPosition.X, tileY * 16 - (int)screenPosition.Y) + screenOffset, new Rectangle(90, y, 16, 16), drawData.tileLight, default(Vector2), 1f, drawData.tileSpriteEffect);
 -            }
          }
      }
@@ -346,105 +341,19 @@
              ushort type = tile.type;
              if (!tile.active() || !TileID.Sets.VineThreads[type])
              {
-@@ -10041,59 +_,56 @@
+@@ -10041,8 +_,6 @@
          for (int num6 = startY; num6 > 10; num6--)
          {
              Tile tile = Main.tile[x, num6];
 -            if (tile != null)
 -            {
--                ushort type = tile.type;
-+            ushort type = tile.type;
--                if (!tile.active() || !TileID.Sets.ReverseVineThreads[type])
-+            if (!tile.active() || !TileID.Sets.ReverseVineThreads[type])
--                {
-+            {
--                    break;
-+                break;
--                }
-+            }
+                 ushort type = tile.type;
+                 if (!tile.active() || !TileID.Sets.ReverseVineThreads[type])
+                 {
+@@ -10093,7 +_,6 @@
+                 }
  
--                num++;
-+            num++;
--                if (num2 >= 5)
-+            if (num2 >= 5)
--                {
-+            {
--                    num3 += 0.0075f * amount;
-+                num3 += 0.0075f * amount;
--                }
-+            }
- 
--                if (num2 >= 2)
-+            if (num2 >= 2)
--                {
-+            {
--                    num3 += 0.0025f;
-+                num3 += 0.0025f;
--                }
-+            }
- 
--                if (WallID.Sets.AllowsWind[tile.wall] && (double)num6 < Main.worldSurface)
-+            if (WallID.Sets.AllowsWind[tile.wall] && (double)num6 < Main.worldSurface)
--                {
-+            {
--                    num2++;
-+                num2++;
--                }
-+            }
- 
--                float windGridPush = GetWindGridPush(x, num6, 40, -0.004f);
-+            float windGridPush = GetWindGridPush(x, num6, 40, -0.004f);
--                num4 = ((windGridPush != 0f || num5 == 0f) ? (num4 - windGridPush) : (num4 * -0.78f));
-+            num4 = ((windGridPush != 0f || num5 == 0f) ? (num4 - windGridPush) : (num4 * -0.78f));
--                num5 = windGridPush;
-+            num5 = windGridPush;
--                short tileFrameX = tile.frameX;
-+            short tileFrameX = tile.frameX;
--                short tileFrameY = tile.frameY;
-+            short tileFrameY = tile.frameY;
--                Color color = Lighting.GetColor(x, num6);
-+            Color color = Lighting.GetColor(x, num6);
--                GetTileDrawData(x, num6, tile, type, ref tileFrameX, ref tileFrameY, out var tileWidth, out var tileHeight, out var tileTop, out var halfBrickHeight, out var addFrX, out var addFrY, out var tileSpriteEffect, out var _, out var _, out var _);
-+            GetTileDrawData(x, num6, tile, type, ref tileFrameX, ref tileFrameY, out var tileWidth, out var tileHeight, out var tileTop, out var halfBrickHeight, out var addFrX, out var addFrY, out var tileSpriteEffect, out var _, out var _, out var _);
--                Vector2 position = new Vector2(-(int)screenPosition.X, -(int)screenPosition.Y) + offSet + vector;
-+            Vector2 position = new Vector2(-(int)screenPosition.X, -(int)screenPosition.Y) + offSet + vector;
--                if (tile.fullbrightBlock())
-+            if (tile.fullbrightBlock())
--                {
-+            {
--                    color = Color.White;
-+                color = Color.White;
--                }
-+            }
- 
--                float num7 = (float)num2 * (0f - num3) * windCycle + num4;
-+            float num7 = (float)num2 * (0f - num3) * windCycle + num4;
--                Texture2D tileDrawTexture = GetTileDrawTexture(tile, x, num6);
-+            Texture2D tileDrawTexture = GetTileDrawTexture(tile, x, num6);
--                if (tileDrawTexture == null)
-+            if (tileDrawTexture == null)
--                {
-+            {
--                    break;
-+                break;
--                }
-+            }
- 
--                if (IsVisible(tile))
-+            if (IsVisible(tile))
--                {
-+            {
--                    Tile tile2 = Main.tile[x, num6 - 1];
-+                Tile tile2 = Main.tile[x, num6 - 1];
--                    bool flag = tile2.active() && TileID.Sets.ReverseVineThreads[tile2.type];
-+                bool flag = tile2.active() && TileID.Sets.ReverseVineThreads[tile2.type];
--                    DrawNature(tileDrawTexture, position, new Rectangle(tileFrameX + addFrX, tileFrameY + addFrY, tileWidth, tileHeight - halfBrickHeight), color, num7, new Vector2(tileWidth / 2, halfBrickHeight - tileTop + tileHeight), 1f, tileSpriteEffect, 0f, flag ? SideFlags.Top : SideFlags.None);
-+                DrawNature(tileDrawTexture, position, new Rectangle(tileFrameX + addFrX, tileFrameY + addFrY, tileWidth, tileHeight - halfBrickHeight), color, num7, new Vector2(tileWidth / 2, halfBrickHeight - tileTop + tileHeight), 1f, tileSpriteEffect, 0f, flag ? SideFlags.Top : SideFlags.None);
--                }
-+            }
- 
--                vector += (num7 - (float)Math.PI / 2f).ToRotationVector2() * 16f;
-+            vector += (num7 - (float)Math.PI / 2f).ToRotationVector2() * 16f;
+                 vector += (num7 - (float)Math.PI / 2f).ToRotationVector2() * 16f;
 -            }
          }
      }
