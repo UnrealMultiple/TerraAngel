@@ -31,11 +31,11 @@
 -        }
 -
 -        RegisterService((IImeService)new WindowsIme(_wndProcHook, windowHandle));
-         RegisterService((IMouseNotifier)new WindowsMouseNotifier(_wndProcHook));
 +        var props = SDL.SDL_GetWindowProperties(windowHandle);
 +        var realWindowHandle = SDL.SDL_GetPointerProperty(props, SDL.SDL_PROP_WINDOW_WIN32_HWND_POINTER, IntPtr.Zero);
 +        
 +        _wndProcHook ??= new WindowsMessageHook(realWindowHandle);
+         RegisterService((IMouseNotifier)new WindowsMouseNotifier(_wndProcHook));
 +        RegisterService((IImeService)new WinImm32Ime(_wndProcHook, realWindowHandle));
      }
 -
