@@ -169,7 +169,7 @@ public class GraphicsUI : UIState, IHaveBackButtonCommand
         ResolutionPanel.Append(ResolutionRightText);
         ResolutionPanel.Append(ResolutionLeftText);
 
-        FramerateSlider = new UITextSliderInt(30, 301, () => (ClientLoader.WindowManager.CapFPS ? 301 : ClientLoader.WindowManager.FPSCap), x => { if (x > 300) { ClientLoader.WindowManager.CapFPS = false; } else { ClientLoader.WindowManager.CapFPS = true; ClientLoader.WindowManager.FPSCap = x; } }, () => GetString($"FPS Cap: {GetFramerateText()}"))
+        FramerateSlider = new UITextSliderInt(30, 401, () => (ClientLoader.WindowManager.CapFPS ? ClientLoader.WindowManager.FPSCap : 401), x => { if (x > 400) { ClientLoader.WindowManager.CapFPS = false; } else { ClientLoader.WindowManager.CapFPS = true; ClientLoader.WindowManager.FPSCap = x; } }, () => GetString($"FPS Cap: {GetFramerateText()}"))
         {
             Width = { Pixels = -10, Percent = 0.8f },
             Height = { Pixels = 40 },
@@ -180,7 +180,7 @@ public class GraphicsUI : UIState, IHaveBackButtonCommand
             HAlign = 0.5f,
         };
 
-        FramerateUnfocusedSlider = new UITextSliderInt(10, 301, () => (ClientLoader.WindowManager.CapFPSUnfocused ? 301 : ClientLoader.WindowManager.FPSCapUnfocused), x => { if (x > 300) { ClientLoader.WindowManager.CapFPSUnfocused = false; } else { ClientLoader.WindowManager.CapFPSUnfocused = true; ClientLoader.WindowManager.FPSCapUnfocused = x; } }, () => GetString($"FPS Cap Unfocused: {GetFramerateTextUnfocused()}"))
+        FramerateUnfocusedSlider = new UITextSliderInt(10, 401, () => (ClientLoader.WindowManager.CapFPSUnfocused ? ClientLoader.WindowManager.FPSCapUnfocused : 401), x => { if (x > 400) { ClientLoader.WindowManager.CapFPSUnfocused = false; } else { ClientLoader.WindowManager.CapFPSUnfocused = true; ClientLoader.WindowManager.FPSCapUnfocused = x; } }, () => GetString($"FPS Cap Unfocused: {GetFramerateTextUnfocused()}"))
         {
             Width = { Pixels = -10, Percent = 0.8f },
             Height = { Pixels = 40 },
