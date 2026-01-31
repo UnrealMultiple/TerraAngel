@@ -262,6 +262,10 @@ public class ClientConfig
         [UIConfigElement("en-US", "Follow Game Translation")]
         public bool IsFollowGameTranslation = true;
 
+        [UIConfigElement("zh-CN", "启用内置调试命令")]
+        [UIConfigElement("en-US", "Enable Built-In Debug Commands")]
+        public bool IsEnableBuiltInDebugCommands = false;
+
         public string CustomClientHello = "";
 
         public int ConsoleHistoryLimit = 5000;

@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/Testing/DebugOptions.cs
++++ src/TerraAngel/Terraria/Testing/DebugOptions.cs
+@@ -4,7 +_,7 @@
+ namespace Terraria.Testing;
+ public static class DebugOptions
+ {
+-    public static bool enableDebugCommands = false;
++    public static bool enableDebugCommands => TerraAngel.Config.ClientConfig.Settings.IsEnableBuiltInDebugCommands;
+     public static bool Shared_ReportCommandUsage = true;
+     public static int Shared_ServerPing = 0;
+     public static double UpdateWaitInMs = 0.0;
