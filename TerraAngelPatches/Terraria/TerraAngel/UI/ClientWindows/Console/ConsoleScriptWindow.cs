@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CSharpEval;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Completion;
 using Microsoft.CodeAnalysis.CSharp.Scripting.Hosting;
 using Microsoft.CodeAnalysis.Tags;
 using Terraria.GameContent.ObjectInteractions;
+using TerraAngel.Scripting;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using static Terraria.WorldBuilding.Modifiers;
 
@@ -16,19 +16,16 @@ namespace TerraAngel.UI.ClientWindows.Console;
 
 public class ConsoleScriptWindow
 {
-    public FullCSharpEvaluator? Script;
+    public ScriptEvaluator? Script;
 
     private ImmutableArray<CompletionItem> ScriptCompletionItems = ImmutableArray<CompletionItem>.Empty;
-
     private ImmutableArray<string> ScriptCompletionArguments = ImmutableArray<string>.Empty;
-
     private int SelectedCompletionItem = 0;
-
     private int CompletionViewCenterIndex = 0;
-
     private int SelectedCompletionOverload = 0;
-
     private readonly object CompletionLock = new object();
+    private CancellationTokenSource? _completionCancellation;
+    private int _lastCompletionRequestHash;
 
     public ConsoleScriptWindow()
     {
@@ -76,9 +73,8 @@ public class ConsoleScriptWindow
         {
             ClientLoader.Console.WriteLine(GetString("Initializing Scripting Evaluator"));
             try
-
             {
-                Script = new FullCSharpEvaluator(AppDomain.CurrentDomain.GetAssemblies().Where(x => !x.IsDynamic).Where(x => x != typeof(Steamworks.AppId_t).Assembly), usings);
+                Script = new ScriptEvaluator(AppDomain.CurrentDomain.GetAssemblies().Where(x => !x.IsDynamic).Where(x => x != typeof(Steamworks.AppId_t).Assembly), usings);
                 ClientLoader.Console.WriteLine(GetString("Finished Initializing Scripting Evaluator"));
             }
             catch (Exception ex)
@@ -101,6 +97,7 @@ public class ConsoleScriptWindow
         if (completionItems.Length > 0)
         {
             #region Completion Items Draw
+
             SelectedCompletionItem = Math.Clamp(SelectedCompletionItem, 0, completionItems.Length - 1);
             CompletionViewCenterIndex = Math.Clamp(CompletionViewCenterIndex, 0, completionItems.Length - 1);
 
@@ -153,7 +150,8 @@ public class ConsoleScriptWindow
                     DrawCompletionItem(completionItems[i]);
                 }
             }
-            #endregion
+
+            #endregion Completion Items Draw
 
             if (ImGui.IsKeyPressed(ImGuiKey.UpArrow, true))
             {
@@ -277,10 +275,12 @@ public class ConsoleScriptWindow
             ClientLoader.Console.WriteLine(CSharpObjectFormatter.Instance.FormatObject(result.Result));
         }
 
-        if (result.Diagnostics.Where(x => x.Severity == DiagnosticSeverity.Error).Any())
+        bool hasErrors = false;
+        foreach (Diagnostic diagnostic in result.Diagnostics)
         {
-            foreach (Diagnostic diagnostic in result.Diagnostics)
+            if (diagnostic.Severity == DiagnosticSeverity.Error)
             {
+                hasErrors = true;
                 ClientLoader.Console.WriteError(diagnostic.ToString());
             }
         }
@@ -290,7 +290,7 @@ public class ConsoleScriptWindow
             ClientLoader.Console.WriteError(result.Exception.ToString());
         }
     }
-    
+
     public void UpdateCompletionItems(string text, int cursorPosition)
     {
         if (Script is null)
@@ -299,17 +299,37 @@ public class ConsoleScriptWindow
             return;
         }
 
+        int requestHash = HashCode.Combine(text, cursorPosition);
+        if (requestHash == _lastCompletionRequestHash)
+        {
+            return;
+        }
+        _lastCompletionRequestHash = requestHash;
+
+        _completionCancellation?.Cancel();
+        _completionCancellation = new CancellationTokenSource();
+        CancellationToken token = _completionCancellation.Token;
+
         Task.Run(async () =>
         {
-            ImmutableArray<CompletionItem> items = await Script.GetCompletionsAsync(text, cursorPosition, CompletionTrigger.Invoke);
-            ImmutableArray<string> argumentItems = await Script.GetSymbolArgumentsAsync(text, cursorPosition);
-
-            lock (CompletionLock)
+            try
             {
-                ScriptCompletionItems = items;
-                ScriptCompletionArguments = argumentItems;
+                ImmutableArray<CompletionItem> items = await Script.GetCompletionsAsync(text, cursorPosition, CompletionTrigger.Invoke, token);
+                ImmutableArray<string> argumentItems = await Script.GetSymbolArgumentsAsync(text, cursorPosition);
+
+                if (!token.IsCancellationRequested)
+                {
+                    lock (CompletionLock)
+                    {
+                        ScriptCompletionItems = items;
+                        ScriptCompletionArguments = argumentItems;
+                    }
+                }
             }
-        });
+            catch (OperationCanceledException)
+            {
+            }
+        }, token);
     }
 
     public bool ScrollThroughCompletions(ImGuiInputTextCallbackDataPtr data)
@@ -444,7 +464,6 @@ public class ConsoleScriptWindow
         //    }
         //    drawList.AddRectFilled(origin, origin + size, ImGui.GetColorU32(ImGuiCol.WindowBg));
 
-
         //    float offset = style.ItemSpacing.Y;
         //    void RenderCandidate(int i)
         //    {
@@ -483,13 +502,11 @@ public class ConsoleScriptWindow
         //        }
         //    }
 
-
         //    completionOrigin = origin;
         //    completionSize = size;
 
         //    if (Util.IsMouseHoveringRect(origin, origin + size))
         //    {
-
         //        io.WantCaptureMouse = true;
 
         //        if (CompletionViewIndex > 4 && CompletionViewIndex < ScriptCompletionItems.Length - 4)
@@ -499,7 +516,6 @@ public class ConsoleScriptWindow
         //            if (CompletionViewIndex <= 5) CompletionViewIndex = 5;
         //            else if (CompletionViewIndex >= ScriptCompletionItems.Length - 4) CompletionViewIndex = ScriptCompletionItems.Length - 5;
         //        }
-
 
         //        ImGui.SetItemDefaultFocus();
         //        ImGui.SetKeyboardFocusHere(-1);

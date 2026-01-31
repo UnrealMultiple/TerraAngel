@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.2.32616.157
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11312.151 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Terraria", "Terraria\Terraria.csproj", "{14861D20-10EB-41DA-9674-BD308934CEB2}"
 EndProject
@@ -12,8 +12,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TerraAngel.Tests", "TerraAngel.Tests\TerraAngel.Tests.csproj", "{FF3E36B7-95D4-496C-8D0B-311F41EC7167}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FNA.Core", "..\..\TNA\FNA.Core.csproj", "{9B440AD2-2BEF-4D6B-9D9E-79EB45CB15CE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharpEval", "..\..\CSharpEval\CSharpEval\CSharpEval.csproj", "{3820AE87-754C-4CC2-9EA8-6E9ED7DC1BB3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrProtocol", "..\..\TrProtocol\TrProtocol\TrProtocol.csproj", "{8B71274B-0D4D-48DF-98D8-8148476315DF}"
 EndProject
@@ -43,10 +41,6 @@ Global
 		{9B440AD2-2BEF-4D6B-9D9E-79EB45CB15CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B440AD2-2BEF-4D6B-9D9E-79EB45CB15CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B440AD2-2BEF-4D6B-9D9E-79EB45CB15CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3820AE87-754C-4CC2-9EA8-6E9ED7DC1BB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3820AE87-754C-4CC2-9EA8-6E9ED7DC1BB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3820AE87-754C-4CC2-9EA8-6E9ED7DC1BB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3820AE87-754C-4CC2-9EA8-6E9ED7DC1BB3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8B71274B-0D4D-48DF-98D8-8148476315DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8B71274B-0D4D-48DF-98D8-8148476315DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B71274B-0D4D-48DF-98D8-8148476315DF}.Release|Any CPU.ActiveCfg = Release|Any CPU

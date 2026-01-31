@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Terraria.csproj
 +++ src/TerraAngel/Terraria/Terraria.csproj
-@@ -3,41 +_,201 @@
+@@ -3,41 +_,203 @@
    <PropertyGroup>
      <OutputType>WinExe</OutputType>
      <Nullable>enable</Nullable>
@@ -52,7 +52,6 @@
 +
 +  <!-- New libraries added -->
 +  <ItemGroup>
-+    <ProjectReference Include="..\..\..\CSharpEval\CSharpEval\CSharpEval.csproj" />
 +    <ProjectReference Include="..\..\..\TNA\FNA.Core.csproj" />
 +    <ProjectReference Include="..\..\..\TrProtocol\TrProtocol\TrProtocol.csproj" />
 +    <ProjectReference Include="..\TerraAngel.PluginAPI\TerraAngel.PluginAPI.csproj" />
@@ -80,6 +79,9 @@
 +    <PackageReference Include="GetText.NET" Version="8.0.5" />
 +    <PackageReference Include="ImGui.NET" Version="1.91.6.1" />
 +    <PackageReference Include="LargeAddressAware" Version="1.0.6" />
++    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
++    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.12.0" />
++    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.12.0" />
 +    <PackageReference Include="MP3Sharp" Version="1.0.5" />
 +    <PackageReference Include="NVorbis" Version="0.10.5" />
 +    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />

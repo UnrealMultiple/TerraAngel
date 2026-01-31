@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
-using CSharpEval;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Completion;
 using Microsoft.CodeAnalysis.CSharp.Scripting.Hosting;
@@ -113,11 +112,10 @@ public class ConsoleWindow : ClientWindow
             {
                 ConsoleElement item = ConsoleItems[i];
                 ImGui.PushStyleColor(ImGuiCol.Text, item.TextColor.PackedValue);
-                string text = "";
-                if (item.AboveDuplicateCount > 0) text = $"{item.Text} ({item.AboveDuplicateCount})";
-                else text = item.Text;
-
-                Vector2 textSize = ImGui.CalcTextSize(text, wrapWidth);
+                
+                string text = item.GetDisplayText();
+                Vector2 textSize = item.GetOrCalculateTextSize(text, wrapWidth);
+                
                 if (ImGui.IsRectVisible(textSize))
                 {
                     if (ImGuiUtil.WrappedSelectable($"coni{i}", text, wrapWidth))
@@ -443,18 +441,39 @@ public class ConsoleWindow : ClientWindow
     public class ConsoleElement
     {
         public string Text;
-
         public Color TextColor;
-
         public uint AboveDuplicateCount;
+        
+        private string? _cachedDisplayText;
+        private uint _cachedDuplicateCount;
+        private Vector2 _cachedTextSize;
+        private float _cachedWrapWidth = -1f;
 
         public ConsoleElement(string text, Color textColor, int aboveDuplicateCount)
         {
             Text = text;
-
             TextColor = textColor;
-
             AboveDuplicateCount = (uint)(aboveDuplicateCount);
+        }
+        
+        public string GetDisplayText()
+        {
+            if (_cachedDisplayText == null || _cachedDuplicateCount != AboveDuplicateCount)
+            {
+                _cachedDisplayText = AboveDuplicateCount > 0 ? $"{Text} ({AboveDuplicateCount})" : Text;
+                _cachedDuplicateCount = AboveDuplicateCount;
+            }
+            return _cachedDisplayText;
+        }
+        
+        public Vector2 GetOrCalculateTextSize(string displayText, float wrapWidth)
+        {
+            if (_cachedWrapWidth != wrapWidth || _cachedDuplicateCount != AboveDuplicateCount)
+            {
+                _cachedTextSize = ImGui.CalcTextSize(displayText, wrapWidth);
+                _cachedWrapWidth = wrapWidth;
+            }
+            return _cachedTextSize;
         }
     }
 

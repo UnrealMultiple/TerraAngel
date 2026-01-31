@@ -2,9 +2,6 @@
 	path = TerraAngelSetup/DotnetPatcher
 	url = https://github.com/UnrealMultiple/DotnetPatcher.git
 	branch = master
-[submodule "CSharpEval"]
-	path = CSharpEval
-	url = https://github.com/UnrealMultiple/CSharpEval.git
 [submodule "TNA"]
 	path = TNA
 	url = https://github.com/UnrealMultiple/TNA.git
