@@ -277,6 +277,14 @@ public unsafe class ClientLoader
 
     public static class Chat
     {
+        public static string ChatText
+        {
+            get => ChatWindow?.GetText() ?? "";
+            set => ChatWindow?.SetText(value);
+        }
+
+        public static void OpenChat() => ChatWindow?.OpenChat();
+        public static void CloseChat() => ChatWindow?.CloseChat();
         public static void WriteLine(string message) => ChatWindow?.WriteLine(message);
         public static void WriteLine(string message, Color color) => ChatWindow?.WriteLine(message, color);
         public static void AppendText(string message) => ChatWindow?.AppendText(message);

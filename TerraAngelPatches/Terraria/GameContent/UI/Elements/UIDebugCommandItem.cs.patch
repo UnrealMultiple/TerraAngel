@@ -1,0 +1,15 @@
+--- src/Terraria/Terraria/GameContent/UI/Elements/UIDebugCommandItem.cs
++++ src/TerraAngel/Terraria/GameContent/UI/Elements/UIDebugCommandItem.cs
+@@ -104,9 +_,9 @@
+     public override void LeftClick(UIMouseEvent evt)
+     {
+         IngameFancyUI.Close();
+-        Main.drawingPlayerChat = true;
+-        Main.chatText = "/" + Command.Name.ToLower() + " ";
+-        Main.NewText("Chat has been set to \"" + Main.chatText + "\"", byte.MaxValue, byte.MaxValue, 0);
++        TerraAngel.ClientLoader.Chat.OpenChat();
++        TerraAngel.ClientLoader.Chat.ChatText = "/" + Command.Name.ToLower() + " ";
++        Main.NewText("Chat has been set to \"" + TerraAngel.ClientLoader.Chat.ChatText + "\"", byte.MaxValue, byte.MaxValue, 0);
+     }
+ 
+     private void DrawPanel(SpriteBatch spriteBatch, Vector2 position, float width)

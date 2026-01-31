@@ -57,6 +57,8 @@ public class ChatWindow : ClientWindow
 
     private string TextToAppend = "";
 
+    private string TextToSet = "";
+
     private object ChatLock = new object();
 
     public List<ChatItem> ChatItems = new List<ChatItem>(ClientConfig.Settings.ChatMessageLimit);
@@ -315,6 +317,14 @@ public class ChatWindow : ClientWindow
                                         TextToAppend = "";
                                     }
                                 }
+                                if (TextToSet.Length > 0)
+                                {
+                                    lock (TextToSet)
+                                    {
+                                        data.SetText(TextToSet);
+                                        TextToSet = "";
+                                    }
+                                }
                                 break;
                         }
                         chatBoxFocus = true;
@@ -403,13 +413,16 @@ public class ChatWindow : ClientWindow
 
         ChatMessage message = ChatManager.Commands.CreateOutgoingMessage(StringExtensions.EscapeString(ChatText));
 
-        if (Main.netMode == 1)
+        if (!ChatManager.DebugCommands.Process((byte)Main.myPlayer, ChatText))
         {
-            ChatHelper.SendChatMessageFromClient(message);
-        }
-        else if (Main.netMode == 0)
-        {
-            ChatManager.Commands.ProcessIncomingMessage(message, Main.myPlayer);
+            if (Main.netMode == 1)
+            {
+                ChatHelper.SendChatMessageFromClient(message);
+            }
+            else if (Main.netMode == 0)
+            {
+                ChatManager.Commands.ProcessIncomingMessage(message, Main.myPlayer);
+            }
         }
 
         HistoryPosition = -1;
@@ -477,6 +490,26 @@ public class ChatWindow : ClientWindow
             {
                 TextToAppend += message;
             }
+        }
+    }
+
+    public void SetText(string message)
+    {
+        if (IsChatting)
+        {
+            OpenedThisFrame = true;
+            lock (TextToSet)
+            {
+                TextToSet = message;
+            }
+        }
+    }
+
+    public string GetText()
+    {
+        lock (TextToSet)
+        {
+            return TextToSet.Length > 0 ? TextToSet : ChatText;
         }
     }
 
