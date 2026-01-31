@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/Map/WorldMap.cs
++++ src/TerraAngel/Terraria/Map/WorldMap.cs
+@@ -12,7 +_,7 @@
+     public readonly int MaxHeight;
+     public const int BlackEdgeWidth = 40;
+     private MapTile[,] _tiles;
+-    public MapTile this[int x, int y] => _tiles[x, y];
++    public MapTile this[int x, int y] => x < 0 || x >= MaxWidth || y < 0 || y >= MaxHeight ? new MapTile() : _tiles[x, y];
+     public WorldMap(int maxWidth, int maxHeight)
+     {
+         MaxWidth = maxWidth;
