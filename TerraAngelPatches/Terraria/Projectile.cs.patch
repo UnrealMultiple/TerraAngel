@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Projectile.cs
 +++ src/TerraAngel/Terraria/Projectile.cs
-@@ -38875,8 +_,8 @@
+@@ -38878,8 +_,8 @@
          Vector2 value = master.MountedCenter + new Vector2(master.direction * 10, 0f);
          Vector2 tangent = new Vector2(0f, -100f);
          Vector2 tangent2 = new Vector2(0f, -100f);
@@ -11,7 +11,7 @@
          for (float num4 = 0f; num4 <= 1f; num4 += 0.1f)
          {
              Dust dust = Dust.NewDustPerfect(Vector2.Lerp(vector, vector2, num4), 306, (vector2 - vector) * 0.1f, 0, new Color(100, 227, 255, 127), 1f + num3);
-@@ -45680,7 +_,7 @@
+@@ -45693,7 +_,7 @@
              }
  
              float amount = MathHelper.Lerp(value, value2, Utils.GetLerpValue(num, 30f, timeLeft, clamped: true));
@@ -20,7 +20,7 @@
              if (type == 931 || type == 1039)
              {
                  velocity *= MathHelper.Lerp(0.85f, 1f, Utils.GetLerpValue(0f, 90f, timeLeft, clamped: true));
-@@ -46801,7 +_,7 @@
+@@ -46814,7 +_,7 @@
          Vector2 vector2 = -velocity;
          Vector2 value = center + vector2 * 2f;
          Vector2 value2 = vector + vector2 * (1f - num2 * 3f);
@@ -29,7 +29,7 @@
          int num3 = type;
          if (num3 == 856)
          {
-@@ -46971,7 +_,7 @@
+@@ -46984,7 +_,7 @@
          }
  
          ai[0] += 1f / ai[1];
@@ -38,7 +38,7 @@
          if (flag)
          {
              for (float num3 = 0f; num3 < 1f; num3 += 0.5f)
-@@ -52036,7 +_,7 @@
+@@ -52049,7 +_,7 @@
                  AI_GetMyGroupIndexAndFillBlackList(blacklist, out var index2, out var totalIndexesInGroup2);
                  AI_156_GetIdlePosition(index2, totalIndexesInGroup2, out var idleSpot2, out var _);
                  velocity = Vector2.Zero;
@@ -47,7 +47,7 @@
                  if (Main.rand.Next(20) == 0)
                  {
                      int num6 = AI_156_TryAttackingNPCs(blacklist);
-@@ -52059,7 +_,7 @@
+@@ -52072,7 +_,7 @@
              AI_GetMyGroupIndexAndFillBlackList(blacklist, out var index3, out var totalIndexesInGroup3);
              AI_156_GetIdlePosition(index3, totalIndexesInGroup3, out var idleSpot3, out var idleRotation3);
              velocity = Vector2.Zero;
@@ -56,7 +56,7 @@
              rotation = rotation.AngleLerp(idleRotation3, 0.45f);
              if (Main.rand.Next(20) == 0)
              {
-@@ -79421,7 +_,7 @@
+@@ -79434,7 +_,7 @@
                                  Vector2 value13 = vector73.RotatedBy(((num904 == 0) ? 1f : (-1f)) * ((float)Math.PI * 2f) / (num899 * 2f));
                                  for (float num905 = 0f; num905 < num902; num905++)
                                  {

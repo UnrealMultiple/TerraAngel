@@ -210,8 +210,8 @@ public unsafe class ClientLoader
     {
         if (typeof(Main).Assembly.GetType("TerraAngel.Sexer") is null) throw new Exception("No sexer.");
 #if !DEBUG
-            try
-            {
+        try
+        {
 #endif
         AppDomain.CurrentDomain.AssemblyResolve += (sender, sargs) =>
         {
@@ -227,11 +227,11 @@ public unsafe class ClientLoader
         };
         LoadClientInteral();
 #if !DEBUG
-            }
-            catch (Exception e)
-            {
-                Program.DisplayException(e);
-            }
+        }
+        catch (Exception e)
+        {
+            Program.DisplayException(e);
+        }
 #endif
     }
 

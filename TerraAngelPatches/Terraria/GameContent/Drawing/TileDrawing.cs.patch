@@ -211,8 +211,8 @@
 +    private void DrawBasicTile(Vector2 screenPosition, Vector2 screenOffset, int tileX, int tileY, ref TileDrawInfo drawData, Rectangle normalTileRect, Vector2 normalTilePosition)
      {
          bool flag = !TileID.Sets.DontDrawTileSliced[drawData.tileCache.type];
-         if (drawData.typeCache == 380 || TileID.Sets.Platforms[drawData.typeCache])
-@@ -1851,7 +_,7 @@
+         bool flag2 = !TileID.Sets.DontDrawTileSlopes[drawData.tileCache.type];
+@@ -1852,7 +_,7 @@
  
      public static int GetTreeVariant(int x, int y)
      {
@@ -221,7 +221,7 @@
          {
              return -1;
          }
-@@ -3906,7 +_,7 @@
+@@ -3907,7 +_,7 @@
      private void DrawXmasTree(Vector2 screenPosition, Vector2 screenOffset, int tileX, int tileY, TileDrawInfo drawData)
      {
          int num = 2;
@@ -230,7 +230,7 @@
          {
              drawData.tileTop -= 16 * drawData.tileFrameY;
              drawData.tileFrameX = Main.tile[tileX, tileY - drawData.tileFrameY].frameX;
-@@ -4037,12 +_,9 @@
+@@ -4038,12 +_,9 @@
          if (WorldGen.IsRope(tileX, tileY, out topRopeY, out bottomRopeY))
          {
              Tile tile = Main.tile[tileX, topRopeY];
@@ -243,7 +243,7 @@
          }
      }
  
-@@ -4089,35 +_,14 @@
+@@ -4090,35 +_,14 @@
          }
      }
  
@@ -281,7 +281,7 @@
  
          if (tile.type == 379)
          {
-@@ -4867,6 +_,8 @@
+@@ -4868,6 +_,8 @@
          return WorldGen.InAPlaceWithWind(x, y, width, height);
      }
  
@@ -290,7 +290,7 @@
      private void GetTileDrawData(int x, int y, Tile tileCache, ushort typeCache, ref short tileFrameX, ref short tileFrameY, out int tileWidth, out int tileHeight, out int tileTop, out int halfBrickHeight, out int addFrX, out int addFrY, out SpriteEffects tileSpriteEffect, out Texture2D glowTexture, out Rectangle glowSourceRect, out Color glowColor)
      {
          tileTop = 0;
-@@ -7119,11 +_,6 @@
+@@ -7120,11 +_,6 @@
      private bool IsWindBlocked(int x, int y)
      {
          Tile tile = Main.tile[x, y];
@@ -302,7 +302,7 @@
          if (tile.wall > 0 && !WallID.Sets.AllowsWind[tile.wall])
          {
              return true;
-@@ -7534,7 +_,7 @@
+@@ -7535,7 +_,7 @@
                  bool flag2 = _rand.Next(600) == 0;
                  if (!flag2)
                  {
@@ -311,7 +311,7 @@
                      flag2 = windTimeLeft > 0 && _rand.Next(48) == 0;
                  }
  
-@@ -8307,7 +_,7 @@
+@@ -8308,7 +_,7 @@
          }
      }
  
@@ -320,7 +320,7 @@
      {
          int num = 60;
          switch (typeCache)
-@@ -8435,7 +_,7 @@
+@@ -8436,7 +_,7 @@
          return num2 * lerpValue;
      }
  
@@ -329,7 +329,7 @@
      {
          if (!Main.SettingsEnabled_TilesSwayInWind)
          {
-@@ -9926,11 +_,6 @@
+@@ -9927,11 +_,6 @@
          for (int i = startY; i < Main.maxTilesY - 10; i++)
          {
              Tile tile = Main.tile[x, i];
@@ -341,7 +341,7 @@
              ushort type = tile.type;
              if (!tile.active() || !TileID.Sets.VineThreads[type])
              {
-@@ -10041,8 +_,6 @@
+@@ -10042,8 +_,6 @@
          for (int num6 = startY; num6 > 10; num6--)
          {
              Tile tile = Main.tile[x, num6];
@@ -350,7 +350,7 @@
                  ushort type = tile.type;
                  if (!tile.active() || !TileID.Sets.ReverseVineThreads[type])
                  {
-@@ -10093,7 +_,6 @@
+@@ -10094,7 +_,6 @@
                  }
  
                  vector += (num7 - (float)Math.PI / 2f).ToRotationVector2() * 16f;

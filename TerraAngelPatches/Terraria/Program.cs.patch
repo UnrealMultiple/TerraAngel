@@ -28,45 +28,45 @@
          LoadedEverything = true;
      }
  
-@@ -182,10 +_,19 @@
-         if (IsFna)
-         {
-             TrySettingDefaultFNADriver(args);
-+            // Disable system DPI scaling on Linux
-+            // This prevents the compositor from scaling the window and ensures 1:1 pixel rendering
-+            if (Platform.IsLinux)
-+            {
-+                Environment.SetEnvironmentVariable("FNA_GRAPHICS_ENABLE_HIGHDPI", "1");
-+                Environment.SetEnvironmentVariable("SDL_VIDEO_WAYLAND_SCALE_TO_DISPLAY", "0");
-+                Environment.SetEnvironmentVariable("SDL_VIDEO_X11_SCALING_FACTOR", "1");
-+            }
+@@ -179,9 +_,19 @@
+             args = Utils.ConvertMonoArgsToDotNet(args);
          }
  
++        // Disable system DPI scaling on Linux
++        // This prevents the compositor from scaling the window and ensures 1:1 pixel rendering
++        if (Platform.IsLinux)
++        {
++            Environment.SetEnvironmentVariable("FNA_GRAPHICS_ENABLE_HIGHDPI", "1");
++            Environment.SetEnvironmentVariable("SDL_VIDEO_WAYLAND_SCALE_TO_DISPLAY", "0");
++            Environment.SetEnvironmentVariable("SDL_VIDEO_X11_SCALING_FACTOR", "1");
++        }
++
+         LogFNANativeLibVersions();
          LaunchParameters = Utils.ParseArguements(args);
          SavePath = (LaunchParameters.ContainsKey("-savedirectory") ? LaunchParameters["-savedirectory"] : Platform.Get<IPathService>().GetStoragePath("Terraria"));
 +        ClientLoader.LoadClient();
          ThreadPool.SetMinThreads(8, 8);
          InitializeConsoleOutput();
          SetupLogging();
-@@ -200,7 +_,7 @@
+@@ -196,7 +_,7 @@
          {
              Main.OnEngineLoad += delegate
              {
 -                Main.instance.IsMouseVisible = false;
-+                Main.instance.IsMouseVisible = TerraAngel.Hooks.MiscHooks.ShouldMouseBeVisible(false);
++                Main.instance.IsMouseVisible = Main.instance.IsMouseVisible = TerraAngel.Hooks.MiscHooks.ShouldMouseBeVisible(false);
              };
          }
          else if (Platform.IsWindows)
-@@ -211,7 +_,7 @@
+@@ -207,7 +_,7 @@
                  {
                      if (connected)
                      {
 -                        Main.instance.IsMouseVisible = true;
-+                        Main.instance.IsMouseVisible = TerraAngel.Hooks.MiscHooks.ShouldMouseBeVisible(true);
++                        Main.instance.IsMouseVisible = Main.instance.IsMouseVisible = TerraAngel.Hooks.MiscHooks.ShouldMouseBeVisible(true);
                          Main.instance.ReHideCursor = true;
                      }
                  });
-@@ -219,10 +_,15 @@
+@@ -215,10 +_,15 @@
          }
  
          using Main main = new Main();
@@ -83,7 +83,7 @@
              LaunchInitializer.LoadParameters(main);
              Main.OnEnginePreload += StartForceLoad;
              if (Main.dedServ)
-@@ -231,14 +_,16 @@
+@@ -227,18 +_,20 @@
              }
  
              main.Run();
@@ -96,31 +96,12 @@
 +#endif
      }
  
--    private static void TrySettingDefaultFNADriver(string[] args)
-+    public static void TrySettingDefaultFNADriver(string[] args)
+     private static void LogFNANativeLibVersions()
      {
-         bool flag = false;
-         for (int i = 0; i < args.Length; i++)
-@@ -252,11 +_,11 @@
- 
-         if (!flag)
-         {
--            Environment.SetEnvironmentVariable("FNA3D_FORCE_DRIVER", Platform.IsWindows ? "D3D12" : (Platform.IsOSX ? "Metal" : "Vulkan"));
-+            Environment.SetEnvironmentVariable("FNA3D_FORCE_DRIVER", Platform.IsWindows ? "D3D11" : (Platform.IsOSX ? "Metal" : "Vulkan"));
-         }
      }
  
 -    private static void DisplayException(Exception e)
 +    public static void DisplayException(Exception e)
      {
          try
-         {
-@@ -284,7 +_,7 @@
-                 Console.WriteLine(Language.GetTextValue("Error.ServerCrash"), DateTime.Now, text);
-             }
- 
--            MessageBox.Show(text, "Terraria: Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-+            SDL3.SDL.SDL_ShowSimpleMessageBox(SDL3.SDL.SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR, "Terraria: Error", text, Main.instance.Window.Handle);
-         }
-         catch
          {
