@@ -66,7 +66,7 @@
              switch (msgType)
              {
                  case 1:
--                    writer.Write("Terraria" + 316);
+-                    writer.Write("Terraria" + 317);
 +                    if (!string.IsNullOrEmpty(ClientConfig.Settings.CustomClientHello))
 +                    {
 +                        foreach (var s in ClientConfig.Settings.CustomClientHello.Split('/'))
@@ -77,7 +77,7 @@
                      break;
                  case 2:
                      text.Serialize(writer);
-@@ -1806,6 +_,23 @@
+@@ -1809,6 +_,23 @@
              writer.BaseStream.Position = position;
              writer.Write((ushort)num21);
              writer.BaseStream.Position = num21;
@@ -101,7 +101,7 @@
              if (Main.netMode == 1)
              {
                  if (Netplay.Connection.IsConnected())
-@@ -2007,6 +_,21 @@
+@@ -2010,6 +_,21 @@
              if (!Main.dedServ)
              {
                  Netplay.Connection.Socket.AsyncSend(data, 0, num, Netplay.Connection.ClientWriteCallBack);
@@ -123,7 +123,7 @@
              }
              else
              {
-@@ -2075,8 +_,6 @@
+@@ -2078,8 +_,6 @@
                      continue;
                  }
  
@@ -132,7 +132,7 @@
                      if (num4 > 0)
                      {
                          array[num5] = (byte)((uint)num4 & 0xFFu);
-@@ -2096,7 +_,6 @@
+@@ -2099,7 +_,6 @@
                      array[num6] = b;
                      writer.Write(array, num6, num5 - num6);
                      num4 = 0;
@@ -140,7 +140,7 @@
  
                  num5 = 4;
                  byte b3;
-@@ -2429,9 +_,14 @@
+@@ -2432,9 +_,14 @@
          DecompressTileBlock_Inner(binaryReader, binaryReader.ReadInt32(), binaryReader.ReadInt32(), binaryReader.ReadInt16(), binaryReader.ReadInt16());
      }
  
@@ -157,7 +157,7 @@
          int num = 0;
          for (int i = yStart; i < yStart + height; i++)
          {
-@@ -2440,31 +_,15 @@
+@@ -2443,31 +_,15 @@
                  if (num != 0)
                  {
                      num--;
@@ -192,7 +192,7 @@
  
                  byte b4 = reader.ReadByte();
                  bool flag = false;
-@@ -2686,23 +_,33 @@
+@@ -2689,23 +_,33 @@
      {
          lock (buffer[i])
          {
@@ -234,7 +234,7 @@
                  }
              }
          }
-@@ -2737,6 +_,8 @@
+@@ -2740,6 +_,8 @@
                  while (num2 >= 2)
                  {
                      int num3 = BitConverter.ToUInt16(buffer[bufferIndex].readBuffer, num);
@@ -243,7 +243,7 @@
                      if (num3 < 3)
                      {
                          throw new IndexOutOfRangeException("Invalid packet. Message size too small (" + num3 + ")");
-@@ -2744,6 +_,61 @@
+@@ -2747,6 +_,61 @@
  
                      if (num2 >= num3)
                      {

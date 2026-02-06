@@ -18,7 +18,7 @@
                      NetMessage.TrySendData(16, -1, -1, null, num91);
                      NetMessage.TrySendData(42, -1, -1, null, num91);
                      NetMessage.TrySendData(50, -1, -1, null, num91);
-@@ -2689,42 +_,9 @@
+@@ -2690,42 +_,9 @@
                      int num15 = reader.ReadInt16();
                      byte b3 = reader.ReadByte();
                      byte liquidType = reader.ReadByte();
@@ -61,7 +61,7 @@
                  }
  
              case 49:
-@@ -4085,6 +_,8 @@
+@@ -4086,6 +_,8 @@
                          Vector2 vector = Vector2.Normalize(value3);
                          if (!vector.HasNaNs())
                          {
@@ -70,7 +70,7 @@
                              int type12 = 90;
                              float num128 = 0f;
                              float num129 = (float)Math.PI / 15f;
-@@ -4115,6 +_,7 @@
+@@ -4116,6 +_,7 @@
                                  num130 = (Main.dust[num133].fadeIn = num130 + num131);
                                  Main.dust[num133].velocity += vector * 1.5f;
                              }
@@ -78,7 +78,7 @@
                          }
  
                          player11.NebulaLevelup(num126);
-@@ -4323,6 +_,11 @@
+@@ -4324,6 +_,11 @@
                          if (Main.netMode == 2)
                          {
                              NetMessage.SendPlayerHurt(num24, playerDeathReason2, damage, num25, flag, pvp2, num26, -1, whoAmI);

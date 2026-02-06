@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Map/MapHelper.cs
 +++ src/TerraAngel/Terraria/Map/MapHelper.cs
-@@ -1860,22 +_,20 @@
+@@ -1866,22 +_,20 @@
          return mapType >= skyPosition;
      }
  
@@ -28,7 +28,7 @@
          }
  
          if (baseType == 0)
-@@ -1888,7 +_,7 @@
+@@ -1894,7 +_,7 @@
          return MapTile.Create((ushort)(baseType + baseOption), (byte)newLight, (byte)newColor);
      }
  
@@ -37,7 +37,7 @@
      {
          if ((DebugOptions.ShowUnbreakableWall && tileCache.wall == 350) || !tileCache.active())
          {
-@@ -1946,7 +_,7 @@
+@@ -1952,7 +_,7 @@
  
          if (baseType != 0)
          {
@@ -46,7 +46,7 @@
              if (num == 160)
              {
                  newColor = 0;
-@@ -1958,7 +_,7 @@
+@@ -1964,7 +_,7 @@
          }
      }
  
@@ -55,7 +55,7 @@
      {
          bool flag = tileCache.invisibleWall();
          if (tileCache.wall > 0 && tileCache.fullbrightWall() && !flag)
-@@ -2024,6 +_,9 @@
+@@ -2030,6 +_,9 @@
                      {
                          for (int l = j - 36; l <= j + 30; l += 10)
                          {
@@ -65,7 +65,7 @@
                              int type = Main.Map[k, l].Type;
                              for (int m = 0; m < snowTypes.Length; m++)
                              {
-@@ -2061,7 +_,7 @@
+@@ -2067,7 +_,7 @@
          return skyPosition + num;
      }
  

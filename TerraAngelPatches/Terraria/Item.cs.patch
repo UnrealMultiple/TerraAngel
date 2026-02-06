@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Item.cs
 +++ src/TerraAngel/Terraria/Item.cs
-@@ -1078,7 +_,9 @@
+@@ -1090,7 +_,9 @@
          return false;
      }
  
