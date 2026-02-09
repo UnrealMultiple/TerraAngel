@@ -1,10 +1,15 @@
 --- src/Terraria/Terraria/Program.cs
 +++ src/TerraAngel/Terraria/Program.cs
-@@ -8,6 +_,7 @@
+@@ -4,10 +_,12 @@
+ using System.IO;
+ using System.Reflection;
+ using System.Runtime.CompilerServices;
++using System.Runtime.InteropServices;
+ using System.Text;
  using System.Threading;
  using ReLogic.IO;
  using ReLogic.OS;
-+using TerraAngel;
++using SDL3;
  using Terraria.Initializers;
  using Terraria.Localization;
  using Terraria.Social;
@@ -28,7 +33,7 @@
          LoadedEverything = true;
      }
  
-@@ -179,9 +_,17 @@
+@@ -179,9 +_,22 @@
              args = Utils.ConvertMonoArgsToDotNet(args);
          }
  
@@ -36,7 +41,12 @@
 +        // This prevents the compositor from scaling the window and ensures 1:1 pixel rendering
 +        if (Platform.IsLinux)
 +        {
++            [DllImport("libc", EntryPoint = "setenv", CallingConvention = CallingConvention.Cdecl)]
++            static extern int setenv(string name, string value, int overwrite);
++
 +            Environment.SetEnvironmentVariable("FNA_GRAPHICS_ENABLE_HIGHDPI", "1");
++            // this can only be set in this way, wtf?
++            setenv(SDL.SDL_HINT_VIDEO_DRIVER, "x11", 1);
 +        }
 +
          LogFNANativeLibVersions();
