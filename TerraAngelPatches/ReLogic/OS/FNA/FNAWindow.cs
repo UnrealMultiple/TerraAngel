@@ -36,7 +36,9 @@ namespace ReLogic.OS.FNA
 
         public Rectangle GetBounds(GameWindow window)
         {
-            throw new NotImplementedException();
+            SDL3.SDL.SDL_GetWindowSizeInPixels(window.Handle, out int w, out int h);
+            SDL3.SDL.SDL_GetWindowPosition(window.Handle, out int x, out int y);
+            return new Rectangle(x, y, w, h);
         }
 
         public void SetUnicodeTitle(GameWindow window, string title)

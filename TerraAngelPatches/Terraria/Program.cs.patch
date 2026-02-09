@@ -28,7 +28,7 @@
          LoadedEverything = true;
      }
  
-@@ -179,9 +_,19 @@
+@@ -179,9 +_,17 @@
              args = Utils.ConvertMonoArgsToDotNet(args);
          }
  
@@ -37,8 +37,6 @@
 +        if (Platform.IsLinux)
 +        {
 +            Environment.SetEnvironmentVariable("FNA_GRAPHICS_ENABLE_HIGHDPI", "1");
-+            Environment.SetEnvironmentVariable("SDL_VIDEO_WAYLAND_SCALE_TO_DISPLAY", "0");
-+            Environment.SetEnvironmentVariable("SDL_VIDEO_X11_SCALING_FACTOR", "1");
 +        }
 +
          LogFNANativeLibVersions();

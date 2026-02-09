@@ -691,29 +691,6 @@
          TimeLogger.StartTimestamp fromTimestamp = TimeLogger.Start();
          drawBackGore = false;
          for (int i = 0; i < 600; i++)
-@@ -22110,18 +_,22 @@
- 
-     protected void DrawPlayers_BehindNPCs()
-     {
-+        Main.screenPosition.Y = floatingCameraY;
-         TimeLogger.StartTimestamp fromTimestamp = TimeLogger.Start();
-         PotionOfReturnRenderer.DrawPlayers(Camera, _playersThatDrawBehindNPCs.Where((Player p) => p.PotionOfReturnOriginalUsePosition.HasValue));
-         PlayerRenderer.DrawPlayers(Camera, _playersThatDrawBehindNPCs);
-         TimeLogger.Players.AddTime(fromTimestamp);
-+        Main.screenPosition.Y = (int)Main.screenPosition.Y;
-     }
- 
-     protected void DrawPlayers_AfterProjectiles()
-     {
-+        Main.screenPosition.Y = floatingCameraY;
-         TimeLogger.StartTimestamp fromTimestamp = TimeLogger.Start();
-         PotionOfReturnRenderer.DrawPlayers(Camera, _playersThatDrawAfterProjectiles.Where((Player p) => p.PotionOfReturnOriginalUsePosition.HasValue));
-         PlayerRenderer.DrawPlayers(Camera, _playersThatDrawAfterProjectiles);
-         TimeLogger.Players.AddTime(fromTimestamp);
-+        Main.screenPosition.Y = (int)Main.screenPosition.Y;
-     }
- 
-     protected void DrawElderEye(SpriteBatch spriteBatch, Vector2 worldPosition, float opacity, float scale, int frameNumber, Microsoft.Xna.Framework.Color passedColor)
 @@ -26770,7 +_,7 @@
                      float hue = ((float)i + 5f) / 10f;
                      float num10 = 200f;
@@ -1269,7 +1246,7 @@
          }
  
          ReleaseTargets();
-@@ -64484,10 +_,17 @@
+@@ -64484,10 +_,14 @@
      {
          if (!_isDrawingOrUpdating && IsGraphicsDeviceAvailable)
          {
@@ -1280,10 +1257,7 @@
 +            MetricsTimer drawTimer = TimeMetrics.GetMetricsTimer("Main DoDraw").Start();
              DoDraw(gameTime);
 +            drawTimer.Stop();
-+            float y = Main.screenPosition.Y;
-+            Main.screenPosition.Y = Main.floatingCameraY;
 +            ClientLoader.MainRenderer?.Render();
-+            Main.screenPosition.Y = y;
              if (Main.OnPostDraw != null)
              {
                  Main.OnPostDraw(gameTime);
@@ -1387,20 +1361,15 @@
              TimeLogger.Draw();
              spriteBatch.End();
              TimeLogger.DrawTimeLogger.AddTime(fromTimestamp15);
-@@ -65590,10 +_,12 @@
-         }
- 
-         instance.CameraModifiers.ApplyTo(ref screenPosition);
-+        ClampScreenPositionToWorld();
-+        floatingCameraY = screenPosition.Y;
-         screenPosition.X = (int)screenPosition.X;
-         screenPosition.Y = (int)screenPosition.Y;
--        ClampScreenPositionToWorld();
+@@ -65595,6 +_,8 @@
+         ClampScreenPositionToWorld();
      }
-+    public static float floatingCameraY;
  
++    public static float floatingCameraY;
++
      public static void DebugCameraPan(bool left, bool right, bool up, bool down)
      {
+         int num = 32;
 @@ -66228,7 +_,7 @@
                  _oldNetplayStatusText = text;
              }
