@@ -64,7 +64,10 @@ public class ItemBrowserTool : Tool
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(4f));
             for (int i = 1; i < ItemID.Count; i++)
             {
-                if (searchEmpty || Lang.GetItemName(i).Value.ToLower().Contains(ItemSearch.ToLower()))
+                if (
+                    searchEmpty ||
+                    Lang.GetItemName(i).Value.ToLower().Contains(ItemSearch.ToLower()) ||
+                    i.ToString().StartsWith(ItemSearch))
                 {
                     if (ImGuiUtil.ItemButton(i, $"IBI{i}", true))
                     {
