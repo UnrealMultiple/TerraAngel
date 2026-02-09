@@ -1,0 +1,20 @@
+--- src/Terraria/Terraria/GameContent/Creative/CreativePowers.cs
++++ src/TerraAngel/Terraria/GameContent/Creative/CreativePowers.cs
+@@ -448,7 +_,7 @@
+ 
+         public PowerPermissionLevel DefaultPermissionLevel { get; set; }
+ 
+-        public bool Enabled { get; private set; }
++        public bool Enabled { get; set; }
+ 
+         public void SetPowerInfo(bool enabled)
+         {
+@@ -845,7 +_,7 @@
+ 
+     public class ModifyTimeRate : ASharedSliderPower, IPersistentPerWorldContent
+     {
+-        public int TargetTimeRate { get; private set; }
++        public int TargetTimeRate { get; set; }
+ 
+         public ModifyTimeRate()
+         {

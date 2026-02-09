@@ -149,7 +149,8 @@ public class WorldEditBrush : WorldEdit
             ImGui.Checkbox(GetString("Square tile frame"), ref sqaureFrame);
             ImGui.Checkbox(GetString("Attempt to bypass TShock"), ref teleportToTilesFarAway);
             ImGui.Checkbox(GetString("Reveal Map"), ref revealMap);
-            if (ImGui.SliderInt(GetString("Brush Diameter"), ref brushDiameter, 16, 800))
+            ImGui.TextUnformatted(GetString("Brush Diameter")); ImGui.SameLine();
+            if (ImGui.SliderInt("##BrushDiameter", ref brushDiameter, 16, 800))
             {
                 if (brushDiameter > 600)
                     drawDetailedPreview = false;

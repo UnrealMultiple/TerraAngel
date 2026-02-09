@@ -24,17 +24,37 @@ public class NoClipTool : Tool
             if (ImGui.CollapsingHeader(GetString("No-Clip Settings")))
             {
                 ImGui.Indent();
-                ImGui.TextUnformatted(GetString("Speed")); ImGui.SameLine();
-                ImGui.SliderFloat("##NoClipSpeed", ref NoClipSpeed, 1f, 500f);
+                if (ImGui.BeginTable("NoClipInfoTable", 2))
+                {
+                    ImGui.TableSetupColumn("Label", ImGuiTableColumnFlags.WidthFixed);
+                    ImGui.TableSetupColumn("Value", ImGuiTableColumnFlags.WidthStretch);
 
-                ImGui.TextUnformatted(GetString("Shift Speed")); ImGui.SameLine();
-                ImGui.SliderFloat("##NoClipShiftSpeed", ref ShiftNoClipSpeed, 1f, 500f);
+                    ImGui.TableNextRow();
+                    ImGui.TableNextColumn();
+                    ImGui.TextUnformatted(GetString("Speed"));
+                    ImGui.TableNextColumn();
+                    ImGui.SliderFloat("##NoClipSpeed", ref NoClipSpeed, 1f, 500f);
 
-                ImGui.TextUnformatted(GetString("CTRL Speed")); ImGui.SameLine();
-                ImGui.SliderFloat("##NoClipCTRLSpeed", ref CTRLNoClipSpeed, 1f, 500f);
+                    ImGui.TableNextRow();
+                    ImGui.TableNextColumn();
+                    ImGui.TextUnformatted(GetString("Shift Speed"));
+                    ImGui.TableNextColumn();
+                    ImGui.SliderFloat("##NoClipShiftSpeed", ref ShiftNoClipSpeed, 1f, 500f);
 
-                ImGui.TextUnformatted(GetString("Frames between sync")); ImGui.SameLine();
-                ImGui.SliderInt("##NoClipSyncTime", ref NoClipPlayerSyncTime, 1, 60);
+                    ImGui.TableNextRow();
+                    ImGui.TableNextColumn();
+                    ImGui.TextUnformatted(GetString("CTRL Speed"));
+                    ImGui.TableNextColumn();
+                    ImGui.SliderFloat("##NoClipCTRLSpeed", ref CTRLNoClipSpeed, 1f, 500f);
+
+                    ImGui.TableNextRow();
+                    ImGui.TableNextColumn();
+                    ImGui.TextUnformatted(GetString("Frames between sync"));
+                    ImGui.TableNextColumn();
+                    ImGui.SliderInt("##NoClipSyncTime", ref NoClipPlayerSyncTime, 1, 60);
+
+                    ImGui.EndTable();
+                }
                 ImGui.Unindent();
             }
         }
