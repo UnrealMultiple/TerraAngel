@@ -250,6 +250,15 @@ public class ClientRenderer : ImGuiRenderer
             ImGuiUtil.ItemImages[id] = BindTexture(TextureAssets.Item[id].Value);
         }
 
+        for (int i = 0; i < 10 && ImGuiUtil.NPCIdsToLoad.Count > 0; i++)
+        {
+            int id = ImGuiUtil.NPCIdsToLoad.Dequeue();
+            // TODO: negative NPC IDs loading
+            if (id < 0)
+                continue;
+            Main.instance.LoadNPC(id);
+            ImGuiUtil.NPCImages[id] = BindTexture(TextureAssets.Npc[id].Value);
+        }
     }
 
     public void Draw()

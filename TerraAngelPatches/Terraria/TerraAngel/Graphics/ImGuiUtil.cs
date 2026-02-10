@@ -16,7 +16,11 @@ public static class ImGuiUtil
 {
     public static Queue<int> ItemIdsToLoad = new Queue<int>();
 
+    public static Queue<int> NPCIdsToLoad = new Queue<int>();
+
     public static IntPtr[] ItemImages = new IntPtr[ItemID.Count];
+
+    public static IntPtr[] NPCImages = new IntPtr[NPCID.Count];
 
     public static Dictionary<string, GraphData> DrawGraphData = new Dictionary<string, GraphData>();
 
@@ -401,6 +405,34 @@ public static class ImGuiUtil
         }
 
         ImGui.EndTooltip();
+    }
+
+    public static void DrawNPCDelayLoad(int id)
+    {
+        // TODO: negative ids
+        if (id < 0)
+            return;
+
+        if (NPCImages[id] == IntPtr.Zero && !NPCIdsToLoad.Contains(id))
+        {
+            NPCIdsToLoad.Enqueue(id);
+            return;
+        }
+
+        if (NPCImages[id] != IntPtr.Zero)
+        {
+            Texture2D value = TextureAssets.Npc[id].Value;
+            if (TextureAssets.Npc[id].IsLoaded)
+            {
+                var frameCount = Main.npcFrameCount[id];
+
+                var size = new Vector2(value.Width, (float)value.Height / frameCount);
+                var uv0 = Vector2.Zero;
+                var uv1 = new Vector2(1f, 1f / frameCount);
+
+                ImGui.Image(NPCImages[id], size, uv0, uv1);
+            }
+        }
     }
 
     public unsafe static Vector2 CalcTextSizeWithTags(List<TextSnippet> tags, float wrapWidth)
