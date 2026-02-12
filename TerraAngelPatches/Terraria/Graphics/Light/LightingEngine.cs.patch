@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Graphics/Light/LightingEngine.cs
 +++ src/TerraAngel/Terraria/Graphics/Light/LightingEngine.cs
-@@ -37,6 +_,11 @@
+@@ -38,6 +_,11 @@
      private LightMap _workingLightMap = new LightMap();
      private Rectangle _workingProcessedArea;
      private EngineState _state;
@@ -12,7 +12,7 @@
      public void AddLight(int x, int y, Vector3 color)
      {
          _perFrameLights.Add(new PerFrameLight(new Point(x, y), color));
-@@ -196,7 +_,7 @@
+@@ -198,7 +_,7 @@
          workingLightMap.LightDecayThroughAir *= Main.SceneState.airLightDecay;
          workingLightMap.LightDecayThroughSolid *= Main.SceneState.solidLightDecay;
      }
@@ -20,10 +20,10 @@
 +    
      private void ApplyPerFrameLights()
      {
-         for (int i = 0; i < _perFrameLights.Count; i++)
-@@ -206,13 +_,17 @@
+         List<PerFrameLight> list = _perFrameLights;
+@@ -214,13 +_,14 @@
              {
-                 Vector3 value = _perFrameLights[i].Color;
+                 Vector3 value = list[i].Color;
                  Vector3 value2 = _workingLightMap[position.X - _workingProcessedArea.X, position.Y - _workingProcessedArea.Y];
 -                Vector3.Max(ref value2, ref value, out value);
 +                value = Vector3.Max(value2, value);
@@ -31,12 +31,9 @@
              }
          }
  
-         if (!CaptureManager.Instance.IsCapturing)
+         if (!CaptureManager.Instance.IsCapturing && !Main.gamePaused)
          {
-+        if (Lighting.AbleToProcessPerFrameLights)
-+        {
 +            Lighting.AbleToProcessPerFrameLights = false;
-+        }
+             Utils.Swap(ref _perFrameLights, ref _oldPerFrameLights);
              _perFrameLights.Clear();
          }
-     }

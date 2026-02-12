@@ -2,7 +2,7 @@
 +++ src/TerraAngel/Terraria/IO/WorldFile.cs
 @@ -140,7 +_,7 @@
              int num = binaryReader.ReadInt32();
-             if (num > 317)
+             if (num > 318)
              {
 -                return WorldFileData.FromInvalidWorld(file, cloudSave, StatusID.LaterVersion, new FileFormatException("File is from a later version of Terraria. '" + file + "'"));
 +                return WorldFileData.FromInvalidWorld(file, cloudSave, StatusID.LaterVersion, new InvalidDataException("File is from a later version of Terraria. '" + file + "'"));

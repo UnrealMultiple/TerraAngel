@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/WorldGen.cs
 +++ src/TerraAngel/Terraria/WorldGen.cs
-@@ -1039,18 +_,20 @@
+@@ -1062,18 +_,20 @@
                      continue;
                  }
  
@@ -33,7 +33,7 @@
              }
  
              num3 = Main.maxTilesX / 2 / Variations.errorWorldAdjustment(1.0);
-@@ -1135,18 +_,20 @@
+@@ -1158,18 +_,20 @@
                  {
                      for (int num18 = 0; num18 < num11; num18++)
                      {
@@ -66,7 +66,7 @@
                      }
                  }
              }
-@@ -1186,7 +_,7 @@
+@@ -1209,7 +_,7 @@
                  int num22 = genRand.Next(5, 21);
                  int num23 = num20;
                  int num24 = num21;
@@ -75,7 +75,7 @@
                  for (int num25 = 0; num25 < num22; num25++)
                  {
                      num23 += (int)vector2D.X;
-@@ -89315,8 +_,8 @@
+@@ -89341,8 +_,8 @@
                                      break;
                              }
  
@@ -86,7 +86,7 @@
                              bool flag = false;
                              switch (num)
                              {
-@@ -89354,8 +_,8 @@
+@@ -89380,8 +_,8 @@
                                  up = num;
                              }
  

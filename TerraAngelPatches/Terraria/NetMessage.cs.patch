@@ -66,7 +66,7 @@
              switch (msgType)
              {
                  case 1:
--                    writer.Write("Terraria" + 317);
+-                    writer.Write("Terraria" + 318);
 +                    if (!string.IsNullOrEmpty(ClientConfig.Settings.CustomClientHello))
 +                    {
 +                        foreach (var s in ClientConfig.Settings.CustomClientHello.Split('/'))

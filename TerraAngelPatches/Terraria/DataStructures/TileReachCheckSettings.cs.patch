@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/DataStructures/TileReachCheckSettings.cs
 +++ src/TerraAngel/Terraria/DataStructures/TileReachCheckSettings.cs
-@@ -35,6 +_,12 @@
+@@ -36,6 +_,12 @@
          {
              y = OverrideYReach.Value;
          }

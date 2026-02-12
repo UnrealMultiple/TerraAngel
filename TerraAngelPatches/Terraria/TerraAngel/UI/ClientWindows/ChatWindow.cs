@@ -372,7 +372,7 @@ public class ChatWindow : ClientWindow
          && InputSystem.IsKeyPressedRaw(ToggleKey)
          && !InputSystem.IsKeyDownRaw(Keys.LeftAlt)
          && !InputSystem.IsKeyDownRaw(Keys.RightAlt)
-         && Main.hasFocus
+         && FocusHelper.IsSelectedApplication
          && !Main.editSign
          && !Main.editChest
          && !Main.gameMenu

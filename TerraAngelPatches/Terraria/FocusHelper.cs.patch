@@ -1,0 +1,38 @@
+--- src/Terraria/Terraria/FocusHelper.cs
++++ src/TerraAngel/Terraria/FocusHelper.cs
+@@ -128,10 +_,7 @@
+         IsSelectedApplication = Main.instance.IsActive;
+         if (Platform.IsWindows)
+         {
+-            Form form = Control.FromHandle(Main.instance.Window.Handle) as Form;
+-            bool num = form.WindowState == FormWindowState.Minimized;
+-            bool flag2 = Form.ActiveForm == form;
+-            IsSelectedApplication |= flag2;
++            bool num = (SDL3.SDL.SDL_GetWindowFlags(Main.instance.Window.Handle) & SDL3.SDL.SDL_WindowFlags.SDL_WINDOW_MINIMIZED) == SDL3.SDL.SDL_WindowFlags.SDL_WINDOW_MINIMIZED;
+             if (num)
+             {
+                 IsSelectedApplication = false;
+@@ -142,7 +_,7 @@
+         {
+             if (!Platform.IsOSX)
+             {
+-                Main.instance.IsMouseVisible = true;
++                Main.instance.IsMouseVisible = TerraAngel.Hooks.MiscHooks.ShouldMouseBeVisible(true);
+             }
+ 
+             wantsToPause = true;
+@@ -151,12 +_,12 @@
+ 
+         if (!Platform.IsOSX)
+         {
+-            Main.instance.IsMouseVisible = false;
++            Main.instance.IsMouseVisible = TerraAngel.Hooks.MiscHooks.ShouldMouseBeVisible(false);
+         }
+ 
+         if (Platform.IsWindows && Main.instance.ReHideCursor)
+         {
+-            Main.instance.IsMouseVisible = false;
++            Main.instance.IsMouseVisible = TerraAngel.Hooks.MiscHooks.ShouldMouseBeVisible(false);
+             Main.instance.ReHideCursor = false;
+             Platform.Get<IMouseNotifier>()?.ForceCursorHidden();
+         }

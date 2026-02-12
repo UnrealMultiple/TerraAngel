@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/NPC.cs
 +++ src/TerraAngel/Terraria/NPC.cs
-@@ -6699,7 +_,27 @@
+@@ -6698,7 +_,27 @@
          }
      }
  
@@ -29,7 +29,7 @@
      public string FullName
      {
          get
-@@ -6713,6 +_,20 @@
+@@ -6712,6 +_,20 @@
          }
      }
  
@@ -50,7 +50,7 @@
      public bool HasGivenName => _givenName.Length != 0;
      public string GivenOrTypeName
      {
-@@ -39457,7 +_,7 @@
+@@ -39456,7 +_,7 @@
                      {
                          Vector2 vector171 = vector170;
                          vector171.Normalize();
@@ -59,7 +59,7 @@
                      }
                  }
                  else if (num1230 < 210f)
-@@ -39474,7 +_,7 @@
+@@ -39473,7 +_,7 @@
                          int num1244 = Projectile.NewProjectile(GetSpawnSource_ForProjectile(), base.Center.X, base.Center.Y, vector172.X, vector172.Y, 454, 40, 1f, Main.myPlayer, 0f, whoAmI);
                      }
  
@@ -68,7 +68,7 @@
                      if (vector173 != Vector2.Zero)
                      {
                          Vector2 vector174 = vector173;
-@@ -39523,7 +_,7 @@
+@@ -39522,7 +_,7 @@
                          }
                      }
  
@@ -77,7 +77,7 @@
                      if (vector176 != Vector2.Zero)
                      {
                          Vector2 vector177 = vector176;
-@@ -39539,7 +_,7 @@
+@@ -39538,7 +_,7 @@
                      {
                          Vector2 vector179 = vector178;
                          vector179.Normalize();
@@ -86,7 +86,7 @@
                      }
                  }
              }
-@@ -39762,7 +_,7 @@
+@@ -39761,7 +_,7 @@
                              {
                                  Vector2 vector189 = vector188;
                                  vector189.Normalize();
@@ -95,7 +95,7 @@
                              }
                          }
                          else if (this.ai[1] < 210f)
-@@ -39778,7 +_,7 @@
+@@ -39777,7 +_,7 @@
                                  int num1252 = Projectile.NewProjectile(GetSpawnSource_ForProjectile(), base.Center.X, base.Center.Y, vector190.X, vector190.Y, 454, 1, 1f, Main.myPlayer, 0f, whoAmI);
                              }
  
@@ -104,7 +104,7 @@
                              if (vector191 != Vector2.Zero)
                              {
                                  Vector2 vector192 = vector191;
-@@ -39814,7 +_,7 @@
+@@ -39813,7 +_,7 @@
                                  }
                              }
  
@@ -113,7 +113,7 @@
                              if (vector194 != Vector2.Zero)
                              {
                                  Vector2 vector195 = vector194;
-@@ -44876,8 +_,8 @@
+@@ -44875,8 +_,8 @@
                          {
                              foreach (Vector2 item3 in list2)
                              {
@@ -124,7 +124,7 @@
                                  float num1580 = num1579;
                                  if (num1580 > 0.5f)
                                  {
-@@ -101475,6 +_,7 @@
+@@ -101474,6 +_,7 @@
  
      private void UpdateCollision()
      {

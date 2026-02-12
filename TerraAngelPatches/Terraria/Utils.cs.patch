@@ -10,7 +10,7 @@
      }
  
      public static string PrettifyPercentDisplay(float percent, string originalFormat)
-@@ -2661,7 +_,7 @@
+@@ -2681,7 +_,7 @@
  
      public static string ReadEmbeddedResource(string path)
      {
