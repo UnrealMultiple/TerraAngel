@@ -10,7 +10,8 @@ param (
     [switch] $Patch,
     [switch] $Compile,
     [switch] $Diff,
-    [switch] $I18n
+    [switch] $I18n,
+    [string] $Runtime = ""
 )
 
 Set-Location "$PSScriptRoot"
@@ -109,8 +110,20 @@ if ($Patch -or $Update -or $Start) {
 
 if ($Compile -or $Start) {
     Write-Output 'Building TerraAngel'
-    dotnet build ./src/TerraAngel/Terraria/Terraria.csproj -p:Configuration=Release -p:RunAnalyzers=false
-}
+    
+    # 构造 dotnet 命令
+    $buildArgs = @('build', './src/TerraAngel/Terraria/Terraria.csproj', '-p:Configuration=Release', '-p:RunAnalyzers=false')
+    
+    # 如果指定了 Runtime 参数，则启用交叉编译
+    if ($Runtime -ne "") {
+        Write-Output "Cross-compiling for target runtime: $Runtime"
+        $buildArgs += "-r"
+        $buildArgs += $Runtime
+        # 交叉编译通常需要 SelfContained，或者根据你的项目需要添加 --no-self-contained
+        $buildArgs += "--self-contained" 
+    }
+
+    dotnet @buildArgs}
 
 if ($Diff) {
     Write-Output 'Running TerraAngelSetup -diff'
