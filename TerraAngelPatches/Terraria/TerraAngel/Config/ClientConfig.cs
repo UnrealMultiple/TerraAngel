@@ -147,7 +147,7 @@ public class ClientConfig
 
         [UIConfigElement("zh-CN", "向服务器摊牌你的古神身份 (实验性)")]
         [UIConfigElement("en-US", "Tell server that you're using a modified client (Experimental)")]
-        public bool BroadcastPresence = false;
+        public bool BroadcastPresence = true; // for public shaming purposes
 
         [UIConfigElement("zh-CN", "显示详细工具提示")]
         [UIConfigElement("en-US", "Show Detailed Tooltips")]
