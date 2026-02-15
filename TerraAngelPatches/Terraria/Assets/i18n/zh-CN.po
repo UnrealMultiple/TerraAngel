@@ -11,6 +11,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.5\n"
 
+#: ../../../TerraAngel/Tools/HiddenPresenceTool.cs:27
+#, csharp-format
+msgid "BroadcastPresence is "
+msgstr "[古神广播]"
+
+
 #: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:201
 #, csharp-format
 msgid " ({0})"
@@ -457,6 +463,7 @@ msgstr "关闭更新周边图格"
 
 #: ../../../TerraAngel/UI/TerrariaUI/UIPlugin.cs:60
 #: ../../../TerraAngel/UI/TerrariaUI/UIPlugin.cs:69
+#: ../../../TerraAngel/Tools/HiddenPresenceTool.cs:26
 msgid "Disabled"
 msgstr "已禁用"
 
@@ -514,6 +521,7 @@ msgstr "掉落物"
 
 #: ../../../TerraAngel/UI/TerrariaUI/UIPlugin.cs:60
 #: ../../../TerraAngel/UI/TerrariaUI/UIPlugin.cs:69
+#: ../../../TerraAngel/Tools/HiddenPresenceTool.cs:26
 msgid "Enabled"
 msgstr "已启用"
 

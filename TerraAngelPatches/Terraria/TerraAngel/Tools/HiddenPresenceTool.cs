@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Input;
 using TerraAngel.Config;
 using TerraAngel.UI;
 using ImGuiNET;
+using TerraAngel.UI.ClientWindows;
+
 
 namespace TerraAngel.Tools
 {
@@ -20,11 +22,16 @@ namespace TerraAngel.Tools
                 // 切换状态
                 ClientConfig.Settings.BroadcastPresence = !ClientConfig.Settings.BroadcastPresence;
 
+                // 定义文本
+                string statusText = ClientConfig.Settings.BroadcastPresence ? GetString("Enabled") : GetString("Disabled");
+                string Message = GetString($"BroadcastPresence is ")+ statusText;
+
                 // 在控制台打印一条消息，让你知道切换成功了（只有你看得到）
-                ClientLoader.Console.WriteLine($"[Hidden] BroadcastPresence set to: {ClientConfig.Settings.BroadcastPresence}");
+                ClientLoader.Console.WriteLine(Message);
                 
                 // 可选：在聊天栏回显一下，方便确认
-                ClientLoader.Chat.AddMessage($"BroadcastPresence已{(ClientConfig.Settings.BroadcastPresence ? "启用" : "关闭")}");
+                ClientLoader.Chat.WriteLine(Message);
+            
             }
         }
         
