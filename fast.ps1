@@ -11,7 +11,8 @@ param (
     [switch] $Compile,
     [switch] $Diff,
     [switch] $I18n,
-    [string] $Runtime = ""
+    [string] $Runtime = "",
+    [switch] $autoinstall
 )
 
 Set-Location "$PSScriptRoot"
@@ -31,6 +32,7 @@ if ($Update) {
 
 if ($Download) {
     if ($IsLinux) {
+        if ($autoinstall) {
         Write-Output "--- Starting system environment check and dependency installation ---"
 
         # 1. 识别包管理器并安装基础 32 位环境及工具
@@ -50,7 +52,7 @@ if ($Download) {
             Write-Output "[Arch Linux Detected] Please ensure [multilib] repository is enabled!"
             sudo pacman -Syu --noconfirm lib32-gcc-libs curl p7zip msitools tar
         }
-
+        }
         # 2. 软链接修复 (有些系统只有 7zz 或 7za，脚本需要 7z)
         if ($null -eq (Get-Command 7z -ErrorAction SilentlyContinue)) {
             $existing7z = (Get-Command 7zz, 7za -ErrorAction SilentlyContinue | Select-Object -First 1).Source
@@ -65,6 +67,7 @@ if ($Download) {
         foreach ($b in $required_binaries) {
             if ($null -eq (Get-Command $b -ErrorAction SilentlyContinue)) {
                 Write-Output "Error: Command $b still not found after installation attempt. Manual intervention required."
+                Write-Output "You can add the flag “-autoinstall” to let the script attempt automatic installation of dependencies on Linux."
                 Exit
             }
         }
@@ -73,6 +76,8 @@ if ($Download) {
 
         if (!(Test-Path ./steam/bin -PathType Container)) {
             Write-Output 'Downloading SteamCMD binary'
+            Write-Host "Note: If this step fails, you can manually download and extract SteamCMD for Linux from https://developer.valvesoftware.com/wiki/SteamCMD#Linux and place the contents in ./steam/bin"
+            Write-Host "If the steamcmd cannot run, you may missed the “lib32gcc-s1” library. You can add the flag “-autoinstall” to let the script attempt automatic installation of dependencies on Linux."
             New-Item ./steam/bin -ItemType Directory -Force | Out-Null
             curl -sqL 'https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz' | tar -zxvf - -C ./steam/bin
         }
@@ -96,7 +101,8 @@ if ($Download) {
 
             Remove-Item /tmp/ndp48-x86-x64-allos-enu.exe
             Remove-Item /tmp/ndp48-x86-x64-allos-enu -Recurse
-
+}
+        if (!(Test-Path ./Microsoft.NET/assembly/GAC_32/Microsoft.Xna.Framework/ -PathType Container)) {
             Write-Output 'Preparing XNA 4.0 reference libraries...'
             $xna_version = 'v4.0_4.0.0.0__842cf8be1de50553'
             $xna_location_mapper = @{
