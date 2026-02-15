@@ -151,7 +151,7 @@ if ($Compile -or $Start) {
         # 交叉编译通常需要 SelfContained，或者根据你的项目需要添加 --no-self-contained
         $buildArgs += "--self-contained" 
     }
-
+    Write-Output "Running dotnet with arguments: $($buildArgs -join ' ')"
     dotnet @buildArgs}
 
 if ($Diff) {
