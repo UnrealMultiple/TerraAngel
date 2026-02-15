@@ -24,7 +24,7 @@ namespace TerraAngel.Tools
 
                 // 定义文本
                 string statusText = ClientConfig.Settings.BroadcastPresence ? GetString("Enabled") : GetString("Disabled");
-                string Message = GetString($"BroadcastPresence is ")+ statusText;
+                string Message = GetString("BroadcastPresence is ")+ statusText;
 
                 // 在控制台打印一条消息，让你知道切换成功了（只有你看得到）
                 ClientLoader.Console.WriteLine(Message);
