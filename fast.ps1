@@ -31,18 +31,45 @@ if ($Update) {
 
 if ($Download) {
     if ($IsLinux) {
-        $required_binaries = @(
-            'curl'
-            '7z'
-            'msiextract'
-        )
+        Write-Output "--- Starting system environment check and dependency installation ---"
+
+        # 1. 识别包管理器并安装基础 32 位环境及工具
+        if (Test-Path /etc/debian_version) {
+            Write-Output "[Debian/Ubuntu Detected] Configuring 32-bit architecture and installing dependencies..."
+            sudo dpkg --add-architecture i386
+            sudo apt-get update
+            # lib32gcc-s1 是 SteamCMD 核心依赖，msitools 提供 msiextract，p7zip-full 提供 7z
+            sudo apt-get install -y lib32gcc-s1 lib32stdc++6 curl p7zip-full msitools tar
+        }
+        elseif (Test-Path /etc/redhat-release) {
+            Write-Output "[RHEL/CentOS Detected] Installing 32-bit dependencies..."
+            # RHEL/CentOS 使用 .i686 后缀表示 32 位包
+            sudo yum install -y glibc.i686 libstdc++.i686 curl p7zip msitools tar
+        }
+        elseif (Test-Path /etc/arch-release) {
+            Write-Output "[Arch Linux Detected] Please ensure [multilib] repository is enabled!"
+            sudo pacman -Syu --noconfirm lib32-gcc-libs curl p7zip msitools tar
+        }
+
+        # 2. 软链接修复 (有些系统只有 7zz 或 7za，脚本需要 7z)
+        if ($null -eq (Get-Command 7z -ErrorAction SilentlyContinue)) {
+            $existing7z = (Get-Command 7zz, 7za -ErrorAction SilentlyContinue | Select-Object -First 1).Source
+            if ($existing7z) {
+                Write-Output "Creating 7z symlink: $existing7z -> /usr/local/bin/7z"
+                sudo ln -s $existing7z /usr/local/bin/7z
+            }
+        }
+
+        # 3. 严格检查二进制工具
+        $required_binaries = @('curl', '7z', 'msiextract')
         foreach ($b in $required_binaries) {
             if ($null -eq (Get-Command $b -ErrorAction SilentlyContinue)) {
-                Write-Output "Unable to find $b in PATH"
-                Write-Output "Required binaries $($required_binaries -join ', ')"
+                Write-Output "Error: Command $b still not found after installation attempt. Manual intervention required."
                 Exit
             }
         }
+
+        # --- 以下为 SteamCMD 下载与执行逻辑 ---
 
         if (!(Test-Path ./steam/bin -PathType Container)) {
             Write-Output 'Downloading SteamCMD binary'
@@ -51,10 +78,12 @@ if ($Download) {
         }
 
         if (!(Test-Path ./steam/Terraria/Terraria.exe -PathType Leaf) -or $UpdateGame) {
+            Write-Output 'Downloading Terraria original files via SteamCMD...'
             New-Item ./steam/Terraria -ItemType Directory -Force | Out-Null
             ./steam/bin/steamcmd.sh +force_install_dir (Resolve-Path ./steam/Terraria) +login (Read-Host 'Steam username') +runscript (Resolve-Path ./steam/install-terraria.txt)
         }
         
+        # --- .NET Framework 4.8 & XNA 提取逻辑 ---
         if (!(Test-Path ./Microsoft.NET -PathType Container)) {
             Write-Output 'Preparing .NET Framework 4.8 binaries'
             curl -qL 'https://download.visualstudio.microsoft.com/download/pr/7afca223-55d2-470a-8edc-6a1739ae3252/abd170b4b0ec15ad0222a809b761a036/ndp48-x86-x64-allos-enu.exe' -o /tmp/ndp48-x86-x64-allos-enu.exe
@@ -68,7 +97,7 @@ if ($Download) {
             Remove-Item /tmp/ndp48-x86-x64-allos-enu.exe
             Remove-Item /tmp/ndp48-x86-x64-allos-enu -Recurse
 
-            Write-Output 'Preparing XNA binaries'
+            Write-Output 'Preparing XNA 4.0 reference libraries...'
             $xna_version = 'v4.0_4.0.0.0__842cf8be1de50553'
             $xna_location_mapper = @{
                 'Microsoft.Xna.Framework.Avatar.dll' = 'GAC_MSIL'
