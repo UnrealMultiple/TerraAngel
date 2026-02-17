@@ -145,9 +145,12 @@ public class ClientConfig
         [UIConfigElement("en-US", "Discord Rich Presence")]
         public bool UseDiscordRPC = true;
 
-        [UIConfigElement("zh-CN", "向服务器摊牌你的古神身份 (实验性)")]
-        [UIConfigElement("en-US", "Tell server that you're using a modified client (Experimental)")]
-        public bool BroadcastPresence = false;
+        // for public release, set this to true 
+        // so that server owners can easily identify 
+        // mod users and ban them if they want to
+        // [UIConfigElement("zh-CN", "向服务器摊牌你的古神身份 (实验性)")]
+        // [UIConfigElement("en-US", "Tell server that you're using a modified client (Experimental)")]
+        public bool BroadcastPresence = true;
 
         [UIConfigElement("zh-CN", "显示详细工具提示")]
         [UIConfigElement("en-US", "Show Detailed Tooltips")]

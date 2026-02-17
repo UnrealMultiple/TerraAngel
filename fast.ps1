@@ -10,7 +10,8 @@ param (
     [switch] $Patch,
     [switch] $Compile,
     [switch] $Diff,
-    [switch] $I18n
+    [switch] $I18n,
+    [switch] $AutoInstallDeps
 )
 
 Set-Location "$PSScriptRoot"
@@ -30,34 +31,59 @@ if ($Update) {
 
 if ($Download) {
     if ($IsLinux) {
-        $required_binaries = @(
-            'curl'
-            '7z'
-            'msiextract'
-        )
+        if ($AutoInstallDeps) {
+            Write-Output "--- Starting system environment check and dependency installation ---"
+
+            if (Test-Path /etc/debian_version) {
+                Write-Output "[Debian/Ubuntu Detected] Configuring 32-bit architecture and installing dependencies..."
+                sudo dpkg --add-architecture i386
+                sudo apt-get update
+                sudo apt-get install -y lib32gcc-s1 curl 7zip msitools tar
+            }
+            elseif (Test-Path /etc/redhat-release) {
+                Write-Output "[RHEL/CentOS Detected] Installing 32-bit dependencies..."
+                sudo yum install -y glibc.i686 libstdc++.i686 curl p7zip msitools tar
+            }
+            elseif (Test-Path /etc/arch-release) {
+                Write-Output "[Arch Linux Detected] Please ensure [multilib] repository is enabled!"
+                sudo pacman -Sy --noconfirm lib32-gcc-libs curl 7zip msitools tar
+            }
+        }
+
+        $detect_7z_bin = @('7z', '7zz', '7za') | Where-Object { $null -ne (Get-Command $_ -ErrorAction SilentlyContinue) } | Select-Object -First 1
+        if ($null -eq $detect_7z_bin) {
+            Write-Output "Error: Command 7z, 7zz, or 7za not found after installation attempt. Manual intervention required."
+            Write-Output "You can add the flag -AutoInstallDeps to let the script attempt automatic installation of dependencies on Linux."
+            Exit -1
+        }
+
+        $required_binaries = @('curl', 'msiextract')
         foreach ($b in $required_binaries) {
             if ($null -eq (Get-Command $b -ErrorAction SilentlyContinue)) {
-                Write-Output "Unable to find $b in PATH"
-                Write-Output "Required binaries $($required_binaries -join ', ')"
-                Exit
+                Write-Output "Error: Command $b still not found after installation attempt. Manual intervention required."
+                Write-Output "You can add the flag -AutoInstallDeps to let the script attempt automatic installation of dependencies on Linux."
+                Exit -1
             }
         }
 
         if (!(Test-Path ./steam/bin -PathType Container)) {
             Write-Output 'Downloading SteamCMD binary'
+            Write-Host "Note: If this step fails, you can manually download and extract SteamCMD for Linux from https://developer.valvesoftware.com/wiki/SteamCMD#Linux and place the contents in ./steam/bin"
+            Write-Host "If the steamcmd cannot run, you may missed the 'lib32gcc-s1' library. You can add the flag '-AutoInstallDeps' to let the script attempt automatic installation of dependencies on Linux."
             New-Item ./steam/bin -ItemType Directory -Force | Out-Null
             curl -sqL 'https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz' | tar -zxvf - -C ./steam/bin
         }
 
         if (!(Test-Path ./steam/Terraria/Terraria.exe -PathType Leaf) -or $UpdateGame) {
+            Write-Output 'Downloading Terraria Windows version via SteamCMD...'
             New-Item ./steam/Terraria -ItemType Directory -Force | Out-Null
             ./steam/bin/steamcmd.sh +force_install_dir (Resolve-Path ./steam/Terraria) +login (Read-Host 'Steam username') +runscript (Resolve-Path ./steam/install-terraria.txt)
         }
-        
+
         if (!(Test-Path ./Microsoft.NET -PathType Container)) {
             Write-Output 'Preparing .NET Framework 4.8 binaries'
             curl -qL 'https://download.visualstudio.microsoft.com/download/pr/7afca223-55d2-470a-8edc-6a1739ae3252/abd170b4b0ec15ad0222a809b761a036/ndp48-x86-x64-allos-enu.exe' -o /tmp/ndp48-x86-x64-allos-enu.exe
-            7z x /tmp/ndp48-x86-x64-allos-enu.exe -o/tmp/ndp48-x86-x64-allos-enu netfx_Full.mzz netfx_Full_x64.msi
+            & $detect_7z_bin x /tmp/ndp48-x86-x64-allos-enu.exe -o/tmp/ndp48-x86-x64-allos-enu netfx_Full.mzz netfx_Full_x64.msi
             msiextract /tmp/ndp48-x86-x64-allos-enu/netfx_Full_x64.msi -C /tmp/ndp48-x86-x64-allos-enu
             Move-Item /tmp/ndp48-x86-x64-allos-enu/Windows/Microsoft.NET ./
             foreach ($d in @(Get-ChildItem ./Microsoft.NET -Directory | Get-ChildItem -Filter *:v4)) {
@@ -66,8 +92,9 @@ if ($Download) {
 
             Remove-Item /tmp/ndp48-x86-x64-allos-enu.exe
             Remove-Item /tmp/ndp48-x86-x64-allos-enu -Recurse
-
-            Write-Output 'Preparing XNA binaries'
+        }
+        if (!(Test-Path ./Microsoft.NET/assembly/GAC_32/Microsoft.Xna.Framework/ -PathType Container)) {
+            Write-Output 'Preparing XNA 4.0 reference libraries...'
             $xna_version = 'v4.0_4.0.0.0__842cf8be1de50553'
             $xna_location_mapper = @{
                 'Microsoft.Xna.Framework.Avatar.dll' = 'GAC_MSIL'
