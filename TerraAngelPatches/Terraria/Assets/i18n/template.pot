@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Terraria\n"
-"POT-Creation-Date: 2025-12-03 10:49:23+0800\n"
-"PO-Revision-Date: 2025-12-03 10:49:29+0800\n"
+"POT-Creation-Date: 2026-02-18 00:41:12+0800\n"
+"PO-Revision-Date: 2026-02-18 00:41:15+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -10,21 +10,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: GetText.NET Extractor\n"
 
-#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:201
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:203
 #, csharp-format
 msgid " ({0})"
 msgstr ""
 
-#: ../../../NetMessage.cs:1763
-#: ../../../Net/NetManager.cs:164
+#: ../../../NetMessage.cs:1867
+#: ../../../Net/NetManager.cs:203
 #, csharp-format
 msgid ""
 "[C2S] Packet deserialization failed:\n"
 "{0}"
 msgstr ""
 
-#: ../../../NetMessage.cs:116
-#: ../../../Net/NetManager.cs:171
+#: ../../../NetMessage.cs:121
+#: ../../../Net/NetManager.cs:210
 #, csharp-format
 msgid ""
 "[C2S] Packet logging failed:\n"
@@ -36,14 +36,14 @@ msgstr ""
 msgid "[Error] {0}"
 msgstr ""
 
-#: ../../../NetMessage.cs:2538
+#: ../../../NetMessage.cs:2862
 #, csharp-format
 msgid ""
 "[S2C] Packet deserialization failed:\n"
 "{0}"
 msgstr ""
 
-#: ../../../NetMessage.cs:2550
+#: ../../../NetMessage.cs:2874
 #, csharp-format
 msgid ""
 "[S2C] Packet logging failed:\n"
@@ -130,8 +130,8 @@ msgstr ""
 msgid "Accept Very Rare"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Exploit/PortalKick.cs:26
 #: ../../../TerraAngel/Tools/Exploit/PortalTeleport.cs:29
+#: ../../../TerraAngel/Tools/Exploit/PortalKick.cs:26
 msgid "Action"
 msgstr ""
 
@@ -197,15 +197,15 @@ msgstr ""
 msgid "Attempt to bypass TShock"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:55
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:56
 msgid "Auto Use"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:8
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:9
 msgid "Auto-Aim"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:38
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:39
 msgid "Auto-Attack Settings"
 msgstr ""
 
@@ -225,7 +225,7 @@ msgstr ""
 msgid "Auto-Swing"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:78
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:79
 msgid "Auto-target nearest player"
 msgstr ""
 
@@ -319,11 +319,11 @@ msgid "Cancel"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:19
-#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:153
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:155
 msgid "Chat"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:160
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:162
 #, csharp-format
 msgid "Chat {0}"
 msgstr ""
@@ -356,7 +356,7 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:168
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:170
 msgid "Clear Chat"
 msgstr ""
 
@@ -403,7 +403,7 @@ msgstr ""
 msgid "COUNT"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:33
+#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:46
 msgid "CTRL Speed"
 msgstr ""
 
@@ -422,6 +422,11 @@ msgstr ""
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:76
 #, csharp-format
 msgid "Damage:      {0}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Developer/TimeTool.cs:39
+#, csharp-format
+msgid "Day Rate: {0}x"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:84
@@ -611,12 +616,16 @@ msgstr ""
 msgid "FrameBgHovered"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:36
+#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:52
 msgid "Frames between sync"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Visuals/FreecamTool.cs:5
 msgid "Freecam"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Developer/TimeTool.cs:28
+msgid "Freeze Time"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Visuals/ProjectilePredictionTool.cs:39
@@ -802,9 +811,9 @@ msgid "Item Spacing"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:127
+#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:61
 #: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:47
 #: ../../../TerraAngel/UI/ClientWindows/QuickItemBrowserWindow.cs:81
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:61
 msgid "Items"
 msgstr ""
 
@@ -826,9 +835,9 @@ msgid "Kick!"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:58
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:54
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:73
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:60
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:54
 #, csharp-format
 msgid "Kill \"{0}\""
 msgstr ""
@@ -851,7 +860,7 @@ msgstr ""
 msgid "Lighting Modification"
 msgstr ""
 
-#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:163
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:164
 msgid "Liquid"
 msgstr ""
 
@@ -879,7 +888,7 @@ msgstr ""
 msgid "Local player box color"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:160
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:162
 msgid "Locked"
 msgstr ""
 
@@ -938,7 +947,7 @@ msgstr ""
 msgid "MenuBarBg"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:41
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:42
 msgid "Minimum Target Range"
 msgstr ""
 
@@ -1018,6 +1027,10 @@ msgstr ""
 msgid "NPC box color"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Developer/NPCBrowserTool.cs:7
+msgid "NPC Browser"
+msgstr ""
+
 #: ../../../TerraAngel/Tools/Visuals/ESPTool.cs:51
 msgid "NPC hitboxes"
 msgstr ""
@@ -1044,7 +1057,7 @@ msgstr ""
 msgid "NPCs {0}-{1}"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:69
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:70
 msgid "Only PvP Players"
 msgstr ""
 
@@ -1109,8 +1122,8 @@ msgstr ""
 msgid "Player hitboxes"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Exploit/PortalKick.cs:25
 #: ../../../TerraAngel/Tools/Exploit/PortalTeleport.cs:28
+#: ../../../TerraAngel/Tools/Exploit/PortalKick.cs:25
 msgid "Player ID"
 msgstr ""
 
@@ -1122,8 +1135,8 @@ msgstr ""
 msgid "Player Inventory"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Exploit/PortalKick.cs:24
 #: ../../../TerraAngel/Tools/Exploit/PortalTeleport.cs:27
+#: ../../../TerraAngel/Tools/Exploit/PortalKick.cs:24
 msgid "Player Name"
 msgstr ""
 
@@ -1177,7 +1190,17 @@ msgstr ""
 msgid "Position:    {0}"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:59
+#: ../../../TerraAngel/Tools/Developer/TimeTool.cs:24
+#, csharp-format
+msgid "Precise Time: {0}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Developer/TimeTool.cs:26
+#, csharp-format
+msgid "Precise Time: {0} (Night)"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:60
 msgid "Prediction Scaling"
 msgstr ""
 
@@ -1299,11 +1322,11 @@ msgstr ""
 msgid "Replace"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:54
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:55
 msgid "Require Line of Sight"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:176
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:178
 msgid "Reset Position"
 msgstr ""
 
@@ -1353,6 +1376,7 @@ msgid "ScrollbarGrabHovered"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Developer/ItemBrowserTool.cs:44
+#: ../../../TerraAngel/Tools/Developer/NPCBrowserTool.cs:15
 msgid "Search"
 msgstr ""
 
@@ -1380,8 +1404,8 @@ msgstr ""
 msgid "SeparatorHovered"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Exploit/PortalKick.cs:52
 #: ../../../TerraAngel/Tools/Exploit/PortalTeleport.cs:55
+#: ../../../TerraAngel/Tools/Exploit/PortalKick.cs:52
 msgid "Seriously?"
 msgstr ""
 
@@ -1402,7 +1426,7 @@ msgstr ""
 msgid "Set Custom UUID:"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:30
+#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:40
 msgid "Shift Speed"
 msgstr ""
 
@@ -1437,14 +1461,14 @@ msgid "Spectate \"{0}\""
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Developer/ExtendedPickupTool.cs:25
-#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:27
+#: ../../../TerraAngel/Tools/Developer/NoClipTool.cs:34
 msgid "Speed"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:86
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:87
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:83
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:80
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:83
 #, csharp-format
 msgid "Speed:       {0}"
 msgstr ""
@@ -1526,22 +1550,22 @@ msgstr ""
 msgid "Taking map screenshot"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:63
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:64
 msgid "Target Hostile NPCs"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:116
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:117
 msgid "Target Player"
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:64
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:65
 msgid "Target Players"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:47
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:50
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:43
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:49
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:43
 #, csharp-format
 msgid "Teleport to \"{0}\""
 msgstr ""
@@ -1554,16 +1578,16 @@ msgstr ""
 msgid "Teleport Tool"
 msgstr ""
 
-#: ../../../Player.cs:37808
+#: ../../../Player.cs:39096
 #, csharp-format
 msgid "Teleported to {0} (Style: {1}, ExtraInfo: {2})"
 msgstr ""
 
-#: ../../../Main.cs:48050
+#: ../../../Main.cs:50589
 msgid "TerraAngel Plugins"
 msgstr ""
 
-#: ../../../Main.cs:48040
+#: ../../../Main.cs:50579
 msgid "TerraAngel Settings"
 msgstr ""
 
@@ -1583,11 +1607,11 @@ msgstr ""
 msgid "TextSelectedBg"
 msgstr ""
 
-#: ../../../TerraAngel/Graphics/ClientRenderer.cs:309
+#: ../../../TerraAngel/Graphics/ClientRenderer.cs:318
 msgid "There is an update for TerraAngel available on GitHub"
 msgstr ""
 
-#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:159
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:160
 msgid "Tile"
 msgstr ""
 
@@ -1667,9 +1691,18 @@ msgstr ""
 msgid "Tile Type:        {0}/{1}"
 msgstr ""
 
+#: ../../../TerraAngel/Tools/Developer/TimeTool.cs:7
+#: ../../../TerraAngel/Tools/Developer/TimeTool.cs:17
+msgid "Time"
+msgstr ""
+
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:78
 #, csharp-format
 msgid "Time Left:   {0}/{1}"
+msgstr ""
+
+#: ../../../TerraAngel/Tools/Developer/TimeTool.cs:33
+msgid "Time Rate"
 msgstr ""
 
 #: ../../../TerraAngel/UI/ClientWindows/TimingMetricsWindow.cs:13
@@ -1697,7 +1730,7 @@ msgstr ""
 msgid "Type #help for a list of commands"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:160
+#: ../../../TerraAngel/UI/ClientWindows/ChatWindow.cs:162
 msgid "Unlocked"
 msgstr ""
 
@@ -1705,7 +1738,7 @@ msgstr ""
 msgid "Unselect!"
 msgstr ""
 
-#: ../../../TerraAngel/Graphics/ClientRenderer.cs:307
+#: ../../../TerraAngel/Graphics/ClientRenderer.cs:316
 msgid "Update Available"
 msgstr ""
 
@@ -1731,19 +1764,19 @@ msgstr ""
 
 #: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:88
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:89
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:85
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:82
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:85
 msgid "Velocity Dir: "
 msgstr ""
 
-#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:56
+#: ../../../TerraAngel/Tools/Automation/AutoAimTool.cs:57
 msgid "Velocity Prediction"
 msgstr ""
 
 #: ../../../TerraAngel/Tools/Inspector/NPCInspectorTool.cs:87
 #: ../../../TerraAngel/Tools/Inspector/ItemInspectorTool.cs:88
-#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:84
 #: ../../../TerraAngel/Tools/Inspector/ProjectileInspector.cs:81
+#: ../../../TerraAngel/Tools/Inspector/PlayerInspectorTool.cs:84
 #, csharp-format
 msgid "Velocity:    {0}"
 msgstr ""
@@ -1756,7 +1789,7 @@ msgstr ""
 msgid "Vsync"
 msgstr ""
 
-#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:161
+#: ../../../TerraAngel/WorldEdits/WorldEditBrush.cs:162
 msgid "Wall"
 msgstr ""
 
