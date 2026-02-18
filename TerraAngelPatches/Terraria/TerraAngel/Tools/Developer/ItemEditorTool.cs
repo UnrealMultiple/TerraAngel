@@ -7,7 +7,7 @@ public class ItemEditorTool : Tool
     public override string Name => GetString("Item Editor");
 
     public string[]? ItemPrefixes;
-    
+
     public override void DrawUI(ImGuiIOPtr io)
     {
         if (HeldItem.stack == 0)
@@ -18,12 +18,12 @@ public class ItemEditorTool : Tool
         ImGuiUtil.ItemButton(HeldItem, "InspectorItem", new Vector2(32f));
         ImGui.SameLine();
         ImGui.Text(HeldItem.Name);
-        
+
         if (ImGui.BeginTable("ItemTable", 2))
         {
             ImGui.TableSetupColumn("Label", ImGuiTableColumnFlags.WidthFixed, 150.0f);
             ImGui.TableSetupColumn("Input", ImGuiTableColumnFlags.WidthStretch);
-            
+
             ImGui.TableNextRow();
             ImGui.TableNextColumn();
             ImGui.Text(GetString("Prefix: "));
@@ -34,13 +34,13 @@ public class ItemEditorTool : Tool
             {
                 HeldItem.prefix = (byte)prefixIndex;
             }
-            
+
             ImGui.TableNextRow();
             ImGui.TableNextColumn();
             ImGui.Text(GetString("Damage: "));
             ImGui.TableNextColumn();
             ImGui.InputInt("##ItemDamage", ref HeldItem.damage);
-    
+
 
             ImGui.TableNextRow();
             ImGui.TableNextColumn();
@@ -89,16 +89,16 @@ public class ItemEditorTool : Tool
             ImGui.Text(GetString("Hammer Power: "));
             ImGui.TableNextColumn();
             ImGui.InputInt("##ItemHammerPower", ref HeldItem.hammer);
-    
+
             ImGui.TableNextRow();
             ImGui.TableNextColumn();
             ImGui.Text(GetString("Stack: "));
             ImGui.TableNextColumn();
             ImGui.InputInt("##ItemStack", ref HeldItem.stack);
-            
+
             ImGui.EndTable();
         }
-        
+
 
         ImGui.Checkbox(GetString("Auto-Swing"), ref HeldItem.autoReuse);
 
@@ -121,6 +121,6 @@ public class ItemEditorTool : Tool
         }
         prefixes[0] = GetString("None");
         return prefixes;
-        
+
     }
 }

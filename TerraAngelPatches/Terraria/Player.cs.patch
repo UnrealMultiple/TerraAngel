@@ -76,6 +76,18 @@
      }
  
      private void MakeFloorDust(bool Falling, int type, int frameX, int frameY, int paintColor)
+@@ -24880,6 +_,11 @@
+             LockGamepadTileInteractions();
+         }
+ 
++        if (ToolManager.GetTool<InstantRespawnTool>().Enabled)
++        {
++            respawnTimer = 0;
++        }
++
+         maxFallSpeed = 10f;
+         gravity = defaultGravity;
+         jumpHeight = 15;
 @@ -28985,9 +_,12 @@
              CheckCrackedBrickBreak();
          }
@@ -174,17 +186,17 @@
  
      public void Teleport(Vector2 newPos, int Style = 0, int extraInfo = 0)
      {
-+        
++
 +        if (ToolManager.GetTool<TeleportTool>().LogTargetPosition)
 +        {
 +            ClientLoader.Console.WriteLine(GetString($"Teleported to {newPos.ToString()} (Style: {Style}, ExtraInfo: {extraInfo})"));
 +        }
-+        
++
 +        if (!ToolManager.GetTool<TeleportTool>().AllowTeleport)
 +        {
 +            return;
 +        }
-+        
++
          try
          {
              _funkytownAchievementCheckCooldown = 100;
