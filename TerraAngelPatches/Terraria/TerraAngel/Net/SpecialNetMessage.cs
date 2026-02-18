@@ -20,23 +20,42 @@ public class SpecialNetMessage
         Player player = Main.player[playerIndex];
 
         BitsByte controlFlags = (byte)0;
+        controlFlags[0] = player.controlUp;
+        controlFlags[1] = player.controlDown;
+        controlFlags[2] = player.controlLeft;
+        controlFlags[3] = player.controlRight;
+        controlFlags[4] = player.controlJump;
         controlFlags[5] = player.controlUseItem;
         controlFlags[6] = player.direction == 1;
 
         BitsByte movementFlags = (byte)0;
+        movementFlags[0] = player.pulley;
+        movementFlags[1] = player.pulley && player.pulleyDir == 2;
         movementFlags[2] = player.velocity != Vector2.Zero;
+        movementFlags[3] = player.vortexStealthActive;
         movementFlags[4] = player.gravDir == 1f;
         movementFlags[5] = player.shieldRaised;
+        movementFlags[6] = player.ghost;
+        movementFlags[7] = player.mount.Active;
 
         BitsByte miscFlags = (byte)0;
+        miscFlags[0] = player.tryKeepingHoveringUp;
+        miscFlags[1] = player.IsVoidVaultEnabled;
         miscFlags[2] = player.sitting.isSitting;
         miscFlags[3] = player.downedDD2EventAnyDifficulty;
         miscFlags[4] = player.petting.isPetting;
         miscFlags[5] = player.petting.isPetSmall;
         miscFlags[6] = player.PotionOfReturnOriginalUsePosition.HasValue;
+        miscFlags[7] = player.tryKeepingHoveringDown;
 
         BitsByte extraFlags = (byte)0;
         extraFlags[0] = player.sleeping.isSleeping;
+        extraFlags[1] = player.autoReuseAllWeapons;
+        extraFlags[2] = player.controlDownHold;
+        extraFlags[3] = player.isOperatingAnotherEntity;
+        extraFlags[4] = player.controlUseTile;
+        extraFlags[5] = player.netCameraTarget.HasValue;
+        extraFlags[6] = player.lastItemUseAttemptSuccess;
 
         using var builder = new PacketBuilder();
         builder.MakePacket(MessageID.PlayerControls, p => p
@@ -47,10 +66,12 @@ public class SpecialNetMessage
             .Write(extraFlags)
             .Write((byte)selectedItem)
             .WriteVector2(position)
-            .If(movementFlags[2], b => b.WriteVector2(Vector2.Zero))
+            .If(movementFlags[2], b => b.WriteVector2(Vector2.Zero)) // intentionally set to zero
+            .If(movementFlags[7], b => b.Write((ushort)player.mount.Type))
             .If(miscFlags[6], b => b
                 .WriteVector2(player.PotionOfReturnOriginalUsePosition!.Value)
-                .WriteVector2(player.PotionOfReturnHomePosition!.Value)));
+                .WriteVector2(player.PotionOfReturnHomePosition!.Value))
+            .If(extraFlags[5], b => b.WriteVector2(player.netCameraTarget!.Value)));
         builder.Send();
     }
 
@@ -62,10 +83,14 @@ public class SpecialNetMessage
     /// <param name="stack">Item stack</param>
     /// <param name="prefix">Item prefix</param>
     /// <param name="netId">Item net ID</param>
-    public static void SendSyncEquipmentPacket(int playerIndex, int slot, int stack, int prefix, int netId)
+    public static void SendSyncEquipmentPacket(int playerIndex, int slot, int stack, int prefix, int netId, bool favorited = false, bool indicateBlockedSlot = false)
     {
         if (Main.netMode == 0)
             return;
+
+        BitsByte itemFlags = (byte)0;
+        itemFlags[0] = favorited;
+        itemFlags[1] = indicateBlockedSlot;
 
         using var builder = new PacketBuilder();
         builder.MakePacket(MessageID.SyncEquipment, p => p
@@ -73,7 +98,8 @@ public class SpecialNetMessage
             .Write((short)slot)
             .Write((short)stack)
             .Write((byte)prefix)
-            .Write((short)netId));
+            .Write((short)netId)
+            .Write(itemFlags));
         builder.Send();
     }
 
@@ -100,7 +126,7 @@ public class SpecialNetMessage
         if (resetToNormal)
         {
             NetMessage.SendData(MessageID.PlayerControls, number: Main.myPlayer);
-            NetMessage.SendData(MessageID.SyncEquipment, number: Main.myPlayer, number2: Main.LocalPlayer.selectedItem, number3: Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem].prefix);
+            NetMessage.SendData(MessageID.SyncEquipment, number: Main.myPlayer, number2: Main.LocalPlayer.selectedItem);
         }
     }
 
@@ -116,7 +142,7 @@ public class SpecialNetMessage
         if (resetToNormal)
         {
             NetMessage.SendData(MessageID.PlayerControls, number: Main.myPlayer);
-            NetMessage.SendData(MessageID.SyncEquipment, number: Main.myPlayer, number2: Main.LocalPlayer.selectedItem, number3: Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem].prefix);
+            NetMessage.SendData(MessageID.SyncEquipment, number: Main.myPlayer, number2: Main.LocalPlayer.selectedItem);
         }
     }
 
