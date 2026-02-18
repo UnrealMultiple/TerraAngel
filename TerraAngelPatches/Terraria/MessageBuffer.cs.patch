@@ -86,7 +86,7 @@
 +                        
 +                        if (damage == 1 && playerDeathReason2._sourceNPCIndex == 203)
 +                        {
-+                            Main.player[num26].TerraAngelUser = true;
++                            Main.player[num24].TerraAngelUser = true;
                          }
                      }
  
