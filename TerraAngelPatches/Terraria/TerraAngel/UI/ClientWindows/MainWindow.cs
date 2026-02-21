@@ -156,7 +156,7 @@ public class MainWindow : ClientWindow
                                         }
                                     }
                                     watch.Stop();
-                                    ClientLoader.Console.WriteLine(GetString($"Map took {watch.Elapsed.TotalSeconds:.3f}s"));
+                                    ClientLoader.Console.WriteLine(GetString($"Map took {watch.Elapsed.TotalSeconds:F3}s"));
                                     Main.refreshMap = true;
                                 }
                                 catch (Exception e)
