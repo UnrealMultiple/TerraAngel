@@ -1,5 +1,7 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using TerraAngel.WorldEdits;
 
@@ -112,11 +114,35 @@ public class MainWindow : ClientWindow
 
                         if (ImGui.Button(GetString("Reveal Map")))
                         {
-                            Task.Run(() =>
+                            Task.Run(async () =>
                             {
                                 try
                                 {
                                     Stopwatch watch = Stopwatch.StartNew();
+
+                                    if (Main.netMode == 1)
+                                    {
+                                        for (var x = 0; x < Main.maxSectionsX; x++)
+                                        {
+                                            for (var y = 0; y < Main.maxSectionsY; y++)
+                                            {
+                                                NetMessage.SendData(MessageID.RequestSection, -1, -1, null, x, y);
+                                            }
+                                        }
+
+                                        while (watch.Elapsed.TotalSeconds <= 120)
+                                        {
+                                            var leftSections = Main.tile.LoadedTileSections.Cast<bool>().Count(x=> !x);
+
+                                            if (leftSections == 0)
+                                            {
+                                                break;
+                                            }
+                                            ClientLoader.Console.WriteLine(GetString($"Map left {leftSections} sections"));
+                                            await Task.Delay(500);
+                                        }
+                                    }
+                                    
                                     int xlen = Main.Map.MaxWidth;
                                     int ylen = Main.Map.MaxHeight;
                                     for (int x = 0; x < xlen; x++)
@@ -130,7 +156,7 @@ public class MainWindow : ClientWindow
                                         }
                                     }
                                     watch.Stop();
-                                    ClientLoader.Console.WriteLine(GetString($"Map took {watch.Elapsed.Milliseconds}ms"));
+                                    ClientLoader.Console.WriteLine(GetString($"Map took {watch.Elapsed.TotalSeconds:.3f}s"));
                                     Main.refreshMap = true;
                                 }
                                 catch (Exception e)
