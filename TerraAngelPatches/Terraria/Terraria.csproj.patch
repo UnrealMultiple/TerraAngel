@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Terraria.csproj
 +++ src/TerraAngel/Terraria/Terraria.csproj
-@@ -3,41 +_,202 @@
+@@ -3,41 +_,203 @@
    <PropertyGroup>
      <OutputType>WinExe</OutputType>
      <Nullable>enable</Nullable>
@@ -54,7 +54,9 @@
 +  <ItemGroup>
 +    <ProjectReference Include="..\..\..\CSharpEval\CSharpEval\CSharpEval.csproj" />
 +    <ProjectReference Include="..\..\..\TNA\FNA.Core.csproj" />
-+    <ProjectReference Include="..\..\..\TrProtocol\TrProtocol\TrProtocol.csproj" />
++    <ProjectReference Include="..\..\..\TrProtocol\src\TrProtocol\TrProtocol.csproj">
++      <Aliases>TrProtocol</Aliases>
++    </ProjectReference>
 +    <ProjectReference Include="..\TerraAngel.PluginAPI\TerraAngel.PluginAPI.csproj" />
 +  </ItemGroup>
 +

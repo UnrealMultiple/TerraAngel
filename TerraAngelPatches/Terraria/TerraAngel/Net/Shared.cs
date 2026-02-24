@@ -1,4 +1,5 @@
-using TrProtocol;
+extern alias TrProtocol;
+using TrProtocol::TrProtocol;
 
 namespace TerraAngel.Net;
 

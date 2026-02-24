@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Input;
 using Terraria.GameInput;
-using static TrProtocol.Models.NetworkText;
 
 namespace TerraAngel.Hooks;
 
