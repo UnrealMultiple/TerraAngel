@@ -13,7 +13,7 @@ Installation
 
 Please note that this client is currently only available for Windows and Linux
 
-In order to use it, you will need to have [git](https://git-scm.com/download/win), [powershell7](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.4) and the [dotnet 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) installed on your machine
+In order to use it, you will need to have [git](https://git-scm.com/download/win), [powershell7](https://learn.microsoft.com/en-us/powershell/scripting/install/install-powershell) and the [dotnet 10 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) installed on your machine
 
 Be sure to restart your computer after you install these
 
@@ -33,7 +33,7 @@ To install the client, follow these steps:
 
   ![image](https://user-images.githubusercontent.com/87276335/182042235-9ce87d19-61ee-4636-b3ab-eee0ccb0e428.png)
 
-  4. If the process finishes successfully, the client will be built in the `src/TerraAngel/Terraria/bin/Release/net8.0/` folder
+  4. If the process finishes successfully, the client will be built in the `src/TerraAngel/Terraria/bin/Release/net10.0/` folder
 
   ![image](https://user-images.githubusercontent.com/87276335/182298612-c9aa34a2-9df7-4047-9a4f-a465c95419a1.png)
 
