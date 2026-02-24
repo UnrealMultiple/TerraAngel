@@ -1,9 +1,10 @@
-﻿using System;
+﻿extern alias TrProtocol;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
-using TrProtocol;
+using TrProtocol::TrProtocol;
 using MessageID = Terraria.ID.MessageID;
 
 namespace TerraAngel.UI.ClientWindows;
@@ -206,7 +207,7 @@ public class NetMessageWindow : ClientWindow
                                     if (sent.Packet is not null)
                                     {
                                         builder.AppendLine();
-                                        builder.Append($"   {sent.Packet}");
+                                        builder.Append($"   {sent.Packet.Describe()}");
                                     }
                                     
                                     if (sent.StackTrace is not null)
@@ -228,15 +229,10 @@ public class NetMessageWindow : ClientWindow
                                 {
                                     builder.Clear();
 
-                                    if (received.Packet is null)
-                                    {
-                                        builder.Append(GetString("Received packet"));
-                                    }
-                                    else
-                                    {
-                                        builder.Append(received.Packet);
-                                    }
-                                    
+                                    builder.Append(received.Packet is null
+                                        ? GetString("Received packet")
+                                        : received.Packet.Describe());
+
                                     string builtString = builder.ToString();
 
                                     ImGui.PushStyleColor(ImGuiCol.Text, Color.Crimson.PackedValue);
@@ -364,7 +360,7 @@ public abstract class NetPacketLog
 {
     public int Type;
     
-    public Packet? Packet;
+    public INetPacket? Packet;
 }
 
 public class ReceivedNetPacketLog : NetPacketLog
