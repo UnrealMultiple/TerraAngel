@@ -1,6 +1,7 @@
-﻿using TerraAngel.Physics;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using System.Runtime.CompilerServices;
+using TerraAngel.Physics;
 
 namespace TerraAngel.Tools.Automation;
 
@@ -8,25 +9,43 @@ public class AutoAimTool : Tool
 {
     public override string Name => GetString("Auto-Aim");
     public override ToolTabs Tab => ToolTabs.AutomationTools;
-
-    public ref bool FavorBosses => ref ClientConfig.Settings.AutoAttackFavorBosses;
-    public ref bool TargetHostileNPCs => ref ClientConfig.Settings.AutoAttackTargetHostileNPCs;
-    public ref bool TargetPlayers => ref ClientConfig.Settings.AutoAttackTargetPlayers;
-    public ref bool RequireLineOfSight => ref ClientConfig.Settings.AutoAttackRequireLineOfSight;
-    public ref bool VelocityPrediction => ref ClientConfig.Settings.AutoAttackVelocityPrediction;
-    public ref bool OnlyPvPPlayers => ref ClientConfig.Settings.AutoAttackOnlyPvPPlayers;
-
     public ref float MinAttackRange => ref ClientConfig.Settings.AutoAttackMinTargetRange;
-    public ref float VelocityPrectionScaling => ref ClientConfig.Settings.AutoAttackVelocityPredictionScaling;
-
-    public ref string TargetPlayerName => ref ClientConfig.Settings.AutoAttackTargetPlayerName;
-
+    public ref bool MouseBound => ref ClientConfig.Settings.AutoAttackMouseBounding;
+    public ref bool ShowMouseRange => ref ClientConfig.Settings.AutoAttackShowMouseRange;
+    public ref bool RequireLineOfSight => ref ClientConfig.Settings.AutoAttackRequireLineOfSight;
     public bool AutoUse;
     public bool CanAutoUse => AutoUse && !Main.playerInventory;
+    public ref bool VelocityPrediction => ref ClientConfig.Settings.AutoAttackVelocityPrediction;
+    public ref float VelocityPrectionScaling => ref ClientConfig.Settings.AutoAttackVelocityPredictionScaling;
+    public ref bool TargetHostileNPCs => ref ClientConfig.Settings.AutoAttackTargetHostileNPCs;
+    public ref bool FavorBosses => ref ClientConfig.Settings.AutoAttackFavorBosses;
+    public ref TargetPriority TargetPriorityMode => ref Unsafe.As<int, TargetPriority>(ref ClientConfig.Settings.AutoAttackTargetPriority);
+    public ref bool TargetPlayers => ref ClientConfig.Settings.AutoAttackTargetPlayers;
+    public ref bool OnlyPvPPlayers => ref ClientConfig.Settings.AutoAttackOnlyPvPPlayers;
+    public ref string TargetPlayerName => ref ClientConfig.Settings.AutoAttackTargetPlayerName;
 
     public bool Enabled;
 
     private int targetPlayerIndex = 0;
+
+    public enum TargetPriority
+    {
+        Closest,
+        HighestMaxHP,
+        LowestMaxHP,
+        HighestHP,
+        LowestHP
+    }
+
+    public string[] TargetPriorityStrings =
+    [
+        "Closest",
+        "Highest Max HP",
+        "Lowest Max HP",
+        "Highest HP",
+        "Lowest HP",
+    ];
+
 
     public override void DrawUI(ImGuiIOPtr io)
     {
@@ -39,17 +58,37 @@ public class AutoAimTool : Tool
             if (ImGui.CollapsingHeader(GetString("Auto-Attack Settings")))
             {
                 ImGui.Indent();
+
                 ImGui.SliderFloat(GetString("Minimum Target Range"), ref MinAttackRange, 1f, 2000f);
                 if (ImGui.IsItemFocused())
                 {
-                    if (Main.mapFullscreen)
+                    if (MouseBound)
                     {
-                        drawList.AddCircleFilled(Util.WorldToScreenFullscreenMap(Main.LocalPlayer.Center), Util.WorldToScreenFullscreenMap(Main.LocalPlayer.Center).Distance(Util.WorldToScreenFullscreenMap(Main.LocalPlayer.Center + new Vector2(MinAttackRange, 0f))), Color.Red.WithAlpha(0.5f).PackedValue);
+                        Vector2 screenCenter = Util.WorldToScreenWorld(Main.MouseWorld);
+                        drawList.AddCircleFilled(screenCenter, screenCenter.Distance(Util.WorldToScreenWorld(Main.MouseWorld + new Vector2(MinAttackRange, 0f))), Color.Red.WithAlpha(0.5f).PackedValue);
                     }
                     else
                     {
-                        drawList.AddCircleFilled(Util.WorldToScreenWorld(Main.LocalPlayer.Center), MinAttackRange, Color.Red.WithAlpha(0.5f).PackedValue);
+                        if (Main.mapFullscreen)
+                        {
+                            Vector2 screenCenter = Util.WorldToScreenFullscreenMap(Main.LocalPlayer.Center);
+                            drawList.AddCircleFilled(screenCenter, screenCenter.Distance(Util.WorldToScreenFullscreenMap(Main.LocalPlayer.Center + new Vector2(MinAttackRange, 0f))), Color.Red.WithAlpha(0.5f).PackedValue);
+                        }
+                        else
+                        {
+                            Vector2 screenCenter = Util.WorldToScreenWorld(Main.LocalPlayer.Center);
+                            drawList.AddCircleFilled(screenCenter, screenCenter.Distance(Util.WorldToScreenWorld(Main.LocalPlayer.Center + new Vector2(MinAttackRange, 0f))), Color.Red.WithAlpha(0.5f).PackedValue);
+                        }
                     }
+                }
+
+                ImGui.Checkbox(GetString("Bound Range to Mouse"), ref MouseBound);
+
+                if (MouseBound)
+                {
+                    ImGui.Indent();
+                    ImGui.Checkbox(GetString("Show Mouse Range"), ref ShowMouseRange);
+                    ImGui.Unindent();
                 }
 
                 ImGui.Checkbox(GetString("Require Line of Sight"), ref RequireLineOfSight);
@@ -57,25 +96,34 @@ public class AutoAimTool : Tool
                 ImGui.Checkbox(GetString("Velocity Prediction"), ref VelocityPrediction);
                 if (VelocityPrediction)
                 {
+                    ImGui.Indent();
                     ImGui.SliderFloat(GetString("Prediction Scaling"), ref VelocityPrectionScaling, 0.0f, 10.0f, "%.3f");
+                    ImGui.Unindent();
                 }
 
                 ImGui.Separator();
                 ImGui.Checkbox(GetString("Target Hostile NPCs"), ref TargetHostileNPCs);
+
+                if (TargetHostileNPCs)
+                {
+                    ImGui.Indent();
+                    ImGui.Checkbox(GetString("Favor Bosses"), ref FavorBosses);
+                    ImGui.Combo("Target Priority", ref Unsafe.As<TargetPriority, int>(ref TargetPriorityMode), TargetPriorityStrings, TargetPriorityStrings.Length);
+                    ImGui.Unindent();
+                }
+
                 ImGui.Checkbox(GetString("Target Players"), ref TargetPlayers);
 
                 if (TargetPlayers)
                 {
                     ImGui.Indent();
                     ImGui.Checkbox(GetString("Only PvP Players"), ref OnlyPvPPlayers);
-                    
+
                     ImGui.Separator();
-                    
-                    // 获取在线玩家列表
+
                     var onlinePlayerNames = new List<string>();
                     var onlinePlayerIndices = new List<int>();
 
-                    // 添加"不选中任何玩家"选项
                     onlinePlayerNames.Add(GetString("Auto-target nearest player"));
                     onlinePlayerIndices.Add(-1);
 
@@ -89,15 +137,13 @@ public class AutoAimTool : Tool
                         }
                     }
 
-                    // 确保索引有效
                     if (targetPlayerIndex >= onlinePlayerNames.Count)
                         targetPlayerIndex = 0;
 
-                    // 同步当前目标玩家名称与下拉框索引
                     if (!string.IsNullOrWhiteSpace(TargetPlayerName))
                     {
                         bool found = false;
-                        for (int i = 1; i < onlinePlayerIndices.Count; i++) // 从1开始，跳过"不选中"选项
+                        for (int i = 1; i < onlinePlayerIndices.Count; i++)
                         {
                             if (onlinePlayerIndices[i] >= 0 && Main.player[onlinePlayerIndices[i]].name == TargetPlayerName)
                             {
@@ -107,20 +153,18 @@ public class AutoAimTool : Tool
                             }
                         }
                         if (!found)
-                            targetPlayerIndex = 0; // 如果找不到玩家，重置为"不选中"
+                            targetPlayerIndex = 0;
                     }
                     else
                     {
-                        targetPlayerIndex = 0; // 没有指定玩家名称时，选择"不选中"
+                        targetPlayerIndex = 0;
                     }
 
                     ImGui.Text($"{GetString("Target Player")}:");
                     if (ImGui.Combo("##TargetPlayerSelection", ref targetPlayerIndex, onlinePlayerNames.ToArray(), onlinePlayerNames.Count))
                     {
-                        // 选择改变时更新目标玩家名称
                         if (targetPlayerIndex == 0 || onlinePlayerIndices[targetPlayerIndex] < 0)
                         {
-                            // 选择了"不选中任何玩家"
                             TargetPlayerName = "";
                         }
                         else
@@ -128,7 +172,7 @@ public class AutoAimTool : Tool
                             TargetPlayerName = Main.player[onlinePlayerIndices[targetPlayerIndex]].name;
                         }
                     }
-                    
+
                     ImGui.Unindent();
                 }
 
@@ -146,17 +190,22 @@ public class AutoAimTool : Tool
         public Vector2 Center;
         public Vector2 Velocity;
         public bool IsValid;
+        public bool IsBoss;
+        public int CurrentHealth;
+        public int MaxHealth;
     }
 
     private bool TryFindBestTarget(
-        Vector2 playerCenter,
+        Vector2 pointCenter,
         Func<int, TargetCandidate> getCandidate,
         int maxCount,
         out Vector2 bestTarget)
     {
+        (bool NotBoss, float Score) bestScore = (true, float.MaxValue);
         float minDistSq = float.MaxValue;
         bestTarget = Vector2.Zero;
         bool foundTarget = false;
+        Vector2 playerCenter = Main.LocalPlayer.RotatedRelativePoint(Main.LocalPlayer.MountedCenter, reverseRotation: true);
 
         for (int i = 0; i < maxCount; i++)
         {
@@ -164,10 +213,11 @@ public class AutoAimTool : Tool
             if (!candidate.IsValid)
                 continue;
 
-            float distToPlayer = playerCenter.Distance(candidate.Center);
-            if (distToPlayer > MinAttackRange)
+            float distToPoint = pointCenter.Distance(candidate.Center);
+            if (distToPoint > MinAttackRange)
                 continue;
 
+            float distToPlayer = playerCenter.Distance(candidate.Center);
             RaycastData raycast = Raycast.Cast(playerCenter, (candidate.Center - playerCenter).Normalized(), distToPlayer + 1f);
             if (RequireLineOfSight && raycast.Hit)
                 continue;
@@ -187,10 +237,14 @@ public class AutoAimTool : Tool
                 }
             }
 
-            float distSq = targetPoint.DistanceSQ(playerCenter);
-            if (distSq < minDistSq)
+            float distSq = targetPoint.DistanceSQ(pointCenter);
+            float score = GetTargetScore(candidate, distSq);
+            (bool NotBoss, float Score) current = (FavorBosses && !candidate.IsBoss, score);
+
+            if (current.CompareTo(bestScore) < 0 || (current == bestScore && distSq < minDistSq))
             {
                 bestTarget = targetPoint;
+                bestScore = current;
                 minDistSq = distSq;
                 foundTarget = true;
             }
@@ -199,12 +253,30 @@ public class AutoAimTool : Tool
         return foundTarget;
     }
 
+    private float GetTargetScore(TargetCandidate candidate, float distanceSq)
+    {
+        return TargetPriorityMode switch
+        {
+            TargetPriority.Closest => distanceSq,
+
+            TargetPriority.HighestHP => -candidate.CurrentHealth,
+
+            TargetPriority.HighestMaxHP => -candidate.MaxHealth,
+
+            TargetPriority.LowestHP => candidate.CurrentHealth,
+
+            TargetPriority.LowestMaxHP => candidate.MaxHealth,
+
+            _ => distanceSq
+        };
+    }
+
     public override void Update()
     {
         ImDrawListPtr drawList = ImGui.GetBackgroundDrawList();
         if (Enabled && !Main.gameMenu)
         {
-            Vector2 correctedPlayerCenter = Main.LocalPlayer.RotatedRelativePoint(Main.LocalPlayer.MountedCenter, reverseRotation: true);
+            Vector2 correctedPlayerCenter = !MouseBound ? Main.LocalPlayer.RotatedRelativePoint(Main.LocalPlayer.MountedCenter, reverseRotation: true) : Main.MouseWorld;
             LockedOnToTarget = false;
 
             // Target NPCs
@@ -224,7 +296,7 @@ public class AutoAimTool : Tool
                 {
                     float currentBestDistSq = LockedOnToTarget ? TargetPoint.DistanceSQ(correctedPlayerCenter) : float.MaxValue;
                     float newDistSq = playerTarget.DistanceSQ(correctedPlayerCenter);
-                    
+
                     if (newDistSq < currentBestDistSq)
                     {
                         TargetPoint = playerTarget;
@@ -235,13 +307,19 @@ public class AutoAimTool : Tool
 
             if (!Main.mapFullscreen && LockedOnToTarget)
                 drawList.AddCircleFilled(Util.WorldToScreenWorld(TargetPoint), 5f, Color.Red.PackedValue);
+
+            if (!Main.mapFullscreen && MouseBound && ShowMouseRange)
+            {
+                Vector2 screenCenter = Util.WorldToScreenWorld(Main.MouseWorld);
+                drawList.AddCircle(screenCenter, screenCenter.Distance(Util.WorldToScreenWorld(Main.MouseWorld + new Vector2(MinAttackRange, 0f))), Color.Red.WithAlpha(0.5f).PackedValue);
+            }
         }
     }
 
     private TargetCandidate GetNPCCandidate(int index)
     {
         NPC npc = Main.npc[index];
-        
+
         if (!npc.active || npc.friendly || npc.immortal || npc.dontTakeDamage)
             return new TargetCandidate { IsValid = false };
 
@@ -249,7 +327,10 @@ public class AutoAimTool : Tool
         {
             Center = npc.Center,
             Velocity = npc.velocity,
-            IsValid = true
+            IsValid = true,
+            IsBoss = npc.boss,
+            CurrentHealth = npc.life,
+            MaxHealth = npc.lifeMax
         };
     }
 
@@ -273,7 +354,10 @@ public class AutoAimTool : Tool
         {
             Center = player.Center,
             Velocity = player.velocity,
-            IsValid = true
+            IsValid = true,
+            IsBoss = false,
+            CurrentHealth = player.statLife,
+            MaxHealth = player.statLifeMax
         };
     }
 

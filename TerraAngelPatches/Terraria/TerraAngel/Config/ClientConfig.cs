@@ -32,7 +32,6 @@ public class ClientConfig
 
     public class Config
     {
-        public bool AutoAttackTargetPlayers = false;
         [UIConfigElement("zh-CN", "显示主窗口")]
         [UIConfigElement("en-US", "Show Stats Window")]
         public bool ShowStatsWindow = true;
@@ -145,8 +144,8 @@ public class ClientConfig
         [UIConfigElement("en-US", "Discord Rich Presence")]
         public bool UseDiscordRPC = true;
 
-        // for public release, set this to true 
-        // so that server owners can easily identify 
+        // for public release, set this to true
+        // so that server owners can easily identify
         // mod users and ban them if they want to
         // [UIConfigElement("zh-CN", "向服务器摊牌你的古神身份 (实验性)")]
         // [UIConfigElement("en-US", "Tell server that you're using a modified client (Experimental)")]
@@ -313,12 +312,16 @@ public class ClientConfig
         public int AutoFishFrameCountRandomizationMin = 10;
         public int AutoFishFrameCountRandomizationMax = 50;
 
-        public bool AutoAttackFavorBosses = true;
-        public bool AutoAttackTargetHostileNPCs = true;
+        public float AutoAttackMinTargetRange = 800f;
+        public bool AutoAttackMouseBounding = false;
+        public bool AutoAttackShowMouseRange = true;
         public bool AutoAttackRequireLineOfSight = true;
         public bool AutoAttackVelocityPrediction = true;
         public float AutoAttackVelocityPredictionScaling = 0.1f;  // 从 0.2269f 降低到 0.1f
-        public float AutoAttackMinTargetRange = 800f;
+        public bool AutoAttackTargetHostileNPCs = true;
+        public bool AutoAttackFavorBosses = true;
+        public int AutoAttackTargetPriority = 0;
+        public bool AutoAttackTargetPlayers = false;
         public bool AutoAttackOnlyPvPPlayers = false;
         public string AutoAttackTargetPlayerName = "";
 
