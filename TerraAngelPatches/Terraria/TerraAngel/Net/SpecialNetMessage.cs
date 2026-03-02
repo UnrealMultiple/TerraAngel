@@ -76,6 +76,74 @@ public class SpecialNetMessage
     }
 
     /// <summary>
+    /// Sends a PlayerControls (13) packet with hidden broadcast presence
+    /// </summary>
+    /// <param name="playerIndex">Player index</param>
+    public static void SendPlayerControlsPacketWithHiddenPresenceMessage(int playerIndex)
+    {
+        if (Main.netMode == 0)
+            return;
+
+        Player player = Main.player[playerIndex];
+
+        BitsByte controlFlags = (byte)0;
+        controlFlags[0] = player.controlUp;
+        controlFlags[1] = player.controlDown;
+        controlFlags[2] = player.controlLeft;
+        controlFlags[3] = player.controlRight;
+        controlFlags[4] = player.controlJump;
+        controlFlags[5] = player.controlUseItem;
+        controlFlags[6] = player.direction == 1;
+
+        BitsByte movementFlags = (byte)0;
+        movementFlags[0] = player.pulley;
+        movementFlags[1] = player.pulley && player.pulleyDir == 2;
+        movementFlags[2] = player.velocity != Vector2.Zero;
+        movementFlags[3] = player.vortexStealthActive;
+        movementFlags[4] = player.gravDir == 1f;
+        movementFlags[5] = player.shieldRaised;
+        movementFlags[6] = player.ghost;
+        movementFlags[7] = player.mount.Active;
+
+        BitsByte miscFlags = (byte)0;
+        miscFlags[0] = player.tryKeepingHoveringUp;
+        miscFlags[1] = player.IsVoidVaultEnabled;
+        miscFlags[2] = player.sitting.isSitting;
+        miscFlags[3] = player.downedDD2EventAnyDifficulty;
+        miscFlags[4] = player.petting.isPetting;
+        miscFlags[5] = player.petting.isPetSmall;
+        miscFlags[6] = player.PotionOfReturnOriginalUsePosition.HasValue;
+        miscFlags[7] = player.tryKeepingHoveringDown;
+
+        BitsByte extraFlags = (byte)0;
+        extraFlags[0] = player.sleeping.isSleeping;
+        extraFlags[1] = player.autoReuseAllWeapons;
+        extraFlags[2] = player.controlDownHold;
+        extraFlags[3] = player.isOperatingAnotherEntity;
+        extraFlags[4] = player.controlUseTile;
+        // extraFlags[5] = player.netCameraTarget.HasValue;
+        extraFlags[5] = true; // hide message inside netCameraTarget
+        extraFlags[6] = player.lastItemUseAttemptSuccess;
+
+        using var builder = new PacketBuilder();
+        builder.MakePacket(MessageID.PlayerControls, p => p
+            .Write((byte)playerIndex)
+            .Write(controlFlags)
+            .Write(movementFlags)
+            .Write(miscFlags)
+            .Write(extraFlags)
+            .Write((byte)player.selectedItem)
+            .WriteVector2(player.position)
+            .If(movementFlags[2], b => b.WriteVector2(player.velocity))
+            .If(movementFlags[7], b => b.Write((ushort)player.mount.Type))
+            .If(miscFlags[6], b => b
+                .WriteVector2(player.PotionOfReturnOriginalUsePosition!.Value)
+                .WriteVector2(player.PotionOfReturnHomePosition!.Value))
+            .If(extraFlags[5], b => b.WriteVector2(new Vector2(-114514, -1919810)))); // magic number
+        builder.Send();
+    }
+
+    /// <summary>
     /// Sends a SyncEquipment (5) packet with custom inventory data
     /// </summary>
     /// <param name="playerIndex">Player index</param>

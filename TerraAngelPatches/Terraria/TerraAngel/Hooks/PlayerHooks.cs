@@ -34,7 +34,7 @@ public class PlayerHooks
         }
         orig(self, i);
     }
-    public static int presenceUpdateCount = 0;
+    public static TimerSlim PresenceUpdateTimer = new(10f, TimerSlim.TimeBy.UpdateDeltaTime);
     public static void PlayerResetEffectsHook(Action<Player> orig, Player self)
     {
         orig(self);
@@ -87,14 +87,10 @@ public class PlayerHooks
                 }
             }
 
-            if (ClientConfig.Settings.BroadcastPresence)
+            if (ClientConfig.Settings.BroadcastPresence && PresenceUpdateTimer.TickTock())
             {
-                presenceUpdateCount++;
-                if (presenceUpdateCount == 60)
-                {
-                    NetMessage.SendPlayerHurt(self.whoAmI, PlayerDeathReason.ByNPC(203), 1, 0, false, false, 0);
-                    NetMessage.SendData(MessageID.PlayerLife, -1, -1, null, self.whoAmI);
-                }
+                SpecialNetMessage.SendPlayerControlsPacketWithHiddenPresenceMessage(self.whoAmI);
+                NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, self.whoAmI);
             }
         }
     }

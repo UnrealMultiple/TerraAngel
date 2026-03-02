@@ -18,6 +18,19 @@
                      NetMessage.TrySendData(16, -1, -1, null, num91);
                      NetMessage.TrySendData(42, -1, -1, null, num91);
                      NetMessage.TrySendData(50, -1, -1, null, num91);
+@@ -1111,6 +_,12 @@
+                     }
+ 
+                     Utils.Swap(ref t, ref player19.position);
++
++                    if (player19.netCameraTarget.GetValueOrDefault() == new Vector2(-114514, -1919810))
++                    {
++                        player19.TerraAngelUser = true;
++                    }
++
+                     break;
+                 }
+ 
 @@ -2690,42 +_,9 @@
                      int num15 = reader.ReadInt16();
                      byte b3 = reader.ReadByte();
