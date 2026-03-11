@@ -8,7 +8,7 @@
  using Terraria.DataStructures;
  using Terraria.GameContent.Events;
  using Terraria.GameContent.Liquid;
-@@ -136,11 +_,6 @@
+@@ -137,11 +_,6 @@
              for (int j = firstTileX - 2; j < lastTileX + 2; j++)
              {
                  Tile tile = Main.tile[j, i];
@@ -20,7 +20,7 @@
                  if (tile.active())
                  {
                      Main.instance.LoadTiles(tile.type);
-@@ -401,11 +_,8 @@
+@@ -389,11 +_,8 @@
              for (int j = firstTileX - 2; j < lastTileX + 2; j++)
              {
                  Tile tile = Main.tile[j, i];
@@ -32,7 +32,7 @@
              }
          }
  
-@@ -454,16 +_,8 @@
+@@ -443,16 +_,8 @@
          {
              for (int j = firstTileX - 2; j < lastTileX + 2; j++)
              {
@@ -51,7 +51,7 @@
                      {
                          continue;
                      }
-@@ -471,7 +_,7 @@
+@@ -460,7 +_,7 @@
                      if (solidLayer)
                      {
                          Main.tileBatch.SetLayer(Layer_LiquidBehindTiles, 0);
@@ -60,7 +60,7 @@
                      }
  
                      Main.tileBatch.SetLayer(Layer_Tiles, 0);
-@@ -663,7 +_,7 @@
+@@ -652,7 +_,7 @@
                          case 375:
                          case 461:
                          case 709:
@@ -69,7 +69,7 @@
                              continue;
                          case 491:
                              if (frameX == 18 && frameY == 18)
-@@ -690,7 +_,7 @@
+@@ -679,7 +_,7 @@
                              AddSpecialPoint(j, i, TileCounterType.AnyDirectionalGrass);
                              continue;
                          default:
@@ -78,7 +78,7 @@
                              {
                                  AddSpecialPoint(j, i, TileCounterType.WindyGrass);
                                  continue;
-@@ -699,8 +_,103 @@
+@@ -688,8 +_,103 @@
                              break;
                      }
  
@@ -302,7 +302,7 @@
          if (tile.wall > 0 && !WallID.Sets.AllowsWind[tile.wall])
          {
              return true;
-@@ -7535,7 +_,7 @@
+@@ -7537,7 +_,7 @@
                  bool flag2 = _rand.Next(600) == 0;
                  if (!flag2)
                  {
@@ -311,7 +311,7 @@
                      flag2 = windTimeLeft > 0 && _rand.Next(48) == 0;
                  }
  
-@@ -8308,7 +_,7 @@
+@@ -8310,7 +_,7 @@
          }
      }
  
@@ -320,7 +320,7 @@
      {
          int num = 60;
          switch (typeCache)
-@@ -8436,7 +_,7 @@
+@@ -8438,7 +_,7 @@
          return num2 * lerpValue;
      }
  
@@ -329,7 +329,7 @@
      {
          if (!Main.SettingsEnabled_TilesSwayInWind)
          {
-@@ -9927,11 +_,6 @@
+@@ -9929,11 +_,6 @@
          for (int i = startY; i < Main.maxTilesY - 10; i++)
          {
              Tile tile = Main.tile[x, i];
@@ -341,7 +341,7 @@
              ushort type = tile.type;
              if (!tile.active() || !TileID.Sets.VineThreads[type])
              {
-@@ -10042,8 +_,6 @@
+@@ -10044,8 +_,6 @@
          for (int num6 = startY; num6 > 10; num6--)
          {
              Tile tile = Main.tile[x, num6];
@@ -350,7 +350,7 @@
                  ushort type = tile.type;
                  if (!tile.active() || !TileID.Sets.ReverseVineThreads[type])
                  {
-@@ -10094,7 +_,6 @@
+@@ -10096,7 +_,6 @@
                  }
  
                  vector += (num7 - (float)Math.PI / 2f).ToRotationVector2() * 16f;

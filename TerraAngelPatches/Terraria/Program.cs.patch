@@ -22,9 +22,9 @@
 -    public static bool IsFna = false;
 +    public static bool IsFna = true;
      public static bool IsMono = Type.GetType("Mono.Runtime") != null;
-     public const bool IsDebug = false;
      public static Dictionary<string, string> LaunchParameters = new Dictionary<string, string>();
-@@ -56,7 +_,7 @@
+     public static string SavePath;
+@@ -55,7 +_,7 @@
  
      public static void ForceLoadThread(object threadContext)
      {
@@ -33,7 +33,7 @@
          LoadedEverything = true;
      }
  
-@@ -179,9 +_,22 @@
+@@ -178,9 +_,22 @@
              args = Utils.ConvertMonoArgsToDotNet(args);
          }
  
@@ -56,7 +56,7 @@
          ThreadPool.SetMinThreads(8, 8);
          InitializeConsoleOutput();
          SetupLogging();
-@@ -196,7 +_,7 @@
+@@ -195,7 +_,7 @@
          {
              Main.OnEngineLoad += delegate
              {
@@ -65,7 +65,7 @@
              };
          }
          else if (Platform.IsWindows)
-@@ -207,7 +_,7 @@
+@@ -206,7 +_,7 @@
                  {
                      if (connected)
                      {
@@ -74,7 +74,7 @@
                          Main.instance.ReHideCursor = true;
                      }
                  });
-@@ -215,10 +_,15 @@
+@@ -214,10 +_,15 @@
          }
  
          using Main main = new Main();
@@ -91,7 +91,7 @@
              LaunchInitializer.LoadParameters(main);
              Main.OnEnginePreload += StartForceLoad;
              if (Main.dedServ)
-@@ -227,18 +_,20 @@
+@@ -226,18 +_,20 @@
              }
  
              main.Run();

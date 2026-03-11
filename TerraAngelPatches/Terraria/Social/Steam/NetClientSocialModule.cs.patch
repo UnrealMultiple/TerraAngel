@@ -16,7 +16,7 @@
          if (_lobby.State != 0)
          {
              _lobby.Leave();
-@@ -146,7 +_,6 @@
+@@ -145,7 +_,6 @@
  
      private void OnLobbyJoinRequest(GameLobbyJoinRequested_t result)
      {
@@ -24,7 +24,7 @@
          if (_lobby.State != 0)
          {
              _lobby.Leave();
-@@ -163,7 +_,6 @@
+@@ -162,7 +_,6 @@
  
      private void OnLobbyEntered(LobbyEnter_t result, bool failure)
      {
@@ -32,7 +32,7 @@
          SteamNetworking.AllowP2PPacketRelay(bAllow: true);
          SendAuthTicket(_lobby.Owner);
          int num = 0;
-@@ -210,12 +_,11 @@
+@@ -209,12 +_,11 @@
  
      private void SendAuthTicket(CSteamID address)
      {
@@ -46,7 +46,7 @@
          }
  
          int num = (int)(_authDataLength + 3);
-@@ -256,13 +_,11 @@
+@@ -255,13 +_,11 @@
  
      private void OnSessionConnectFail(P2PSessionConnectFail_t result)
      {

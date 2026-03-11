@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/NPC.cs
 +++ src/TerraAngel/Terraria/NPC.cs
-@@ -6698,7 +_,27 @@
+@@ -6762,7 +_,27 @@
          }
      }
  
@@ -29,7 +29,7 @@
      public string FullName
      {
          get
-@@ -6712,6 +_,20 @@
+@@ -6776,6 +_,20 @@
          }
      }
  
@@ -50,7 +50,7 @@
      public bool HasGivenName => _givenName.Length != 0;
      public string GivenOrTypeName
      {
-@@ -39456,7 +_,7 @@
+@@ -39530,7 +_,7 @@
                      {
                          Vector2 vector171 = vector170;
                          vector171.Normalize();
@@ -58,26 +58,26 @@
 +                        velocity = VectorExtensions.SmoothStep(velocity, vector171 * Math.Min(8f, vector170.Length()), 0.2f);
                      }
                  }
-                 else if (num1230 < 210f)
-@@ -39473,7 +_,7 @@
-                         int num1244 = Projectile.NewProjectile(GetSpawnSource_ForProjectile(), base.Center.X, base.Center.Y, vector172.X, vector172.Y, 454, 40, 1f, Main.myPlayer, 0f, whoAmI);
+                 else if (num1232 < 210f)
+@@ -39547,7 +_,7 @@
+                         int num1246 = Projectile.NewProjectile(GetSpawnSource_ForProjectile(), base.Center.X, base.Center.Y, vector172.X, vector172.Y, 454, 40, 1f, Main.myPlayer, 0f, whoAmI);
                      }
  
--                    Vector2 vector173 = Vector2.SmoothStep(vector168, vector168 + vector169, (num1230 - 30f) / 180f) - base.Center;
-+                    Vector2 vector173 = VectorExtensions.SmoothStep(vector168, vector168 + vector169, (num1230 - 30f) / 180f) - base.Center;
+-                    Vector2 vector173 = Vector2.SmoothStep(vector168, vector168 + vector169, (num1232 - 30f) / 180f) - base.Center;
++                    Vector2 vector173 = VectorExtensions.SmoothStep(vector168, vector168 + vector169, (num1232 - 30f) / 180f) - base.Center;
                      if (vector173 != Vector2.Zero)
                      {
                          Vector2 vector174 = vector173;
-@@ -39522,7 +_,7 @@
+@@ -39596,7 +_,7 @@
                          }
                      }
  
--                    Vector2 vector176 = Vector2.SmoothStep(vector168, vector168 + vector169, 1f - (num1230 - 270f) / 30f) - base.Center;
-+                    Vector2 vector176 = VectorExtensions.SmoothStep(vector168, vector168 + vector169, 1f - (num1230 - 270f) / 30f) - base.Center;
+-                    Vector2 vector176 = Vector2.SmoothStep(vector168, vector168 + vector169, 1f - (num1232 - 270f) / 30f) - base.Center;
++                    Vector2 vector176 = VectorExtensions.SmoothStep(vector168, vector168 + vector169, 1f - (num1232 - 270f) / 30f) - base.Center;
                      if (vector176 != Vector2.Zero)
                      {
                          Vector2 vector177 = vector176;
-@@ -39538,7 +_,7 @@
+@@ -39612,7 +_,7 @@
                      {
                          Vector2 vector179 = vector178;
                          vector179.Normalize();
@@ -86,7 +86,7 @@
                      }
                  }
              }
-@@ -39761,7 +_,7 @@
+@@ -39835,7 +_,7 @@
                              {
                                  Vector2 vector189 = vector188;
                                  vector189.Normalize();
@@ -95,8 +95,8 @@
                              }
                          }
                          else if (this.ai[1] < 210f)
-@@ -39777,7 +_,7 @@
-                                 int num1252 = Projectile.NewProjectile(GetSpawnSource_ForProjectile(), base.Center.X, base.Center.Y, vector190.X, vector190.Y, 454, 1, 1f, Main.myPlayer, 0f, whoAmI);
+@@ -39851,7 +_,7 @@
+                                 int num1254 = Projectile.NewProjectile(GetSpawnSource_ForProjectile(), base.Center.X, base.Center.Y, vector190.X, vector190.Y, 454, 1, 1f, Main.myPlayer, 0f, whoAmI);
                              }
  
 -                            Vector2 vector191 = Vector2.SmoothStep(vector186, vector186 + vector187, (this.ai[1] - 30f) / 180f) - base.Center;
@@ -104,7 +104,7 @@
                              if (vector191 != Vector2.Zero)
                              {
                                  Vector2 vector192 = vector191;
-@@ -39813,7 +_,7 @@
+@@ -39887,7 +_,7 @@
                                  }
                              }
  
@@ -113,18 +113,18 @@
                              if (vector194 != Vector2.Zero)
                              {
                                  Vector2 vector195 = vector194;
-@@ -44875,8 +_,8 @@
+@@ -44978,8 +_,8 @@
                          {
                              foreach (Vector2 item3 in list2)
                              {
--                                Vector2 value13 = Vector2.CatmullRom(vector293 + vector296, vector293, item3, item3 + vector296, num1579);
-+                                Vector2 value13 = VectorExtensions.CatmullRom(vector293 + vector296, vector293, item3, item3 + vector296, num1579);
--                                Vector2 value14 = Vector2.CatmullRom(vector293 + vector296, vector293, item3, item3 + vector296, num1579 + 0.05f);
-+                                Vector2 value14 = VectorExtensions.CatmullRom(vector293 + vector296, vector293, item3, item3 + vector296, num1579 + 0.05f);
-                                 float num1580 = num1579;
-                                 if (num1580 > 0.5f)
+-                                Vector2 value13 = Vector2.CatmullRom(vector293 + vector296, vector293, item3, item3 + vector296, num1586);
++                                Vector2 value13 = VectorExtensions.CatmullRom(vector293 + vector296, vector293, item3, item3 + vector296, num1586);
+-                                Vector2 value14 = Vector2.CatmullRom(vector293 + vector296, vector293, item3, item3 + vector296, num1586 + 0.05f);
++                                Vector2 value14 = VectorExtensions.CatmullRom(vector293 + vector296, vector293, item3, item3 + vector296, num1586 + 0.05f);
+                                 float num1587 = num1586;
+                                 if (num1587 > 0.5f)
                                  {
-@@ -101474,6 +_,7 @@
+@@ -101459,6 +_,7 @@
  
      private void UpdateCollision()
      {

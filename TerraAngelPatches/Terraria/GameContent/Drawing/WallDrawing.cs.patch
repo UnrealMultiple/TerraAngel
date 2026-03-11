@@ -15,8 +15,8 @@
 +    private NativeTileMap _tileArray;
      private TilePaintSystemV2 _paintSystem;
      private bool _shouldShowInvisibleWalls;
-     private TilePaintSystemV2.WallVariationKey _lastPaintLookupKey;
-@@ -52,6 +_,7 @@
+     private DrawBlackHelper drawBlackHelper;
+@@ -53,6 +_,7 @@
  
          float gfxQuality = Main.gfxQuality;
          Vector2 screenPosition = Main.screenPosition;
@@ -24,7 +24,7 @@
          int[] wallBlend = Main.wallBlend;
          _tileArray = Main.tile;
          int num = (int)(120f * (1f - gfxQuality) + 40f * gfxQuality);
-@@ -139,12 +_,12 @@
+@@ -149,12 +_,12 @@
                          }
                      }
  
@@ -39,7 +39,7 @@
                      }
                  }
                  else
-@@ -160,12 +_,12 @@
+@@ -170,12 +_,12 @@
                          color2 = Color.Lerp(color2, Color.White, 0.5f);
                      }
  
@@ -54,7 +54,7 @@
                      }
                  }
  
-@@ -177,22 +_,22 @@
+@@ -187,22 +_,22 @@
                      bool flag3 = _tileArray[j, i + 1].wall > 0 && wallBlend[_tileArray[j, i + 1].wall] != wallBlend[tile.wall];
                      if (num7)
                      {
