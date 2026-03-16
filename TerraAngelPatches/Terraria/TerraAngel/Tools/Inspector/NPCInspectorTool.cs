@@ -119,25 +119,26 @@ public class NPCInspectorTool : InspectorTool
 
     private void DrawNPCSelectMenu(out bool showTooltip)
     {
+        const int step = 20;
         showTooltip = true;
 
         if (ImGui.BeginMenu(GetString("NPCs")))
         {
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < Main.maxNPCs; i += step)
             {
                 bool anyActiveNPCs = false;
-                for (int j = i; j < Math.Min(i + 20, 200); j++)
+                for (int j = i; j < Math.Min(i + step, Main.maxNPCs); j++)
                 {
                     if (Main.npc[j].active)
                         anyActiveNPCs = true;
                 }
                 
                 ImGui.BeginDisabled(!anyActiveNPCs);
-                if (ImGui.BeginMenu(GetString($"NPCs {i}-{Math.Min(i + 20, 200)}")))
+                if (ImGui.BeginMenu(GetString($"NPCs {i}-{Math.Min(i + step - 1, Main.maxNPCs)}")))
                 {
                     showTooltip = false;
                     ImGui.BeginDisabled(false);
-                    for (int j = i; j < Math.Min(i + 20, 200); j++)
+                    for (int j = i; j < Math.Min(i + step, Main.maxNPCs); j++)
                     {
                         ImGui.PushID(j);
                         if (!Main.npc[j].active) ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.Text] * new Vector4(1f, 1f, 1f, 0.4f));
@@ -154,7 +155,6 @@ public class NPCInspectorTool : InspectorTool
                     ImGui.EndMenu();
                 }
                 ImGui.EndDisabled();
-                i += 20;
             }
             ImGui.EndMenu();
         }
@@ -214,7 +214,7 @@ public class NPCInspectorTool : InspectorTool
 
     public override void UpdateInGameSelect()
     {
-        for (int i = 0; i < 200; i++)
+        for (int i = 0; i < Main.maxNPCs; i++)
         {
             NPC npc = Main.npc[i];
             if (npc.active)

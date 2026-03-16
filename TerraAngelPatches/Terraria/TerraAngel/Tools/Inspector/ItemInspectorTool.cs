@@ -122,25 +122,26 @@ public class ItemInspectorTool : InspectorTool
 
     private void DrawItemSelectMenu(out bool showTooltip)
     {
+        const int step = 20;
         showTooltip = true;
 
         if (ImGui.BeginMenu(GetString("Items")))
         {
-            for (int i = 0; i < 400; i++)
+            for (int i = 0; i < Main.maxItems; i += step)
             {
                 bool anyActiveItems = false;
-                for (int j = i; j < Math.Min(i + 20, 400); j++)
+                for (int j = i; j < Math.Min(i + step, Main.maxItems); j++)
                 {
                     if (Main.item[j].active)
                         anyActiveItems = true;
                 }
 
                 ImGui.BeginDisabled(!anyActiveItems);
-                if (ImGui.BeginMenu(GetString($"Items {i}-{Math.Min(i + 20, 400)}")))
+                if (ImGui.BeginMenu(GetString($"Items {i}-{Math.Min(i + step, Main.maxItems)}")))
                 {
                     showTooltip = false;
                     ImGui.BeginDisabled(false);
-                    for (int j = i; j < Math.Min(i + 20, 400); j++)
+                    for (int j = i; j < Math.Min(i + step, Main.maxItems); j++)
                     {
                         ImGui.PushID(j);
                         if (!Main.item[j].active) ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.Text] * new Vector4(1f, 1f, 1f, 0.4f));
@@ -157,7 +158,6 @@ public class ItemInspectorTool : InspectorTool
                     ImGui.EndMenu();
                 }
                 ImGui.EndDisabled();
-                i += 20;
             }
             ImGui.EndMenu();
         }
@@ -165,7 +165,7 @@ public class ItemInspectorTool : InspectorTool
 
     public override void UpdateInGameSelect()
     {
-        for (int i = 0; i < 400; i++)
+        for (int i = 0; i < Main.maxItems; i++)
         {
             WorldItem item = Main.item[i];
             if (item.active)

@@ -164,25 +164,26 @@ public class ProjectileInspector : InspectorTool
 
     private void DrawProjectileSelectMenu(out bool showTooltip)
     {
+        const int step = 32;
         showTooltip = true;
 
         if (ImGui.BeginMenu(GetString("Projectiles")))
         {
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < Main.maxProjectiles; i += step)
             {
                 bool anyActiveProjectiles = false;
-                for (int j = i; j < Math.Min(i + 32, 1000); j++)
+                for (int j = i; j < Math.Min(i + step, Main.maxProjectiles); j++)
                 {
                     if (Main.projectile[j].active)
                         anyActiveProjectiles = true;
                 }
                 
                 ImGui.BeginDisabled(!anyActiveProjectiles);
-                if (ImGui.BeginMenu(GetString($"Projectiles {i}-{Math.Min(i + 32, 1000)}")))
+                if (ImGui.BeginMenu(GetString($"Projectiles {i}-{Math.Min(i + step - 1, Main.maxProjectiles)}")))
                 {
                     showTooltip = false;
                     ImGui.BeginDisabled(false);
-                    for (int j = i; j < Math.Min(i + 32, 1000); j++)
+                    for (int j = i; j < Math.Min(i + step, Main.maxProjectiles); j++)
                     {
                         ImGui.PushID(j);
                         if (!Main.projectile[j].active) ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.Text] * new Vector4(1f, 1f, 1f, 0.4f));
@@ -199,7 +200,6 @@ public class ProjectileInspector : InspectorTool
                     ImGui.EndMenu();
                 }
                 ImGui.EndDisabled();
-                i += 32;
             }
             ImGui.EndMenu();
         }
@@ -207,7 +207,7 @@ public class ProjectileInspector : InspectorTool
 
     public override void UpdateInGameSelect()
     {
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < Main.maxProjectiles; i++)
         {
             Projectile projectile = Main.projectile[i];
             if (projectile.active)

@@ -195,25 +195,26 @@ public class PlayerInspectorTool : InspectorTool
 
     private void DrawPlayerSelectMenu(out bool showTooltip)
     {
+        const int step = 20;
         showTooltip = true;
 
         if (ImGui.BeginMenu(GetString("Other Players")))
         {
-            for (int i = 0; i < 255; i++)
+            for (int i = 0; i < Main.maxPlayers; i += step)
             {
                 bool anyActivePlayers = false;
-                for (int j = i; j < Math.Min(i + 20, 255); j++)
+                for (int j = i; j < Math.Min(i + step, Main.maxPlayers); j++)
                 {
                     if (Main.player[j].active)
                         anyActivePlayers = true;
                 }
                 
                 ImGui.BeginDisabled(!anyActivePlayers);
-                if (ImGui.BeginMenu(GetString($"Players {i}-{Math.Min(i + 20, 255)}")))
+                if (ImGui.BeginMenu(GetString($"Players {i}-{Math.Min(i + step - 1, Main.maxPlayers)}")))
                 {
                     showTooltip = false;
                     ImGui.BeginDisabled(false);
-                    for (int j = i; j < Math.Min(i + 20, 255); j++)
+                    for (int j = i; j < Math.Min(i + step, Main.maxPlayers); j++)
                     {
                         ImGui.PushID(j);
                         if (!Main.player[j].active) ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.Text] * new Vector4(1f, 1f, 1f, 0.4f));
@@ -228,7 +229,6 @@ public class PlayerInspectorTool : InspectorTool
                     ImGui.EndMenu();
                 }
                 ImGui.EndDisabled();
-                i += 20;
             }
             ImGui.EndMenu();
         }
@@ -236,7 +236,7 @@ public class PlayerInspectorTool : InspectorTool
 
     public override void UpdateInGameSelect()
     {
-        for (int i = 0; i < 255; i++)
+        for (int i = 0; i < Main.maxPlayers; i++)
         {
             Player player = Main.player[i];
             if (player.active)
