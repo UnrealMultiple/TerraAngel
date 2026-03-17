@@ -56,18 +56,19 @@ public class Butcher
     }
     public static void ButcherNPCBypassTShock(NPC npc, int hitCount = -1)
     {
-        int trueHitCount = hitCount;
-        if (hitCount == -1)
+        if (npc.immortal)
+            return;
+
+        if (hitCount < 0)
+            hitCount = (int)Math.Ceiling((float)npc.life / short.MaxValue);
+        for (var i = 0; i < hitCount; i++)
         {
-            var player = Main.player[Main.myPlayer];
-            trueHitCount = (int)Math.Ceiling((float)(npc.life + (int)Math.Ceiling(npc.defense / 2f)) / player.inventory[player.selectedItem].damage);
+            using var builder = new PacketBuilder();
+            builder.MakePacket(MessageID.NPCDebuffDamage, b => b
+                .Write((byte)npc.whoAmI)
+                .Write(short.MaxValue)
+            ).Send();
         }
-        SpecialNetMessage.SendPlayerControl(npc.position);
-        for (int j = 0; j < trueHitCount; j++)
-        {
-            NetMessage.TrySendData(MessageID.StrikeNPCWithHeldItem, -1, -1, null!, npc.whoAmI, Main.myPlayer);
-        }
-        NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Main.myPlayer);
     }
     public static void ButcherAllPlayers(int damage = 1000, int hitCount = -1)
     {
