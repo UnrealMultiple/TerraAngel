@@ -8,9 +8,9 @@ public class NPCInspectorTool : InspectorTool
 {
     public override string Name => GetString("NPC Inspector");
 
-    private int SelectedNPCIndex = -1;
+    public int SelectedNPCIndex = -1;
 
-    private NPC? SelectedNPC => SelectedNPCIndex > -1 ? Main.npc[SelectedNPCIndex] : null;
+    public NPC? SelectedNPC => SelectedNPCIndex > -1 ? Main.npc[SelectedNPCIndex] : null;
 
     private nint BoundNPCDrawTexture = 0;
     private RenderTarget2D? NPCDrawRenderTarget;
