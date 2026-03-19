@@ -22,7 +22,7 @@ public class QuickItemBrowserWindow : ClientWindow
 
         if (!io.WantCaptureKeyboard)
         {
-            if (InputSystem.Ctrl && InputSystem.IsKeyPressed(ClientConfig.Settings.OpenFastItemBrowser))
+            if (InputSystem.Alt && InputSystem.IsKeyPressed(ClientConfig.Settings.OpenFastItemBrowser))
             {
                 ShowQuickItemBrowser = !ShowQuickItemBrowser;
 

@@ -33,7 +33,7 @@ public abstract class InspectorTool : Tool
 
     public override void Update()
     {
-        if (InputSystem.Ctrl && ClientConfig.Settings.CtrlRightClickOnObjectToInspect && !Main.mapFullscreen && !Main.gameMenu)
+        if (InputSystem.Alt && ClientConfig.Settings.AltRightClickOnObjectToInspect && !Main.mapFullscreen && !Main.gameMenu)
         {
             if (InspectorWindow.TypeOfTabToOpen is null)
             {

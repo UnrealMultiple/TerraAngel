@@ -100,9 +100,9 @@ public class ClientConfig
         [UIConfigElement("en-US", "Right click on the map to teleport")]
         public bool RightClickOnMapToTeleport = true;
 
-        [UIConfigElement("zh-CN", "Ctrl+右键 检查对象")]
-        [UIConfigElement("en-US", "Ctrl + Right click on object to inspect")]
-        public bool CtrlRightClickOnObjectToInspect = true;
+        [UIConfigElement("zh-CN", "Alt+右键 检查对象")]
+        [UIConfigElement("en-US", "Alt + Right click on object to inspect")]
+        public bool AltRightClickOnObjectToInspect = true;
 
         [UIConfigElement("zh-CN", "阻止星云数据包")]
         [UIConfigElement("en-US", "Disable Nebula Packet")]
@@ -248,8 +248,8 @@ public class ClientConfig
         [UIConfigElement("en-US", "Take Map Screenshot")]
         public Keys TakeMapScreenshot = Keys.F9;
 
-        [UIConfigElement("zh-CN", "启用快速物品浏览器 (Ctrl +")]
-        [UIConfigElement("en-US", "Open Quick Item Browser (Ctrl +")]
+        [UIConfigElement("zh-CN", "启用快速物品浏览器 (Alt +")]
+        [UIConfigElement("en-US", "Open Quick Item Browser (Alt +")]
         public Keys OpenFastItemBrowser = Keys.I;
 
         [UIConfigElement("zh-CN", "建造者模式快速斜坡")]
