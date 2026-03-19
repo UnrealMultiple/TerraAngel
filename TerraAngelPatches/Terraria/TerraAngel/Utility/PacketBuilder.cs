@@ -258,8 +258,8 @@ public class PacketBuilder : IDisposable, IAsyncDisposable
     public PacketBuilder Clear()
     {
         Ms.SetLength(0);
-        Ms.Position = sizeof(ushort);
-        PacketHead = 0;
+        Ms.Position = 0;
+        PacketHead = -1;
         return this;
     }
 
