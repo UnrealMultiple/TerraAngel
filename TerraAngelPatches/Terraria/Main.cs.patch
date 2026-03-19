@@ -1278,6 +1278,15 @@
          if (showSplash)
          {
              TimeLogger.StartTimestamp fromTimestamp = TimeLogger.Start();
+@@ -64603,6 +_,8 @@
+         }
+ 
+         TilePaintSystem.PrepareAllRequests();
++        // ReLogic forgot to reset viewport... ^_^'
++        GraphicsDevice.Viewport = new Viewport(0, 0, GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight);
+         TimeLogger.PrepareRequests.AddTime(fromTimestamp3);
+         if (loadMap)
+         {
 @@ -64637,7 +_,6 @@
  
          if (!dedServ)
