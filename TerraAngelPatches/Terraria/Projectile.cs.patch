@@ -1,5 +1,13 @@
 --- src/Terraria/Terraria/Projectile.cs
 +++ src/TerraAngel/Terraria/Projectile.cs
+@@ -20118,6 +_,7 @@
+             flag = true;
+         }
+ 
++        ToolManager.GetTool<AutoFishTool>().FishingCheck(this, fisher);
+         if (!flag && fisher.inLava)
+         {
+             int num3 = 0;
 @@ -38871,8 +_,8 @@
          Vector2 value = master.MountedCenter + new Vector2(master.direction * 10, 0f);
          Vector2 tangent = new Vector2(0f, -100f);

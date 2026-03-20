@@ -95,7 +95,7 @@ public class AutoFishTool : Tool
                 {
                     try
                     {
-                        bool canUse = (bool)typeof(Player).GetMethod("ItemCheck_CheckFishingBobbers", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.Invoke(Main.LocalPlayer, new object[] { true })!;
+                        bool canUse = (bool)typeof(Player).GetMethod("ItemCheck_PullFishingBobbers", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.Invoke(Main.LocalPlayer, [Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem]])!;
                         WantPullFish = false;
                         WantToReCast = true;
                         FrameCountBeforeActualCast = Main.rand.Next(frameCountRandomizationMin, frameCountRandomizationMax) + 50;
@@ -156,7 +156,7 @@ public class AutoFishTool : Tool
             bool wantToCatch = false;
             if (fish.rolledItemDrop > 0)
             {
-                ClientLoader.Console.WriteLine(GetString($"Fish: {InternalRepresentation.GetItemIDName(fish.rolledItemDrop)}"));
+                ClientLoader.Console.WriteLine(GetString($"Fish: {Lang.GetItemNameValue(fish.rolledItemDrop)}"));
                 if (AcceptItems)
                 {
                     if (!fish.crate && fish.questFish == -1 && !fish.common && !fish.uncommon && !fish.rare && !fish.veryrare && !fish.legendary && AcceptNormal)
@@ -204,7 +204,7 @@ public class AutoFishTool : Tool
 
             if (fish.rolledEnemySpawn > 0)
             {
-                ClientLoader.Console.WriteLine(GetString($"NPC: {InternalRepresentation.GetNPCIDName(fish.rolledEnemySpawn)}"));
+                ClientLoader.Console.WriteLine(GetString($"NPC: {Lang.GetNPCNameValue(fish.rolledEnemySpawn)}"));
                 if (AcceptNPCs)
                 {
                     wantToCatch = true;
