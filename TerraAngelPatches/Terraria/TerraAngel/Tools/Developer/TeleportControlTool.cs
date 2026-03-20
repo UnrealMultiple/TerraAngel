@@ -1,8 +1,8 @@
 namespace TerraAngel.Tools.Developer;
 
-public class TeleportTool: Tool
+public class TeleportControlTool: Tool
 {
-    public override string Name => GetString("Teleport Tool");
+    public override string Name => GetString("Teleport Control Tool");
 
     public override ToolTabs Tab => ToolTabs.MainTools;
     

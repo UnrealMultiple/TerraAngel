@@ -184,7 +184,7 @@ public class SpecialNetMessage
 
     public static void SendPlaceTile(int x, int y, int tile, int useSlot = 0, bool resetToNormal = true)
     {
-        int itemId = TileUtil.TileToItem[tile];
+        int itemId = TileUtil.GetItemFromTile(tile);
         if (itemId == -1)
             itemId = 0;
         SendPlayerControl(new Vector2(x * 16f, y * 16f), 0);
@@ -200,7 +200,7 @@ public class SpecialNetMessage
 
     public static void SendPlaceWall(int x, int y, int wall, int useSlot = 0, bool resetToNormal = true)
     {
-        int itemId = TileUtil.WallToItem[wall];
+        int itemId = TileUtil.GetItemFromWall(wall);
         if (itemId == -1)
             itemId = 0;
         SendPlayerControl(new Vector2(x * 16f, y * 16f), 0);

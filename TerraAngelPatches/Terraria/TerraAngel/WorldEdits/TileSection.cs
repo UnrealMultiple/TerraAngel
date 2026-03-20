@@ -83,7 +83,7 @@ public class TileSectionRenderer
         return result;
     }
 
-    public unsafe void DrawDetailed(TileSection section, Vector2 origin, Vector2 clipRectMin, Vector2 clipRectMax)
+    public unsafe void DrawDetailed(TileSection section, Vector2 origin, Vector2 clipRectMin, Vector2 clipRectMax, bool showEmptyTile = false)
     {
         if (section.Width < 1 || section.Height < 1 || section.Tiles is null)
             return;
@@ -97,6 +97,30 @@ public class TileSectionRenderer
         origin = Vector2.Transform(origin, Main.GameViewMatrix.InverseZoomMatrix);
 
         sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+        // empty tile pass
+        if (showEmptyTile)
+        {
+            for (int x = 0; x < section.Width; x++)
+            {
+                for (int y = 0; y < section.Height; y++)
+                {
+                    if (section.Tiles[x, y].Data == null)
+                        continue;
+
+                    if ((x * 16 + origin.X + 16f) < clipRectMin.X || (x + origin.X) > clipRectMax.X ||
+                        (y * 16 + origin.Y + 16f) < clipRectMin.Y || (y + origin.Y) > clipRectMax.Y)
+                        continue;
+
+                    Tile tile = section.Tiles[x, y];
+
+                    if (!tile.active() && tile.wall == 0)
+                    {
+                        sb.Draw(GraphicsUtility.BlankTexture, origin + new Vector2(x * 16, y * 16), tileRectCache, new Color(0.5f, 0f, 0f, 0.5f));
+                    }
+                }
+            }
+        }
+        // wall pass
         for (int x = 0; x < section.Width; x++)
         {
             for (int y = 0; y < section.Height; y++)
@@ -116,8 +140,23 @@ public class TileSectionRenderer
                     wallRectCache.X = tile.wallFrameX();
                     wallRectCache.Y = tile.wallFrameY() + Main.wallFrame[tile.wall] * 180;
                     Texture2D wallTexture = GetWallDrawTexture(tile);
-                    sb.Draw(wallTexture, origin + new Vector2(x * 16, y * 16), wallRectCache, Color.White);
+                    sb.Draw(wallTexture, origin + new Vector2(x * 16, y * 16) - new Vector2(8, 8), wallRectCache, Color.White);
                 }
+            }
+        }
+        // tile pass
+        for (int x = 0; x < section.Width; x++)
+        {
+            for (int y = 0; y < section.Height; y++)
+            {
+                if (section.Tiles[x, y].Data == null)
+                    continue;
+
+                if ((x * 16 + origin.X + 16f) < clipRectMin.X || (x + origin.X) > clipRectMax.X ||
+                    (y * 16 + origin.Y + 16f) < clipRectMin.Y || (y + origin.Y) > clipRectMax.Y)
+                    continue;
+
+                Tile tile = section.Tiles[x, y];
 
                 if (tile.active())
                 {
@@ -127,13 +166,12 @@ public class TileSectionRenderer
                     Texture2D tileTexture = GetTileTexture(tile);
                     sb.Draw(tileTexture, origin + new Vector2(x * 16, y * 16), tileRectCache, Color.White);
                 }
-
             }
         }
         sb.End();
     }
 
-    public unsafe void DrawPrimitive(TileSection section, Vector2 origin, Vector2 clipRectMin, Vector2 clipRectMax)
+    public unsafe void DrawPrimitive(TileSection section, Vector2 origin, Vector2 clipRectMin, Vector2 clipRectMax, bool showEmptyTile = false)
     {
         if (section.Width < 1 || section.Height < 1 || section.Tiles is null)
             return;
@@ -144,7 +182,31 @@ public class TileSectionRenderer
 
         origin = Vector2.Transform(origin, Main.GameViewMatrix.InverseZoomMatrix);
 
-        sb.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+        sb.Begin(SpriteSortMode.Deferred, showEmptyTile ? BlendState.AlphaBlend : BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+        // empty tile pass
+        if (showEmptyTile)
+        {
+            for (int x = 0; x < section.Width; x++)
+            {
+                for (int y = 0; y < section.Height; y++)
+                {
+                    if (section.Tiles[x, y].Data == null)
+                        continue;
+
+                    if ((x * 16 + origin.X + 16f) < clipRectMin.X || (x + origin.X) > clipRectMax.X ||
+                        (y * 16 + origin.Y + 16f) < clipRectMin.Y || (y + origin.Y) > clipRectMax.Y)
+                        continue;
+
+                    Tile tile = section.Tiles[x, y];
+
+                    if (!tile.active() && tile.wall == 0)
+                    {
+                        sb.Draw(GraphicsUtility.BlankTexture, new Rectangle(((int)MathF.Ceiling(origin.X + x * 16)), ((int)MathF.Ceiling(origin.Y + y * 16f)), 16, 16), rectCache, new Color(0.5f, 0f, 0f, 0.5f));
+                    }
+                }
+            }
+        }
+        // wall pass
         for (int x = 0; x < section.Width; x++)
         {
             for (int y = 0; y < section.Height; y++)
@@ -162,18 +224,32 @@ public class TileSectionRenderer
                 {
                     sb.Draw(GraphicsUtility.BlankTexture, new Rectangle(((int)MathF.Ceiling(origin.X + x * 16)), ((int)MathF.Ceiling(origin.Y + y * 16f)), 16, 16), rectCache, Utility.TileUtil.GetWallColor(tile.wall, tile.wallColor()));
                 }
+            }
+        }
+        // tile pass
+        for (int x = 0; x < section.Width; x++)
+        {
+            for (int y = 0; y < section.Height; y++)
+            {
+                if (section.Tiles[x, y].Data == null)
+                    continue;
+
+                if ((x * 16 + origin.X + 16f) < clipRectMin.X || (x + origin.X) > clipRectMax.X ||
+                    (y * 16 + origin.Y + 16f) < clipRectMin.Y || (y + origin.Y) > clipRectMax.Y)
+                    continue;
+
+                Tile tile = section.Tiles[x, y];
 
                 if (tile.active())
                 {
                     sb.Draw(GraphicsUtility.BlankTexture, new Rectangle(((int)MathF.Ceiling(origin.X + x * 16)), ((int)MathF.Ceiling(origin.Y + y * 16f)), 16, 16), rectCache, Utility.TileUtil.GetWallColor(tile.type, tile.color()));
                 }
-
             }
         }
         sb.End();
     }
 
-    public unsafe void DrawPrimitiveMap(TileSection section, Vector2 worldPoint, Vector2 clipRectMin, Vector2 clipRectMax)
+    public unsafe void DrawPrimitiveMap(TileSection section, Vector2 worldPoint, Vector2 clipRectMin, Vector2 clipRectMax, bool showEmptyTile = false)
     {
         if (section.Width < 1 || section.Height < 1 || section.Tiles is null)
             return;
@@ -182,7 +258,25 @@ public class TileSectionRenderer
 
         Rectangle rectCache = new Rectangle(0, 0, 1, 1);
 
-        sb.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone);
+        sb.Begin(SpriteSortMode.Deferred, showEmptyTile ? BlendState.AlphaBlend : BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone);
+        if (showEmptyTile)
+        {
+            Vector2 worldCoords = Util.WorldToScreenFullscreenMap(worldPoint);
+            Vector2 worldCoords2 = Util.WorldToScreenFullscreenMap(worldPoint + new Vector2(section.Width * 16f, section.Height * 16f));
+
+            worldCoords.X = Math.Max(worldCoords.X, clipRectMin.X);
+            worldCoords.Y = Math.Max(worldCoords.Y, clipRectMin.Y);
+            worldCoords2.X = Math.Min(worldCoords2.X, clipRectMax.X);
+            worldCoords2.Y = Math.Min(worldCoords2.Y, clipRectMax.Y);
+
+            Rectangle rect = new Rectangle(
+                (int)MathF.Ceiling(worldCoords.X),
+                (int)MathF.Ceiling(worldCoords.Y),
+                (int)MathF.Ceiling(worldCoords2.X - worldCoords.X),
+                (int)MathF.Ceiling(worldCoords2.Y - worldCoords.Y));
+
+            sb.Draw(GraphicsUtility.BlankTexture, rect, rectCache, new Color(0.5f, 0f, 0f, 0.5f));
+        }
         for (int x = 0; x < section.Width; x++)
         {
             for (int y = 0; y < section.Height; y++)
@@ -214,7 +308,6 @@ public class TileSectionRenderer
                 {
                     sb.Draw(GraphicsUtility.BlankTexture, rect, rectCache, TileUtil.GetTileColor(tile.type, tile.color()));
                 }
-
             }
         }
         sb.End();

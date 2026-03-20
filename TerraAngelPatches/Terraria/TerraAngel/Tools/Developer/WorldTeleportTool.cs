@@ -4,7 +4,7 @@ public class WorldTeleportTool : Tool
 {
     public override void Update()
     {
-        if (InputSystem.IsKeyPressed(ClientConfig.Settings.TeleportToCursor))
+        if (!Main.mapFullscreen && InputSystem.IsKeyPressed(ClientConfig.Settings.TeleportToCursor))
         {
             Main.LocalPlayer.velocity = Vector2.Zero;
             Main.LocalPlayer.Teleport(Util.ScreenToWorldWorld(InputSystem.MousePosition) - new Vector2(Main.LocalPlayer.width / 2f, Main.LocalPlayer.height), TeleportationStyleID.RodOfDiscord);
