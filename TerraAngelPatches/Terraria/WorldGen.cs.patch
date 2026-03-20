@@ -75,6 +75,16 @@
                  for (int num25 = 0; num25 < num22; num25++)
                  {
                      num23 += (int)vector2D.X;
+@@ -89053,6 +_,9 @@
+ 
+     public static void TileFrame(int i, int j, bool resetFrame = false, bool noBreak = false)
+     {
++        if (DisableFramingTool.FramingDisabledCache)
++            return;
++
+         if (i <= 5 || j <= 5 || i >= Main.maxTilesX - 5 || j >= Main.maxTilesY - 5 || Main.tile[i, j] == null)
+         {
+             return;
 @@ -89313,8 +_,8 @@
                                      break;
                              }

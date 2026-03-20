@@ -9,7 +9,7 @@ public class DisableFramingTool : Tool
     [DefaultConfigValue(nameof(ClientConfig.Config.DefaultDisableTileFraming))]
     public bool Enabled;
 
-    public static bool FramingDsiabledCache = false;
+    public static bool FramingDisabledCache = false;
 
     public override void DrawUI(ImGuiIOPtr io)
     {
@@ -18,6 +18,6 @@ public class DisableFramingTool : Tool
 
     public override void Update()
     {
-        FramingDsiabledCache = Enabled;
+        FramingDisabledCache = Enabled;
     }
 }
