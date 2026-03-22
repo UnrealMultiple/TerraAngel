@@ -131,6 +131,25 @@ public class TileInspectorTool : InspectorTool
             NetMessage.SendTileSquare(Main.myPlayer, SelectedTilePosition.X, SelectedTilePosition.Y, STSSizeX, STSSizeY);
         }
 
+        var tiId = TileUtil.GetItemFromTile(SelectedTile.Value);
+        var wiId = TileUtil.GetItemFromWall(SelectedTile.Value);
+        if (tiId < ItemID.None || tiId >= ItemID.Count)
+            tiId = ItemID.None;
+        if (wiId < ItemID.None || wiId >= ItemID.Count)
+            wiId = ItemID.None;
+
+        if (ImGuiUtil.ItemButton(tiId, "TITI"))
+        {
+            if (tiId != ItemID.None)
+                ToolManager.GetTool<ItemBrowserTool>().ItemSearch = tiId.ToString();
+        }
+        ImGui.SameLine();
+        if (ImGuiUtil.ItemButton(wiId, "TIWI"))
+        {
+            if (wiId != ItemID.None)
+                ToolManager.GetTool<ItemBrowserTool>().ItemSearch = wiId.ToString();
+        }
+
         ImDrawListPtr drawList = ImGui.GetBackgroundDrawList();
 
         drawList.AddRect(Util.WorldToScreenDynamic(SelectedTilePosition * 16f), Util.WorldToScreenDynamic((SelectedTilePosition + new Vector2(STSSizeX, STSSizeY)) * 16f), Color.Yellow.PackedValue, 0f, ImDrawFlags.None, 2f);

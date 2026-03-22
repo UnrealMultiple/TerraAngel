@@ -1,24 +1,44 @@
+using System;
+using System.Collections.Generic;
 using System.Reflection;
+using Terraria.ObjectData;
 
 namespace TerraAngel.Utility;
 
 public class TileUtil
 {
-    public static int[] TileToItem = new int[0];
-    public static int[] WallToItem = new int[0];
+    private const int DefaultPlacementStyle = -1;
+
+    public static Dictionary<(int Type, int Style), int> TileToItem = [];
+    public static int[] WallToItem = [];
 
     public static Color[] PaintColors = new Color[32];
 
-    public static Color[] colorLookup = new Color[0];
-    public static ushort[] wallLookup = new ushort[0];
-    public static ushort[] tileLookup = new ushort[0];
+    public static Color[] colorLookup = [];
+    public static ushort[] wallLookup = [];
+    public static ushort[] tileLookup = [];
 
-    public static Color[] TileColor = new Color[0];
-    public static Color[] WallColor = new Color[0];
+    public static Color[] TileColor = [];
+    public static Color[] WallColor = [];
 
     public static int GetItemFromTile(int type)
     {
-        return GetPlacementItem(TileToItem, type);
+        return GetPlacementItem(TileToItem, type, DefaultPlacementStyle, allowDefaultFallback: false);
+    }
+
+    public static int GetItemFromTile(int type, int style)
+    {
+        return GetPlacementItem(TileToItem, type, style, allowDefaultFallback: true);
+    }
+
+    public static int GetItemFromTile(Tile tile)
+    {
+        if (!tile.active())
+        {
+            return ItemID.None;
+        }
+
+        return GetItemFromTile(tile.type, GetTilePlacementStyle(tile));
     }
 
     public static int GetItemFromWall(int type)
@@ -26,14 +46,82 @@ public class TileUtil
         return GetPlacementItem(WallToItem, type);
     }
 
+    public static int GetItemFromWall(Tile tile)
+    {
+        if (tile.wall <= 0)
+        {
+            return ItemID.None;
+        }
+
+        return GetItemFromWall(tile.wall);
+    }
+
+    private static int GetPlacementItem(Dictionary<(int Type, int Style), int> lookup, int type, int style, bool allowDefaultFallback)
+    {
+        if (type < 0)
+        {
+            return ItemID.None;
+        }
+
+        if (style == DefaultPlacementStyle)
+        {
+            return lookup.GetValueOrDefault((type, DefaultPlacementStyle), ItemID.None);
+        }
+
+        style = Math.Max(style, 0);
+        if (lookup.TryGetValue((type, style), out int itemId))
+        {
+            return itemId;
+        }
+
+        return allowDefaultFallback
+            ? lookup.GetValueOrDefault((type, DefaultPlacementStyle), ItemID.None)
+            : ItemID.None;
+    }
+
     private static int GetPlacementItem(int[] lookup, int type)
     {
         if (type < 0 || type >= lookup.Length)
         {
-            return -1;
+            return ItemID.None;
         }
 
         return lookup[type];
+    }
+
+    private static int GetTilePlacementStyle(Tile tile)
+    {
+        TileObjectData? tileData = TileObjectData.GetTileData(tile);
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        if (tileData == null || tileData.CoordinateFullWidth <= 0 || tileData.CoordinateFullHeight <= 0)
+        {
+            return DefaultPlacementStyle;
+        }
+
+        int xStyle = tile.frameX / tileData.CoordinateFullWidth;
+        int yStyle = tile.frameY / tileData.CoordinateFullHeight;
+        int styleWrapLimit = tileData.StyleWrapLimit;
+        if (styleWrapLimit == 0)
+        {
+            styleWrapLimit = 1;
+        }
+
+        int style = tileData.StyleHorizontal ? yStyle * styleWrapLimit + xStyle : xStyle * styleWrapLimit + yStyle;
+        int styleMultiplier = tileData.StyleMultiplier;
+        if (styleMultiplier <= 0)
+        {
+            styleMultiplier = 1;
+        }
+
+        style /= styleMultiplier;
+
+        int styleLineSkip = tileData.StyleLineSkip;
+        if (styleLineSkip > 1)
+        {
+            style = tileData.StyleHorizontal ? yStyle / styleLineSkip * styleWrapLimit + xStyle : xStyle / styleLineSkip * styleWrapLimit + yStyle;
+        }
+
+        return style;
     }
 
     public static Color GetWallColor(int type)
@@ -206,52 +294,67 @@ public class TileUtil
 
     private static void LoadPlacementLookups()
     {
-        TileToItem = CreateTileLookup();
-        WallToItem = CreateWallLookup();
+        TileToItem = CreatePlacementLookup(TileID.Count, item => item.createTile);
+        WallToItem = CreatePlacementLookupArray(WallID.Count, item => item.createWall);
     }
 
-    private static int[] CreateTileLookup()
+    private static Dictionary<(int Type, int Style), int> CreatePlacementLookup(int placementCount, System.Func<Item, int> getPlacementType)
     {
-        int[] lookup = new int[TileID.Count];
-        System.Array.Fill(lookup, -1);
+        Dictionary<(int Type, int Style), int> lookup = new Dictionary<(int Type, int Style), int>();
 
         foreach (Item item in ContentSamples.ItemsByType.Values)
         {
-            int tileType = item.createTile;
-            if (tileType < 0 || tileType >= lookup.Length)
+            int placementType = getPlacementType(item);
+            if (placementType < 0 || placementType >= placementCount)
             {
                 continue;
             }
 
-            if (ShouldReplacePlacementItem(lookup[tileType], item))
-            {
-                lookup[tileType] = item.type;
-            }
+            SetPlacementItem(lookup, (placementType, DefaultPlacementStyle), item);
+            SetPlacementItem(lookup, (placementType, Math.Max(item.placeStyle, 0)), item);
         }
 
         return lookup;
     }
 
-    private static int[] CreateWallLookup()
+    private static int[] CreatePlacementLookupArray(int placementCount, System.Func<Item, int> getPlacementType)
     {
-        int[] lookup = new int[WallID.Count];
-        System.Array.Fill(lookup, -1);
+        int[] lookup = new int[placementCount];
+        Array.Fill(lookup, ItemID.None);
 
         foreach (Item item in ContentSamples.ItemsByType.Values)
         {
-            int wallType = item.createWall;
-            if (wallType < 0 || wallType >= lookup.Length)
+            int placementType = getPlacementType(item);
+            if (placementType < 0 || placementType >= placementCount)
             {
                 continue;
             }
 
-            if (ShouldReplacePlacementItem(lookup[wallType], item))
+            if (!ShouldReplacePlacementItem(lookup[placementType], item))
             {
-                lookup[wallType] = item.type;
+                continue;
             }
+
+            lookup[placementType] = item.type;
         }
 
         return lookup;
+    }
+
+    private static void SetPlacementItem(Dictionary<(int Type, int Style), int> lookup, (int Type, int Style) key, Item candidate)
+    {
+        int currentItemId = ItemID.None;
+        if (lookup.TryGetValue(key, out int existingItemId))
+        {
+            currentItemId = existingItemId;
+        }
+
+        if (!ShouldReplacePlacementItem(currentItemId, candidate))
+        {
+            return;
+        }
+
+        lookup[key] = candidate.type;
     }
 
     private static bool ShouldReplacePlacementItem(int currentItemId, Item candidate)
@@ -261,17 +364,17 @@ public class TileUtil
             return false;
         }
 
-        if (currentItemId == -1)
+        if (currentItemId == ItemID.None)
         {
             return true;
         }
 
         Item current = ContentSamples.ItemsByType[currentItemId];
-        int candidatePriority = GetPlacementItemPriority(candidate);
         int currentPriority = GetPlacementItemPriority(current);
-        if (candidatePriority != currentPriority)
+        int candidatePriority = GetPlacementItemPriority(candidate);
+        if (currentPriority != candidatePriority)
         {
-            return candidatePriority < currentPriority;
+            return currentPriority < candidatePriority;
         }
 
         return candidate.type < current.type;
@@ -279,52 +382,52 @@ public class TileUtil
 
     private static int GetPlacementItemPriority(Item item)
     {
-        // the smaller the value, the higher the priority
+        // the larger the value, the higher the priority
         int priority = 0;
 
         if (!item.consumable)
         {
-            priority += 1000;
+            priority -= 1000;
         }
 
         if (item.maxStack <= 1)
         {
-            priority += 250;
+            priority -= 250;
         }
 
         if (item.tileWand >= 0)
         {
-            priority += 500;
+            priority -= 500;
         }
 
         if (item.pick > 0 || item.axe > 0 || item.hammer > 0)
         {
-            priority += 500;
+            priority -= 500;
         }
 
         if (item.damage > 0)
         {
-            priority += 250;
+            priority -= 250;
         }
 
         if (item.accessory)
         {
-            priority += 250;
+            priority -= 250;
         }
 
         if (item.ammo > 0 || item.useAmmo > 0)
         {
-            priority += 250;
+            priority -= 250;
         }
 
         if (item.useStyle <= 0)
         {
-            priority += 100;
+            priority -= 100;
         }
 
         if (item.placeStyle != 0)
         {
-            priority += 10;
+            priority -= 10;
         }
 
         return priority;
