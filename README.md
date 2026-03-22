@@ -43,11 +43,15 @@ To install the client, follow these steps:
 Updating
 </h2>
 
-To update the client and pull any changes, run `./fast.ps1 -Update`
+Whenether there is a Terraria update, update Terraria on Steam first, then run `./fast.ps1 -Decompile`
+
+(Linux user have to do `./fast.ps1 -UpdateGame -Decompile`)
+
+To update TerraAngel and pull any changes, run `./fast.ps1 -Update`
 
 Then run `./fast.ps1 -Compile` to build the updated client
 
-(Or run `./fast.ps1 -Update -Compile` to pull latest changes and compile at the same time)
+(Or run `./fast.ps1 -UpdateGame -Decompile -Update -Compile` to do all of these at once)
 <h2>
 Development
 </h2>
