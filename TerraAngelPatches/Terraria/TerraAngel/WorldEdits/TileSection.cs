@@ -138,7 +138,9 @@ public class TileSectionRenderer
                 {
                     Main.instance.LoadWall(tile.wall);
                     wallRectCache.X = tile.wallFrameX();
-                    wallRectCache.Y = tile.wallFrameY() + Main.wallFrame[tile.wall] * 180;
+                    // wall animation disabled because it is too buggy
+                    // wallRectCache.Y = tile.wallFrameY() + Main.wallFrame[tile.wall] * 180;
+                    wallRectCache.Y = tile.wallFrameY();
                     Texture2D wallTexture = GetWallDrawTexture(tile);
                     sb.Draw(wallTexture, origin + new Vector2(x * 16, y * 16) - new Vector2(8, 8), wallRectCache, Color.White);
                 }
@@ -161,7 +163,9 @@ public class TileSectionRenderer
                 if (tile.active())
                 {
                     Main.instance.LoadTiles(tile.type);
-                    tileRectCache.X = tile.frameX + Main.tileFrame[tile.type] * 38;
+                    // tile animation disabled because it is too buggy
+                    // tileRectCache.X = tile.frameX + Main.tileFrame[tile.type] * 38;
+                    tileRectCache.X = tile.frameX;
                     tileRectCache.Y = tile.frameY;
                     Texture2D tileTexture = GetTileTexture(tile);
                     sb.Draw(tileTexture, origin + new Vector2(x * 16, y * 16), tileRectCache, Color.White);
