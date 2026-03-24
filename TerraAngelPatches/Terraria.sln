@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.2.32616.157
+# Visual Studio Version 18
+VisualStudioVersion = 18.4.11612.150 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Terraria", "Terraria\Terraria.csproj", "{14861D20-10EB-41DA-9674-BD308934CEB2}"
 EndProject
@@ -57,5 +57,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5D282B20-1D3F-4187-8E90-9B332EE32B0A}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\TrProtocol\src\TrProtocol.Shared\TrProtocol.Shared.projitems*{e86f6e23-4bff-4825-ba88-f04d71d917de}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
