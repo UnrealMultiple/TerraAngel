@@ -12,15 +12,28 @@
      public void AddLight(int x, int y, Vector3 color)
      {
          _perFrameLights.Add(new PerFrameLight(new Point(x, y), color));
-@@ -198,7 +_,7 @@
-         workingLightMap.LightDecayThroughAir *= Main.SceneState.airLightDecay;
-         workingLightMap.LightDecayThroughSolid *= Main.SceneState.solidLightDecay;
+@@ -110,7 +_,11 @@
+         _workingProcessedArea = area;
+         _workingLightMap.SetSize(area.Width, area.Height);
+         _workingLightMap.NonVisiblePadding = 18;
++        if (Lighting.AbleToUpdateLightScanners)
++        {
++            Lighting.AbleToUpdateLightScanners = false;
+-        _tileScanner.Update();
++            _tileScanner.Update();
++        }
+         _tileScanner.ExportTo(area, _workingLightMap, new TileLightScannerOptions { DrawInvisibleWalls = Main.ShouldShowInvisibleBlocksAndWalls() });
      }
--
-+    
+ 
+@@ -202,7 +_,7 @@
      private void ApplyPerFrameLights()
      {
          List<PerFrameLight> list = _perFrameLights;
+-        if (Main.gamePaused)
++        if (Main.gamePaused || !Lighting.AbleToProcessPerFrameLights)
+         {
+             list = _oldPerFrameLights;
+         }
 @@ -214,13 +_,14 @@
              {
                  Vector3 value = list[i].Color;
@@ -31,7 +44,8 @@
              }
          }
  
-         if (!CaptureManager.Instance.IsCapturing && !Main.gamePaused)
+-        if (!CaptureManager.Instance.IsCapturing && !Main.gamePaused)
++        if (!CaptureManager.Instance.IsCapturing && !Main.gamePaused && Lighting.AbleToProcessPerFrameLights)
          {
 +            Lighting.AbleToProcessPerFrameLights = false;
              Utils.Swap(ref _perFrameLights, ref _oldPerFrameLights);

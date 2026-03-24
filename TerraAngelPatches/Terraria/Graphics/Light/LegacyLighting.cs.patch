@@ -1,0 +1,100 @@
+--- src/Terraria/Terraria/Graphics/Light/LegacyLighting.cs
++++ src/TerraAngel/Terraria/Graphics/Light/LegacyLighting.cs
+@@ -106,6 +_,7 @@
+     private int _maxY;
+     private const int MAX_TEMP_LIGHTS = 2000;
+     private Dictionary<Point16, ColorTriplet> _tempLights;
++    private Dictionary<Point16, ColorTriplet> _oldTempLights;
+     private int _expandedRectLeft;
+     private int _expandedRectTop;
+     private int _expandedRectRight;
+@@ -151,9 +_,12 @@
+ 
+     public void Rebuild()
+     {
++        _tempLights ??= new Dictionary<Point16, ColorTriplet>();
++        _oldTempLights ??= new Dictionary<Point16, ColorTriplet>();
+         if (!CaptureManager.Instance.IsCapturing)
+         {
+-            _tempLights = new Dictionary<Point16, ColorTriplet>();
++            _tempLights.Clear();
++            _oldTempLights.Clear();
+         }
+ 
+         _swipe = new LightingSwipeData();
+@@ -594,6 +_,8 @@
+     public void Clear()
+     {
+         _lastCameraPosition = null;
++        _tempLights?.Clear();
++        _oldTempLights?.Clear();
+         int num = (int)_camera.UnscaledSize.X / 16 + Lighting.OffScreenTiles * 2;
+         int num2 = (int)_camera.UnscaledSize.Y / 16 + Lighting.OffScreenTiles * 2;
+         for (int i = 0; i < num; i++)
+@@ -696,7 +_,11 @@
+         num3 = Utils.Clamp(_expandedRectTop, 5, Main.maxTilesY - 1);
+         num4 = Utils.Clamp(_expandedRectBottom, 5, Main.maxTilesY - 1);
+         Main.UpdateSceneMetrics();
++        if (Lighting.AbleToUpdateLightScanners)
++        {
++            Lighting.AbleToUpdateLightScanners = false;
+-        _tileScanner.Update();
++            _tileScanner.Update();
++        }
+         _tileScanner.ExportTo(new Rectangle(num, num3, num2 - num, num4 - num3), _lightMap, new TileLightScannerOptions { DrawInvisibleWalls = Main.ShouldShowInvisibleBlocksAndWalls() });
+         for (int m = num; m < num2; m++)
+         {
+@@ -767,7 +_,9 @@
+             }
+         }
+ 
++        Dictionary<Point16, ColorTriplet> tempLights = Main.gamePaused || !Lighting.AbleToProcessPerFrameLights ? _oldTempLights : _tempLights;
++
+-        foreach (KeyValuePair<Point16, ColorTriplet> tempLight in _tempLights)
++        foreach (KeyValuePair<Point16, ColorTriplet> tempLight in tempLights)
+         {
+             int num14 = tempLight.Key.X - _requestedRectLeft + Lighting.OffScreenTiles;
+             int num15 = tempLight.Key.Y - _requestedRectTop + Lighting.OffScreenTiles;
+@@ -811,8 +_,10 @@
+             }
+         }
+ 
+-        if (!Main.gamePaused && !CaptureManager.Instance.IsCapturing)
++        if (!CaptureManager.Instance.IsCapturing && !Main.gamePaused && Lighting.AbleToProcessPerFrameLights)
+         {
++            Lighting.AbleToProcessPerFrameLights = false;
++            Utils.Swap(ref _tempLights, ref _oldTempLights);
+             _tempLights.Clear();
+         }
+ 
+@@ -833,8 +_,13 @@
+ 
+     private void DoColors()
+     {
++        bool advanceLightState = Lighting.AbleToAdvanceLegacyLightState;
++        Lighting.AbleToAdvanceLegacyLightState = false;
++
+         if (IsColorOrWhiteMode)
+         {
++            if (advanceLightState)
++            {
+             _blueWave += (float)_blueDir * 0.0001f;
+             if (_blueWave > 1f)
+             {
+@@ -846,6 +_,7 @@
+                 _blueWave = 0.97f;
+                 _blueDir = 1;
+             }
++            }
+ 
+             if (_rgb)
+             {
+@@ -1077,7 +_,7 @@
+                 3 => doColors_Mode3_Swipe,
+                 _ => doColors_Mode0_Swipe,
+             }, _swipe);
+-            _swipeRandom.NextSeed();
++            if (advanceLightState) _swipeRandom.NextSeed();
+             TimeLogger.LightingByPass[i].AddTime(fromTimestamp);
+         }
+     }

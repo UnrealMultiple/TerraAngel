@@ -182,6 +182,8 @@ public class ClientRenderer : ImGuiRenderer
     public void Update()
     {
         Lighting.AbleToProcessPerFrameLights = true;
+        Lighting.AbleToUpdateLightScanners = true;
+        Lighting.AbleToAdvanceLegacyLightState = true;
 
         Time.UpdateUpdate();
 
