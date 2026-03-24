@@ -145,9 +145,11 @@ public class WorldEditBrush : WorldEdit
     {
         if (ImGui.BeginTabItem(GetString("Brush")))
         {
+            ImGuiUtil.HelpMarkerTopRight(GetString("Press middle mouse button to brush"));
+
             ImGui.Checkbox(GetString("Draw detailed preview"), ref drawDetailedPreview);
-            ImGui.Checkbox(GetString("Square tile frame"), ref sqaureFrame);
-            ImGui.Checkbox(GetString("Attempt to bypass TShock"), ref teleportToTilesFarAway);
+            ImGui.Checkbox(GetString("Square tile frame"), ref sqaureFrame); ImGui.SameLine(); ImGuiUtil.HelpMarker(GetString("Update tile frame while brushing"));
+            ImGui.Checkbox(GetString("Attempt to bypass TShock"), ref teleportToTilesFarAway); ImGui.SameLine(); ImGuiUtil.HelpMarker(GetString("Teleport to tiles far away"));
             ImGui.Checkbox(GetString("Reveal Map"), ref revealMap);
             ImGui.TextUnformatted(GetString("Brush Diameter")); ImGui.SameLine();
             if (ImGui.SliderInt("##BrushDiameter", ref brushDiameter, 16, 800))

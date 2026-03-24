@@ -12,5 +12,7 @@ public class InfiniteReachTool : Tool
     public override void DrawUI(ImGuiIOPtr io)
     {
         ImGui.Checkbox(Name, ref Enabled);
+        ImGui.SameLine();
+        ImGuiUtil.HelpMarker(GetString("This tool doesn't help you to bypass TShock's range check. Placing tiles too far away might be blocked by TShock"));
     }
 }

@@ -64,7 +64,7 @@ public class AutoFishTool : Tool
 
                 ImGui.SliderInt(GetString("Randomization Min"), ref frameCountRandomizationMin, 0, 120);
                 ImGui.SliderInt(GetString("Randomization Max"), ref frameCountRandomizationMax, frameCountRandomizationMin, frameCountRandomizationMin + 120);
-                ImGui.Checkbox(GetString("Use specific mouse position"), ref HasSpecialPosition); ImGui.SameLine(); ImGui.TextDisabled(GetString("*Press Ctrl+Alt to select specific cast position"));
+                ImGui.Checkbox(GetString("Use specific mouse position"), ref HasSpecialPosition); ImGui.SameLine(); ImGuiUtil.HelpMarker(GetString("*Press Ctrl+Alt to select specific cast position"));
                 ImGui.Unindent();
             }
         }

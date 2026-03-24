@@ -14,6 +14,8 @@ public class DisableFramingTool : Tool
     public override void DrawUI(ImGuiIOPtr io)
     {
         ImGui.Checkbox(Name, ref Enabled);
+        ImGui.SameLine();
+        ImGuiUtil.HelpMarker(GetString("Aka tile updating / block updating"));
     }
 
     public override void Update()

@@ -73,6 +73,8 @@ public class NPCInspectorTool : InspectorTool
 
     public override void DrawInspector(ImGuiIOPtr io)
     {
+        ImGuiUtil.HelpMarkerTopRight(GetString($"Alt + RightClick to inspect a npc"));
+
         if (SelectedNPC is null)
         {
             return;

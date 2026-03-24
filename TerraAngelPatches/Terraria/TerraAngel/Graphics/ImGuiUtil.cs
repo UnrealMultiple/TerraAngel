@@ -821,6 +821,34 @@ public static class ImGuiUtil
 
         ImGui.SetCursorScreenPos(new Vector2(cursorPos.X, cursorPos.Y + size.Y + ImGui.GetStyle().ItemSpacing.Y));
     }
+
+    public static void HelpMarker(string desc)
+    {
+        ImGui.TextDisabled(Icon.Info);
+        if (ImGui.BeginItemTooltip())
+        {
+            ImGui.PushTextWrapPos(ImGui.GetFontSize() * 35.0f);
+            ImGui.TextUnformatted(desc);
+            ImGui.PopTextWrapPos();
+            ImGui.EndTooltip();
+        }
+    }
+
+    public static void HelpMarkerTopRight(string desc)
+    {
+        Vector2 textSize = ImGui.CalcTextSize(Icon.Info);
+        ImGuiStylePtr style = ImGui.GetStyle();
+        Vector2 cursorScreenPos = ImGui.GetCursorScreenPos();
+        Vector2 contentAvail = ImGui.GetContentRegionAvail();
+        Vector2 targetScreenPos = new(
+            cursorScreenPos.X + contentAvail.X - textSize.X - style.FramePadding.X,
+            cursorScreenPos.Y);
+
+        ImGui.SetCursorScreenPos(targetScreenPos);
+        HelpMarker(desc);
+
+        ImGui.SetCursorScreenPos(cursorScreenPos);
+    }
     
     public static unsafe bool BeginTabItem(string label, ImGuiTabItemFlags flags)
     {

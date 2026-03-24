@@ -45,6 +45,8 @@ public class ItemBrowserTool : Tool
         ImGui.SameLine();
 
         ImGui.InputText("##ItemSearch", ref ItemSearch, 64);
+        ImGui.SameLine();
+        ImGuiUtil.HelpMarker(GetString("Search item name or id"));
 
         ImGui.TextUnformatted(GetString("Give Type")); 
         ImGui.SameLine();

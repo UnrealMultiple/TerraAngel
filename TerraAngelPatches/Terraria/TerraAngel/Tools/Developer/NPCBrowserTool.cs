@@ -16,6 +16,9 @@ public class NPCBrowserTool : Tool
         ImGui.SameLine();
 
         ImGui.InputText("##NPCSearch", ref NPCSearch, 64);
+        ImGui.SameLine();
+        ImGuiUtil.HelpMarker(GetString("Search npc name or id"));
+
         bool searchEmpty = NPCSearch.Length == 0;
         
         if (ImGui.BeginChild("NPCBrowserScrolling"))

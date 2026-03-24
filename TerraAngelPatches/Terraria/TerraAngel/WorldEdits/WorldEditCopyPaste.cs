@@ -94,6 +94,8 @@ public class WorldEditCopyPaste : WorldEdit
     {
         if (ImGui.BeginTabItem(GetString("Copy/Paste")))
         {
+            ImGuiUtil.HelpMarkerTopRight(GetString($"Press {ClientConfig.Settings.WorldEditSelectKey:G} to copy\nPress middle mouse button to paste"));
+
             ImGui.Checkbox(GetString("Destroy Tiles"), ref DestroyTiles);
             ImGui.Text(GetString("Place Mode")); ImGui.SameLine(); ImGui.Combo("##PlaceMode", ref CurrentPlaceMode, PlaceModeNames, PlaceModeNames.Length);
             ImGui.EndTabItem();

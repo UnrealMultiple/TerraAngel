@@ -77,6 +77,8 @@ public class ItemInspectorTool : InspectorTool
 
     public override void DrawInspector(ImGuiIOPtr io)
     {
+        ImGuiUtil.HelpMarkerTopRight(GetString($"Alt + RightClick to inspect an item"));
+
         if (SelectedItem is null)
         {
             return;

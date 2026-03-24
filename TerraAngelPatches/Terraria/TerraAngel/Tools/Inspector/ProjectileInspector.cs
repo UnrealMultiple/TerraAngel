@@ -65,6 +65,8 @@ public class ProjectileInspector : InspectorTool
 
     public override void DrawInspector(ImGuiIOPtr io)
     {
+        ImGuiUtil.HelpMarkerTopRight(GetString($"Alt + RightClick to inspect a projectile"));
+
         if (SelectedProjectile is null)
         {
             return;

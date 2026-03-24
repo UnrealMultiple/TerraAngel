@@ -70,6 +70,8 @@ public class PlayerInspectorTool : InspectorTool
 
     public override void DrawInspector(ImGuiIOPtr io)
     {
+        ImGuiUtil.HelpMarkerTopRight(GetString($"Alt + RightClick to inspect a player"));
+
         if (SelectedPlayer <= -1)
         {
             return;

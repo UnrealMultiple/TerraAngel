@@ -28,7 +28,7 @@ public class ButcherTool : Tool
             Butcher.ButcherAllPlayers(ButcherDamage);
         }
         ImGui.SliderInt(GetString("Butcher Damage"), ref ButcherDamage, 1, (int)short.MaxValue);
-        ImGui.Checkbox(GetString("Bypass TShock"), ref BypassTShock);
+        ImGui.Checkbox(GetString("Bypass TShock"), ref BypassTShock); ImGui.SameLine(); ImGuiUtil.HelpMarker(GetString("Exploits NPCDebuffDamage packet"));
     }
 
     public override void Update()

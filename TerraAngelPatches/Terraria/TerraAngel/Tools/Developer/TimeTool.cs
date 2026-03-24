@@ -35,8 +35,11 @@ public class TimeTool : Tool
         {
             CreativePowerManager.Instance.GetPower<CreativePowers.ModifyTimeRate>().TargetTimeRate = _targetTimeRate;
         }
+        ImGui.SameLine();
+        ImGuiUtil.HelpMarker(GetString("Time rate multiplier"));
         
-        ImGui.TextUnformatted(GetString($"Day Rate: {Main.dayRate}x"));
+        ImGui.TextUnformatted(GetString($"Day Rate: {Main.dayRate}x")); ImGui.SameLine();
+        ImGuiUtil.HelpMarker(GetString("Actual game time rate"));
     }
 
     public override void Update()
