@@ -4,7 +4,7 @@
  
      public bool IsFullyResearched(int itemId)
      {
-+        if (ClientConfig.Settings.ForceAllCreativeUnlocks && !ItemID.Sets.Deprecated[itemId])
++        if (ClientConfig.Settings.ForceAllCreativeUnlocks && (ClientConfig.Settings.IsPreserveDeprecatedItems || !ItemID.Sets.Deprecated[itemId]))
 +            return true;
 +
          if (TryGetSacrificeNumbers(itemId, out var amountWeHave, out var amountNeededTotal))

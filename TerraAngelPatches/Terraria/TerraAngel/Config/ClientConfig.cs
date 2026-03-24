@@ -268,6 +268,10 @@ public class ClientConfig
         [UIConfigElement("en-US", "Enable Built-In Debug Commands")]
         public bool IsEnableBuiltInDebugCommands = false;
 
+        [UIConfigElement("zh-CN", "保留废案物品(例如最初分型)")]
+        [UIConfigElement("en-US", "Preserve Deprecated Items (e.g. First Fractal)")]
+        public bool IsPreserveDeprecatedItems = false;
+
         public string CustomClientHello = "";
 
         public int ConsoleHistoryLimit = 5000;

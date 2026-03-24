@@ -11,3 +11,12 @@
      {
          if (prefix <= 0 || prefix >= Lang.prefix.Length)
          {
+@@ -48786,7 +_,7 @@
+         }
+ 
+         RebuildTooltip();
+-        if (type > 0 && type < ItemID.Count && ItemID.Sets.Deprecated[type])
++        if (type > 0 && type < ItemID.Count && ItemID.Sets.Deprecated[type] && !ClientConfig.Settings.IsPreserveDeprecatedItems)
+         {
+             TurnToAir();
+         }
