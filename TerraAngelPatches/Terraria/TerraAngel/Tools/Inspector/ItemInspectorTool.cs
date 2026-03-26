@@ -77,10 +77,12 @@ public class ItemInspectorTool : InspectorTool
 
     public override void DrawInspector(ImGuiIOPtr io)
     {
-        ImGuiUtil.HelpMarkerTopRight(GetString($"Alt + RightClick to inspect an item"));
+        ImGuiUtil.HelpMarkerTopRight(GetString("Alt + RightClick to inspect an item"));
 
         if (SelectedItem is null)
         {
+            ImGui.Text(GetString("Alt + RightClick to inspect an item"));
+            ImGui.Text(GetString("Or select an item from the top left \"Items\" menu"));
             return;
         }
 
@@ -126,6 +128,15 @@ public class ItemInspectorTool : InspectorTool
     {
         const int step = 20;
         showTooltip = true;
+        var origTextColor = ImGui.GetStyle().Colors[(int)ImGuiCol.Text];
+
+        void ImGuiPushStyleColorText(bool isEnabled)
+        {
+            if (isEnabled)
+                ImGui.PushStyleColor(ImGuiCol.Text, origTextColor);
+            else
+                ImGui.PushStyleColor(ImGuiCol.Text, origTextColor * new Vector4(1f, 1f, 1f, 0.4f));
+        }
 
         if (ImGui.BeginMenu(GetString("Items")))
         {
@@ -138,28 +149,26 @@ public class ItemInspectorTool : InspectorTool
                         anyActiveItems = true;
                 }
 
-                ImGui.BeginDisabled(!anyActiveItems);
-                if (ImGui.BeginMenu(GetString($"Items {i}-{Math.Min(i + step, Main.maxItems)}")))
+                ImGuiPushStyleColorText(anyActiveItems);
+                if (ImGui.BeginMenu(GetString($"Items {i}-{Math.Min(i + step - 1, Main.maxItems - 1)}")))
                 {
                     showTooltip = false;
-                    ImGui.BeginDisabled(false);
                     for (int j = i; j < Math.Min(i + step, Main.maxItems); j++)
                     {
                         ImGui.PushID(j);
-                        if (!Main.item[j].active) ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.Text] * new Vector4(1f, 1f, 1f, 0.4f));
+                        ImGuiPushStyleColorText(Main.item[j].active);
 
                         if (ImGui.MenuItem(GetString($"Item \"{Main.item[j].Name.Truncate(60)}\"")))
                         {
                             SelectedItemIndex = j;
                         }
 
-                        if (!Main.item[j].active) ImGui.PopStyleColor();
+                        ImGui.PopStyleColor();
                         ImGui.PopID();
                     }
-                    ImGui.EndDisabled();
                     ImGui.EndMenu();
                 }
-                ImGui.EndDisabled();
+                ImGui.PopStyleColor();
             }
             ImGui.EndMenu();
         }

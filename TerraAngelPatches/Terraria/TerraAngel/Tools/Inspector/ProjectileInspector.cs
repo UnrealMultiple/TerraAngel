@@ -65,10 +65,12 @@ public class ProjectileInspector : InspectorTool
 
     public override void DrawInspector(ImGuiIOPtr io)
     {
-        ImGuiUtil.HelpMarkerTopRight(GetString($"Alt + RightClick to inspect a projectile"));
+        ImGuiUtil.HelpMarkerTopRight(GetString("Alt + RightClick to inspect a projectile"));
 
         if (SelectedProjectile is null)
         {
+            ImGui.Text(GetString("Alt + RightClick to inspect a projectile"));
+            ImGui.Text(GetString("Or select a projectile from the top left \"Projectiles\" menu"));
             return;
         }
 
@@ -168,6 +170,15 @@ public class ProjectileInspector : InspectorTool
     {
         const int step = 32;
         showTooltip = true;
+        var origTextColor = ImGui.GetStyle().Colors[(int)ImGuiCol.Text];
+
+        void ImGuiPushStyleColorText(bool isEnabled)
+        {
+            if (isEnabled)
+                ImGui.PushStyleColor(ImGuiCol.Text, origTextColor);
+            else
+                ImGui.PushStyleColor(ImGuiCol.Text, origTextColor * new Vector4(1f, 1f, 1f, 0.4f));
+        }
 
         if (ImGui.BeginMenu(GetString("Projectiles")))
         {
@@ -180,28 +191,26 @@ public class ProjectileInspector : InspectorTool
                         anyActiveProjectiles = true;
                 }
                 
-                ImGui.BeginDisabled(!anyActiveProjectiles);
-                if (ImGui.BeginMenu(GetString($"Projectiles {i}-{Math.Min(i + step - 1, Main.maxProjectiles)}")))
+                ImGuiPushStyleColorText(anyActiveProjectiles);
+                if (ImGui.BeginMenu(GetString($"Projectiles {i}-{Math.Min(i + step - 1, Main.maxProjectiles - 1)}")))
                 {
                     showTooltip = false;
-                    ImGui.BeginDisabled(false);
                     for (int j = i; j < Math.Min(i + step, Main.maxProjectiles); j++)
                     {
                         ImGui.PushID(j);
-                        if (!Main.projectile[j].active) ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.Text] * new Vector4(1f, 1f, 1f, 0.4f));
+                        ImGuiPushStyleColorText(Main.projectile[j].active);
 
                         if (ImGui.MenuItem(GetString($"Projectile \"{Main.projectile[j].Name.Truncate(30)}\"/{InternalRepresentation.GetProjectileIDName(Main.projectile[j].type)}/{Main.projectile[j].type}")))
                         {
                             SelectedProjectileIndex = j;
                         }
 
-                        if (!Main.projectile[j].active) ImGui.PopStyleColor();
+                        ImGui.PopStyleColor();
                         ImGui.PopID();
                     }
-                    ImGui.EndDisabled();
                     ImGui.EndMenu();
                 }
-                ImGui.EndDisabled();
+                ImGui.PopStyleColor();
             }
             ImGui.EndMenu();
         }

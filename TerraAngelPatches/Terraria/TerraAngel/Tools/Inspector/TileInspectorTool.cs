@@ -48,10 +48,12 @@ public class TileInspectorTool : InspectorTool
 
     public override void DrawInspector(ImGuiIOPtr io)
     {
-        ImGuiUtil.HelpMarkerTopRight(GetString($"Alt + RightClick to inspect a tile"));
+        ImGuiUtil.HelpMarkerTopRight(GetString("Alt + RightClick to inspect a tile"));
 
         if (!SelectedTile.HasValue)
         {
+            ImGui.Text(GetString("Alt + RightClick to inspect a tile"));
+            ImGui.Text(GetString("Or type in tile coordinate at menu bar"));
             return;
         }
 

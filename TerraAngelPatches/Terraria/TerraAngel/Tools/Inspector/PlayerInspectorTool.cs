@@ -70,10 +70,12 @@ public class PlayerInspectorTool : InspectorTool
 
     public override void DrawInspector(ImGuiIOPtr io)
     {
-        ImGuiUtil.HelpMarkerTopRight(GetString($"Alt + RightClick to inspect a player"));
+        ImGuiUtil.HelpMarkerTopRight(GetString("Alt + RightClick to inspect a player"));
 
         if (SelectedPlayer <= -1)
         {
+            ImGui.Text(GetString("Alt + RightClick to inspect a player"));
+            ImGui.Text(GetString("Or select a player from the top left \"Other Players\" menu"));
             return;
         }
 
@@ -199,6 +201,15 @@ public class PlayerInspectorTool : InspectorTool
     {
         const int step = 20;
         showTooltip = true;
+        var origTextColor = ImGui.GetStyle().Colors[(int)ImGuiCol.Text];
+
+        void ImGuiPushStyleColorText(bool isEnabled)
+        {
+            if (isEnabled)
+                ImGui.PushStyleColor(ImGuiCol.Text, origTextColor);
+            else
+                ImGui.PushStyleColor(ImGuiCol.Text, origTextColor * new Vector4(1f, 1f, 1f, 0.4f));
+        }
 
         if (ImGui.BeginMenu(GetString("Other Players")))
         {
@@ -211,26 +222,26 @@ public class PlayerInspectorTool : InspectorTool
                         anyActivePlayers = true;
                 }
                 
-                ImGui.BeginDisabled(!anyActivePlayers);
-                if (ImGui.BeginMenu(GetString($"Players {i}-{Math.Min(i + step - 1, Main.maxPlayers)}")))
+                ImGuiPushStyleColorText(anyActivePlayers);
+                if (ImGui.BeginMenu(GetString($"Players {i}-{Math.Min(i + step - 1, Main.maxPlayers - 1)}")))
                 {
                     showTooltip = false;
-                    ImGui.BeginDisabled(false);
                     for (int j = i; j < Math.Min(i + step, Main.maxPlayers); j++)
                     {
                         ImGui.PushID(j);
-                        if (!Main.player[j].active) ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.Text] * new Vector4(1f, 1f, 1f, 0.4f));
+                        ImGuiPushStyleColorText(Main.player[j].active);
+
                         if (ImGui.MenuItem(GetString($"Player \"{Main.player[j].name.Truncate(30)}\"")))
                         {
                             SelectedPlayer = j;
                         }
-                        if (!Main.player[j].active) ImGui.PopStyleColor();
+
+                        ImGui.PopStyleColor();
                         ImGui.PopID();
                     }
-                    ImGui.EndDisabled();
                     ImGui.EndMenu();
                 }
-                ImGui.EndDisabled();
+                ImGui.PopStyleColor();
             }
             ImGui.EndMenu();
         }

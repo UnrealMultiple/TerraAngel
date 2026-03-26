@@ -73,10 +73,12 @@ public class NPCInspectorTool : InspectorTool
 
     public override void DrawInspector(ImGuiIOPtr io)
     {
-        ImGuiUtil.HelpMarkerTopRight(GetString($"Alt + RightClick to inspect a npc"));
+        ImGuiUtil.HelpMarkerTopRight(GetString("Alt + RightClick to inspect a npc"));
 
         if (SelectedNPC is null)
         {
+            ImGui.Text(GetString("Alt + RightClick to inspect a npc"));
+            ImGui.Text(GetString("Or select a npc from the top left \"NPCs\" menu"));
             return;
         }
 
@@ -123,6 +125,15 @@ public class NPCInspectorTool : InspectorTool
     {
         const int step = 20;
         showTooltip = true;
+        var origTextColor = ImGui.GetStyle().Colors[(int)ImGuiCol.Text];
+
+        void ImGuiPushStyleColorText(bool isEnabled)
+        {
+            if (isEnabled)
+                ImGui.PushStyleColor(ImGuiCol.Text, origTextColor);
+            else
+                ImGui.PushStyleColor(ImGuiCol.Text, origTextColor * new Vector4(1f, 1f, 1f, 0.4f));
+        }
 
         if (ImGui.BeginMenu(GetString("NPCs")))
         {
@@ -135,28 +146,26 @@ public class NPCInspectorTool : InspectorTool
                         anyActiveNPCs = true;
                 }
                 
-                ImGui.BeginDisabled(!anyActiveNPCs);
-                if (ImGui.BeginMenu(GetString($"NPCs {i}-{Math.Min(i + step - 1, Main.maxNPCs)}")))
+                ImGuiPushStyleColorText(anyActiveNPCs);
+                if (ImGui.BeginMenu(GetString($"NPCs {i}-{Math.Min(i + step - 1, Main.maxNPCs - 1)}")))
                 {
                     showTooltip = false;
-                    ImGui.BeginDisabled(false);
                     for (int j = i; j < Math.Min(i + step, Main.maxNPCs); j++)
                     {
                         ImGui.PushID(j);
-                        if (!Main.npc[j].active) ImGui.PushStyleColor(ImGuiCol.Text, ImGui.GetStyle().Colors[(int)ImGuiCol.Text] * new Vector4(1f, 1f, 1f, 0.4f));
+                        ImGuiPushStyleColorText(Main.npc[j].active);
 
                         if (ImGui.MenuItem(GetString($"NPC \"{Main.npc[j].FullNameDefault.Truncate(30)}\"/{InternalRepresentation.GetNPCIDName(Main.npc[j].type)}/{Main.npc[j].type}")))
                         {
                             SelectedNPCIndex = j;
                         }
 
-                        if (!Main.npc[j].active) ImGui.PopStyleColor();
+                        ImGui.PopStyleColor();
                         ImGui.PopID();
                     }
-                    ImGui.EndDisabled();
                     ImGui.EndMenu();
                 }
-                ImGui.EndDisabled();
+                ImGui.PopStyleColor();
             }
             ImGui.EndMenu();
         }
