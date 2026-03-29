@@ -8,14 +8,32 @@ public class NPCBrowserTool : Tool
 
     public override ToolTabs Tab => ToolTabs.NewTab;
 
-    private static readonly int[] BossID = [4, 13, 50, 126, 125, 134, 127, 128, 131, 129, 130, 222, 245, 266, 370, 657, 668, 398];
+    private static readonly int[] BossID =
+    [
+        NPCID.EyeofCthulhu,
+        NPCID.EaterofWorldsHead,
+        NPCID.KingSlime,
+        NPCID.Spazmatism,
+        NPCID.Retinazer,
+        NPCID.TheDestroyer,
+        NPCID.SkeletronPrime,
+        NPCID.PrimeCannon,
+        NPCID.PrimeLaser,
+        NPCID.PrimeSaw,
+        NPCID.PrimeVice,
+        NPCID.QueenBee,
+        NPCID.Golem,
+        NPCID.BrainofCthulhu,
+        NPCID.DukeFishron,
+        NPCID.QueenSlimeBoss,
+        NPCID.Deerclops,
+        NPCID.MoonLordCore
+    ];
 
     public string NPCSearch = "";
 
     public override void DrawUI(ImGuiIOPtr io)
     {
-        if (ImGui.Button(GetString("Spawn All Boss")))
-            SpawnAllBoss();
         ImGui.TextUnformatted(GetString("Search")); 
         ImGui.SameLine();
 
@@ -23,8 +41,11 @@ public class NPCBrowserTool : Tool
         ImGui.SameLine();
         ImGuiUtil.HelpMarker(GetString("Search npc name or id"));
 
+        if (ImGui.Button(GetString("Spawn All Boss")))
+            SpawnAllBoss();
+
         bool searchEmpty = NPCSearch.Length == 0;
-        
+
         if (ImGui.BeginChild("NPCBrowserScrolling"))
         {
             for (int i = NPCID.NegativeIDCount + 1; i < NPCID.Count; i++)
