@@ -8,6 +8,28 @@ public class NPCBrowserTool : Tool
 
     public override ToolTabs Tab => ToolTabs.NewTab;
 
+    private static readonly int[] BossID =
+    [
+        NPCID.EyeofCthulhu,
+        NPCID.EaterofWorldsHead,
+        NPCID.KingSlime,
+        NPCID.Spazmatism,
+        NPCID.Retinazer,
+        NPCID.TheDestroyer,
+        NPCID.SkeletronPrime,
+        NPCID.PrimeCannon,
+        NPCID.PrimeLaser,
+        NPCID.PrimeSaw,
+        NPCID.PrimeVice,
+        NPCID.QueenBee,
+        NPCID.Golem,
+        NPCID.BrainofCthulhu,
+        NPCID.DukeFishron,
+        NPCID.QueenSlimeBoss,
+        NPCID.Deerclops,
+        NPCID.MoonLordCore
+    ];
+
     public string NPCSearch = "";
 
     public override void DrawUI(ImGuiIOPtr io)
@@ -19,8 +41,11 @@ public class NPCBrowserTool : Tool
         ImGui.SameLine();
         ImGuiUtil.HelpMarker(GetString("Search npc name or id"));
 
+        if (ImGui.Button(GetString("Spawn All Boss")))
+            SpawnAllBoss();
+
         bool searchEmpty = NPCSearch.Length == 0;
-        
+
         if (ImGui.BeginChild("NPCBrowserScrolling"))
         {
             for (int i = NPCID.NegativeIDCount + 1; i < NPCID.Count; i++)
@@ -63,6 +88,31 @@ public class NPCBrowserTool : Tool
         {
             var coords = Main.LocalPlayer.Center.ToPoint();
             NPC.NewNPC(new EntitySource_SpawnNPC(), coords.X, coords.Y, npcID);
+        }
+    }
+
+    public static void SpawnAllBoss()
+    {
+        foreach (var id in BossID)
+        {
+            SpawnBoss(id);
+        }
+    }
+
+    public static void SpawnBoss(int npcID)
+    {
+        switch (Main.netMode)
+        {
+            case 0:
+                NPC.SpawnOnPlayer(Main.LocalPlayer.whoAmI, npcID);
+                break;
+            case 1:
+                PacketBuilder.FastSendPacket(MessageID.SpawnBossUseLicenseStartEvent, b =>
+                {
+                    b.Write((short)Main.myPlayer);
+                    b.Write((short)npcID);
+                });
+                break;
         }
     }
 }
