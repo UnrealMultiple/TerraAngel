@@ -57,8 +57,7 @@ public class SpecialNetMessage
         extraFlags[5] = player.netCameraTarget.HasValue;
         extraFlags[6] = player.lastItemUseAttemptSuccess;
 
-        using var builder = new PacketBuilder();
-        builder.MakePacket(MessageID.PlayerControls, p => p
+        PacketBuilder.FastSendPacket(MessageID.PlayerControls, p => p
             .Write((byte)playerIndex)
             .Write(controlFlags)
             .Write(movementFlags)
@@ -72,7 +71,6 @@ public class SpecialNetMessage
                 .WriteVector2(player.PotionOfReturnOriginalUsePosition!.Value)
                 .WriteVector2(player.PotionOfReturnHomePosition!.Value))
             .If(extraFlags[5], b => b.WriteVector2(player.netCameraTarget!.Value)));
-        builder.Send();
     }
 
     /// <summary>
@@ -125,8 +123,7 @@ public class SpecialNetMessage
         extraFlags[5] = true; // hide message inside netCameraTarget
         extraFlags[6] = player.lastItemUseAttemptSuccess;
 
-        using var builder = new PacketBuilder();
-        builder.MakePacket(MessageID.PlayerControls, p => p
+        PacketBuilder.FastSendPacket(MessageID.PlayerControls, p => p
             .Write((byte)playerIndex)
             .Write(controlFlags)
             .Write(movementFlags)
@@ -140,7 +137,6 @@ public class SpecialNetMessage
                 .WriteVector2(player.PotionOfReturnOriginalUsePosition!.Value)
                 .WriteVector2(player.PotionOfReturnHomePosition!.Value))
             .If(extraFlags[5], b => b.WriteVector2(new Vector2(-114514, -1919810)))); // magic number
-        builder.Send();
     }
 
     /// <summary>
@@ -150,8 +146,8 @@ public class SpecialNetMessage
     /// <param name="slot">Inventory slot</param>
     /// <param name="stack">Item stack</param>
     /// <param name="prefix">Item prefix</param>
-    /// <param name="netId">Item net ID</param>
-    public static void SendSyncEquipmentPacket(int playerIndex, int slot, int stack, int prefix, int netId, bool favorited = false, bool indicateBlockedSlot = false)
+    /// <param name="itemId">Item id</param>
+    public static void SendSyncEquipmentPacket(int playerIndex, int slot, int stack, int prefix, int itemId, bool favorited = false, bool indicateBlockedSlot = false)
     {
         if (Main.netMode == 0)
             return;
@@ -160,15 +156,13 @@ public class SpecialNetMessage
         itemFlags[0] = favorited;
         itemFlags[1] = indicateBlockedSlot;
 
-        using var builder = new PacketBuilder();
-        builder.MakePacket(MessageID.SyncEquipment, p => p
+        PacketBuilder.FastSendPacket(MessageID.SyncEquipment, p => p
             .Write((byte)playerIndex)
             .Write((short)slot)
             .Write((short)stack)
             .Write((byte)prefix)
-            .Write((short)netId)
+            .Write((short)itemId)
             .Write(itemFlags));
-        builder.Send();
     }
 
     public static void SendPlayerControl(Vector2 position, int selectedIndex = -1)
@@ -182,54 +176,122 @@ public class SpecialNetMessage
         SendSyncEquipmentPacket(Main.myPlayer, slot, stack, prefix, itemId);
     }
 
-    public static void SendPlaceTile(int x, int y, int tile, int useSlot = 0, bool resetToNormal = true)
+    public static void SendTileManipulationWithItem(int x, int y, int operation, int data, int itemId, int useSlot = 0, bool resetToNormal = true)
     {
-        int itemId = TileUtil.GetItemFromTile(tile);
-        if (itemId == -1)
-            itemId = 0;
-        SendPlayerControl(new Vector2(x * 16f, y * 16f), 0);
+        SendPlayerControl(new Vector2(x * 16f, y * 16f), useSlot);
         SendInventorySlot(useSlot, itemId);
-        NetMessage.SendData(MessageID.TileManipulation, number: TileManipulationID.PlaceTile, number2: x, number3: y, number4: tile);
+        NetMessage.SendData(MessageID.TileManipulation, number: operation, number2: x, number3: y, number4: data);
+
+        if (resetToNormal)
+        {
+            NetMessage.SendData(MessageID.SyncEquipment, number: Main.myPlayer, number2: useSlot);
+            NetMessage.SendData(MessageID.PlayerControls, number: Main.myPlayer);
+        }
+    }
+
+    public static void SendTileManipulation(int x, int y, int operation, int data, bool resetToNormal = true)
+    {
+        SendPlayerControl(new Vector2(x * 16f, y * 16f));
+        NetMessage.SendData(MessageID.TileManipulation, number: operation, number2: x, number3: y, number4: data);
 
         if (resetToNormal)
         {
             NetMessage.SendData(MessageID.PlayerControls, number: Main.myPlayer);
-            NetMessage.SendData(MessageID.SyncEquipment, number: Main.myPlayer, number2: Main.LocalPlayer.selectedItem);
         }
+    }
+
+    public static void SendPlaceTile(int x, int y, int tile, int useSlot = 0, bool resetToNormal = true)
+    {
+        int itemId = TileUtil.GetItemFromTile(tile);
+        SendTileManipulationWithItem(x, y, TileManipulationID.PlaceTile, tile, itemId, useSlot, resetToNormal);
     }
 
     public static void SendPlaceWall(int x, int y, int wall, int useSlot = 0, bool resetToNormal = true)
     {
         int itemId = TileUtil.GetItemFromWall(wall);
-        if (itemId == -1)
-            itemId = 0;
-        SendPlayerControl(new Vector2(x * 16f, y * 16f), 0);
+        SendTileManipulationWithItem(x, y, TileManipulationID.PlaceWall, wall, itemId, useSlot, resetToNormal);
+    }
+
+    public static void SendSlopeTile(int x, int y, int slope, int useSlot = 0, bool resetToNormal = true)
+    {
+        SendTileManipulationWithItem(x, y, TileManipulationID.SlopeTile, slope, ItemID.IronHammer, useSlot, resetToNormal);
+    }
+
+    public static void SendKillTile(int x, int y, int useSlot = 0, bool resetToNormal = true)
+    {
+        SendTileManipulationWithItem(x, y, TileManipulationID.KillTile, 0, ItemID.IronPickaxe, useSlot, resetToNormal);
+    }
+
+    public static void SendKillWall(int x, int y, int useSlot = 0, bool resetToNormal = true)
+    {
+        SendTileManipulationWithItem(x, y, TileManipulationID.KillWall, 0, ItemID.IronHammer, useSlot, resetToNormal);
+    }
+
+    public static void SendLiquidUpdate(int x, int y, int liquidType, int amount, int useSlot = 0, bool resetToNormal = true)
+    {
+        var itemId = TileUtil.GetItemFromLiquid(liquidType);
+        SendPlayerControl(new Vector2(x * 16f, y * 16f), useSlot);
         SendInventorySlot(useSlot, itemId);
-        NetMessage.SendData(MessageID.TileManipulation, number: TileManipulationID.PlaceWall, number2: x, number3: y, number4: wall);
+
+        PacketBuilder.FastSendPacket(MessageID.LiquidUpdate, b => b
+            .Write((short)x)
+            .Write((short)y)
+            .Write(amount)
+            .Write(liquidType));
 
         if (resetToNormal)
         {
+            NetMessage.SendData(MessageID.SyncEquipment, number: Main.myPlayer, number2: useSlot);
             NetMessage.SendData(MessageID.PlayerControls, number: Main.myPlayer);
-            NetMessage.SendData(MessageID.SyncEquipment, number: Main.myPlayer, number2: Main.LocalPlayer.selectedItem);
         }
     }
 
-    public static void SendUpdateSignExploit(int signId, int numOfPackets)
+    public static void SendPaintTile(int x, int y, int tileColor, int tileCoatId, int useSlot = 0, bool resetToNormal = true)
     {
-        if (Main.netMode == 0)
+        SendPlayerControl(new Vector2(x * 16f, y * 16f), useSlot);
+        SendInventorySlot(useSlot, ItemID.PaintRoller);
+
+        NetMessage.SendData(MessageID.PaintTile, number: x, number2: y, number3: tileColor, number4: tileCoatId);
+
+        if (resetToNormal)
+        {
+            NetMessage.SendData(MessageID.SyncEquipment, number: Main.myPlayer, number2: useSlot);
+            NetMessage.SendData(MessageID.PlayerControls, number: Main.myPlayer);
+        }
+    }
+
+    public static void SendPaintWall(int x, int y, int wallColor, int wallCoatId, int useSlot = 0, bool resetToNormal = true)
+    {
+        SendPlayerControl(new Vector2(x * 16f, y * 16f), useSlot);
+        SendInventorySlot(useSlot, ItemID.PaintRoller);
+
+        NetMessage.SendData(MessageID.PaintWall, number: x, number2: y, number3: wallColor, number4: wallCoatId);
+
+        if (resetToNormal)
+        {
+            NetMessage.SendData(MessageID.SyncEquipment, number: Main.myPlayer, number2: useSlot);
+            NetMessage.SendData(MessageID.PlayerControls, number: Main.myPlayer);
+        }
+    }
+
+    public static void SendPlaceWire(int x, int y, int wireType, int useSlot = 0, bool resetToNormal = true)
+    {
+        int operation = wireType switch
+        {
+            1 => TileManipulationID.PlaceWire,
+            2 => TileManipulationID.PlaceWire2,
+            3 => TileManipulationID.PlaceWire3,
+            4 => TileManipulationID.PlaceWire4,
+            _ => -1
+        };
+        if (operation == -1)
             return;
 
-        using var builder = new PacketBuilder();
-        for (int i = 0; i < numOfPackets; i++)
-        {
-            builder.MakePacket(MessageID.UpdateSign, p => p
-                .Write((short)signId)
-                .Write((short)Main.sign[signId].x)
-                .Write((short)Main.sign[signId].y)
-                .Write7BitEncodedInt(60000)
-                .Write((byte)Random.Shared.Next(0, 256)));
-        }
+        SendTileManipulationWithItem(x, y, operation, 0, ItemID.WireKite, useSlot, resetToNormal);
+    }
 
-        builder.Send();
+    public static void SendPlaceActuator(int x, int y, int useSlot = 0, bool resetToNormal = true)
+    {
+        SendTileManipulationWithItem(x, y, TileManipulationID.PlaceActuator, 0, ItemID.Actuator, useSlot, resetToNormal);
     }
 }

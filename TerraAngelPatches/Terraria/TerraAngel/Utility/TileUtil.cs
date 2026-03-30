@@ -1,9 +1,7 @@
-extern alias TrProtocol;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Terraria.ObjectData;
-using TrProtocol::TrProtocol.Models;
 
 namespace TerraAngel.Utility;
 
@@ -66,7 +64,7 @@ public class TileUtil
             LiquidID.Honey => ItemID.HoneyBucket,
             LiquidID.Lava => ItemID.LavaBucket,
             LiquidID.Shimmer => ItemID.BottomlessShimmerBucket,
-            _ => 0
+            _ => ItemID.None
         };
     }
 

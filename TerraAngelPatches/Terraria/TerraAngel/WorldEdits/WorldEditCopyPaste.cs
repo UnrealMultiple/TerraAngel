@@ -2,6 +2,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using TerraAngel.ID;
+using TerraAngel.Net;
 using Terraria.Utilities;
 using TrProtocol::TrProtocol.Models;
 
@@ -170,104 +172,122 @@ public class WorldEditCopyPaste : WorldEdit
         int ox = (int)originTile.X;
         int oy = (int)originTile.Y;
 
-        Task.Run(() =>
+        Task.Run(async () =>
         {
+            // TODO: we probably need to copy tiles while sending instead of bulk copying locally
             CopyTilesForPass(ox, oy, true);
             CopyTilesForPass(ox, oy, false);
 
-           
+            // pass three, for framing
+            for (int x = 0; x < CopiedSection.Width; x++)
+            {
+                for (int y = CopiedSection.Height - 1; y > -1; y--)
+                {
+                    if (!WorldGen.InWorld(ox + x, oy + y))
+                        continue;
+
+                    Tile? tile = Main.tile[ox + x, oy + y];
+                    Tile? copiedTile = CopiedSection.Tiles?[x, y];
+
+                    if (tile is null || copiedTile is null)
+                        continue;
+
+                    WorldGen.SquareTileFrame(ox + x, oy + y);
+                    WorldGen.SquareWallFrame(ox + x, oy + y);
+                }
+            }
+
+            var pauseCounter = 0;
+
+            // TODO: we probably wanna make this diff based
             for (var x = 0; x < CopiedSection.Width; x++)
             {
                 for (var y = CopiedSection.Height - 1; y > -1; y--)
                 {
+                    if (!WorldGen.InWorld(ox + x, oy + y))
+                        continue;
+
+                    // TODO: we probably need to make it better
+                    pauseCounter++;
+                    pauseCounter %= 100;
+                    if (pauseCounter == 0)
+                    {
+                        ClientLoader.Console.WriteLine(GetString("[CopyPaste] wait for 2s before next batch..."));
+                        await Task.Delay(2000);
+                    }
+
                     var worldX = ox + x;
                     var worldY = oy + y;
                     var tile = Main.tile[worldX, worldY];
                     if (tile.active())
                     {
-                        var itemID = TileUtil.GetItemFromTile(tile);
-                        Util.FalseHoldItem(itemID);
-                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null,
-                            (int)TileEditAction.PlaceTile, worldX, worldY, tile.type);
+                        SpecialNetMessage.SendPlaceTile(worldX, worldY, tile.type, resetToNormal: false);
 
                         if (tile.slope() > 0 || tile.halfBrick())
                         {
                             var slopeData = tile.halfBrick() ? 1 : tile.slope();
-                            NetMessage.SendData(MessageID.TileManipulation, -1, -1, null,
-                                (int)TileEditAction.SlopeTile, worldX, worldY, slopeData);
+                            SpecialNetMessage.SendSlopeTile(worldX, worldY, slopeData, resetToNormal: false);
                         }
                     }
                     else
                     {
-                        Util.FalseHoldItem(ItemID.IronPickaxe);
-                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null,
-                            (int)TileEditAction.KillTile, worldX, worldY);
+                        SpecialNetMessage.SendKillTile(worldX, worldY, resetToNormal: false);
                     }
 
                     if (tile.wall > 0)
                     {
-                        var itemID = TileUtil.GetItemFromWall(tile);
-                        Util.FalseHoldItem(itemID);
-                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null,
-                            (int)TileEditAction.PlaceWall, worldX, worldY, tile.wall);
+                        SpecialNetMessage.SendPlaceWall(worldX, worldY, tile.wall, resetToNormal: false);
+                    }
+                    else
+                    {
+                        SpecialNetMessage.SendKillWall(worldX, worldY, resetToNormal: false);
                     }
 
                     if (tile.liquid > 0)
                     {
-                        var itemID = TileUtil.GetItemFromLiquid(tile.liquidType());
-                        Util.FalseHoldItem(itemID);
-                        NetMessage.SendData(MessageID.LiquidUpdate, -1, -1, null, worldX, worldY);
+                        SpecialNetMessage.SendLiquidUpdate(worldX, worldY, tile.liquidType(), tile.liquid, resetToNormal: false);
                     }
 
                     if (tile.color() > 0)
                     {
-                        Util.FalseHoldItem(ItemID.PaintRoller);
-                        NetMessage.SendData(MessageID.PaintTile, -1, -1, null, worldX, worldY, tile.color());
+                        SpecialNetMessage.SendPaintTile(worldX, worldY, tile.color(), 0, resetToNormal: false);
                     }
 
                     if (tile.wallColor() > 0)
                     {
-                        Util.FalseHoldItem(ItemID.PaintRoller);
-                        NetMessage.SendData(MessageID.PaintWall, -1, -1, null, worldX, worldY, tile.wallColor());
+                        SpecialNetMessage.SendPaintWall(worldX, worldY, tile.wallColor(), 0, resetToNormal: false);
                     }
 
                     if (tile.wire())
                     {
-                        Util.FalseHoldItem(ItemID.WireKite);
-                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, (int)TileEditAction.PlaceWire,
-                            worldX, worldY);
+                        SpecialNetMessage.SendPlaceWire(worldX, worldY, 1, resetToNormal: false);
                     }
                     
                     if (tile.wire2())
                     {
-                        Util.FalseHoldItem(ItemID.WireKite);
-                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, (int)TileEditAction.PlaceWire2,
-                            worldX, worldY);
+                        SpecialNetMessage.SendPlaceWire(worldX, worldY, 2, resetToNormal: false);
                     }
 
                     if (tile.wire3())
                     {
-                        Util.FalseHoldItem(ItemID.WireKite);
-                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, (int)TileEditAction.PlaceWire3,
-                            worldX, worldY);
+                        SpecialNetMessage.SendPlaceWire(worldX, worldY, 3, resetToNormal: false);
                     }
                     
                     if (tile.wire4())
                     {
-                        Util.FalseHoldItem(ItemID.WireKite);
-                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, (int)TileEditAction.PlaceWire4,
-                            worldX, worldY);
+                        SpecialNetMessage.SendPlaceWire(worldX, worldY, 4, resetToNormal: false);
                     }
                     
                     if (tile.actuator())
                     {
-                        Util.FalseHoldItem(ItemID.Actuator);
-                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, (int)TileEditAction.PlaceActuator,
-                            worldX, worldY);
+                        SpecialNetMessage.SendPlaceActuator(worldX, worldY, resetToNormal: false);
                     }
-                        
                 }
             }
+
+            // reset to normal
+            NetMessage.SendData(MessageID.SyncEquipment, number: Main.myPlayer, number2: 0);
+            NetMessage.SendData(MessageID.PlayerControls, number: Main.myPlayer);
         });
     }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using TerraAngel.Inspector.Tools;
+using TerraAngel.Net;
 using Terraria;
 using Terraria.Net.Sockets;
 using ImGuiUtil = TerraAngel.Graphics.ImGuiUtil;
@@ -60,7 +61,7 @@ public class ItemInspectorTool : InspectorTool
                 SelectedItem.stack = 0;
                 if (Main.netMode == 1)
                 {
-                    Util.FalsePlayerPacket(new Vector2(SelectedItem.position.X, SelectedItem.position.Y));
+                    SpecialNetMessage.SendPlayerControl(SelectedItem.position);
                     NetMessage.SendData(MessageID.SyncItem, -1, -1, null, SelectedItemIndex, 0f, 0f, 0f, 0, 0, 0);
                     NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Main.myPlayer, 0f, 0f, 0f, 0, 0, 0);
                 }
