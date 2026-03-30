@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TerraAngel.Net;
 
 namespace TerraAngel.Tools.Developer;
 
@@ -29,7 +30,7 @@ public class WipeGroundItems : Tool
                     num++;
                     if (Main.netMode == 1)
                     {
-                        Util.FalsePlayerPacket(itemPos);
+                        SpecialNetMessage.SendPlayerControl(itemPos);
                         NetMessage.SendData(21, -1, -1, null, i, 0f, 0f, 0f, 0, 0, 0);
                         NetMessage.SendData(13, -1, -1, null, Main.myPlayer, 0f, 0f, 0f, 0, 0, 0);
                     }

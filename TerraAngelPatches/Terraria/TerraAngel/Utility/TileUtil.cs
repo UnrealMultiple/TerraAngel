@@ -56,6 +56,18 @@ public class TileUtil
         return GetItemFromWall(tile.wall);
     }
 
+    public static int GetItemFromLiquid(int type)
+    {
+        return type switch
+        {
+            LiquidID.Water => ItemID.WaterBucket,
+            LiquidID.Honey => ItemID.HoneyBucket,
+            LiquidID.Lava => ItemID.LavaBucket,
+            LiquidID.Shimmer => ItemID.BottomlessShimmerBucket,
+            _ => ItemID.None
+        };
+    }
+
     private static int GetPlacementItem(Dictionary<(int Type, int Style), int> lookup, int type, int style, bool allowDefaultFallback)
     {
         if (type < 0)
