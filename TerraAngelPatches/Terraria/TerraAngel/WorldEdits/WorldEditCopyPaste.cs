@@ -199,6 +199,7 @@ public class WorldEditCopyPaste : WorldEdit
                     }
                     else
                     {
+                        Util.FalseHoldItem(ItemID.IronPickaxe);
                         NetMessage.SendData(MessageID.TileManipulation, -1, -1, null,
                             (int)TileEditAction.KillTile, worldX, worldY);
                     }
@@ -213,38 +214,58 @@ public class WorldEditCopyPaste : WorldEdit
 
                     if (tile.liquid > 0)
                     {
+                        var itemID = TileUtil.GetItemFromLiquid(tile.liquidType());
+                        Util.FalseHoldItem(itemID);
                         NetMessage.SendData(MessageID.LiquidUpdate, -1, -1, null, worldX, worldY);
                     }
 
                     if (tile.color() > 0)
                     {
+                        Util.FalseHoldItem(ItemID.PaintRoller);
                         NetMessage.SendData(MessageID.PaintTile, -1, -1, null, worldX, worldY, tile.color());
                     }
 
                     if (tile.wallColor() > 0)
                     {
+                        Util.FalseHoldItem(ItemID.PaintRoller);
                         NetMessage.SendData(MessageID.PaintWall, -1, -1, null, worldX, worldY, tile.wallColor());
                     }
 
                     if (tile.wire())
+                    {
+                        Util.FalseHoldItem(ItemID.WireKite);
                         NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, (int)TileEditAction.PlaceWire,
                             worldX, worldY);
-
+                    }
+                    
                     if (tile.wire2())
+                    {
+                        Util.FalseHoldItem(ItemID.WireKite);
                         NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, (int)TileEditAction.PlaceWire2,
                             worldX, worldY);
+                    }
 
                     if (tile.wire3())
+                    {
+                        Util.FalseHoldItem(ItemID.WireKite);
                         NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, (int)TileEditAction.PlaceWire3,
                             worldX, worldY);
-
+                    }
+                    
                     if (tile.wire4())
+                    {
+                        Util.FalseHoldItem(ItemID.WireKite);
                         NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, (int)TileEditAction.PlaceWire4,
                             worldX, worldY);
-
+                    }
+                    
                     if (tile.actuator())
+                    {
+                        Util.FalseHoldItem(ItemID.Actuator);
                         NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, (int)TileEditAction.PlaceActuator,
                             worldX, worldY);
+                    }
+                        
                 }
             }
         });

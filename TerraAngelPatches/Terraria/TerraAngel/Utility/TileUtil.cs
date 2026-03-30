@@ -1,7 +1,9 @@
+extern alias TrProtocol;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Terraria.ObjectData;
+using TrProtocol::TrProtocol.Models;
 
 namespace TerraAngel.Utility;
 
@@ -54,6 +56,18 @@ public class TileUtil
         }
 
         return GetItemFromWall(tile.wall);
+    }
+
+    public static int GetItemFromLiquid(int type)
+    {
+        return type switch
+        {
+            LiquidID.Water => ItemID.WaterBucket,
+            LiquidID.Honey => ItemID.HoneyBucket,
+            LiquidID.Lava => ItemID.LavaBucket,
+            LiquidID.Shimmer => ItemID.BottomlessShimmerBucket,
+            _ => 0
+        };
     }
 
     private static int GetPlacementItem(Dictionary<(int Type, int Style), int> lookup, int type, int style, bool allowDefaultFallback)
