@@ -145,6 +145,71 @@ public class Util
         }
     }
 
+    public static void FalseHoldItem(int itemType)
+    {
+        if (Main.netMode == 0)
+            return;
+
+        var playerIndex = Main.LocalPlayer.whoAmI;
+        var player = Main.player[playerIndex];
+        const byte packetType = MessageID.SyncEquipment;
+        const short bufferIndex = 256;
+        var messageBuffer = NetMessage.buffer[bufferIndex];
+        lock (messageBuffer)
+        {
+            // Setup writer
+            var writer = messageBuffer.writer;
+
+            writer.BaseStream.Position = 0L;
+            var packetLengthPosition = writer.BaseStream.Position;
+            writer.BaseStream.Position += 2L; // Skip length for now, will write later
+
+            writer.Write(packetType);
+            writer.Write((byte)playerIndex);
+            writer.Write((short)player.selectedItem);
+            writer.Write((short)1);
+            writer.Write((byte)0);
+            writer.Write((short)itemType);
+            var bitsByte5 = default(BitsByte);
+            bitsByte5[0] = false;
+            bitsByte5[1] = false;
+            writer.Write(bitsByte5);
+
+
+            var packetLength = (int)writer.BaseStream.Position;
+            if (packetLength > 65535)
+            {
+                throw new Exception($"Maximum packet length exceeded. id: {packetType} length: {packetLength}");
+            }
+
+            // Go back and write packet length
+            writer.BaseStream.Position = packetLengthPosition;
+            writer.Write((ushort)packetLength);
+            writer.BaseStream.Position = packetLength;
+
+            if (Netplay.Connection.Socket.IsConnected())
+            {
+                try
+                {
+                    messageBuffer.spamCount++;
+                    Main.ActiveNetDiagnosticsUI.CountSentMessage(packetType, packetLength);
+                    Netplay.Connection.Socket.AsyncSend(
+                        messageBuffer.writeBuffer,
+                        0,
+                        packetLength,
+                        Netplay.Connection.ClientWriteCallBack
+                    );
+                }
+                catch
+                {
+                    // Silently handle connection issues
+                }
+            }
+            // Cleanup
+            messageBuffer.writeLocked = false;
+        }
+    }
+
     //Taken From ZaZaClient
     public static void FalsePlayerPacket(Vector2 playerPosition)
     {
@@ -162,6 +227,7 @@ public class Util
         {
             // Setup writer
             BinaryWriter writer = messageBuffer.writer;
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             if (writer == null)
             {
                 messageBuffer.ResetWriter();
@@ -193,6 +259,7 @@ public class Util
             controls2[1] = player.pulley && player.pulleyDir == 2;
             controls2[2] = player.velocity != Vector2.Zero;
             controls2[3] = player.vortexStealthActive;
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             controls2[4] = player.gravDir == 1f;
             controls2[5] = player.shieldRaised;
             controls2[6] = player.ghost;
@@ -259,8 +326,7 @@ public class Util
                             messageBuffer.writeBuffer,
                             0,
                             packetLength,
-                            new SocketSendCallback(Netplay.Connection.ClientWriteCallBack),
-                            null
+                            Netplay.Connection.ClientWriteCallBack
                         );
                     }
                     catch
@@ -269,55 +335,9 @@ public class Util
                     }
                 }
             }
-            // Server mode
-            else if (packetType == 13)
-            {
-                // Send to all connected clients
-                for (int i = 0; i < 256; i++)
-                {
-                    if (NetMessage.buffer[i].broadcast && Netplay.Clients[i].IsConnected())
-                    {
-                        try
-                        {
-                            NetMessage.buffer[i].spamCount++;
-                            Main.ActiveNetDiagnosticsUI.CountSentMessage(packetType, packetLength);
-                            Netplay.Clients[i].Socket.AsyncSend(
-                                NetMessage.buffer[bufferIndex].writeBuffer,
-                                0,
-                                packetLength,
-                                new SocketSendCallback(Netplay.Clients[i].ServerWriteCallBack),
-                                null
-                            );
-                        }
-                        catch
-                        {
-                            // Silently handle connection issues
-                        }
-                    }
-                }
-
-            }
-
-            if (Main.verboseNetplay)
-            {
-                for (int j = 0; j < packetLength; j++)
-                {
-                }
-                for (int k = 0; k < packetLength; k++)
-                {
-                    byte b = messageBuffer.writeBuffer[k];
-                }
-            }
 
             // Cleanup
             messageBuffer.writeLocked = false;
-
-            // Handle termination if needed
-            if (packetType == 2 && Main.netMode == 2)
-            {
-                Netplay.Clients[bufferIndex].PendingTermination = true;
-                Netplay.Clients[bufferIndex].PendingTerminationApproved = true;
-            }
         }
     }
 }

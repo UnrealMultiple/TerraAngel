@@ -1,8 +1,13 @@
-﻿using System;
+﻿extern alias TrProtocol;
+using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using Terraria.Utilities;
+using TrProtocol::TrProtocol.Models;
 
 namespace TerraAngel.WorldEdits;
 
+[SuppressMessage("ReSharper", "InconsistentNaming")]
 public class WorldEditCopyPaste : WorldEdit
 {
     public override bool RunEveryFrame => false;
@@ -128,93 +133,123 @@ public class WorldEditCopyPaste : WorldEdit
         int ox = (int)originTile.X;
         int oy = (int)originTile.Y;
         Task.Run(() =>
+        {
+            CopyTilesForPass(ox, oy, true);
+            CopyTilesForPass(ox, oy, false);
+
+            // pass three, for framing and syncing
+            for (int x = 0; x < CopiedSection.Width; x++)
             {
-                Main.rand = new Terraria.Utilities.UnifiedRandom();
-                // pass one, for solid tiles
-                for (int x = 0; x < CopiedSection.Width; x++)
+                for (int y = CopiedSection.Height - 1; y > -1; y--)
                 {
-                    for (int y = CopiedSection.Height - 1; y > -1; y--)
-                    {
-                        if (!WorldGen.InWorld(ox + x, oy + y))
-                            continue;
+                    if (!WorldGen.InWorld(ox + x, oy + y))
+                        continue;
 
-                        Tile tile = Main.tile[ox + x, oy + y];
-                        Tile copiedTile = CopiedSection.Tiles[x, y];
+                    Tile? tile = Main.tile[ox + x, oy + y];
+                    Tile? copiedTile = CopiedSection.Tiles?[x, y];
 
-                        if (tile == null || copiedTile == null)
-                            continue;
+                    if (tile is null || copiedTile is null)
+                        continue;
 
-                        if (!(Main.tileSolid[copiedTile.type] &&
-                            copiedTile.type != TileID.GolfTee &&
-                            copiedTile.type != TileID.GolfHole &&
-                            copiedTile.type != TileID.GolfCupFlag))
-                            continue;
+                    WorldGen.SquareTileFrame(ox + x, oy + y);
+                    WorldGen.SquareWallFrame(ox + x, oy + y);
 
-                        bool isCopiedTileEmpty = !(copiedTile.active() || copiedTile.wall > 0);
-                        if (isCopiedTileEmpty && !DestroyTiles)
-                            continue;
-
-
-
-                        tile.CopyFrom(copiedTile);
-                    }
+                    NetMessage.SendTileSquare(Main.myPlayer, ox + x, oy + y);
                 }
-
-                // pass two, for non solid tiles
-                for (int x = 0; x < CopiedSection.Width; x++)
-                {
-                    for (int y = CopiedSection.Height - 1; y > -1; y--)
-                    {
-                        if (!WorldGen.InWorld(ox + x, oy + y))
-                            continue;
-
-                        Tile tile = Main.tile[ox + x, oy + y];
-                        Tile copiedTile = CopiedSection.Tiles[x, y];
-
-                        if (tile == null || copiedTile == null)
-                            continue;
-
-                        if ((Main.tileSolid[copiedTile.type] &&
-                            copiedTile.type != TileID.GolfTee &&
-                            copiedTile.type != TileID.GolfHole &&
-                            copiedTile.type != TileID.GolfCupFlag))
-                            continue;
-
-                        bool isCopiedTileEmpty = !(copiedTile.active() || copiedTile.wall > 0);
-                        if (isCopiedTileEmpty && !DestroyTiles)
-                            continue;
-
-                        tile.CopyFrom(copiedTile);
-                    }
-                }
-
-                // pass three, for framing and syncing
-                for (int x = 0; x < CopiedSection.Width; x++)
-                {
-                    for (int y = CopiedSection.Height - 1; y > -1; y--)
-                    {
-                        if (!WorldGen.InWorld(ox + x, oy + y))
-                            continue;
-
-                        Tile? tile = Main.tile[ox + x, oy + y];
-                        Tile? copiedTile = CopiedSection.Tiles?[x, y];
-
-                        if (tile is null || copiedTile is null)
-                            continue;
-
-                        WorldGen.SquareTileFrame(ox + x, oy + y);
-                        WorldGen.SquareWallFrame(ox + x, oy + y);
-
-                        NetMessage.SendTileSquare(Main.myPlayer, ox + x, oy + y);
-                    }
-                }
-            });
+            }
+        });
     }
+    
 
     private void EditSendTileManipulation(Vector2 originTile)
     {
+        if (CopiedSection is null)
+            return;
 
+        originTile = originTile.Floor();
+        int ox = (int)originTile.X;
+        int oy = (int)originTile.Y;
+
+        Task.Run(() =>
+        {
+            CopyTilesForPass(ox, oy, true);
+            CopyTilesForPass(ox, oy, false);
+
+           
+            for (var x = 0; x < CopiedSection.Width; x++)
+            {
+                for (var y = CopiedSection.Height - 1; y > -1; y--)
+                {
+                    var worldX = ox + x;
+                    var worldY = oy + y;
+                    var tile = Main.tile[worldX, worldY];
+                    if (tile.active())
+                    {
+                        var itemID = TileUtil.GetItemFromTile(tile);
+                        Util.FalseHoldItem(itemID);
+                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null,
+                            (int)TileEditAction.PlaceTile, worldX, worldY, tile.type);
+
+                        if (tile.slope() > 0 || tile.halfBrick())
+                        {
+                            var slopeData = tile.halfBrick() ? 1 : tile.slope();
+                            NetMessage.SendData(MessageID.TileManipulation, -1, -1, null,
+                                (int)TileEditAction.SlopeTile, worldX, worldY, slopeData);
+                        }
+                    }
+                    else
+                    {
+                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null,
+                            (int)TileEditAction.KillTile, worldX, worldY);
+                    }
+
+                    if (tile.wall > 0)
+                    {
+                        var itemID = TileUtil.GetItemFromWall(tile);
+                        Util.FalseHoldItem(itemID);
+                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null,
+                            (int)TileEditAction.PlaceWall, worldX, worldY, tile.wall);
+                    }
+
+                    if (tile.liquid > 0)
+                    {
+                        NetMessage.SendData(MessageID.LiquidUpdate, -1, -1, null, worldX, worldY);
+                    }
+
+                    if (tile.color() > 0)
+                    {
+                        NetMessage.SendData(MessageID.PaintTile, -1, -1, null, worldX, worldY, tile.color());
+                    }
+
+                    if (tile.wallColor() > 0)
+                    {
+                        NetMessage.SendData(MessageID.PaintWall, -1, -1, null, worldX, worldY, tile.wallColor());
+                    }
+
+                    if (tile.wire())
+                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, (int)TileEditAction.PlaceWire,
+                            worldX, worldY);
+
+                    if (tile.wire2())
+                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, (int)TileEditAction.PlaceWire2,
+                            worldX, worldY);
+
+                    if (tile.wire3())
+                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, (int)TileEditAction.PlaceWire3,
+                            worldX, worldY);
+
+                    if (tile.wire4())
+                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, (int)TileEditAction.PlaceWire4,
+                            worldX, worldY);
+
+                    if (tile.actuator())
+                        NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, (int)TileEditAction.PlaceActuator,
+                            worldX, worldY);
+                }
+            }
+        });
     }
+
 
     public void Copy(Vector2 startTile, Vector2 endTile)
     {
@@ -253,6 +288,40 @@ public class WorldEditCopyPaste : WorldEdit
         vecbr += Vector2.One;
 
         return (vectl, vecbr);
+    }
+    
+    private void CopyTilesForPass(int ox, int oy, bool copySolidTiles)
+    {
+        if (CopiedSection is null)
+            return;
+
+        for (int x = 0; x < CopiedSection.Width; x++)
+        {
+            for (int y = CopiedSection.Height - 1; y > -1; y--)
+            {
+                if (!WorldGen.InWorld(ox + x, oy + y))
+                    continue;
+
+                Tile tile = Main.tile[ox + x, oy + y];
+                Tile copiedTile = CopiedSection.Tiles[x, y];
+
+                if (tile == null || copiedTile == null)
+                    continue;
+
+                bool isSolidCopiedTile = Main.tileSolid[copiedTile.type] &&
+                                         copiedTile.type != TileID.GolfTee &&
+                                         copiedTile.type != TileID.GolfHole &&
+                                         copiedTile.type != TileID.GolfCupFlag;
+                if (copySolidTiles != isSolidCopiedTile)
+                    continue;
+
+                bool isCopiedTileEmpty = !(copiedTile.active() || copiedTile.wall > 0);
+                if (isCopiedTileEmpty && !DestroyTiles)
+                    continue;
+
+                tile.CopyFrom(copiedTile);
+            }
+        }
     }
 
     enum PlaceMode
