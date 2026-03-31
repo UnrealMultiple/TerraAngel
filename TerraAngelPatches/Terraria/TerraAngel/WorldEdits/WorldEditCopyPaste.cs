@@ -161,7 +161,7 @@ public class WorldEditCopyPaste : WorldEdit
             }
         });
     }
-    
+
 
     private void EditSendTileManipulation(Vector2 originTile)
     {
@@ -174,14 +174,123 @@ public class WorldEditCopyPaste : WorldEdit
 
         Task.Run(async () =>
         {
-            // TODO: we probably need to copy tiles while sending instead of bulk copying locally
-            CopyTilesForPass(ox, oy, true);
-            CopyTilesForPass(ox, oy, false);
+            if (CopiedSection is null)
+                return;
+
+            // TODO: custom delay
+            var delayForThreshold = TimeSpan.FromSeconds(1) / 75;
+            await using var pb = new PacketBuilder();
+
+            // pass one
+            for (int y = CopiedSection.Height - 1; y > -1; y--)
+            {
+                for (int x = 0; x < CopiedSection.Width; x++)
+                {
+                    var worldX = ox + x;
+                    var worldY = oy + y;
+                    if (!WorldGen.InWorld(worldX, worldY))
+                        continue;
+
+                    Tile tile = Main.tile[worldX, worldY];
+                    Tile copiedTile = CopiedSection.Tiles[x, y];
+
+                    if (tile == null || copiedTile == null)
+                        continue;
+
+                    bool isSolidCopiedTile = Main.tileSolid[copiedTile.type] &&
+                                             copiedTile.type != TileID.GolfTee &&
+                                             copiedTile.type != TileID.GolfHole &&
+                                             copiedTile.type != TileID.GolfCupFlag;
+                    if (!isSolidCopiedTile)
+                        continue;
+
+                    bool isCopiedTileEmpty = !(copiedTile.active() || copiedTile.wall > 0);
+                    if (isCopiedTileEmpty && !DestroyTiles)
+                        continue;
+
+                    tile.CopyFrom(copiedTile);
+
+                    // TODO: this is incomplete, many kill are not implemented
+                    if (tile.active())
+                    {
+                        pb.WritePlayerPlaceTile(worldX, worldY, tile.type, resetToNormal: false);
+
+                        if (tile.slope() > 0 || tile.halfBrick())
+                        {
+                            var slopeData = tile.halfBrick() ? 1 : tile.slope();
+                            pb.WritePlayerSlopeTile(worldX, worldY, slopeData, resetToNormal: false);
+                        }
+                    }
+                    else
+                    {
+                        pb.WritePlayerKillTile(worldX, worldY, resetToNormal: false);
+                    }
+
+                    if (tile.wall > 0)
+                    {
+                        pb.WritePlayerPlaceWall(worldX, worldY, tile.wall, resetToNormal: false);
+                    }
+                    else
+                    {
+                        pb.WritePlayerKillWall(worldX, worldY, resetToNormal: false);
+                    }
+
+                    if (tile.liquid > 0)
+                    {
+                        pb.WritePlayerUpdateLiquid(worldX, worldY, tile.liquidType(), tile.liquid, resetToNormal: false);
+                    }
+
+                    if (tile.color() > 0)
+                    {
+                        pb.WritePlayerPaintTile(worldX, worldY, tile.color(), 0, resetToNormal: false);
+                    }
+
+                    if (tile.wallColor() > 0)
+                    {
+                        pb.WritePlayerPaintWall(worldX, worldY, tile.wallColor(), 0, resetToNormal: false);
+                    }
+
+                    if (tile.wire())
+                    {
+                        pb.WritePlayerPlaceWire(worldX, worldY, 1, resetToNormal: false);
+                    }
+
+                    if (tile.wire2())
+                    {
+                        pb.WritePlayerPlaceWire(worldX, worldY, 2, resetToNormal: false);
+                    }
+
+                    if (tile.wire3())
+                    {
+                        pb.WritePlayerPlaceWire(worldX, worldY, 3, resetToNormal: false);
+                    }
+
+                    if (tile.wire4())
+                    {
+                        pb.WritePlayerPlaceWire(worldX, worldY, 4, resetToNormal: false);
+                    }
+
+                    if (tile.actuator())
+                    {
+                        pb.WritePlayerPlaceActuator(worldX, worldY, resetToNormal: false);
+                    }
+
+                    // reset to normal
+                    pb.WriteSyncEquipmentPacketNormal(0);
+                    pb.WritePlayerControlsPacketNormal();
+                    pb.Send();
+                    pb.Clear();
+
+                    await Task.Delay(delayForThreshold);
+                }
+            }
+
+            // TODO: pass two
 
             // pass three, for framing
-            for (int x = 0; x < CopiedSection.Width; x++)
+            for (int y = CopiedSection.Height - 1; y > -1; y--)
             {
-                for (int y = CopiedSection.Height - 1; y > -1; y--)
+                for (int x = 0; x < CopiedSection.Width; x++)
                 {
                     if (!WorldGen.InWorld(ox + x, oy + y))
                         continue;
@@ -196,98 +305,6 @@ public class WorldEditCopyPaste : WorldEdit
                     WorldGen.SquareWallFrame(ox + x, oy + y);
                 }
             }
-
-            var pauseCounter = 0;
-
-            // TODO: we probably wanna make this diff based
-            for (var x = 0; x < CopiedSection.Width; x++)
-            {
-                for (var y = CopiedSection.Height - 1; y > -1; y--)
-                {
-                    if (!WorldGen.InWorld(ox + x, oy + y))
-                        continue;
-
-                    // TODO: we probably need to make it better
-                    pauseCounter++;
-                    pauseCounter %= 100;
-                    if (pauseCounter == 0)
-                    {
-                        ClientLoader.Console.WriteLine(GetString("[CopyPaste] wait for 2s before next batch..."));
-                        await Task.Delay(2000);
-                    }
-
-                    var worldX = ox + x;
-                    var worldY = oy + y;
-                    var tile = Main.tile[worldX, worldY];
-                    if (tile.active())
-                    {
-                        SpecialNetMessage.SendPlaceTile(worldX, worldY, tile.type, resetToNormal: false);
-
-                        if (tile.slope() > 0 || tile.halfBrick())
-                        {
-                            var slopeData = tile.halfBrick() ? 1 : tile.slope();
-                            SpecialNetMessage.SendSlopeTile(worldX, worldY, slopeData, resetToNormal: false);
-                        }
-                    }
-                    else
-                    {
-                        SpecialNetMessage.SendKillTile(worldX, worldY, resetToNormal: false);
-                    }
-
-                    if (tile.wall > 0)
-                    {
-                        SpecialNetMessage.SendPlaceWall(worldX, worldY, tile.wall, resetToNormal: false);
-                    }
-                    else
-                    {
-                        SpecialNetMessage.SendKillWall(worldX, worldY, resetToNormal: false);
-                    }
-
-                    if (tile.liquid > 0)
-                    {
-                        SpecialNetMessage.SendLiquidUpdate(worldX, worldY, tile.liquidType(), tile.liquid, resetToNormal: false);
-                    }
-
-                    if (tile.color() > 0)
-                    {
-                        SpecialNetMessage.SendPaintTile(worldX, worldY, tile.color(), 0, resetToNormal: false);
-                    }
-
-                    if (tile.wallColor() > 0)
-                    {
-                        SpecialNetMessage.SendPaintWall(worldX, worldY, tile.wallColor(), 0, resetToNormal: false);
-                    }
-
-                    if (tile.wire())
-                    {
-                        SpecialNetMessage.SendPlaceWire(worldX, worldY, 1, resetToNormal: false);
-                    }
-                    
-                    if (tile.wire2())
-                    {
-                        SpecialNetMessage.SendPlaceWire(worldX, worldY, 2, resetToNormal: false);
-                    }
-
-                    if (tile.wire3())
-                    {
-                        SpecialNetMessage.SendPlaceWire(worldX, worldY, 3, resetToNormal: false);
-                    }
-                    
-                    if (tile.wire4())
-                    {
-                        SpecialNetMessage.SendPlaceWire(worldX, worldY, 4, resetToNormal: false);
-                    }
-                    
-                    if (tile.actuator())
-                    {
-                        SpecialNetMessage.SendPlaceActuator(worldX, worldY, resetToNormal: false);
-                    }
-                }
-            }
-
-            // reset to normal
-            NetMessage.SendData(MessageID.SyncEquipment, number: Main.myPlayer, number2: 0);
-            NetMessage.SendData(MessageID.PlayerControls, number: Main.myPlayer);
         });
     }
 
@@ -330,7 +347,7 @@ public class WorldEditCopyPaste : WorldEdit
 
         return (vectl, vecbr);
     }
-    
+
     private void CopyTilesForPass(int ox, int oy, bool copySolidTiles)
     {
         if (CopiedSection is null)
