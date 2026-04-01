@@ -284,7 +284,7 @@ public static class PacketBuilderExtensions
     {
         pb.WritePositionedOperationWithItem(
             x, y,
-            ItemID.PaintRoller,
+            ItemID.Paintbrush,
             b => b.WritePaintTilePacket(x, y, tileColor, tileCoatId),
             useSlot, resetToNormal);
         return pb;

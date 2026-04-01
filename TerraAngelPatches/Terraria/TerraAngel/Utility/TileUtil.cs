@@ -153,12 +153,14 @@ public class TileUtil
                     float num3 = (float)(int)wallColor.B / 255f;
                     if (num2 > num)
                     {
+                        // ReSharper disable once SwapViaDeconstruction
                         float num4 = num;
                         num = num2;
                         num2 = num4;
                     }
                     if (num3 > num)
                     {
+                        // ReSharper disable once SwapViaDeconstruction
                         float num5 = num;
                         num = num3;
                         num3 = num5;
@@ -224,12 +226,14 @@ public class TileUtil
                     float num3 = (float)(int)tileColor.B / 255f;
                     if (num2 > num)
                     {
+                        // ReSharper disable once SwapViaDeconstruction
                         float num4 = num;
                         num = num2;
                         num2 = num4;
                     }
                     if (num3 > num)
                     {
+                        // ReSharper disable once SwapViaDeconstruction
                         float num5 = num;
                         num = num3;
                         num3 = num5;
@@ -283,6 +287,7 @@ public class TileUtil
         wallLookup = (ushort[])((ushort[])typeof(Terraria.Map.MapHelper).GetField("wallLookup", BindingFlags.Static | BindingFlags.Public)!.GetValue(null)!).Clone();
         tileLookup = (ushort[])((ushort[])typeof(Terraria.Map.MapHelper).GetField("tileLookup", BindingFlags.Static | BindingFlags.Public)!.GetValue(null)!).Clone();
     }
+
     private static void LoadDefaultData()
     {
         TileColor = new Color[tileLookup.Length];

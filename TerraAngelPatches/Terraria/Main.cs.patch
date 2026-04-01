@@ -986,6 +986,19 @@
      private static void OnSubmitServerPasswordFromRequest(string passwordCandidate)
      {
          Netplay.ServerPassword = passwordCandidate;
+@@ -54040,6 +_,12 @@
+             tServer.StartInfo.FileName = "TerrariaServer.exe";
+         }
+ 
++        if (SteamLocator.TryFindTerrariaDirectory(out string? foundSteamPath))
++        {
++            tServer.StartInfo.FileName = Path.Combine(foundSteamPath, tServer.StartInfo.FileName);
++            tServer.StartInfo.WorkingDirectory = foundSteamPath;
++        }
++
+         tServer.StartInfo.Arguments = text;
+         if (libPath != "")
+         {
 @@ -54366,48 +_,6 @@
          }
      }

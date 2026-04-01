@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
@@ -18,7 +19,7 @@ public static class SteamLocator
 
     private readonly static Regex SteamManifestInstallDirRegex = new Regex(@"""installdir""[^\S\r\n]+""([^\r\n]+)""", RegexOptions.Compiled);
 
-    public static bool TryFindTerrariaDirectory(out string? path)
+    public static bool TryFindTerrariaDirectory([NotNullWhen(true)] out string? path)
     {
         if (TryGetSteamDirectory(out string? steamDirectory) && TryGetTerrariaDirectoryFromSteam(steamDirectory!, out path))
         {
@@ -30,7 +31,7 @@ public static class SteamLocator
         return false;
     }
 
-    public static bool TryGetTerrariaDirectoryFromSteam(string steamDirectory, out string? path)
+    public static bool TryGetTerrariaDirectoryFromSteam(string steamDirectory, [NotNullWhen(true)] out string? path)
     {
         string steamApps = Path.Combine(steamDirectory, "steamapps");
 
