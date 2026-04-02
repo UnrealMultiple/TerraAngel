@@ -403,6 +403,14 @@
                          {
                              item.stack--;
                          }
+@@ -54536,6 +_,7 @@
+             {
+                 if (Main.projectile[i].active && Main.projectile[i].owner == whoAmI && Main.projectile[i].minion && Main.projectile[i].type == sItem.shoot)
+                 {
++                    if (!TerraAngel.Tools.ToolManager.GetTool<InfiniteMinionTool>().Enabled)
+                     Main.projectile[i].Kill();
+                 }
+             }
 @@ -59196,8 +_,6 @@
          usedGummyWorm = false;
          usedAmbrosia = false;

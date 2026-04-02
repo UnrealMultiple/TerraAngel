@@ -15,13 +15,18 @@ namespace TerraAngel.Graphics;
 
 public class ClientRenderer : ImGuiRenderer
 {
-    public List<ClientWindow> ClientWindows = new List<ClientWindow>();
+    public List<ClientWindow> ClientWindows = [];
 
     public bool ShowMetricsWindow = false;
 
     public bool GlobalToggle = true;
 
-    public List<WorldEdit> WorldEdits = new List<WorldEdit>() { new WorldEditBrush(), new WorldEditCopyPaste() };
+    public List<WorldEdit> WorldEdits =
+    [
+        new WorldEditBrush(),
+        new WorldEditCopyPaste(),
+        new WorldEditPixelArt()
+    ];
 
     public int CurrentWorldEditIndex = -1;
 
