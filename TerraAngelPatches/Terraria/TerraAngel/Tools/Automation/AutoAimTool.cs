@@ -37,13 +37,13 @@ public class AutoAimTool : Tool
         LowestHP
     }
 
-    public string[] TargetPriorityStrings =
+    public static readonly string[] TargetPriorityStrings =
     [
-        "Closest",
-        "Highest Max HP",
-        "Lowest Max HP",
-        "Highest HP",
-        "Lowest HP",
+        GetString("Closest"),
+        GetString("Highest Max HP"),
+        GetString("Lowest Max HP"),
+        GetString("Highest HP"),
+        GetString("Lowest HP")
     ];
 
 
@@ -108,7 +108,7 @@ public class AutoAimTool : Tool
                 {
                     ImGui.Indent();
                     ImGui.Checkbox(GetString("Favor Bosses"), ref FavorBosses);
-                    ImGui.Combo("Target Priority", ref Unsafe.As<TargetPriority, int>(ref TargetPriorityMode), TargetPriorityStrings, TargetPriorityStrings.Length);
+                    ImGui.Combo(GetString("Target Priority"), ref Unsafe.As<TargetPriority, int>(ref TargetPriorityMode), TargetPriorityStrings, TargetPriorityStrings.Length);
                     ImGui.Unindent();
                 }
 

@@ -409,10 +409,8 @@ public static class ImGuiUtil
 
     public static void DrawNPCDelayLoad(int id)
     {
-        // TODO: negative ids
-        if (id < 0)
-            return;
-
+        id = NPCID.FromNetId(id);
+        
         if (NPCImages[id] == IntPtr.Zero && !NPCIdsToLoad.Contains(id))
         {
             NPCIdsToLoad.Enqueue(id);
