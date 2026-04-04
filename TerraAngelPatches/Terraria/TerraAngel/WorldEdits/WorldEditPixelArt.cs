@@ -22,6 +22,7 @@ public class WorldEditPixelArt : WorldEdit
 
     private string? _pendingPath;
     private Color[,]? _imageData;
+    private Color[,]? _displayImageData;
     private Texture2D? _selectedTexture;
     private IntPtr _selectedTextureId = IntPtr.Zero;
 
@@ -29,18 +30,15 @@ public class WorldEditPixelArt : WorldEdit
     private int _targetHeight = 200;
     private int _originalWidth;
     private int _originalHeight;
-    private bool _sizeChanged = false;
     private bool _isFirstLoad = true;
 
     private bool _enableDithering = true;
-    private ColorMatchAlgorithm _algorithm = ColorMatchAlgorithm.LabDeltaE;
-    private readonly Dictionary<uint, TileColor> _colorCache = new();
+    private ColorMatchAlgorithm _algorithm = ColorMatchAlgorithm.RgbDistance;
+    private readonly Dictionary<uint, TileColor> _colorCache = [];
 
-    public enum ColorMatchAlgorithm
-    {
-        LabDeltaE,
-        RgbDistance
-    }
+    private float _rotationDegrees;
+
+    public enum ColorMatchAlgorithm { LabDeltaE, RgbDistance }
 
     public TileColor FindClosest(Color target)
     {
@@ -48,11 +46,9 @@ public class WorldEditPixelArt : WorldEdit
         if (_colorCache.TryGetValue(key, out var cached))
             return cached;
 
-        TileColor closest = _algorithm switch
-        {
-            ColorMatchAlgorithm.RgbDistance => FindClosestRgb(target),
-            _ => FindClosestLab(target)
-        };
+        TileColor closest = _algorithm == ColorMatchAlgorithm.RgbDistance
+            ? FindClosestRgb(target)
+            : FindClosestLab(target);
 
         _colorCache[key] = closest;
         return closest;
@@ -75,14 +71,12 @@ public class WorldEditPixelArt : WorldEdit
                 closest = colors[i];
             }
         }
-
         return closest;
     }
 
     private static TileColor FindClosestRgb(Color target)
     {
         var colors = TileColorData.Colors;
-
         TileColor closest = colors[0];
         double minDistance = RgbDistance(target, colors[0].Color);
 
@@ -95,15 +89,12 @@ public class WorldEditPixelArt : WorldEdit
                 closest = colors[i];
             }
         }
-
         return closest;
     }
 
     private static double RgbDistance(Color a, Color b)
     {
-        int dr = a.R - b.R;
-        int dg = a.G - b.G;
-        int db = a.B - b.B;
+        int dr = a.R - b.R, dg = a.G - b.G, db = a.B - b.B;
         return dr * dr + dg * dg + db * db;
     }
 
@@ -117,7 +108,6 @@ public class WorldEditPixelArt : WorldEdit
         CheckAndLoadImage();
         DrawControls();
         DrawImagePreview();
-
         ImGui.EndTabItem();
         return true;
     }
@@ -129,7 +119,7 @@ public class WorldEditPixelArt : WorldEdit
 
         if (ImGui.Button(GetString("Select Image")))
             OpenFileDialog();
-
+        ImGui.SameLine();
         if (ImGui.Button(GetString("Clear Selection")))
             ClearSelection();
 
@@ -143,63 +133,69 @@ public class WorldEditPixelArt : WorldEdit
         }
 
         ImGui.Checkbox(GetString("Enable Dithering"), ref _enableDithering);
-        if (_enableDithering)
+
+        if (_imageData == null) return;
+
+        ImGui.Text($"Original: {_originalWidth}x{_originalHeight}");
+        ImGui.Text($"Target: {_targetWidth}x{_targetHeight}");
+
+        int newWidth = _targetWidth, newHeight = _targetHeight;
+        if (ImGui.InputInt(GetString("Width"), ref newWidth) && newWidth > 0)
+            _targetWidth = newWidth;
+        if (ImGui.InputInt(GetString("Height"), ref newHeight) && newHeight > 0)
+            _targetHeight = newHeight;
+
+        if (ImGui.Button(GetString("Apply Resize")))
+            ReloadAndProcessImage(false);
+
+        ImGui.Separator();
+        ImGui.Text(GetString("Rotation"));
+
+        float rotation = _rotationDegrees;
+        if (ImGui.SliderFloat(GetString("Degrees"), ref rotation, 0f, 360f))
         {
-            ImGuiUtil.HelpMarker(GetString("Dithering creates the illusion of more colors by diffusing errors to neighboring pixels."));
+            _rotationDegrees = rotation;
+            UpdateDisplayRotation();
         }
 
-        if (_imageData != null)
+        if (ImGui.Button(GetString("Rotate 90°")))
         {
-            ImGui.Text(GetString($"Original: {_originalWidth}x{_originalHeight}"));
-            ImGui.Text(GetString($"Target: {_targetWidth}x{_targetHeight}"));
-
-            int newWidth = _targetWidth;
-            int newHeight = _targetHeight;
-
-            if (ImGui.InputInt(GetString("Width"), ref newWidth))
-            {
-                if (newWidth > 0)
-                {
-                    _targetWidth = newWidth;
-                    _sizeChanged = true;
-                }
-            }
-
-            if (ImGui.InputInt(GetString("Height"), ref newHeight))
-            {
-                if (newHeight > 0)
-                {
-                    _targetHeight = newHeight;
-                    _sizeChanged = true;
-                }
-            }
-
-            if (_sizeChanged && ImGui.Button(GetString("Apply Resize")))
-            {
-                ReloadImageWithNewSize();
-                _sizeChanged = false;
-            }
+            _rotationDegrees = (_rotationDegrees + 90f) % 360f;
+            UpdateDisplayRotation();
         }
+        ImGui.SameLine();
+        if (ImGui.Button(GetString("Rotate -90°")))
+        {
+            _rotationDegrees = (_rotationDegrees - 90f + 360f) % 360f;
+            UpdateDisplayRotation();
+        }
+        ImGui.SameLine();
+        if (ImGui.Button(GetString("Reset")))
+        {
+            _rotationDegrees = 0f;
+            UpdateDisplayRotation();
+        }
+
+        if (ImGui.Button(GetString("Apply Rotation")))
+            ApplyRotationToWorld();
 
         ImGui.Text(GetString($"File: {SelectedPath}"));
     }
 
     private void DrawImagePreview()
     {
-        if (_selectedTextureId == IntPtr.Zero || _imageData == null)
+        if (_selectedTextureId == IntPtr.Zero || _displayImageData == null)
             return;
 
         Vector2 contentAvail = ImGui.GetContentRegionAvail();
-        var height = _imageData.GetLength(1) * contentAvail.X / _imageData.GetLength(0);
+        var height = _displayImageData.GetLength(1) * contentAvail.X / _displayImageData.GetLength(0);
         ImGui.Image(_selectedTextureId, new Vector2(contentAvail.X, height));
     }
 
     public override void DrawPreviewInWorld(ImGuiIOPtr io, ImDrawListPtr drawList)
     {
         UpdateCopiedSection();
-
-        if (CopiedSection == null)
-            return;
+        if (CopiedSection == null) return;
 
         Vector2 tileMouse = GetTileMousePosition(io, false);
         Renderer.DrawDetailed(CopiedSection, Util.WorldToScreenWorld(tileMouse * 16f), Vector2.Zero, io.DisplaySize, false);
@@ -209,9 +205,7 @@ public class WorldEditPixelArt : WorldEdit
     public override void DrawPreviewInMap(ImGuiIOPtr io, ImDrawListPtr drawList)
     {
         UpdateCopiedSection();
-
-        if (CopiedSection == null)
-            return;
+        if (CopiedSection == null) return;
 
         Vector2 tileMouse = GetTileMousePosition(io, true);
         Renderer.DrawPrimitiveMap(CopiedSection, tileMouse * 16f, Vector2.Zero, io.DisplaySize, false);
@@ -223,28 +217,27 @@ public class WorldEditPixelArt : WorldEdit
         if (_imageData == null || CopiedSection != null)
             return;
 
-        int width = _imageData.GetLength(0);
-        int height = _imageData.GetLength(1);
+        int width = _imageData.GetLength(0), height = _imageData.GetLength(1);
         CopiedSection = new TileSection(width, height);
 
         if (_enableDithering)
-        {
             ApplyFloydSteinbergDithering(width, height);
-        }
         else
-        {
-            for (int y = 0; y < height && y < CopiedSection.Height; y++)
-            {
-                for (int x = 0; x < width && x < CopiedSection.Width; x++)
-                {
-                    if (x < _imageData.GetLength(0) && y < _imageData.GetLength(1))
-                    {
-                        TileColor tileColor = FindClosest(_imageData[x, y]);
-                        SetTileData(x, y, tileColor);
-                    }
-                }
-            }
-        }
+            ProcessPixelsWithoutDithering(width, height);
+    }
+
+    private void ProcessPixelsWithoutDithering(int width, int height)
+    {
+        for (int y = 0; y < height && y < CopiedSection!.Height; y++)
+            for (int x = 0; x < width && x < CopiedSection.Width; x++)
+                ProcessPixel(x, y);
+    }
+
+    private void ProcessPixel(int x, int y)
+    {
+        Color pixelColor = _imageData![x, y];
+        if (pixelColor.A < 128) return;
+        SetTileData(x, y, FindClosest(pixelColor));
     }
 
     private void ApplyFloydSteinbergDithering(int width, int height)
@@ -258,17 +251,14 @@ public class WorldEditPixelArt : WorldEdit
         {
             for (int x = 0; x < width; x++)
             {
-                if (x >= _imageData.GetLength(0) || y >= _imageData.GetLength(1))
-                    continue;
-
-                Color originalColor = _imageData[x, y];
+                Color originalColor = _imageData![x, y];
+                if (originalColor.A < 128) continue;
 
                 double r = Clamp(originalColor.R + errorBuffer[x, y, 0], 0, 255);
                 double g = Clamp(originalColor.G + errorBuffer[x, y, 1], 0, 255);
                 double b = Clamp(originalColor.B + errorBuffer[x, y, 2], 0, 255);
 
                 var adjustedColor = new Color((byte)r, (byte)g, (byte)b, originalColor.A);
-
                 TileColor tileColor = FindClosest(adjustedColor);
                 SetTileData(x, y, tileColor);
 
@@ -283,21 +273,18 @@ public class WorldEditPixelArt : WorldEdit
                     errorBuffer[x + 1, y, 1] += errorG * 7 / 16.0;
                     errorBuffer[x + 1, y, 2] += errorB * 7 / 16.0;
                 }
-
                 if (x - 1 >= 0 && y + 1 < height)
                 {
                     errorBuffer[x - 1, y + 1, 0] += errorR * 3 / 16.0;
                     errorBuffer[x - 1, y + 1, 1] += errorG * 3 / 16.0;
                     errorBuffer[x - 1, y + 1, 2] += errorB * 3 / 16.0;
                 }
-
                 if (y + 1 < height)
                 {
                     errorBuffer[x, y + 1, 0] += errorR * 5 / 16.0;
                     errorBuffer[x, y + 1, 1] += errorG * 5 / 16.0;
                     errorBuffer[x, y + 1, 2] += errorB * 5 / 16.0;
                 }
-
                 if (x + 1 < width && y + 1 < height)
                 {
                     errorBuffer[x + 1, y + 1, 0] += errorR * 1 / 16.0;
@@ -323,12 +310,12 @@ public class WorldEditPixelArt : WorldEdit
             ? Util.ScreenToWorldFullscreenMap(InputSystem.MousePosition)
             : Util.ScreenToWorldWorld(InputSystem.MousePosition);
         return (worldMouse / 16f).Floor();
+
     }
 
     private void DrawSelectionRect(ImDrawListPtr drawList, Vector2 tileMouse, bool isMap)
     {
-        if (CopiedSection == null)
-            return;
+        if (CopiedSection == null) return;
 
         Vector2 start = tileMouse * 16f;
         Vector2 end = start + new Vector2(CopiedSection.Width, CopiedSection.Height) * 16f;
@@ -341,60 +328,53 @@ public class WorldEditPixelArt : WorldEdit
 
     public override void Edit(Vector2 cursorTilePosition)
     {
-        if (CopiedSection == null)
-            return;
-
+        if (CopiedSection == null) return;
         PastePixelArt(cursorTilePosition);
     }
 
     private void PastePixelArt(Vector2 originTile)
     {
         originTile = originTile.Floor();
-        int originX = (int)originTile.X;
-        int originY = (int)originTile.Y;
+        int originX = (int)originTile.X, originY = (int)originTile.Y;
 
         Task.Run(() =>
         {
             for (int y = 0; y < CopiedSection!.Height; y++)
-            {
                 for (int x = 0; x < CopiedSection.Width; x++)
-                {
-                    int worldX = originX + x;
-                    int worldY = originY + y;
-
-                    if (!WorldGen.InWorld(worldX, worldY))
-                        continue;
-
-                    Tile tile = Main.tile[worldX, worldY];
-                    Tile copiedTile = CopiedSection.Tiles[x, y];
-
-                    if (tile == null || copiedTile == null)
-                        continue;
-
-                    tile.CopyFrom(copiedTile);
-
-                    if (tile.active())
-                    {
-                        NetMessage.SendData(MessageID.PaintTile, -1, -1, null, 1, worldX, worldY, tile.type);
-                    }
-                }
-            }
+                    PasteTile(x, y, originX, originY);
 
             for (int y = 0; y < CopiedSection.Height; y++)
-            {
                 for (int x = 0; x < CopiedSection.Width; x++)
-                {
-                    int worldX = originX + x;
-                    int worldY = originY + y;
-
-                    if (!WorldGen.InWorld(worldX, worldY))
-                        continue;
-
-                    WorldGen.SquareTileFrame(worldX, worldY);
-                    NetMessage.SendTileSquare(-1, worldX, worldY);
-                }
-            }
+                    FrameTile(x, y, originX, originY);
         });
+    }
+
+    private void PasteTile(int x, int y, int originX, int originY)
+    {
+        int worldX = originX + x, worldY = originY + y;
+        if (!WorldGen.InWorld(worldX, worldY)) return;
+
+        Tile tile = Main.tile[worldX, worldY];
+        Tile copiedTile = CopiedSection!.Tiles[x, y];
+
+        if (tile == null || copiedTile == null || !copiedTile.active()) return;
+
+        tile.CopyFrom(copiedTile);
+        if (tile.active())
+            NetMessage.SendData(MessageID.PaintTile, -1, -1, null, 1, worldX, worldY, tile.type);
+    }
+
+    private void FrameTile(int x, int y, int originX, int originY)
+    {
+        int worldX = originX + x, worldY = originY + y;
+        if (!WorldGen.InWorld(worldX, worldY)) return;
+
+        Tile copiedTile = CopiedSection!.Tiles[x, y];
+        if (copiedTile != null && copiedTile.active())
+        {
+            WorldGen.SquareTileFrame(worldX, worldY);
+            NetMessage.SendTileSquare(-1, worldX, worldY);
+        }
     }
 
     private void OpenFileDialog()
@@ -412,7 +392,6 @@ public class WorldEditPixelArt : WorldEdit
         SelectedPath = string.Empty;
         _pendingPath = null;
         _isFirstLoad = true;
-
         CleanupTexture();
         _colorCache.Clear();
     }
@@ -427,7 +406,6 @@ public class WorldEditPixelArt : WorldEdit
 
         string path = _pendingPath;
         _pendingPath = null;
-
         CleanupTexture();
 
         try
@@ -463,9 +441,10 @@ public class WorldEditPixelArt : WorldEdit
 
         _isFirstLoad = false;
         ProcessImageData(image);
+        _displayImageData = _imageData;
     }
 
-    private void ReloadImageWithNewSize()
+    private void ReloadAndProcessImage(bool applyRotation)
     {
         if (string.IsNullOrEmpty(SelectedPath) || !File.Exists(SelectedPath))
             return;
@@ -476,15 +455,95 @@ public class WorldEditPixelArt : WorldEdit
         try
         {
             using var image = Image.Load<Rgba32>(SelectedPath);
-
             image.Mutate(x => x.Resize(_targetWidth, _targetHeight));
+
+            if (applyRotation && _rotationDegrees != 0f)
+            {
+                image.Mutate(x => x.Rotate(_rotationDegrees));
+                _targetWidth = image.Width;
+                _targetHeight = image.Height;
+                CopiedSection = null;
+            }
+
             ProcessImageData(image);
+            _displayImageData = _imageData;
         }
         catch (Exception ex)
         {
             ClientLoader.Console.WriteError(GetString($"[{nameof(WorldEditPixelArt)}] Error: {ex}"));
             CleanupTexture();
         }
+    }
+
+    private void UpdateDisplayRotation() => RotateImage(false);
+    private void ApplyRotationToWorld() => RotateImage(true);
+
+    private void RotateImage(bool applyToWorld)
+    {
+        if (_imageData == null) return;
+
+        try
+        {
+            int width = _imageData.GetLength(0), height = _imageData.GetLength(1);
+            using var image = new Image<Rgba32>(width, height);
+
+            for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
+                {
+                    var c = _imageData[x, y];
+                    image[x, y] = new Rgba32(c.R, c.G, c.B, c.A);
+                }
+
+            if (_rotationDegrees != 0f)
+                image.Mutate(x => x.Rotate(_rotationDegrees));
+
+            if (applyToWorld)
+            {
+                _targetWidth = image.Width;
+                _targetHeight = image.Height;
+                CopiedSection = null;
+                _colorCache.Clear();
+                ProcessImageData(image);
+                _displayImageData = _imageData;
+            }
+            else
+            {
+                UpdateDisplayTexture(image);
+            }
+        }
+        catch (Exception ex)
+        {
+            ClientLoader.Console.WriteError(GetString($"[{nameof(WorldEditPixelArt)}] Error: {ex}"));
+        }
+    }
+
+    private void UpdateDisplayTexture(Image<Rgba32> image)
+    {
+        _displayImageData = new Color[image.Width, image.Height];
+        var textureData = new Color[image.Width * image.Height];
+
+        image.ProcessPixelRows(accessor =>
+        {
+            for (int y = 0; y < accessor.Height; y++)
+            {
+                var row = accessor.GetRowSpan(y);
+                for (int x = 0; x < accessor.Width; x++)
+                {
+                    ref var pixel = ref row[x];
+                    var color = new Color(pixel.R, pixel.G, pixel.B, pixel.A);
+                    _displayImageData[x, y] = color;
+                    textureData[y * accessor.Width + x] = color;
+                }
+            }
+        });
+
+        _selectedTexture?.Dispose();
+        _selectedTexture = new Texture2D(Main.graphics.GraphicsDevice, image.Width, image.Height);
+        _selectedTexture.SetData(textureData);
+
+        if (_selectedTextureId != IntPtr.Zero)
+            ClientLoader.MainRenderer!.UnbindTexture(_selectedTextureId);
+        _selectedTextureId = ClientLoader.MainRenderer!.BindTexture(_selectedTexture);
     }
 
     private void ProcessImageData(Image<Rgba32> image)
@@ -523,59 +582,49 @@ public class WorldEditPixelArt : WorldEdit
         _selectedTexture?.Dispose();
         _selectedTexture = null;
         _imageData = null;
+        _displayImageData = null;
         CopiedSection = null;
+        _rotationDegrees = 0f;
     }
 
     private static double[] ToLab(Color c) => XyzToLab(RgbToXyz(c));
 
     private static double DeltaE(double[] lab1, double[] lab2)
     {
-        double dL = lab1[0] - lab2[0];
-        double da = lab1[1] - lab2[1];
-        double db = lab1[2] - lab2[2];
+        double dL = lab1[0] - lab2[0], da = lab1[1] - lab2[1], db = lab1[2] - lab2[2];
         return Math.Sqrt(dL * dL + da * da + db * db);
     }
 
     private static double[] RgbToXyz(Color c)
     {
-        double r = c.R / 255.0;
-        double g = c.G / 255.0;
-        double b = c.B / 255.0;
+        double r = c.R / 255.0, g = c.G / 255.0, b = c.B / 255.0;
 
         r = r > 0.04045 ? Math.Pow((r + 0.055) / 1.055, 2.4) : r / 12.92;
         g = g > 0.04045 ? Math.Pow((g + 0.055) / 1.055, 2.4) : g / 12.92;
         b = b > 0.04045 ? Math.Pow((b + 0.055) / 1.055, 2.4) : b / 12.92;
 
-        double x = r * 0.4124564 + g * 0.3575761 + b * 0.1804375;
-        double y = r * 0.2126729 + g * 0.7151522 + b * 0.0721750;
-        double z = r * 0.0193339 + g * 0.1191920 + b * 0.9503041;
-
-        return new[] { x, y, z };
+        return [
+            r * 0.4124564 + g * 0.3575761 + b * 0.1804375,
+            r * 0.2126729 + g * 0.7151522 + b * 0.0721750,
+            r * 0.0193339 + g * 0.1191920 + b * 0.9503041
+        ];
     }
 
     private static double[] XyzToLab(double[] xyz)
     {
-        double x = xyz[0] / 0.95047;
-        double y = xyz[1];
-        double z = xyz[2] / 1.08883;
+        double x = xyz[0] / 0.95047, y = xyz[1], z = xyz[2] / 1.08883;
 
-        double F(double t) => t > 0.008856 ? Math.Pow(t, 1.0 / 3.0) : (7.787 * t + 16.0 / 116.0);
+        double F(double t) => t > 0.008856 ? Math.Pow(t, 1.0 / 3.0) : 7.787 * t + 16.0 / 116.0;
 
-        double fx = F(x);
         double fy = F(y);
-        double fz = F(z);
-
-        double L = 116 * fy - 16;
-        double a = 500 * (fx - fy);
-        double b = 200 * (fy - fz);
-
-        return new[] { L, a, b };
+        return [
+            116 * fy - 16,
+            500 * (F(x) - fy),
+            200 * (fy - F(z))
+        ];
     }
 
-    private static double Clamp(double value, double min, double max)
-    {
-        return Math.Max(min, Math.Min(max, value));
-    }
+    private static double Clamp(double value, double min, double max) => Math.Max(min, Math.Min(max, value));
 
     private static Action<List<string>>? _fileCallback;
 
@@ -597,8 +646,7 @@ public class WorldEditPixelArt : WorldEdit
             return;
         }
 
-        if (*fileListPtr == null)
-            return;
+        if (*fileListPtr == null) return;
 
         List<string> selected = new();
         for (var p = fileListPtr; *p != null; p++)
