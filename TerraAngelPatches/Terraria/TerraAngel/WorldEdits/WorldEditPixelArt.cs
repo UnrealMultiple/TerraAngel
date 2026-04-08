@@ -56,15 +56,15 @@ public class WorldEditPixelArt : WorldEdit
 
     private static TileColor FindClosestLab(Color target)
     {
-        double[] targetLab = ToLab(target);
+        double[] targetLab = ColorUtil.RgbToLab(target);
         var colors = TileColorData.Colors;
 
         TileColor closest = colors[0];
-        double minDistance = DeltaE(targetLab, colors[0].GetLab());
+        double minDistance = ColorUtil.DeltaE(targetLab, colors[0].GetLab());
 
         for (int i = 1; i < colors.Length; i++)
         {
-            double distance = DeltaE(targetLab, colors[i].GetLab());
+            double distance = ColorUtil.DeltaE(targetLab, colors[i].GetLab());
             if (distance < minDistance)
             {
                 minDistance = distance;
@@ -78,11 +78,11 @@ public class WorldEditPixelArt : WorldEdit
     {
         var colors = TileColorData.Colors;
         TileColor closest = colors[0];
-        double minDistance = RgbDistance(target, colors[0].Color);
+        double minDistance = ColorUtil.RgbDistance(target, colors[0].Color);
 
         for (int i = 1; i < colors.Length; i++)
         {
-            double distance = RgbDistance(target, colors[i].Color);
+            double distance = ColorUtil.RgbDistance(target, colors[i].Color);
             if (distance < minDistance)
             {
                 minDistance = distance;
@@ -90,12 +90,6 @@ public class WorldEditPixelArt : WorldEdit
             }
         }
         return closest;
-    }
-
-    private static double RgbDistance(Color a, Color b)
-    {
-        int dr = a.R - b.R, dg = a.G - b.G, db = a.B - b.B;
-        return dr * dr + dg * dg + db * db;
     }
 
     private static uint GetColorKey(Color c) => ((uint)c.R << 16) | ((uint)c.G << 8) | c.B;
@@ -585,43 +579,6 @@ public class WorldEditPixelArt : WorldEdit
         _displayImageData = null;
         CopiedSection = null;
         _rotationDegrees = 0f;
-    }
-
-    private static double[] ToLab(Color c) => XyzToLab(RgbToXyz(c));
-
-    private static double DeltaE(double[] lab1, double[] lab2)
-    {
-        double dL = lab1[0] - lab2[0], da = lab1[1] - lab2[1], db = lab1[2] - lab2[2];
-        return Math.Sqrt(dL * dL + da * da + db * db);
-    }
-
-    private static double[] RgbToXyz(Color c)
-    {
-        double r = c.R / 255.0, g = c.G / 255.0, b = c.B / 255.0;
-
-        r = r > 0.04045 ? Math.Pow((r + 0.055) / 1.055, 2.4) : r / 12.92;
-        g = g > 0.04045 ? Math.Pow((g + 0.055) / 1.055, 2.4) : g / 12.92;
-        b = b > 0.04045 ? Math.Pow((b + 0.055) / 1.055, 2.4) : b / 12.92;
-
-        return [
-            r * 0.4124564 + g * 0.3575761 + b * 0.1804375,
-            r * 0.2126729 + g * 0.7151522 + b * 0.0721750,
-            r * 0.0193339 + g * 0.1191920 + b * 0.9503041
-        ];
-    }
-
-    private static double[] XyzToLab(double[] xyz)
-    {
-        double x = xyz[0] / 0.95047, y = xyz[1], z = xyz[2] / 1.08883;
-
-        double F(double t) => t > 0.008856 ? Math.Pow(t, 1.0 / 3.0) : 7.787 * t + 16.0 / 116.0;
-
-        double fy = F(y);
-        return [
-            116 * fy - 16,
-            500 * (F(x) - fy),
-            200 * (fy - F(z))
-        ];
     }
 
     private static double Clamp(double value, double min, double max) => Math.Max(min, Math.Min(max, value));
