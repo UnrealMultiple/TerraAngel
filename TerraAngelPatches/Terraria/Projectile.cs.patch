@@ -1,5 +1,13 @@
 --- src/Terraria/Terraria/Projectile.cs
 +++ src/TerraAngel/Terraria/Projectile.cs
+@@ -3,6 +_,7 @@
+ using Microsoft.Xna.Framework;
+ using Microsoft.Xna.Framework.Audio;
+ using ReLogic.Utilities;
++using TerraAngel.Tools.Exploit;
+ using Terraria.Audio;
+ using Terraria.Chat;
+ using Terraria.DataStructures;
 @@ -20118,6 +_,7 @@
              flag = true;
          }
@@ -64,6 +72,72 @@
              rotation = rotation.AngleLerp(idleRotation3, 0.45f);
              if (Main.rand.Next(20) == 0)
              {
+@@ -68518,7 +_,17 @@
+                 num37 = 5f;
+             }
+ 
++            if (ToolManager.GetTool<TerrariaPrismTool>().IsToolProjectile(whoAmI))
++            {
++                if (velocity == Vector2.Zero)
++                {
++                    velocity = -Vector2.UnitY;
++                }
++            }
++            else
++            {
+-            damage = (int)((float)player.inventory[player.selectedItem].damage * player.magicDamage);
++                damage = (int)((float)player.inventory[player.selectedItem].damage * player.magicDamage);
++            }
+             ai[0] += 1f;
+             ai[1] += 1f;
+             bool flag8 = false;
+@@ -68538,7 +_,7 @@
+             {
+                 ai[1] = 0f;
+                 flag9 = true;
+-                if (Main.myPlayer == owner)
++                if (Main.myPlayer == owner && !ToolManager.GetTool<TerrariaPrismTool>().IsToolProjectile(whoAmI))
+                 {
+                     float num39 = player.inventory[player.selectedItem].shootSpeed * scale;
+                     Vector2 vector18 = vector;
+@@ -68588,20 +_,33 @@
+ 
+             if (flag9 && Main.myPlayer == owner)
+             {
+-                bool flag10 = false;
+-                flag10 = !flag8 || player.CheckMana(player.inventory[player.selectedItem].mana, pay: true);
+-                if (player.channel && flag10 && !player.noItems && !player.CCed)
++                bool flag10 = !flag8 || player.CheckMana(player.inventory[player.selectedItem].mana, pay: true);
++                if (ToolManager.GetTool<TerrariaPrismTool>().IsToolProjectile(whoAmI))
++                {
++                    if (ai[0] == 181f)
++                    {
++                        Vector2 center2 = base.Center;
++                        int num41 = damage;
++                        for (int m = 0; m < 6; m++)
++                        {
++                            var index = NewProjectile(GetProjectileSource_FromThis(), center2.X, center2.Y, velocity.X, velocity.Y, 632, num41, knockBack, owner, m, whoAmI);
++                            Main.projectile[index].timeLeft = int.MaxValue;
++                        }
++                        netUpdate = true;
++                    }
++                }
++                else if (player.channel && flag10 && !player.noItems && !player.CCed)
+                 {
+                     if (ai[0] == 1f)
+                     {
+                         Vector2 center2 = base.Center;
++                        int num41 = damage;
+                         Vector2 vector19 = Vector2.Normalize(velocity);
+                         if (float.IsNaN(vector19.X) || float.IsNaN(vector19.Y))
+                         {
+                             vector19 = -Vector2.UnitY;
+                         }
+ 
+-                        int num41 = damage;
+                         for (int m = 0; m < 6; m++)
+                         {
+                             NewProjectile(GetProjectileSource_FromThis(), center2.X, center2.Y, vector19.X, vector19.Y, 632, num41, knockBack, owner, m, whoAmI);
 @@ -79444,7 +_,7 @@
                                  Vector2 value13 = vector73.RotatedBy(((num904 == 0) ? 1f : (-1f)) * ((float)Math.PI * 2f) / (num899 * 2f));
                                  for (float num905 = 0f; num905 < num902; num905++)
