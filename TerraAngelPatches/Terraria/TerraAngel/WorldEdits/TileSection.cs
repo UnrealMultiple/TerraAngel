@@ -93,22 +93,29 @@ public class TileSectionRenderer
         Rectangle tileRectCache = new Rectangle(0, 0, 16, 16);
         Rectangle wallRectCache = new Rectangle(0, 0, 32, 32);
 
-
+        // origin is now (origin) - (Main.screenPosition) [in world coord]
         origin = Vector2.Transform(origin, Main.GameViewMatrix.InverseZoomMatrix);
+
+        // convert from [screen coord] to [world coord]
+        clipRectMin = Util.ScreenToWorldWorld(clipRectMin);
+        clipRectMax = Util.ScreenToWorldWorld(clipRectMax);
+
+        // originInWorld is (origin) [in world coord]
+        var originInWorld = origin + Main.screenPosition;
+        var clippedMinX = Math.Clamp((int)Math.Floor((clipRectMin.X - originInWorld.X) / 16f) - 1, 0, section.Width);
+        var clippedMinY = Math.Clamp((int)Math.Floor((clipRectMin.Y - originInWorld.Y) / 16f) - 1, 0, section.Height);
+        var clippedMaxX = Math.Clamp((int)Math.Ceiling((clipRectMax.X - originInWorld.X) / 16f), 0, section.Width);
+        var clippedMaxY = Math.Clamp((int)Math.Ceiling((clipRectMax.Y - originInWorld.Y) / 16f), 0, section.Height);
 
         sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
         // empty tile pass
         if (showEmptyTile)
         {
-            for (int x = 0; x < section.Width; x++)
+            for (var x = clippedMinX; x < clippedMaxX; x++)
             {
-                for (int y = 0; y < section.Height; y++)
+                for (var y = clippedMinY; y < clippedMaxY; y++)
                 {
                     if (section.Tiles[x, y].Data == null)
-                        continue;
-
-                    if ((x * 16 + origin.X + 16f) < clipRectMin.X || (x + origin.X) > clipRectMax.X ||
-                        (y * 16 + origin.Y + 16f) < clipRectMin.Y || (y + origin.Y) > clipRectMax.Y)
                         continue;
 
                     Tile tile = section.Tiles[x, y];
@@ -121,15 +128,11 @@ public class TileSectionRenderer
             }
         }
         // wall pass
-        for (int x = 0; x < section.Width; x++)
+        for (var x = clippedMinX; x < clippedMaxX; x++)
         {
-            for (int y = 0; y < section.Height; y++)
+            for (var y = clippedMinY; y < clippedMaxY; y++)
             {
                 if (section.Tiles[x, y].Data == null)
-                    continue;
-
-                if ((x * 16 + origin.X + 16f) < clipRectMin.X || (x + origin.X) > clipRectMax.X ||
-                    (y * 16 + origin.Y + 16f) < clipRectMin.Y || (y + origin.Y) > clipRectMax.Y)
                     continue;
 
                 Tile tile = section.Tiles[x, y];
@@ -147,15 +150,11 @@ public class TileSectionRenderer
             }
         }
         // tile pass
-        for (int x = 0; x < section.Width; x++)
+        for (var x = clippedMinX; x < clippedMaxX; x++)
         {
-            for (int y = 0; y < section.Height; y++)
+            for (var y = clippedMinY; y < clippedMaxY; y++)
             {
                 if (section.Tiles[x, y].Data == null)
-                    continue;
-
-                if ((x * 16 + origin.X + 16f) < clipRectMin.X || (x + origin.X) > clipRectMax.X ||
-                    (y * 16 + origin.Y + 16f) < clipRectMin.Y || (y + origin.Y) > clipRectMax.Y)
                     continue;
 
                 Tile tile = section.Tiles[x, y];
@@ -184,42 +183,46 @@ public class TileSectionRenderer
 
         Rectangle rectCache = new Rectangle(0, 0, 1, 1);
 
+        // origin is now (origin) - (Main.screenPosition) [in world coord]
         origin = Vector2.Transform(origin, Main.GameViewMatrix.InverseZoomMatrix);
+
+        // convert from [screen coord] to [world coord]
+        clipRectMin = Util.ScreenToWorldWorld(clipRectMin);
+        clipRectMax = Util.ScreenToWorldWorld(clipRectMax);
+
+        // originInWorld is (origin) [in world coord]
+        var originInWorld = origin + Main.screenPosition;
+        var clippedMinX = Math.Clamp((int)Math.Floor((clipRectMin.X - originInWorld.X) / 16f) - 1, 0, section.Width);
+        var clippedMinY = Math.Clamp((int)Math.Floor((clipRectMin.Y - originInWorld.Y) / 16f) - 1, 0, section.Height);
+        var clippedMaxX = Math.Clamp((int)Math.Ceiling((clipRectMax.X - originInWorld.X) / 16f), 0, section.Width);
+        var clippedMaxY = Math.Clamp((int)Math.Ceiling((clipRectMax.Y - originInWorld.Y) / 16f), 0, section.Height);
 
         sb.Begin(SpriteSortMode.Deferred, showEmptyTile ? BlendState.AlphaBlend : BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
         // empty tile pass
         if (showEmptyTile)
         {
-            for (int x = 0; x < section.Width; x++)
+            for (var x = clippedMinX; x < clippedMaxX; x++)
             {
-                for (int y = 0; y < section.Height; y++)
+                for (var y = clippedMinY; y < clippedMaxY; y++)
                 {
                     if (section.Tiles[x, y].Data == null)
-                        continue;
-
-                    if ((x * 16 + origin.X + 16f) < clipRectMin.X || (x + origin.X) > clipRectMax.X ||
-                        (y * 16 + origin.Y + 16f) < clipRectMin.Y || (y + origin.Y) > clipRectMax.Y)
                         continue;
 
                     Tile tile = section.Tiles[x, y];
 
                     if (!tile.active() && tile.wall == 0)
                     {
-                        sb.Draw(GraphicsUtility.BlankTexture, new Rectangle(((int)MathF.Ceiling(origin.X + x * 16)), ((int)MathF.Ceiling(origin.Y + y * 16f)), 16, 16), rectCache, new Color(0.5f, 0f, 0f, 0.5f));
+                        sb.Draw(GraphicsUtility.BlankTexture, new Rectangle((int)MathF.Ceiling(origin.X + x * 16), (int)MathF.Ceiling(origin.Y + y * 16f), 16, 16), rectCache, new Color(0.5f, 0f, 0f, 0.5f));
                     }
                 }
             }
         }
         // wall pass
-        for (int x = 0; x < section.Width; x++)
+        for (var x = clippedMinX; x < clippedMaxX; x++)
         {
-            for (int y = 0; y < section.Height; y++)
+            for (var y = clippedMinY; y < clippedMaxY; y++)
             {
                 if (section.Tiles[x, y].Data == null)
-                    continue;
-
-                if ((x * 16 + origin.X + 16f) < clipRectMin.X || (x + origin.X) > clipRectMax.X ||
-                    (y * 16 + origin.Y + 16f) < clipRectMin.Y || (y + origin.Y) > clipRectMax.Y)
                     continue;
 
                 Tile tile = section.Tiles[x, y];
@@ -231,15 +234,11 @@ public class TileSectionRenderer
             }
         }
         // tile pass
-        for (int x = 0; x < section.Width; x++)
+        for (var x = clippedMinX; x < clippedMaxX; x++)
         {
-            for (int y = 0; y < section.Height; y++)
+            for (var y = clippedMinY; y < clippedMaxY; y++)
             {
                 if (section.Tiles[x, y].Data == null)
-                    continue;
-
-                if ((x * 16 + origin.X + 16f) < clipRectMin.X || (x + origin.X) > clipRectMax.X ||
-                    (y * 16 + origin.Y + 16f) < clipRectMin.Y || (y + origin.Y) > clipRectMax.Y)
                     continue;
 
                 Tile tile = section.Tiles[x, y];
@@ -262,55 +261,62 @@ public class TileSectionRenderer
 
         Rectangle rectCache = new Rectangle(0, 0, 1, 1);
 
-        sb.Begin(SpriteSortMode.Deferred, showEmptyTile ? BlendState.AlphaBlend : BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone);
+        // convert to [world coord]
+        clipRectMin = Util.ScreenToWorldFullscreenMap(clipRectMin);
+        clipRectMax = Util.ScreenToWorldFullscreenMap(clipRectMax);
+
+        var clippedMinX = Math.Clamp((int)Math.Floor((clipRectMin.X - worldPoint.X) / 16f) - 1, 0, section.Width);
+        var clippedMinY = Math.Clamp((int)Math.Floor((clipRectMin.Y - worldPoint.Y) / 16f) - 1, 0, section.Height);
+        var clippedMaxX = Math.Clamp((int)Math.Ceiling((clipRectMax.X - worldPoint.X) / 16f), 0, section.Width);
+        var clippedMaxY = Math.Clamp((int)Math.Ceiling((clipRectMax.Y - worldPoint.Y) / 16f), 0, section.Height);
+
         if (showEmptyTile)
         {
-            Vector2 worldCoords = Util.WorldToScreenFullscreenMap(worldPoint);
-            Vector2 worldCoords2 = Util.WorldToScreenFullscreenMap(worldPoint + new Vector2(section.Width * 16f, section.Height * 16f));
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone);
 
-            worldCoords.X = Math.Max(worldCoords.X, clipRectMin.X);
-            worldCoords.Y = Math.Max(worldCoords.Y, clipRectMin.Y);
-            worldCoords2.X = Math.Min(worldCoords2.X, clipRectMax.X);
-            worldCoords2.Y = Math.Min(worldCoords2.Y, clipRectMax.Y);
+            // Top Left and Bottom Right
+            var worldTL = Util.WorldToScreenFullscreenMap(worldPoint + new Vector2(clippedMinX, clippedMinY) * 16); 
+            var worldBR = Util.WorldToScreenFullscreenMap(worldPoint + new Vector2(clippedMaxX, clippedMaxY) * 16);
 
-            Rectangle rect = new Rectangle(
-                (int)MathF.Ceiling(worldCoords.X),
-                (int)MathF.Ceiling(worldCoords.Y),
-                (int)MathF.Ceiling(worldCoords2.X - worldCoords.X),
-                (int)MathF.Ceiling(worldCoords2.Y - worldCoords.Y));
+            var rect = new Rectangle(
+                (int)MathF.Ceiling(worldTL.X),
+                (int)MathF.Ceiling(worldTL.Y),
+                (int)MathF.Ceiling(worldBR.X - worldTL.X),
+                (int)MathF.Ceiling(worldBR.Y - worldTL.Y));
 
             sb.Draw(GraphicsUtility.BlankTexture, rect, rectCache, new Color(0.5f, 0f, 0f, 0.5f));
+            sb.End();
         }
-        for (int x = 0; x < section.Width; x++)
+
+        sb.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone);
+        for (var x = clippedMinX; x < clippedMaxX; x++)
         {
-            for (int y = 0; y < section.Height; y++)
+            for (var y = clippedMinY; y < clippedMaxY; y++)
             {
                 if (section.Tiles[x, y].Data == null)
                     continue;
 
-                Vector2 worldCoords = Util.WorldToScreenFullscreenMap(worldPoint + new Vector2(x * 16f, y * 16f));
-                Vector2 worldCoords2 = Util.WorldToScreenFullscreenMap(worldPoint + new Vector2(x * 16f + 16f, y * 16f + 16f));
-
-                if (worldCoords.X < clipRectMin.X || worldCoords2.X > clipRectMax.X ||
-                    worldCoords.Y < clipRectMin.Y || worldCoords2.Y > clipRectMax.Y)
-                    continue;
+                // Top Left and Bottom Right
+                Vector2 worldTL = Util.WorldToScreenFullscreenMap(worldPoint + new Vector2(x * 16f, y * 16f));
+                Vector2 worldBR = Util.WorldToScreenFullscreenMap(worldPoint + new Vector2(x * 16f + 16f, y * 16f + 16f));
 
                 Tile tile = section.Tiles[x, y];
 
                 Rectangle rect = new Rectangle(
-                    (int)MathF.Ceiling(worldCoords.X),
-                    (int)MathF.Ceiling(worldCoords.Y),
-                    (int)MathF.Ceiling(worldCoords2.X - worldCoords.X),
-                    (int)MathF.Ceiling(worldCoords2.Y - worldCoords.Y));
-
-                if (tile.wall != 0)
-                {
-                    sb.Draw(GraphicsUtility.BlankTexture, rect, rectCache, TileUtil.GetWallColor(tile.wall, tile.wallColor()));
-                }
+                    (int)MathF.Ceiling(worldTL.X),
+                    (int)MathF.Ceiling(worldTL.Y),
+                    (int)MathF.Ceiling(worldBR.X - worldTL.X),
+                    (int)MathF.Ceiling(worldBR.Y - worldTL.Y));
 
                 if (tile.active())
                 {
                     sb.Draw(GraphicsUtility.BlankTexture, rect, rectCache, TileUtil.GetTileColor(tile.type, tile.color()));
+                    continue;
+                }
+
+                if (tile.wall != 0)
+                {
+                    sb.Draw(GraphicsUtility.BlankTexture, rect, rectCache, TileUtil.GetWallColor(tile.wall, tile.wallColor()));
                 }
             }
         }
