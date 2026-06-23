@@ -21,6 +21,11 @@ public class WorldEditCopyPaste : WorldEdit
     private int CurrentPlaceMode = 0;
     private bool DestroyTiles = false;
 
+    public void PreUpdate()
+    {
+        Renderer.PreUpdate();
+    }
+
     public override void DrawPreviewInMap(ImGuiIOPtr io, ImDrawListPtr drawList)
     {
         Vector2 worldMouse = Util.ScreenToWorldFullscreenMap(InputSystem.MousePosition);
@@ -52,7 +57,7 @@ public class WorldEditCopyPaste : WorldEdit
         {
             if (CopiedSection is not null)
             {
-                Renderer.DrawPrimitiveMap(CopiedSection, tileMouse * 16f, Vector2.Zero, io.DisplaySize, DestroyTiles);
+                Renderer.DrawPrimitiveMap(CopiedSection, tileMouse * 16f, Vector2.Zero, io.DisplaySize, DestroyTiles, enableCaching: true);
 
                 drawList.AddRect(Util.WorldToScreenFullscreenMap(tileMouse * 16f), Util.WorldToScreenFullscreenMap((tileMouse + new Vector2(CopiedSection.Width, CopiedSection.Height)) * 16f), Color.LimeGreen.PackedValue, 0f, ImDrawFlags.None, 2f);
             }
@@ -161,7 +166,6 @@ public class WorldEditCopyPaste : WorldEdit
             }
         });
     }
-
 
     private void EditSendTileManipulation(Vector2 originTile)
     {
@@ -308,7 +312,6 @@ public class WorldEditCopyPaste : WorldEdit
         });
     }
 
-
     public void Copy(Vector2 startTile, Vector2 endTile)
     {
         float width = endTile.X - startTile.X;
@@ -326,6 +329,7 @@ public class WorldEditCopyPaste : WorldEdit
         // if (width * height <= 0) return;
 
         CopiedSection = new TileSection(((int)startTile.X), ((int)startTile.Y), ((int)width), ((int)height));
+        Renderer.InvalidateDrawPrimitiveMapCache();
     }
 
     private static (Vector2 vectl, Vector2 vecbr) ToInclusiveSelection(Vector2 vec1, Vector2 vec2)

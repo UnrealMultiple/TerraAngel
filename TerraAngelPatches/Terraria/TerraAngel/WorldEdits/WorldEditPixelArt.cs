@@ -96,6 +96,11 @@ public class WorldEditPixelArt : WorldEdit
 
     #endregion
 
+    public void PreUpdate()
+    {
+        Renderer.PreUpdate();
+    }
+
     public override bool DrawUITab(ImGuiIOPtr io)
     {
         if (!ImGui.BeginTabItem(GetString("Pixel Art")))
@@ -253,7 +258,7 @@ public class WorldEditPixelArt : WorldEdit
             return;
 
         Vector2 tileMouse = (Util.ScreenToWorldDynamic(InputSystem.MousePosition) / 16f).Floor();
-        Renderer.DrawPrimitiveMap(CopiedSection, tileMouse * 16f, Vector2.Zero, io.DisplaySize, false);
+        Renderer.DrawPrimitiveMap(CopiedSection, tileMouse * 16f, Vector2.Zero, io.DisplaySize, false, enableCaching: true);
         DrawSelectionRect(drawList, tileMouse, true);
     }
 
@@ -599,7 +604,11 @@ public class WorldEditPixelArt : WorldEdit
         _targetRotation = 0f;
     }
 
-    private void InvalidateCopiedSection() => CopiedSection = null;
+    private void InvalidateCopiedSection()
+    {
+        CopiedSection = null;
+        Renderer.InvalidateDrawPrimitiveMapCache();
+    }
     private void InvalidateColorCache() => _colorCache.Clear();
 
     #region File Dialog Helpers

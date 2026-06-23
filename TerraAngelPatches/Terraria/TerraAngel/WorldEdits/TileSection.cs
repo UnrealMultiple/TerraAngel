@@ -56,26 +56,29 @@ public class TileSection
     }
 }
 
-public class TileSectionRenderer
+public class TileSectionRenderer : IDisposable
 {
     private static TilePaintSystemV2 paintSystem => Main.instance.TilePaintSystem;
 
-    public static Texture2D GetTileTexture(Tile tile)
+    private static Texture2D GetTileTexture(Tile tile)
     {
         Texture2D result = TextureAssets.Tile[tile.type].Value;
         int tileType = tile.type;
         Texture2D? texture2D = paintSystem.TryGetTileAndRequestIfNotReady(tileType, 0, tile.color());
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (texture2D is not null)
         {
             result = texture2D;
         }
         return result;
     }
-    public static Texture2D GetWallDrawTexture(Tile tile)
+
+    private static Texture2D GetWallDrawTexture(Tile tile)
     {
         Texture2D result = TextureAssets.Wall[tile.wall].Value;
         int wall = tile.wall;
         Texture2D? texture2D = paintSystem.TryGetWallAndRequestIfNotReady(wall, tile.wallColor());
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (texture2D is not null)
         {
             result = texture2D;
@@ -252,7 +255,17 @@ public class TileSectionRenderer
         sb.End();
     }
 
-    public unsafe void DrawPrimitiveMap(TileSection section, Vector2 worldPoint, Vector2 clipRectMin, Vector2 clipRectMax, bool showEmptyTile = false)
+    public RenderTarget2D? DrawPrimitiveMapCache { get; private set; }
+    public TileSection? DrawPrimitiveMapCacheTileSection { get; private set; }
+
+    public void InvalidateDrawPrimitiveMapCache()
+    {
+        DrawPrimitiveMapCache?.Dispose();
+        DrawPrimitiveMapCache = null;
+        DrawPrimitiveMapCacheTileSection = null;
+    }
+
+    public unsafe void DrawPrimitiveMap(TileSection section, Vector2 worldPoint, Vector2 clipRectMin, Vector2 clipRectMax, bool showEmptyTile = false, bool enableCaching = false)
     {
         if (section.Width < 1 || section.Height < 1 || section.Tiles is null)
             return;
@@ -288,6 +301,45 @@ public class TileSectionRenderer
             sb.End();
         }
 
+        if (enableCaching)
+        {
+            if (DrawPrimitiveMapCache == null && DrawPrimitiveMapCacheTileSection == null)
+            {
+                // TODO: should we copy this?
+                DrawPrimitiveMapCacheTileSection = section;
+            }
+
+            if (DrawPrimitiveMapCache != null)
+            {
+                // let's draw it!
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone);
+
+                // target Top Left and Bottom Right
+                Vector2 worldTL = Util.WorldToScreenFullscreenMap(worldPoint + new Vector2(clippedMinX, clippedMinY) * 16f);
+                Vector2 worldBR = Util.WorldToScreenFullscreenMap(worldPoint + new Vector2(clippedMaxX, clippedMaxY) * 16f);
+
+                Rectangle targetRect = new Rectangle(
+                    (int)MathF.Ceiling(worldTL.X),
+                    (int)MathF.Ceiling(worldTL.Y),
+                    (int)MathF.Ceiling(worldBR.X - worldTL.X),
+                    (int)MathF.Ceiling(worldBR.Y - worldTL.Y));
+
+                Rectangle sourceRect = new Rectangle(
+                    (int)MathF.Ceiling(clippedMinX),
+                    (int)MathF.Ceiling(clippedMinY),
+                    (int)MathF.Ceiling(clippedMaxX - clippedMinX),
+                    (int)MathF.Ceiling(clippedMaxY - clippedMinY));
+
+                sb.Draw(DrawPrimitiveMapCache, targetRect, sourceRect, Color.White);
+                sb.End();
+
+                // if caching hit we leave early
+                return;
+            }
+            // or else we fall back to traditional way until cache is ready
+        }
+
+        // traditional way
         sb.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone);
         for (var x = clippedMinX; x < clippedMaxX; x++)
         {
@@ -321,5 +373,69 @@ public class TileSectionRenderer
             }
         }
         sb.End();
+    }
+
+    // remember to call me!!!
+    public unsafe void PreUpdate()
+    {
+        // building DrawPrimitiveMapCache...
+        if (DrawPrimitiveMapCacheTileSection != null)
+        {
+            var section = DrawPrimitiveMapCacheTileSection;
+            DrawPrimitiveMapCacheTileSection = null;
+
+            if (section.Width < 1 || section.Height < 1 || section.Tiles is null)
+                return;
+
+            Rectangle rectCache = new Rectangle(0, 0, 1, 1);
+
+            SpriteBatch sb = Main.spriteBatch;
+
+            // let's initialize the cache
+            InvalidateDrawPrimitiveMapCache();
+            DrawPrimitiveMapCache = new RenderTarget2D(Main.graphics.GraphicsDevice, section.Width, section.Height);
+
+            Main.graphics.GraphicsDevice.SetRenderTarget(DrawPrimitiveMapCache);
+            Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+
+            // starts preparing the cache...
+            sb.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone);
+            for (var x = 0; x < section.Width; x++)
+            {
+                for (var y = 0; y < section.Height; y++)
+                {
+                    if (section.Tiles[x, y].Data == null)
+                        continue;
+
+                    Tile tile = section.Tiles[x, y];
+
+                    Rectangle rect = new Rectangle(
+                        x,
+                        y,
+                        1,
+                        1);
+
+                    if (tile.active())
+                    {
+                        sb.Draw(GraphicsUtility.BlankTexture, rect, rectCache, TileUtil.GetTileColor(tile.type, tile.color()));
+                        continue;
+                    }
+
+                    if (tile.wall != 0)
+                    {
+                        sb.Draw(GraphicsUtility.BlankTexture, rect, rectCache, TileUtil.GetWallColor(tile.wall, tile.wallColor()));
+                    }
+                }
+            }
+            sb.End();
+
+            // recover render targets
+            Main.graphics.GraphicsDevice.SetRenderTarget(null);
+        }
+    }
+
+    public void Dispose()
+    {
+        InvalidateDrawPrimitiveMapCache();
     }
 }
