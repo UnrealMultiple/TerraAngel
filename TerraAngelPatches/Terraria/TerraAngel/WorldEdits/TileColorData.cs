@@ -12,23 +12,18 @@ public readonly struct TileColor(int type, int paint, Color color, double labL, 
     public readonly double LabA = labA;
     public readonly double LabB = labB;
 
-    public double[] GetLab() => new[] { LabL, LabA, LabB };
+    public double[] GetLab() => [LabL, LabA, LabB];
 }
 
 public static class TileColorData
 {
     private static TileColor[]? _colors;
 
-    private static readonly HashSet<int> SkippedTiles = new()
-    {
-        // 液体方块
+    private static readonly HashSet<int> SkippedTiles =
+    [
         TileID.Bubble,
         TileID.ShimmerBlock,
         TileID.WaterBlock,
-
-        // 重力方块 (会下落)
-        TileID.SandFallBlock,
-        TileID.SnowFallBlock,
 
         // 无色/透明方块
         TileID.EchoBlock,
@@ -54,16 +49,13 @@ public static class TileColorData
         TileID.TrapdoorClosed,
         TileID.TallGateClosed,
         TileID.TallGateOpen,
-    };
 
-    public static TileColor[] Colors
-    {
-        get
-        {
-            _colors ??= GenerateTileColors();
-            return _colors;
-        }
-    }
+        // 会因底部方块不完整而被破坏的方块
+        TileID.Teleporter,
+        TileID.MetalBars,
+    ];
+
+    public static TileColor[] Colors => _colors ??= GenerateTileColors();
 
     public static void InvalidateCache()
     {
@@ -74,9 +66,13 @@ public static class TileColorData
     {
         var colors = new List<TileColor>();
 
-        for (int tileType = 0; tileType < TileUtil.TileColor.Length; tileType++)
+        for (int tileType = 0; tileType < TileID.Count; tileType++)
         {
-            if (tileType < Main.tileSolid.Length && !Main.tileSolid[tileType])
+            if (!Main.tileSolid[tileType])
+                continue;
+
+            // skip all falling blocks, e.g. sand
+            if (TileID.Sets.Falling[tileType])
                 continue;
 
             if (SkippedTiles.Contains(tileType))
