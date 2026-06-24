@@ -179,6 +179,13 @@ public class TileUtil
                 }
                 break;
             case 31:
+                {
+                    // TODO: look for more accurate calculation method
+                    wallColor.R = 255;
+                    wallColor.G = 255;
+                    wallColor.B = 255;
+                }
+                break;
             case 0:
                 break;
             default:
@@ -252,6 +259,13 @@ public class TileUtil
                 }
                 break;
             case 31:
+                {
+                    // TODO: look for more accurate calculation method
+                    tileColor.R = 255;
+                    tileColor.G = 255;
+                    tileColor.B = 255;
+                }
+                break;
             case 0:
                 break;
             default:

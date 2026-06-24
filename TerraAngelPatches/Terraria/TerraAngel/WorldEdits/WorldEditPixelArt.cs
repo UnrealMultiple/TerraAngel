@@ -55,12 +55,12 @@ public class WorldEditPixelArt : WorldEdit
         double[] targetLab = ColorUtil.RgbToLab(target);
         var colors = TileColorData.Colors;
 
-        TileColor closest = colors[0];
-        double minDistance = ColorUtil.DeltaE(targetLab, colors[0].GetLab());
+        TileColor closest = colors[^1];
+        double minDistance = ColorUtil.DeltaE(targetLab, colors[0].Lab);
 
-        for (int i = 1; i < colors.Length; i++)
+        for (int i = colors.Length - 2; i >= 0; i--)
         {
-            double distance = ColorUtil.DeltaE(targetLab, colors[i].GetLab());
+            double distance = ColorUtil.DeltaE(targetLab, colors[i].Lab);
             if (distance < minDistance)
             {
                 minDistance = distance;
@@ -73,10 +73,10 @@ public class WorldEditPixelArt : WorldEdit
     private static TileColor FindClosestRgb(Color target)
     {
         var colors = TileColorData.Colors;
-        TileColor closest = colors[0];
+        TileColor closest = colors[^1];
         double minDistance = ColorUtil.RgbDistance(target, colors[0].Color);
 
-        for (int i = 1; i < colors.Length; i++)
+        for (int i = colors.Length - 2; i >= 0; i--)
         {
             double distance = ColorUtil.RgbDistance(target, colors[i].Color);
             if (distance < minDistance)
@@ -345,10 +345,25 @@ public class WorldEditPixelArt : WorldEdit
     private void SetTileData(int x, int y, TileColor tileColor)
     {
         ref TileData tileData = ref CopiedSection!.Tiles!.GetTileRef(x, y);
-        tileData.type = (ushort)tileColor.Type;
-        tileData.sTileHeader = 32;
-        tileData.color((byte)tileColor.Paint);
-        tileData.wall = 0;
+        tileData.ClearEverything();
+
+        if (tileColor.Type != -1)
+        {
+            tileData.ResetToType((ushort)tileColor.Type);
+            tileData.color((byte)tileColor.Paint);
+            tileData.fullbrightBlock(true);
+            tileData.inActive(true);
+        }
+        else if (tileColor.WallType != -1)
+        {
+            tileData.wall = (ushort)tileColor.WallType;
+            tileData.wallColor((byte)tileColor.WallPaint);
+            tileData.fullbrightWall(true);
+        }
+        else
+        {
+            ClientLoader.Console.WriteError($"Invalid tile color type. {tileColor.Type} {tileColor.WallType}");
+        }
     }
 
     private void DrawSelectionRect(ImDrawListPtr drawList, Vector2 tileMouse, bool isMap)
@@ -366,14 +381,16 @@ public class WorldEditPixelArt : WorldEdit
 
     public override void Edit(Vector2 cursorTilePosition)
     {
-        if (CopiedSection == null) return;
+        if (CopiedSection == null)
+            return;
         PastePixelArt(cursorTilePosition);
     }
 
     private void PastePixelArt(Vector2 originTile)
     {
         originTile = originTile.Floor();
-        int originX = (int)originTile.X, originY = (int)originTile.Y;
+        int originX = (int)originTile.X;
+        int originY = (int)originTile.Y;
 
         Task.Run(() =>
         {
@@ -384,20 +401,56 @@ public class WorldEditPixelArt : WorldEdit
             for (int y = 0; y < CopiedSection.Height; y++)
                 for (int x = 0; x < CopiedSection.Width; x++)
                     FrameTile(x, y, originX, originY);
+
+            // check it...
+            HashSet<int> failedTiles = [];
+            HashSet<int> failedWalls = [];
+
+            for (int y = 0; y < CopiedSection.Height; y++)
+            for (int x = 0; x < CopiedSection.Width; x++)
+            {
+                int worldX = originX + x, worldY = originY + y;
+                if (!WorldGen.InWorld(worldX, worldY))
+                    continue;
+
+                Tile tile = Main.tile[worldX, worldY];
+                Tile copiedTile = CopiedSection!.Tiles[x, y];
+
+                if (copiedTile.active())
+                {
+                    if (!tile.active() || tile.type != copiedTile.type || tile.color() != copiedTile.color())
+                        failedTiles.Add(copiedTile.type);
+                }
+
+                if (copiedTile.wall != 0)
+                {
+                    if (tile.wall != copiedTile.wall || tile.wallColor() != copiedTile.wallColor())
+                        failedWalls.Add(copiedTile.type);
+                }
+            }
+
+            if (failedTiles.Count > 0)
+                ClientLoader.Console.WriteError($"Failed Tiles: {string.Join(',', failedTiles)}");
+            if (failedWalls.Count > 0)
+                ClientLoader.Console.WriteError($"Failed Walls: {string.Join(',', failedWalls)}");
         });
     }
 
     private void PasteTile(int x, int y, int originX, int originY)
     {
         int worldX = originX + x, worldY = originY + y;
-        if (!WorldGen.InWorld(worldX, worldY)) return;
+        if (!WorldGen.InWorld(worldX, worldY))
+            return;
 
         Tile tile = Main.tile[worldX, worldY];
         Tile copiedTile = CopiedSection!.Tiles[x, y];
 
-        if (tile == null || copiedTile == null || !copiedTile.active()) return;
+        if (tile == null || copiedTile == null || (!copiedTile.active() && copiedTile.wall == 0))
+            return;
 
         tile.CopyFrom(copiedTile);
+
+        // TODO: send wall data to remote
         if (tile.active())
             NetMessage.SendData(MessageID.PaintTile, -1, -1, null, 1, worldX, worldY, tile.type);
     }
@@ -408,7 +461,7 @@ public class WorldEditPixelArt : WorldEdit
         if (!WorldGen.InWorld(worldX, worldY)) return;
 
         Tile copiedTile = CopiedSection!.Tiles[x, y];
-        if (copiedTile != null && copiedTile.active())
+        if (copiedTile != null && (copiedTile.active() || copiedTile.wall != 0))
         {
             WorldGen.SquareTileFrame(worldX, worldY);
             NetMessage.SendTileSquare(-1, worldX, worldY);
