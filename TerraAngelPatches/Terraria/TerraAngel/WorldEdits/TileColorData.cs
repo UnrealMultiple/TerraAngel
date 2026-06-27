@@ -1,5 +1,6 @@
 using Color = Microsoft.Xna.Framework.Color;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TerraAngel.WorldEdits;
 
@@ -25,6 +26,12 @@ public static class TileColorData
 
         //会被特殊处理的方块
         TileID.RainbowBrick,
+        TileID.KryptonMossBlock,
+        TileID.RainbowMossBlock,
+        TileID.ArgonMossBlock,
+        TileID.LavaMossBlock,
+        TileID.VioletMossBlock,
+        TileID.XenonMossBlock,
 
         TileID.GolfHole,
 
@@ -65,7 +72,7 @@ public static class TileColorData
         TileID.Teleporter,
         TileID.MetalBars,
 
-        //群系方块
+        // 群系方块
         TileID.CorruptGrass,
         TileID.CrimsonGrass,
         TileID.CorruptJungleGrass,
@@ -73,6 +80,15 @@ public static class TileColorData
         TileID.JungleGrass,
         TileID.HallowedGrass,
         TileID.MushroomGrass,
+
+        // 太丑的方块
+        // TileID.Shimmerfall,
+        // TileID.Lavafall,
+        // TileID.Waterfall,
+        // TileID.RainbowCloud,
+        // TileID.RainbowMoss,
+        // TileID.RainbowMossBlock,
+        // TileID.RainbowMossBrick,
     ];
 
     public static readonly HashSet<int> SkippedWalls =
@@ -164,11 +180,14 @@ public static class TileColorData
 
     private static TileColor[] GenerateTileColors()
     {
-        var colors = new List<TileColor>();
+        var colors = new Dictionary<Color, TileColor>();
 
         for (int tileType = 0; tileType < TileID.Count; tileType++)
         {
             if (!Main.tileSolid[tileType])
+                continue;
+
+            if (Main.tileSolidTop[tileType])
                 continue;
 
             // skip all falling blocks, e.g. sand
@@ -182,7 +201,10 @@ public static class TileColorData
             if (SkippedTiles.Contains(tileType))
                 continue;
 
-            for (int paint = 0; paint < 32; paint++)
+            if (TileUtil.GetItemFromTile(tileType) == ItemID.None)
+                continue;
+
+            for (int paint = 31; paint >= 0; paint--)
             {
                 // TODO: make illuminate paint more accurate
                 if (paint == PaintID.IlluminantPaint)
@@ -191,8 +213,12 @@ public static class TileColorData
                 Color color = TileUtil.GetTileColor(tileType, paint);
                 if (color.A != 255)
                     continue;
+                if (colors.TryGetValue(color, out var exists) &&
+                    (exists.Type == -1 || exists.Paint == 0) &&
+                    (exists.WallType == -1 || exists.WallPaint == 0))
+                    continue;
                 double[] lab = ColorUtil.RgbToLab(color);
-                colors.Add(new TileColor(tileType, paint, -1, 0, color, lab));
+                colors[color] = new TileColor(tileType, paint, -1, 0, color, lab);
             }
         }
 
@@ -201,7 +227,10 @@ public static class TileColorData
             if (SkippedWalls.Contains(wallType))
                 continue;
 
-            for (int paint = 0; paint < 32; paint++)
+            if (TileUtil.GetItemFromWall(wallType) == ItemID.None)
+                continue;
+
+            for (int paint = 31; paint >= 0; paint--)
             {
                 // TODO: make illuminate paint more accurate
                 if (paint == PaintID.IlluminantPaint)
@@ -210,11 +239,15 @@ public static class TileColorData
                 Color color = TileUtil.GetWallColor(wallType, paint);
                 if (color.A != 255)
                     continue;
+                if (colors.TryGetValue(color, out var exists) &&
+                    (exists.Type == -1 || exists.Paint == 0) &&
+                    (exists.WallType == -1 || exists.WallPaint == 0))
+                    continue;
                 double[] lab = ColorUtil.RgbToLab(color);
-                colors.Add(new TileColor(-1, 0, wallType, paint, color, lab));
+                colors[color] = new TileColor(-1, 0, wallType, paint, color, lab);
             }
         }
 
-        return colors.ToArray();
+        return colors.Values.ToArray();
     }
 }

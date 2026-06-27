@@ -464,6 +464,8 @@ public class WorldEditPixelArt : WorldEdit
         if (copiedTile != null && (copiedTile.active() || copiedTile.wall != 0))
         {
             WorldGen.SquareTileFrame(worldX, worldY);
+            WorldGen.SquareWallFrame(worldX, worldY);
+
             NetMessage.SendTileSquare(-1, worldX, worldY);
         }
     }
