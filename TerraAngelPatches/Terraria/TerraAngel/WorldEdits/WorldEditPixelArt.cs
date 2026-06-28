@@ -17,6 +17,7 @@ public class WorldEditPixelArt : WorldEdit
     public override bool RunEveryFrame => false;
 
     public TileSectionRenderer Renderer = new();
+    public TileSectionPaster Paster = new();
     public TileSection? CopiedSection;
 
     private string? _pendingPath;
@@ -388,19 +389,19 @@ public class WorldEditPixelArt : WorldEdit
 
     private void PastePixelArt(Vector2 originTile)
     {
+        if (CopiedSection?.Tiles is null)
+            return;
+
         originTile = originTile.Floor();
         int originX = (int)originTile.X;
         int originY = (int)originTile.Y;
 
-        Task.Run(() =>
+        Task.Run(async () =>
         {
-            for (int y = 0; y < CopiedSection!.Height; y++)
-                for (int x = 0; x < CopiedSection.Width; x++)
-                    PasteTile(x, y, originX, originY);
-
-            for (int y = 0; y < CopiedSection.Height; y++)
-                for (int x = 0; x < CopiedSection.Width; x++)
-                    FrameTile(x, y, originX, originY);
+            if (Main.netMode == 0)
+                Paster.PasteBySendTileRect(CopiedSection, originTile, false);
+            else
+                await Paster.PasteByTileManipulationAsync(CopiedSection, originTile, false, 75);
 
             // check it...
             HashSet<int> failedTiles = [];
@@ -414,7 +415,7 @@ public class WorldEditPixelArt : WorldEdit
                     continue;
 
                 Tile tile = Main.tile[worldX, worldY];
-                Tile copiedTile = CopiedSection!.Tiles[x, y];
+                Tile copiedTile = CopiedSection.Tiles[x, y];
 
                 if (copiedTile.active())
                 {
@@ -434,40 +435,6 @@ public class WorldEditPixelArt : WorldEdit
             if (failedWalls.Count > 0)
                 ClientLoader.Console.WriteError($"Failed Walls: {string.Join(',', failedWalls)}");
         });
-    }
-
-    private void PasteTile(int x, int y, int originX, int originY)
-    {
-        int worldX = originX + x, worldY = originY + y;
-        if (!WorldGen.InWorld(worldX, worldY))
-            return;
-
-        Tile tile = Main.tile[worldX, worldY];
-        Tile copiedTile = CopiedSection!.Tiles[x, y];
-
-        if (tile == null || copiedTile == null || (!copiedTile.active() && copiedTile.wall == 0))
-            return;
-
-        tile.CopyFrom(copiedTile);
-
-        // TODO: send wall data to remote
-        if (tile.active())
-            NetMessage.SendData(MessageID.PaintTile, -1, -1, null, 1, worldX, worldY, tile.type);
-    }
-
-    private void FrameTile(int x, int y, int originX, int originY)
-    {
-        int worldX = originX + x, worldY = originY + y;
-        if (!WorldGen.InWorld(worldX, worldY)) return;
-
-        Tile copiedTile = CopiedSection!.Tiles[x, y];
-        if (copiedTile != null && (copiedTile.active() || copiedTile.wall != 0))
-        {
-            WorldGen.SquareTileFrame(worldX, worldY);
-            WorldGen.SquareWallFrame(worldX, worldY);
-
-            NetMessage.SendTileSquare(-1, worldX, worldY);
-        }
     }
 
     private void OpenFileDialog()

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using TerraAngel.Net;
 using Terraria.GameContent;
 
 namespace TerraAngel.WorldEdits;
@@ -437,5 +439,186 @@ public class TileSectionRenderer : IDisposable
     public void Dispose()
     {
         InvalidateDrawPrimitiveMapCache();
+    }
+}
+
+public class TileSectionPaster
+{
+    public Task PasteBySendTileRectInNewTask(TileSection section, Vector2i originTile, bool isDestroyTiles) =>
+        Task.Run(() => PasteBySendTileRect(section, originTile, isDestroyTiles));
+
+    public void PasteBySendTileRect(TileSection section, Vector2i originTile, bool isDestroyTiles)
+    {
+        if (section.Tiles is null)
+            return;
+
+        CopyTilesForSendTileRect(section, originTile, isDestroyTiles, true);
+        CopyTilesForSendTileRect(section, originTile, isDestroyTiles, false);
+
+        // pass three, for framing and syncing
+        for (int y = section.Height - 1; y > -1; y--)
+        for (int x = 0; x < section.Width; x++)
+        {
+            var world = originTile + new Vector2i(x, y);
+
+            if (!WorldGen.InWorld(world.X, world.Y))
+                continue;
+
+            WorldGen.SquareTileFrame(world.X, world.Y);
+            WorldGen.SquareWallFrame(world.X, world.Y);
+
+            NetMessage.SendTileSquare(Main.myPlayer, world.X, world.Y);
+        }
+    }
+
+    private void CopyTilesForSendTileRect(TileSection section, Vector2i originTile, bool isDestroyTiles, bool isCopySolidTiles)
+    {
+        if (section.Tiles is null)
+            return;
+
+        for (int y = section.Height - 1; y > -1; y--)
+        for (int x = 0; x < section.Width; x++)
+        {
+            var world = originTile + new Vector2i(x, y);
+
+            if (!WorldGen.InWorld(world.X, world.Y))
+                continue;
+
+            Tile tile = Main.tile[world.X, world.Y];
+            Tile copiedTile = section.Tiles[x, y];
+
+            bool isSolidCopiedTile = Main.tileSolid[copiedTile.type] &&
+                                     copiedTile.type != TileID.GolfTee &&
+                                     copiedTile.type != TileID.GolfHole &&
+                                     copiedTile.type != TileID.GolfCupFlag;
+            if (isCopySolidTiles != isSolidCopiedTile)
+                continue;
+
+            bool isCopiedTileEmpty = !(copiedTile.active() || copiedTile.wall > 0);
+            if (isCopiedTileEmpty && !isDestroyTiles)
+                continue;
+
+            tile.CopyFrom(copiedTile);
+        }
+    }
+
+    public void PasteByTileManipulation(TileSection section, Vector2i originTile, bool isDestroyTiles, int pasteFrequency = -1) =>
+        PasteByTileManipulationAsync(section, originTile, isDestroyTiles, pasteFrequency)
+            .AsTask() // using ValueTask.GetAwaiter().GetResult() is UB
+            .Wait();
+
+    public Task PasteByTileManipulationInNewTask(TileSection section, Vector2i originTile, bool isDestroyTiles, int pasteFrequency = -1) =>
+        Task.Run(async () => await PasteByTileManipulationAsync(section, originTile, isDestroyTiles, pasteFrequency));
+
+    public async ValueTask PasteByTileManipulationAsync(TileSection section, Vector2i originTile, bool isDestroyTiles, int pasteFrequency = -1)
+    {
+        if (section.Tiles is null)
+            return;
+
+        var delayForThreshold = Main.netMode == 0 || pasteFrequency == -1
+            ? TimeSpan.Zero
+            : TimeSpan.FromSeconds(1) / pasteFrequency;
+        await using var pb = new PacketBuilder();
+
+        // pass one
+        for (int y = section.Height - 1; y > -1; y--)
+        for (int x = 0; x < section.Width; x++)
+        {
+            var world = originTile + new Vector2i(x, y);
+            if (!WorldGen.InWorld(world.X, world.Y))
+                continue;
+
+            Tile tile = Main.tile[world.X, world.Y];
+            Tile copiedTile = section.Tiles[x, y];
+
+            bool isCopiedTileEmpty = !(copiedTile.active() || copiedTile.wall > 0);
+            if (isCopiedTileEmpty && !isDestroyTiles)
+                continue;
+
+            tile.CopyFrom(copiedTile);
+
+            // frame it!
+            WorldGen.SquareTileFrame(world.X, world.Y);
+            WorldGen.SquareWallFrame(world.X, world.Y);
+
+            if (Main.netMode != 0)
+            {
+                // TODO: this is incomplete, many kill are not implemented
+                if (tile.active())
+                {
+                    pb.WritePlayerPlaceTile(world.X, world.Y, tile.type, resetToNormal: false);
+
+                    if (tile.slope() > 0 || tile.halfBrick())
+                    {
+                        var slopeData = tile.halfBrick() ? 1 : tile.slope();
+                        pb.WritePlayerSlopeTile(world.X, world.Y, slopeData, resetToNormal: false);
+                    }
+                }
+                else
+                {
+                    pb.WritePlayerKillTile(world.X, world.Y, resetToNormal: false);
+                }
+
+                if (tile.wall > 0)
+                {
+                    pb.WritePlayerPlaceWall(world.X, world.Y, tile.wall, resetToNormal: false);
+                }
+                else
+                {
+                    pb.WritePlayerKillWall(world.X, world.Y, resetToNormal: false);
+                }
+
+                if (tile.liquid > 0)
+                {
+                    pb.WritePlayerUpdateLiquid(world.X, world.Y, tile.liquidType(), tile.liquid, resetToNormal: false);
+                }
+
+                if (tile.color() > 0)
+                {
+                    pb.WritePlayerPaintTile(world.X, world.Y, tile.color(), 0, resetToNormal: false);
+                }
+
+                if (tile.wallColor() > 0)
+                {
+                    pb.WritePlayerPaintWall(world.X, world.Y, tile.wallColor(), 0, resetToNormal: false);
+                }
+
+                if (tile.wire())
+                {
+                    pb.WritePlayerPlaceWire(world.X, world.Y, 1, resetToNormal: false);
+                }
+
+                if (tile.wire2())
+                {
+                    pb.WritePlayerPlaceWire(world.X, world.Y, 2, resetToNormal: false);
+                }
+
+                if (tile.wire3())
+                {
+                    pb.WritePlayerPlaceWire(world.X, world.Y, 3, resetToNormal: false);
+                }
+
+                if (tile.wire4())
+                {
+                    pb.WritePlayerPlaceWire(world.X, world.Y, 4, resetToNormal: false);
+                }
+
+                if (tile.actuator())
+                {
+                    pb.WritePlayerPlaceActuator(world.X, world.Y, resetToNormal: false);
+                }
+
+                // reset to normal
+                pb.WriteSyncEquipmentPacketNormal(0);
+                pb.WritePlayerControlsPacketNormal();
+                pb.Send();
+                pb.Clear();
+            }
+
+            if (delayForThreshold != TimeSpan.Zero)
+                await Task.Delay(delayForThreshold);
+        }
+
+        // TODO: pass two
     }
 }

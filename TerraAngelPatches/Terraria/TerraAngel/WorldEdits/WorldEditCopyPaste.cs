@@ -14,7 +14,8 @@ public class WorldEditCopyPaste : WorldEdit
 {
     public override bool RunEveryFrame => false;
 
-    public TileSectionRenderer Renderer = new TileSectionRenderer();
+    public TileSectionRenderer Renderer = new();
+    public TileSectionPaster Paster = new();
     public TileSection? CopiedSection;
     private bool IsCopying = false;
     private Vector2 StartSelectTile;
@@ -120,200 +121,26 @@ public class WorldEditCopyPaste : WorldEdit
     {
         if (CopiedSection is null)
             return;
+        var originTile = cursorTilePosition.Floor();
+
         switch ((PlaceMode)CurrentPlaceMode)
         {
             case PlaceMode.SendTileRect:
-                EditSendTileRect(cursorTilePosition);
+                Paster.PasteBySendTileRectInNewTask(CopiedSection, originTile, DestroyTiles);
                 break;
             case PlaceMode.TileManipulation:
-                EditSendTileManipulation(cursorTilePosition);
+                Paster.PasteByTileManipulationInNewTask(CopiedSection, originTile, DestroyTiles, 75);
                 break;
         }
     }
 
-    private void EditSendTileRect(Vector2 originTile)
-    {
-        if (CopiedSection is null)
-            return;
-
-        originTile = originTile.Floor();
-        int ox = (int)originTile.X;
-        int oy = (int)originTile.Y;
-        Task.Run(() =>
-        {
-            CopyTilesForPass(ox, oy, true);
-            CopyTilesForPass(ox, oy, false);
-
-            // pass three, for framing and syncing
-            for (int x = 0; x < CopiedSection.Width; x++)
-            {
-                for (int y = CopiedSection.Height - 1; y > -1; y--)
-                {
-                    if (!WorldGen.InWorld(ox + x, oy + y))
-                        continue;
-
-                    Tile? tile = Main.tile[ox + x, oy + y];
-                    Tile? copiedTile = CopiedSection.Tiles?[x, y];
-
-                    if (tile is null || copiedTile is null)
-                        continue;
-
-                    WorldGen.SquareTileFrame(ox + x, oy + y);
-                    WorldGen.SquareWallFrame(ox + x, oy + y);
-
-                    NetMessage.SendTileSquare(Main.myPlayer, ox + x, oy + y);
-                }
-            }
-        });
-    }
-
-    private void EditSendTileManipulation(Vector2 originTile)
-    {
-        if (CopiedSection is null)
-            return;
-
-        originTile = originTile.Floor();
-        int ox = (int)originTile.X;
-        int oy = (int)originTile.Y;
-
-        Task.Run(async () =>
-        {
-            if (CopiedSection is null)
-                return;
-
-            // TODO: custom delay
-            var delayForThreshold = TimeSpan.FromSeconds(1) / 75;
-            await using var pb = new PacketBuilder();
-
-            // pass one
-            for (int y = CopiedSection.Height - 1; y > -1; y--)
-            {
-                for (int x = 0; x < CopiedSection.Width; x++)
-                {
-                    var worldX = ox + x;
-                    var worldY = oy + y;
-                    if (!WorldGen.InWorld(worldX, worldY))
-                        continue;
-
-                    Tile tile = Main.tile[worldX, worldY];
-                    Tile copiedTile = CopiedSection.Tiles[x, y];
-
-                    if (tile == null || copiedTile == null)
-                        continue;
-
-                    bool isSolidCopiedTile = Main.tileSolid[copiedTile.type] &&
-                                             copiedTile.type != TileID.GolfTee &&
-                                             copiedTile.type != TileID.GolfHole &&
-                                             copiedTile.type != TileID.GolfCupFlag;
-                    if (!isSolidCopiedTile)
-                        continue;
-
-                    bool isCopiedTileEmpty = !(copiedTile.active() || copiedTile.wall > 0);
-                    if (isCopiedTileEmpty && !DestroyTiles)
-                        continue;
-
-                    tile.CopyFrom(copiedTile);
-
-                    // TODO: this is incomplete, many kill are not implemented
-                    if (tile.active())
-                    {
-                        pb.WritePlayerPlaceTile(worldX, worldY, tile.type, resetToNormal: false);
-
-                        if (tile.slope() > 0 || tile.halfBrick())
-                        {
-                            var slopeData = tile.halfBrick() ? 1 : tile.slope();
-                            pb.WritePlayerSlopeTile(worldX, worldY, slopeData, resetToNormal: false);
-                        }
-                    }
-                    else
-                    {
-                        pb.WritePlayerKillTile(worldX, worldY, resetToNormal: false);
-                    }
-
-                    if (tile.wall > 0)
-                    {
-                        pb.WritePlayerPlaceWall(worldX, worldY, tile.wall, resetToNormal: false);
-                    }
-                    else
-                    {
-                        pb.WritePlayerKillWall(worldX, worldY, resetToNormal: false);
-                    }
-
-                    if (tile.liquid > 0)
-                    {
-                        pb.WritePlayerUpdateLiquid(worldX, worldY, tile.liquidType(), tile.liquid, resetToNormal: false);
-                    }
-
-                    if (tile.color() > 0)
-                    {
-                        pb.WritePlayerPaintTile(worldX, worldY, tile.color(), 0, resetToNormal: false);
-                    }
-
-                    if (tile.wallColor() > 0)
-                    {
-                        pb.WritePlayerPaintWall(worldX, worldY, tile.wallColor(), 0, resetToNormal: false);
-                    }
-
-                    if (tile.wire())
-                    {
-                        pb.WritePlayerPlaceWire(worldX, worldY, 1, resetToNormal: false);
-                    }
-
-                    if (tile.wire2())
-                    {
-                        pb.WritePlayerPlaceWire(worldX, worldY, 2, resetToNormal: false);
-                    }
-
-                    if (tile.wire3())
-                    {
-                        pb.WritePlayerPlaceWire(worldX, worldY, 3, resetToNormal: false);
-                    }
-
-                    if (tile.wire4())
-                    {
-                        pb.WritePlayerPlaceWire(worldX, worldY, 4, resetToNormal: false);
-                    }
-
-                    if (tile.actuator())
-                    {
-                        pb.WritePlayerPlaceActuator(worldX, worldY, resetToNormal: false);
-                    }
-
-                    // reset to normal
-                    pb.WriteSyncEquipmentPacketNormal(0);
-                    pb.WritePlayerControlsPacketNormal();
-                    pb.Send();
-                    pb.Clear();
-
-                    await Task.Delay(delayForThreshold);
-                }
-            }
-
-            // TODO: pass two
-
-            // pass three, for framing
-            for (int y = CopiedSection.Height - 1; y > -1; y--)
-            {
-                for (int x = 0; x < CopiedSection.Width; x++)
-                {
-                    if (!WorldGen.InWorld(ox + x, oy + y))
-                        continue;
-
-                    Tile? tile = Main.tile[ox + x, oy + y];
-                    Tile? copiedTile = CopiedSection.Tiles?[x, y];
-
-                    if (tile is null || copiedTile is null)
-                        continue;
-
-                    WorldGen.SquareTileFrame(ox + x, oy + y);
-                    WorldGen.SquareWallFrame(ox + x, oy + y);
-                }
-            }
-        });
-    }
-
     public void Copy(Vector2 startTile, Vector2 endTile)
     {
+        startTile.X = Math.Clamp(startTile.X, 0, Main.maxTilesX - 1);
+        startTile.Y = Math.Clamp(startTile.Y, 0, Main.maxTilesY - 1);
+        endTile.X = Math.Clamp(endTile.X, 0, Main.maxTilesX - 1);
+        endTile.Y = Math.Clamp(endTile.Y, 0, Main.maxTilesY - 1);
+
         float width = endTile.X - startTile.X;
         float height = endTile.Y - startTile.Y;
 
@@ -328,7 +155,7 @@ public class WorldEditCopyPaste : WorldEdit
 
         // if (width * height <= 0) return;
 
-        CopiedSection = new TileSection(((int)startTile.X), ((int)startTile.Y), ((int)width), ((int)height));
+        CopiedSection = new TileSection((int)startTile.X, (int)startTile.Y, (int)width, (int)height);
         Renderer.InvalidateDrawPrimitiveMapCache();
     }
 
@@ -350,40 +177,6 @@ public class WorldEditCopyPaste : WorldEdit
         vecbr += Vector2.One;
 
         return (vectl, vecbr);
-    }
-
-    private void CopyTilesForPass(int ox, int oy, bool copySolidTiles)
-    {
-        if (CopiedSection is null)
-            return;
-
-        for (int x = 0; x < CopiedSection.Width; x++)
-        {
-            for (int y = CopiedSection.Height - 1; y > -1; y--)
-            {
-                if (!WorldGen.InWorld(ox + x, oy + y))
-                    continue;
-
-                Tile tile = Main.tile[ox + x, oy + y];
-                Tile copiedTile = CopiedSection.Tiles[x, y];
-
-                if (tile == null || copiedTile == null)
-                    continue;
-
-                bool isSolidCopiedTile = Main.tileSolid[copiedTile.type] &&
-                                         copiedTile.type != TileID.GolfTee &&
-                                         copiedTile.type != TileID.GolfHole &&
-                                         copiedTile.type != TileID.GolfCupFlag;
-                if (copySolidTiles != isSolidCopiedTile)
-                    continue;
-
-                bool isCopiedTileEmpty = !(copiedTile.active() || copiedTile.wall > 0);
-                if (isCopiedTileEmpty && !DestroyTiles)
-                    continue;
-
-                tile.CopyFrom(copiedTile);
-            }
-        }
     }
 
     enum PlaceMode

@@ -259,8 +259,18 @@ public static class PacketBuilderExtensions
     public static PacketBuilder WritePlayerPlaceTile(this PacketBuilder pb, int x, int y, int tile, int useSlot = 0, bool resetToNormal = true)
     {
         int itemId = TileUtil.GetItemFromTile(tile);
-        // if (itemId == ItemID.None)
-        //     return pb;
+        if (itemId == ItemID.None)
+            return pb;
+
+        // some special cases... F
+        if (TileUtil.TileDirtGrass[tile])
+            pb.WritePlayerPlaceTile(x, y, TileID.Dirt, useSlot, false);
+        if (TileUtil.TileMudGrass[tile])
+            pb.WritePlayerPlaceTile(x, y, TileID.Mud, useSlot, false);
+        if (TileUtil.TileAshGrass[tile])
+            pb.WritePlayerPlaceTile(x, y, TileID.Ash, useSlot, false);
+        if (Main.tileMoss[tile])
+            pb.WritePlayerPlaceTile(x, y, TileID.Stone, useSlot, false);
 
         pb.WritePositionedOperationWithItem(
             x, y,
@@ -303,8 +313,8 @@ public static class PacketBuilderExtensions
     public static PacketBuilder WritePlayerPlaceWall(this PacketBuilder pb, int x, int y, int wall, int useSlot = 0, bool resetToNormal = true)
     {
         int itemId = TileUtil.GetItemFromWall(wall);
-        // if (itemId == ItemID.None)
-        //     return pb;
+        if (itemId == ItemID.None)
+            return pb;
 
         pb.WritePositionedOperationWithItem(
             x, y,
