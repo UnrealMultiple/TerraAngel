@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.RateLimiting;
 using System.Threading.Tasks;
 using Color = Microsoft.Xna.Framework.Color;
 
@@ -28,6 +30,9 @@ public class WorldEditPixelArt : WorldEdit
     private bool _enableDithering = true;
     private ColorMatchAlgorithm _algorithm = ColorMatchAlgorithm.RgbDistance;
     private readonly Dictionary<Color, TileColor> _colorCache = [];
+
+    private Task? _onGoingPasteTask;
+    private CancellationTokenSource? _cancellationTokenSource;
 
     private int _targetWidth;
     private int _targetHeight;
@@ -126,6 +131,16 @@ public class WorldEditPixelArt : WorldEdit
         ImGui.SameLine();
         if (ImGui.Button(GetString("Clear Selection")))
             UnloadResources();
+        if (_onGoingPasteTask is not null && !_onGoingPasteTask.IsCompleted && _cancellationTokenSource is not null)
+        {
+            ImGui.SameLine();
+            if (ImGui.Button(GetString("Cancel")))
+            {
+                _cancellationTokenSource?.Cancel();
+                _cancellationTokenSource = null;
+                _onGoingPasteTask = null;
+            }
+        }
 
         string[] algorithms = [GetString("Lab DeltaE (Accurate)"), GetString("RGB Distance (Fast)")];
         int currentAlgorithm = (int)_algorithm;
@@ -392,16 +407,25 @@ public class WorldEditPixelArt : WorldEdit
         if (CopiedSection?.Tiles is null)
             return;
 
+        if (_onGoingPasteTask is not null && !_onGoingPasteTask.IsCompleted)
+            return;
+
         originTile = originTile.Floor();
         int originX = (int)originTile.X;
         int originY = (int)originTile.Y;
 
-        Task.Run(async () =>
+        _cancellationTokenSource = new CancellationTokenSource();
+        _onGoingPasteTask = Task.Run(async () =>
         {
             if (Main.netMode == 0)
                 Paster.PasteBySendTileRect(CopiedSection, originTile, false);
             else
-                await Paster.PasteByTileManipulationAsync(CopiedSection, originTile, false, 75);
+            {
+                await Paster.PasteByTileManipulationAsync(CopiedSection, originTile, false, 5000, _cancellationTokenSource.Token);
+            }
+
+            ClientLoader.Console.WriteLine($"Wait for 5s before checking");
+            await Task.Delay(5000);
 
             // check it...
             HashSet<int> failedTiles = [];
@@ -434,7 +458,7 @@ public class WorldEditPixelArt : WorldEdit
                 ClientLoader.Console.WriteError($"Failed Tiles: {string.Join(',', failedTiles)}");
             if (failedWalls.Count > 0)
                 ClientLoader.Console.WriteError($"Failed Walls: {string.Join(',', failedWalls)}");
-        });
+        }, _cancellationTokenSource.Token);
     }
 
     private void OpenFileDialog()

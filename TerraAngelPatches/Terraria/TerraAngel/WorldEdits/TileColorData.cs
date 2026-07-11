@@ -84,31 +84,34 @@ public static class TileColorData
 
         // 远程放置需要特殊处理的方块
         // TODO: fix MossBrick
-        // those commented out are handled in PacketBuilderExtensions.WritePlayerPlaceTile
-        // TileID.GreenMoss,
-        // TileID.BrownMoss,
-        // TileID.RedMoss,
-        // TileID.BlueMoss,
-        // TileID.PurpleMoss,
-        // TileID.LongMoss,
-        // TileID.LavaMoss,
-        // TileID.KryptonMoss,
-        // TileID.XenonMoss,
-        // TileID.ArgonMoss,
-        // TileID.VioletMoss,
-        // TileID.RainbowMoss,
+        // those commented out are handled in TileSectionPaster
+        TileID.GreenMoss,
+        TileID.BrownMoss,
+        TileID.RedMoss,
+        TileID.BlueMoss,
+        TileID.PurpleMoss,
+        TileID.LongMoss,
+        TileID.LavaMoss,
+        TileID.KryptonMoss,
+        TileID.XenonMoss,
+        TileID.ArgonMoss,
+        TileID.VioletMoss,
+        TileID.RainbowMoss,
 
-        // TileID.Grass,
-        // TileID.CorruptGrass,
-        // TileID.JungleGrass,
-        // TileID.MushroomGrass,
-        // TileID.HallowedGrass,
-        // TileID.CrimsonGrass,
+        TileID.Grass,
+        TileID.CorruptGrass,
+        TileID.JungleGrass,
+        TileID.MushroomGrass,
+        TileID.HallowedGrass,
+        TileID.CrimsonGrass,
         TileID.GolfGrass,
         TileID.GolfGrassHallowed,
-        // TileID.AshGrass,
-        // TileID.CorruptJungleGrass,
-        // TileID.CrimsonJungleGrass,
+        TileID.AshGrass,
+        TileID.CorruptJungleGrass,
+        TileID.CrimsonJungleGrass,
+
+        TileID.DesertFossil,
+        TileID.OfficeBlock
     ];
 
     public static readonly HashSet<int> SkippedWalls =

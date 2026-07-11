@@ -202,23 +202,23 @@ public static class PacketBuilderExtensions
         return pb;
     }
 
-    public static PacketBuilder WritePaintTilePacket(this PacketBuilder pb, int x, int y, int tileColor, int tileCoatId)
+    public static PacketBuilder WritePaintTilePacket(this PacketBuilder pb, int x, int y, int tileColor, bool isTileCoatId)
     {
         pb.MakePacket(MessageID.PaintTile, b => b
             .Write((short)x)
             .Write((short)y)
             .Write((byte)tileColor)
-            .Write((byte)tileCoatId));
+            .Write((byte)(isTileCoatId ? 1 : 0)));
         return pb;
     }
 
-    public static PacketBuilder WritePaintWallPacket(this PacketBuilder pb, int x, int y, int wallColor, int wallCoatId)
+    public static PacketBuilder WritePaintWallPacket(this PacketBuilder pb, int x, int y, int wallColor, bool isWallCoatId)
     {
         pb.MakePacket(MessageID.PaintWall, b => b
             .Write((short)x)
             .Write((short)y)
             .Write((byte)wallColor)
-            .Write((byte)wallCoatId));
+            .Write((byte)(isWallCoatId ? 1 : 0)));
         return pb;
     }
 
@@ -262,16 +262,6 @@ public static class PacketBuilderExtensions
         if (itemId == ItemID.None)
             return pb;
 
-        // some special cases... F
-        if (TileUtil.TileDirtGrass[tile])
-            pb.WritePlayerPlaceTile(x, y, TileID.Dirt, useSlot, false);
-        if (TileUtil.TileMudGrass[tile])
-            pb.WritePlayerPlaceTile(x, y, TileID.Mud, useSlot, false);
-        if (TileUtil.TileAshGrass[tile])
-            pb.WritePlayerPlaceTile(x, y, TileID.Ash, useSlot, false);
-        if (Main.tileMoss[tile])
-            pb.WritePlayerPlaceTile(x, y, TileID.Stone, useSlot, false);
-
         pb.WritePositionedOperationWithItem(
             x, y,
             itemId,
@@ -280,22 +270,22 @@ public static class PacketBuilderExtensions
         return pb;
     }
 
-    public static PacketBuilder WritePlayerKillTile(this PacketBuilder pb, int x, int y, int useSlot = 0, bool resetToNormal = true)
+    public static PacketBuilder WritePlayerKillTile(this PacketBuilder pb, int x, int y, bool isFail = false, int useSlot = 0, bool resetToNormal = true)
     {
         pb.WritePositionedOperationWithItem(
             x, y,
             ItemID.IronPickaxe,
-            b => b.WriteTileManipulationPacket(TileManipulationID.KillTile, x, y),
+            b => b.WriteTileManipulationPacket(TileManipulationID.KillTile, x, y, isFail ? 1 : 0),
             useSlot, resetToNormal);
         return pb;
     }
 
-    public static PacketBuilder WritePlayerPaintTile(this PacketBuilder pb, int x, int y, int tileColor, int tileCoatId, int useSlot = 0, bool resetToNormal = true)
+    public static PacketBuilder WritePlayerPaintTile(this PacketBuilder pb, int x, int y, int tileColor, bool isTileCoatId, int useSlot = 0, bool resetToNormal = true)
     {
         pb.WritePositionedOperationWithItem(
             x, y,
             ItemID.Paintbrush,
-            b => b.WritePaintTilePacket(x, y, tileColor, tileCoatId),
+            b => b.WritePaintTilePacket(x, y, tileColor, isTileCoatId),
             useSlot, resetToNormal);
         return pb;
     }
@@ -324,22 +314,22 @@ public static class PacketBuilderExtensions
         return pb;
     }
 
-    public static PacketBuilder WritePlayerKillWall(this PacketBuilder pb, int x, int y, int useSlot = 0, bool resetToNormal = true)
+    public static PacketBuilder WritePlayerKillWall(this PacketBuilder pb, int x, int y, bool isFail = false, int useSlot = 0, bool resetToNormal = true)
     {
         pb.WritePositionedOperationWithItem(
             x, y,
             ItemID.IronHammer,
-            b => b.WriteTileManipulationPacket(TileManipulationID.KillWall, x, y),
+            b => b.WriteTileManipulationPacket(TileManipulationID.KillWall, x, y, isFail ? 1 : 0),
             useSlot, resetToNormal);
         return pb;
     }
 
-    public static PacketBuilder WritePlayerPaintWall(this PacketBuilder pb, int x, int y, int wallColor, int wallCoatId, int useSlot = 0, bool resetToNormal = true)
+    public static PacketBuilder WritePlayerPaintWall(this PacketBuilder pb, int x, int y, int wallColor, bool isWallCoatId, int useSlot = 0, bool resetToNormal = true)
     {
         pb.WritePositionedOperationWithItem(
             x, y,
             ItemID.PaintRoller,
-            b => b.WritePaintWallPacket(x, y, wallColor, wallCoatId),
+            b => b.WritePaintWallPacket(x, y, wallColor, isWallCoatId),
             useSlot, resetToNormal);
         return pb;
     }
@@ -413,6 +403,16 @@ public static class PacketBuilderExtensions
             x, y,
             ItemID.WireKite,
             b => b.WriteTileManipulationPacket(TileManipulationID.KillActuator, x, y),
+            useSlot, resetToNormal);
+        return pb;
+    }
+
+    public static PacketBuilder WritePlayerActuate(this PacketBuilder pb, int x, int y, int useSlot = 0, bool resetToNormal = true)
+    {
+        pb.WritePositionedOperationWithItem(
+            x, y,
+            ItemID.ActuationRod,
+            b => b.WriteTileManipulationPacket(TileManipulationID.Actuate, x, y),
             useSlot, resetToNormal);
         return pb;
     }

@@ -129,7 +129,7 @@ public class WorldEditCopyPaste : WorldEdit
                 Paster.PasteBySendTileRectInNewTask(CopiedSection, originTile, DestroyTiles);
                 break;
             case PlaceMode.TileManipulation:
-                Paster.PasteByTileManipulationInNewTask(CopiedSection, originTile, DestroyTiles, 75);
+                Paster.PasteByTileManipulationInNewTask(CopiedSection, originTile, DestroyTiles, 100);
                 break;
         }
     }

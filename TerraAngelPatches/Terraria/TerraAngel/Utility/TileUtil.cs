@@ -22,21 +22,21 @@ public class TileUtil
     public static Color[] WallColor = [];
 
     // need to place TileID.Dirt
-    public static bool[] TileDirtGrass = TileID.Sets.Factory.CreateBoolSet(
+    public static readonly bool[] TileDirtGrass = TileID.Sets.Factory.CreateBoolSet(
         TileID.CorruptGrass,
         TileID.CrimsonGrass,
         TileID.Grass,
         TileID.HallowedGrass);
 
     // need to place TileID.Mud
-    public static bool[] TileMudGrass = TileID.Sets.Factory.CreateBoolSet(
+    public static readonly bool[] TileMudGrass = TileID.Sets.Factory.CreateBoolSet(
         TileID.JungleGrass,
         TileID.CorruptJungleGrass,
         TileID.CrimsonJungleGrass,
         TileID.MushroomGrass);
 
     // need to place TileID.Ash
-    public static bool[] TileAshGrass = TileID.Sets.Factory.CreateBoolSet(
+    public static readonly bool[] TileAshGrass = TileID.Sets.Factory.CreateBoolSet(
         TileID.AshGrass);
 
     // TODO: handle moss

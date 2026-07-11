@@ -34,7 +34,7 @@ public struct TileData
         this = from;
     }
 
-    public unsafe bool isTheSameAs(Tile compTile) => isTheSameAs(ref compTile.RefData);
+    public bool isTheSameAs(Tile compTile) => isTheSameAs(ref compTile.RefData);
 
     public bool isTheSameAs(ref TileData compTile)
     {

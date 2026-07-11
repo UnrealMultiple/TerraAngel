@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Terraria.csproj
 +++ src/TerraAngel/Terraria/Terraria.csproj
-@@ -3,41 +_,203 @@
+@@ -3,41 +_,204 @@
    <PropertyGroup>
      <OutputType>WinExe</OutputType>
      <Nullable>enable</Nullable>
@@ -87,6 +87,7 @@
 +    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
 +    <PackageReference Include="System.Drawing.Common" Version="8.0.8" />
 +    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
++    <PackageReference Include="System.Threading.RateLimiting" Version="10.0.9" />
 +  </ItemGroup>
 +
 +
