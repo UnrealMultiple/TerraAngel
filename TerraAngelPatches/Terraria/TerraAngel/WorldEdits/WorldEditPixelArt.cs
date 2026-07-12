@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.RateLimiting;
 using System.Threading.Tasks;
 using Color = Microsoft.Xna.Framework.Color;
 
@@ -33,6 +32,8 @@ public class WorldEditPixelArt : WorldEdit
 
     private Task? _onGoingPasteTask;
     private CancellationTokenSource? _cancellationTokenSource;
+
+    private int _tilePlacedPerSecond = 150;
 
     private int _targetWidth;
     private int _targetHeight;
@@ -153,6 +154,11 @@ public class WorldEditPixelArt : WorldEdit
 
         if (ImGui.Checkbox(GetString("Enable Dithering"), ref _enableDithering))
             InvalidateCopiedSection();
+
+        if (Main.netMode != 0)
+        {
+            ImGui.InputInt(GetString("Tile Placed Per Second"), ref _tilePlacedPerSecond);
+        }
 
         if (!IsImageActiveAndBound)
             return;
@@ -421,10 +427,10 @@ public class WorldEditPixelArt : WorldEdit
                 Paster.PasteBySendTileRect(CopiedSection, originTile, false);
             else
             {
-                await Paster.PasteByTileManipulationAsync(CopiedSection, originTile, false, 5000, _cancellationTokenSource.Token);
+                await Paster.PasteByTileManipulationAsync(CopiedSection, originTile, false, _tilePlacedPerSecond, _cancellationTokenSource.Token);
             }
 
-            ClientLoader.Console.WriteLine($"Wait for 5s before checking");
+            ClientLoader.Console.WriteLine("Wait for 5s before checking missing tiles");
             await Task.Delay(5000);
 
             // check it...
