@@ -571,8 +571,8 @@ public class TileSectionPaster
                 QueueLimit = int.MaxValue,
                 QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
                 AutoReplenishment = true,
-                ReplenishmentPeriod = TimeSpan.FromSeconds(1) / 60,
-                TokensPerPeriod = tilePerSecond / 60
+                ReplenishmentPeriod = tilePerSecond >= 60 ? TimeSpan.FromSeconds(1) / 60 : TimeSpan.FromSeconds(1) / tilePerSecond,
+                TokensPerPeriod = tilePerSecond >= 60 ? tilePerSecond / 60 : 1
             }
             : null;
         await using var placeLimiter = tilePerSecond != -1
