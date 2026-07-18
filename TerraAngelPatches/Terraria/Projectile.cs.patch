@@ -1,13 +1,5 @@
 --- src/Terraria/Terraria/Projectile.cs
 +++ src/TerraAngel/Terraria/Projectile.cs
-@@ -3,6 +_,7 @@
- using Microsoft.Xna.Framework;
- using Microsoft.Xna.Framework.Audio;
- using ReLogic.Utilities;
-+using TerraAngel.Tools.Exploit;
- using Terraria.Audio;
- using Terraria.Chat;
- using Terraria.DataStructures;
 @@ -20118,6 +_,7 @@
              flag = true;
          }
@@ -16,6 +8,38 @@
          if (!flag && fisher.inLava)
          {
              int num3 = 0;
+@@ -32249,6 +_,31 @@
+             }
+ 
+             localAI[1] = MathHelper.Lerp(localAI[1], num734, amount);
++
++            // TerraAngel: Break tiles when laser touches them (if enabled in TerrariaPrismTool)
++            if (type == 632 && Main.projectile[(int)this.ai[1]].active && Main.projectile[(int)this.ai[1]].type == 633)
++            {
++                var prismTool = ToolManager.GetTool<TerraAngel.Tools.Exploit.TerrariaPrismTool>();
++                if (prismTool.ShouldBreakTiles())
++                {
++                    // Calculate the end point of the laser
++                    Vector2 laserEnd = base.Center + velocity * localAI[1];
++                    int tileX = (int)(laserEnd.X / 16f);
++                    int tileY = (int)(laserEnd.Y / 16f);
++
++                    for (int x = tileX - 1; x <= tileX + 1; x++)
++                    {
++                        for (int y = tileY - 1; y <= tileY + 1; y++)
++                        {
++                            if (WorldGen.InWorld(x, y) && Main.tile[x, y].active())
++                            {
++                                WorldGen.KillTile(x, y);
++                            }
++                        }
++                    }
++                }
++            }
++
+             if (type == 455)
+             {
+                 Vector2 vector64 = base.Center + velocity * (localAI[1] - 14f);
 @@ -38871,8 +_,8 @@
          Vector2 value = master.MountedCenter + new Vector2(master.direction * 10, 0f);
          Vector2 tangent = new Vector2(0f, -100f);
@@ -76,7 +100,7 @@
                  num37 = 5f;
              }
  
-+            if (ToolManager.GetTool<TerrariaPrismTool>().IsToolProjectile(whoAmI))
++            if (ToolManager.GetTool<TerraAngel.Tools.Exploit.TerrariaPrismTool>().IsToolProjectile(whoAmI))
 +            {
 +                if (velocity == Vector2.Zero)
 +                {
@@ -85,8 +109,7 @@
 +            }
 +            else
 +            {
--            damage = (int)((float)player.inventory[player.selectedItem].damage * player.magicDamage);
-+                damage = (int)((float)player.inventory[player.selectedItem].damage * player.magicDamage);
+             damage = (int)((float)player.inventory[player.selectedItem].damage * player.magicDamage);
 +            }
              ai[0] += 1f;
              ai[1] += 1f;
@@ -96,19 +119,15 @@
                  ai[1] = 0f;
                  flag9 = true;
 -                if (Main.myPlayer == owner)
-+                if (Main.myPlayer == owner && !ToolManager.GetTool<TerrariaPrismTool>().IsToolProjectile(whoAmI))
++                if (Main.myPlayer == owner && !ToolManager.GetTool<TerraAngel.Tools.Exploit.TerrariaPrismTool>().IsToolProjectile(whoAmI))
                  {
                      float num39 = player.inventory[player.selectedItem].shootSpeed * scale;
                      Vector2 vector18 = vector;
-@@ -68588,20 +_,33 @@
- 
-             if (flag9 && Main.myPlayer == owner)
+@@ -68590,7 +_,21 @@
              {
--                bool flag10 = false;
--                flag10 = !flag8 || player.CheckMana(player.inventory[player.selectedItem].mana, pay: true);
--                if (player.channel && flag10 && !player.noItems && !player.CCed)
-+                bool flag10 = !flag8 || player.CheckMana(player.inventory[player.selectedItem].mana, pay: true);
-+                if (ToolManager.GetTool<TerrariaPrismTool>().IsToolProjectile(whoAmI))
+                 bool flag10 = false;
+                 flag10 = !flag8 || player.CheckMana(player.inventory[player.selectedItem].mana, pay: true);
++                if (ToolManager.GetTool<TerraAngel.Tools.Exploit.TerrariaPrismTool>().IsToolProjectile(whoAmI))
 +                {
 +                    if (ai[0] == 181f)
 +                    {
@@ -122,22 +141,19 @@
 +                        netUpdate = true;
 +                    }
 +                }
+-                if (player.channel && flag10 && !player.noItems && !player.CCed)
 +                else if (player.channel && flag10 && !player.noItems && !player.CCed)
                  {
                      if (ai[0] == 1f)
                      {
-                         Vector2 center2 = base.Center;
-+                        int num41 = damage;
-                         Vector2 vector19 = Vector2.Normalize(velocity);
-                         if (float.IsNaN(vector19.X) || float.IsNaN(vector19.Y))
+@@ -68600,7 +_,6 @@
                          {
                              vector19 = -Vector2.UnitY;
                          }
- 
--                        int num41 = damage;
+-
+                         int num41 = damage;
                          for (int m = 0; m < 6; m++)
                          {
-                             NewProjectile(GetProjectileSource_FromThis(), center2.X, center2.Y, vector19.X, vector19.Y, 632, num41, knockBack, owner, m, whoAmI);
 @@ -79444,7 +_,7 @@
                                  Vector2 value13 = vector73.RotatedBy(((num904 == 0) ? 1f : (-1f)) * ((float)Math.PI * 2f) / (num899 * 2f));
                                  for (float num905 = 0f; num905 < num902; num905++)
