@@ -17,3 +17,29 @@
          if (tile.active() && tile.type == 314 && (tile.frameX == 20 || tile.frameX == 21))
          {
              return true;
+@@ -636,12 +_,6 @@
+                 }
+ 
+                 tile = Main.tile[num5, num6];
+-                if (tile == null)
+-                {
+-                    tile = new Tile();
+-                    Main.tile[num5, num6] = tile;
+-                }
+-
+                 flag = ((tile.nactive() && tile.type == 314) ? true : false);
+             }
+ 
+@@ -996,12 +_,6 @@
+         }
+ 
+         Tile tile = Main.tile[i, j];
+-        if (tile == null)
+-        {
+-            tile = new Tile();
+-            Main.tile[i, j] = tile;
+-        }
+-
+         if (mute && tile.type != 314)
+         {
+             return false;

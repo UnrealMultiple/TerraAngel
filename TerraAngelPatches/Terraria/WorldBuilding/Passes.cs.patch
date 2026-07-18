@@ -1,0 +1,14 @@
+--- src/Terraria/Terraria/WorldBuilding/Passes.cs
++++ src/TerraAngel/Terraria/WorldBuilding/Passes.cs
+@@ -15,11 +_,6 @@
+             {
+                 for (int j = 0; j < GenBase._worldHeight; j++)
+                 {
+-                    if (GenBase._tiles[i, j] == null)
+-                    {
+-                        GenBase._tiles[i, j] = new Tile();
+-                    }
+-                    else
+                     {
+                         GenBase._tiles[i, j].ClearEverything();
+                     }
