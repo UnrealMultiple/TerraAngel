@@ -37,6 +37,7 @@ public class WorldEditPixelArt : WorldEdit
 
     private int _targetWidth;
     private int _targetHeight;
+    private bool _targetKeepRatio = true;
     private float _targetRotation;
 
     private bool IsImageActiveAndBound => !string.IsNullOrEmpty(SelectedPath) && _image is not null && _textureContainer.IsActive;
@@ -168,22 +169,35 @@ public class WorldEditPixelArt : WorldEdit
 
         int newWidth = _targetWidth;
         int newHeight = _targetHeight;
-        if (ImGui.InputInt(GetString("Width"), ref newWidth) && newWidth > 0)
+        ImGui.InputInt(GetString("Width"), ref newWidth);
+        if (ImGui.IsItemDeactivatedAfterEdit() && newWidth > 0)
         {
             // reset other mutate fields
             _targetRotation = 0f;
+
+            if (_targetKeepRatio)
+            {
+                _targetHeight = Math.Max((int)((float)newWidth * _image!.Height / _image!.Width), 1);
+            }
 
             _targetWidth = newWidth;
             ResizePreviewImage();
         }
-        if (ImGui.InputInt(GetString("Height"), ref newHeight) && newHeight > 0)
+        ImGui.InputInt(GetString("Height"), ref newHeight);
+        if (ImGui.IsItemDeactivatedAfterEdit() && newHeight > 0)
         {
             // reset other mutate fields
             _targetRotation = 0f;
 
+            if (_targetKeepRatio)
+            {
+                _targetWidth = Math.Max((int)((float)newHeight * _image!.Width / _image!.Height), 1);
+            }
+
             _targetHeight = newHeight;
             ResizePreviewImage();
         }
+        ImGui.Checkbox(GetString("Keep Ratio"), ref _targetKeepRatio);
 
         if (ImGui.Button(GetString("Apply Resize")))
         {
@@ -430,40 +444,42 @@ public class WorldEditPixelArt : WorldEdit
                 await Paster.PasteByTileManipulationAsync(CopiedSection, originTile, false, _tilePlacedPerSecond, _cancellationTokenSource.Token);
             }
 
-            ClientLoader.Console.WriteLine("Wait for 5s before checking missing tiles");
-            await Task.Delay(5000);
+            ClientLoader.Console.WriteLine(GetString("Done pasting"));
 
-            // check it...
-            HashSet<int> failedTiles = [];
-            HashSet<int> failedWalls = [];
-
-            for (int y = 0; y < CopiedSection.Height; y++)
-            for (int x = 0; x < CopiedSection.Width; x++)
-            {
-                int worldX = originX + x, worldY = originY + y;
-                if (!WorldGen.InWorld(worldX, worldY))
-                    continue;
-
-                Tile tile = Main.tile[worldX, worldY];
-                Tile copiedTile = CopiedSection.Tiles[x, y];
-
-                if (copiedTile.active())
-                {
-                    if (!tile.active() || tile.type != copiedTile.type || tile.color() != copiedTile.color())
-                        failedTiles.Add(copiedTile.type);
-                }
-
-                if (copiedTile.wall != 0)
-                {
-                    if (tile.wall != copiedTile.wall || tile.wallColor() != copiedTile.wallColor())
-                        failedWalls.Add(copiedTile.type);
-                }
-            }
-
-            if (failedTiles.Count > 0)
-                ClientLoader.Console.WriteError($"Failed Tiles: {string.Join(',', failedTiles)}");
-            if (failedWalls.Count > 0)
-                ClientLoader.Console.WriteError($"Failed Walls: {string.Join(',', failedWalls)}");
+            // ClientLoader.Console.WriteLine("Wait for 5s before checking missing tiles");
+            // await Task.Delay(5000);
+            //
+            // // check it...
+            // HashSet<int> failedTiles = [];
+            // HashSet<int> failedWalls = [];
+            //
+            // for (int y = 0; y < CopiedSection.Height; y++)
+            // for (int x = 0; x < CopiedSection.Width; x++)
+            // {
+            //     int worldX = originX + x, worldY = originY + y;
+            //     if (!WorldGen.InWorld(worldX, worldY))
+            //         continue;
+            //
+            //     Tile tile = Main.tile[worldX, worldY];
+            //     Tile copiedTile = CopiedSection.Tiles[x, y];
+            //
+            //     if (copiedTile.active())
+            //     {
+            //         if (!tile.active() || tile.type != copiedTile.type || tile.color() != copiedTile.color())
+            //             failedTiles.Add(copiedTile.type);
+            //     }
+            //
+            //     if (copiedTile.wall != 0)
+            //     {
+            //         if (tile.wall != copiedTile.wall || tile.wallColor() != copiedTile.wallColor())
+            //             failedWalls.Add(copiedTile.type);
+            //     }
+            // }
+            //
+            // if (failedTiles.Count > 0)
+            //     ClientLoader.Console.WriteError($"Failed Tiles: {string.Join(',', failedTiles)}");
+            // if (failedWalls.Count > 0)
+            //     ClientLoader.Console.WriteError($"Failed Walls: {string.Join(',', failedWalls)}");
         }, _cancellationTokenSource.Token);
     }
 

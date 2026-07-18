@@ -813,47 +813,47 @@ public class TileSectionPaster
             }
         }
 
-        // force tshock to send back tilesquare
-        for (int y = section.Height - 1; y > -1; y--)
-        for (int x = 0; x < section.Width; x++)
-        {
-            token.ThrowIfCancellationRequested();
-
-            var world = originTile + new Vector2i(x, y);
-            if (!WorldGen.InWorld(world.X, world.Y))
-                continue;
-
-            Tile copiedTile = section.Tiles[x, y];
-
-            bool isCopiedTileEmpty = !(copiedTile.active() || copiedTile.wall > 0);
-            if (isCopiedTileEmpty && !isDestroyTiles)
-                continue;
-
-            // frame it!
-            WorldGen.SquareTileFrame(world.X, world.Y);
-            WorldGen.SquareWallFrame(world.X, world.Y);
-
-            if (Main.netMode != 0)
-            {
-                if (copiedTile.active())
-                {
-                    await LimiterAcquireAsync(killLimiter);
-                    pb.WritePlayerKillTile(world.X, world.Y, true, resetToNormal: false);
-                }
-
-                if (copiedTile.wall > 0)
-                {
-                    await LimiterAcquireAsync(killLimiter);
-                    pb.WritePlayerKillWall(world.X, world.Y, true, resetToNormal: false);
-                }
-
-                // reset to normal
-                pb.WriteSyncEquipmentPacketNormal(0);
-                pb.WritePlayerControlsPacketNormal();
-                pb.Send();
-                pb.Clear();
-            }
-        }
+        // // force tshock to send back tilesquare
+        // for (int y = section.Height - 1; y > -1; y--)
+        // for (int x = 0; x < section.Width; x++)
+        // {
+        //     token.ThrowIfCancellationRequested();
+        //
+        //     var world = originTile + new Vector2i(x, y);
+        //     if (!WorldGen.InWorld(world.X, world.Y))
+        //         continue;
+        //
+        //     Tile copiedTile = section.Tiles[x, y];
+        //
+        //     bool isCopiedTileEmpty = !(copiedTile.active() || copiedTile.wall > 0);
+        //     if (isCopiedTileEmpty && !isDestroyTiles)
+        //         continue;
+        //
+        //     // frame it!
+        //     WorldGen.SquareTileFrame(world.X, world.Y);
+        //     WorldGen.SquareWallFrame(world.X, world.Y);
+        //
+        //     if (Main.netMode != 0)
+        //     {
+        //         if (copiedTile.active())
+        //         {
+        //             await LimiterAcquireAsync(killLimiter);
+        //             pb.WritePlayerKillTile(world.X, world.Y, true, resetToNormal: false);
+        //         }
+        //
+        //         if (copiedTile.wall > 0)
+        //         {
+        //             await LimiterAcquireAsync(killLimiter);
+        //             pb.WritePlayerKillWall(world.X, world.Y, true, resetToNormal: false);
+        //         }
+        //
+        //         // reset to normal
+        //         pb.WriteSyncEquipmentPacketNormal(0);
+        //         pb.WritePlayerControlsPacketNormal();
+        //         pb.Send();
+        //         pb.Clear();
+        //     }
+        // }
 
         // TODO: pass two
     }
