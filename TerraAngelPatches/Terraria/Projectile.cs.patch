@@ -96,64 +96,6 @@
              rotation = rotation.AngleLerp(idleRotation3, 0.45f);
              if (Main.rand.Next(20) == 0)
              {
-@@ -68518,7 +_,17 @@
-                 num37 = 5f;
-             }
- 
-+            if (ToolManager.GetTool<TerraAngel.Tools.Exploit.TerrariaPrismTool>().IsToolProjectile(whoAmI))
-+            {
-+                if (velocity == Vector2.Zero)
-+                {
-+                    velocity = -Vector2.UnitY;
-+                }
-+            }
-+            else
-+            {
-             damage = (int)((float)player.inventory[player.selectedItem].damage * player.magicDamage);
-+            }
-             ai[0] += 1f;
-             ai[1] += 1f;
-             bool flag8 = false;
-@@ -68538,7 +_,7 @@
-             {
-                 ai[1] = 0f;
-                 flag9 = true;
--                if (Main.myPlayer == owner)
-+                if (Main.myPlayer == owner && !ToolManager.GetTool<TerraAngel.Tools.Exploit.TerrariaPrismTool>().IsToolProjectile(whoAmI))
-                 {
-                     float num39 = player.inventory[player.selectedItem].shootSpeed * scale;
-                     Vector2 vector18 = vector;
-@@ -68590,7 +_,21 @@
-             {
-                 bool flag10 = false;
-                 flag10 = !flag8 || player.CheckMana(player.inventory[player.selectedItem].mana, pay: true);
-+                if (ToolManager.GetTool<TerraAngel.Tools.Exploit.TerrariaPrismTool>().IsToolProjectile(whoAmI))
-+                {
-+                    if (ai[0] == 181f)
-+                    {
-+                        Vector2 center2 = base.Center;
-+                        int num41 = damage;
-+                        for (int m = 0; m < 6; m++)
-+                        {
-+                            var index = NewProjectile(GetProjectileSource_FromThis(), center2.X, center2.Y, velocity.X, velocity.Y, 632, num41, knockBack, owner, m, whoAmI);
-+                            Main.projectile[index].timeLeft = int.MaxValue;
-+                        }
-+                        netUpdate = true;
-+                    }
-+                }
--                if (player.channel && flag10 && !player.noItems && !player.CCed)
-+                else if (player.channel && flag10 && !player.noItems && !player.CCed)
-                 {
-                     if (ai[0] == 1f)
-                     {
-@@ -68600,7 +_,6 @@
-                         {
-                             vector19 = -Vector2.UnitY;
-                         }
--
-                         int num41 = damage;
-                         for (int m = 0; m < 6; m++)
-                         {
 @@ -53237,11 +_,6 @@
              {
                  for (int j = num12; j < num13; j++)
@@ -234,6 +176,56 @@
          if (Main.tile[X, Y - 1].liquid > 0)
          {
              result = Y * 16;
+@@ -68518,7 +_,17 @@
+                 num37 = 5f;
+             }
+ 
++            if (ToolManager.GetTool<TerraAngel.Tools.Exploit.TerrariaPrismTool>().IsToolProjectile(whoAmI))
++            {
++                if (velocity == Vector2.Zero)
++                {
++                    velocity = -Vector2.UnitY;
++                }
++            }
++            else
++            {
+             damage = (int)((float)player.inventory[player.selectedItem].damage * player.magicDamage);
++            }
+             ai[0] += 1f;
+             ai[1] += 1f;
+             bool flag8 = false;
+@@ -68538,7 +_,7 @@
+             {
+                 ai[1] = 0f;
+                 flag9 = true;
+-                if (Main.myPlayer == owner)
++                if (Main.myPlayer == owner && !ToolManager.GetTool<TerraAngel.Tools.Exploit.TerrariaPrismTool>().IsToolProjectile(whoAmI))
+                 {
+                     float num39 = player.inventory[player.selectedItem].shootSpeed * scale;
+                     Vector2 vector18 = vector;
+@@ -68590,7 +_,21 @@
+             {
+                 bool flag10 = false;
+                 flag10 = !flag8 || player.CheckMana(player.inventory[player.selectedItem].mana, pay: true);
++                if (ToolManager.GetTool<TerraAngel.Tools.Exploit.TerrariaPrismTool>().IsToolProjectile(whoAmI))
++                {
++                    if (ai[0] == 181f)
++                    {
++                        Vector2 center2 = base.Center;
++                        int num41 = damage;
++                        for (int m = 0; m < 6; m++)
++                        {
++                            var index = NewProjectile(GetProjectileSource_FromThis(), center2.X, center2.Y, velocity.X, velocity.Y, 632, num41, knockBack, owner, m, whoAmI);
++                            Main.projectile[index].timeLeft = int.MaxValue;
++                        }
++                        netUpdate = true;
++                    }
++                }
+-                if (player.channel && flag10 && !player.noItems && !player.CCed)
++                else if (player.channel && flag10 && !player.noItems && !player.CCed)
+                 {
+                     if (ai[0] == 1f)
+                     {
 @@ -78056,11 +_,6 @@
  
                  int num696 = (int)position.X / 16;
