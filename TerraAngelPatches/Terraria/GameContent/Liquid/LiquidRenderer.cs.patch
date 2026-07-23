@@ -9,3 +9,15 @@
      public event Action<Color[], Rectangle> WaveFilters;
      public static void LoadContent()
      {
+@@ -134,11 +_,6 @@
+                 for (int j = rectangle.Y; j < rectangle.Y + rectangle.Height; j++)
+                 {
+                     tile = Tiles[i, j];
+-                    if (tile == null)
+-                    {
+-                        tile = new Tile();
+-                    }
+-
+                     ptr2->LiquidLevel = (float)(int)tile.liquid / 255f;
+                     ptr2->IsHalfBrick = tile.halfBrick() && ptr2[-1].HasLiquid && !TileID.Sets.Platforms[tile.type];
+                     ptr2->IsSolid = WorldGen.SolidOrSlopedTile(tile);

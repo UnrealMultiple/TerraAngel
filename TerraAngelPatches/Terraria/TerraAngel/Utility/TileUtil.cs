@@ -21,6 +21,26 @@ public class TileUtil
     public static Color[] TileColor = [];
     public static Color[] WallColor = [];
 
+    // need to place TileID.Dirt
+    public static readonly bool[] TileDirtGrass = TileID.Sets.Factory.CreateBoolSet(
+        TileID.CorruptGrass,
+        TileID.CrimsonGrass,
+        TileID.Grass,
+        TileID.HallowedGrass);
+
+    // need to place TileID.Mud
+    public static readonly bool[] TileMudGrass = TileID.Sets.Factory.CreateBoolSet(
+        TileID.JungleGrass,
+        TileID.CorruptJungleGrass,
+        TileID.CrimsonJungleGrass,
+        TileID.MushroomGrass);
+
+    // need to place TileID.Ash
+    public static readonly bool[] TileAshGrass = TileID.Sets.Factory.CreateBoolSet(
+        TileID.AshGrass);
+
+    // TODO: handle moss
+
     public static int GetItemFromTile(int type)
     {
         return GetPlacementItem(TileToItem, type, DefaultPlacementStyle, allowDefaultFallback: false);
@@ -179,6 +199,13 @@ public class TileUtil
                 }
                 break;
             case 31:
+                {
+                    // TODO: look for more accurate calculation method
+                    wallColor.R = 255;
+                    wallColor.G = 255;
+                    wallColor.B = 255;
+                }
+                break;
             case 0:
                 break;
             default:
@@ -252,6 +279,13 @@ public class TileUtil
                 }
                 break;
             case 31:
+                {
+                    // TODO: look for more accurate calculation method
+                    tileColor.R = 255;
+                    tileColor.G = 255;
+                    tileColor.B = 255;
+                }
+                break;
             case 0:
                 break;
             default:

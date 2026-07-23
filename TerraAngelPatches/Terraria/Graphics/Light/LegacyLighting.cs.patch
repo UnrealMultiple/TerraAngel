@@ -22,6 +22,19 @@
          }
  
          _swipe = new LightingSwipeData();
+@@ -403,12 +_,6 @@
+             {
+                 LightingState lightingState = array[j - _expandedRectTop];
+                 Tile tile = Main.tile[i, j];
+-                if (tile == null)
+-                {
+-                    tile = new Tile();
+-                    Main.tile[i, j] = tile;
+-                }
+-
+                 if ((!tile.active() || !Main.tileNoSunLight[tile.type]) && lightingState.R < _skyColor && tile.liquid < 200 && (Main.wallLight[tile.wall] || tile.wall == 73))
+                 {
+                     lightingState.R = tileR;
 @@ -594,6 +_,8 @@
      public void Clear()
      {
@@ -44,6 +57,19 @@
          _tileScanner.ExportTo(new Rectangle(num, num3, num2 - num, num4 - num3), _lightMap, new TileLightScannerOptions { DrawInvisibleWalls = Main.ShouldShowInvisibleBlocksAndWalls() });
          for (int m = num; m < num2; m++)
          {
+@@ -705,12 +_,6 @@
+             {
+                 LightingState lightingState2 = array3[n - _expandedRectTop];
+                 Tile tile = Main.tile[m, n];
+-                if (tile == null)
+-                {
+-                    tile = new Tile();
+-                    Main.tile[m, n] = tile;
+-                }
+-
+                 _lightMap.GetLight(m - num, n - num3, out var color);
+                 if (_rgb)
+                 {
 @@ -767,7 +_,9 @@
              }
          }

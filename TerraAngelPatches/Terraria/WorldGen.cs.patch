@@ -75,6 +75,2247 @@
                  for (int num25 = 0; num25 < num22; num25++)
                  {
                      num23 += (int)vector2D.X;
+@@ -7403,7 +_,7 @@
+                 Main.statusText = Lang.gen[46].Value + " " + (int)(num * 100f + 1f) + "%";
+                 for (int k = 0; k < lastMaxTilesY; k++)
+                 {
+-                    Main.tile[j, k] = null;
++                    Main.tile[j, k].ClearEverything();
+                 }
+             }
+         }
+@@ -7423,11 +_,6 @@
+                 Main.statusText = Lang.gen[47].Value + " " + (int)(num2 * 100f + 1f) + "%";
+                 for (int m = 0; m < Main.maxTilesY; m++)
+                 {
+-                    if (Main.tile[l, m] == null)
+-                    {
+-                        Main.tile[l, m] = new Tile();
+-                    }
+-                    else
+                     {
+                         Main.tile[l, m].ClearEverything();
+                     }
+@@ -25582,7 +_,7 @@
+ 
+             for (int j = num3; j < Main.maxTilesY; j++)
+             {
+-                Main.tile[i, j] = new Tile();
++                Main.tile[i, j].ClearEverything();
+                 Main.tile[i, j].active(active: true);
+                 Main.tile[i, j].type = 57;
+             }
+@@ -31844,10 +_,10 @@
+     {
+         int treeHeight = 1;
+         int passStyle = -1;
+-        Tile topTile = null;
++        TileData topTile = new TileData();
+         for (int num = -1; num > -100; num--)
+         {
+-            Tile tile = Main.tile[x, y + num];
++            ref TileData tile = ref Main.tile.GetTileRef(x, y + num);
+             if (!tile.active() || !TileID.Sets.GetsCheckedForLeaves[tile.type])
+             {
+                 break;
+@@ -31859,14 +_,14 @@
+ 
+         for (int i = 1; i < 5; i++)
+         {
+-            Tile tile2 = Main.tile[x, y + i];
++            ref TileData tile2 = ref Main.tile.GetTileRef(x, y + i);
+             if (tile2.active() && TileID.Sets.GetsCheckedForLeaves[tile2.type])
+             {
+                 treeHeight++;
+                 continue;
+             }
+ 
+-            GetTreeLeaf(x, topTile, tile2, ref treeHeight, out var _, out passStyle);
++            GetTreeLeaf(x, ref topTile, ref tile2, ref treeHeight, out var _, out passStyle);
+             break;
+         }
+ 
+@@ -31884,7 +_,7 @@
+         }
+     }
+ 
+-    public static void GetTreeLeaf(int x, Tile topTile, Tile t, ref int treeHeight, out int treeFrame, out int passStyle)
++    public static void GetTreeLeaf(int x, ref TileData topTile, ref TileData t, ref int treeHeight, out int treeFrame, out int passStyle)
+     {
+         treeFrame = 0;
+         passStyle = -1;
+@@ -34616,11 +_,6 @@
+         int num = 0;
+         int num2 = i;
+         int num3 = j;
+-        if (Main.tile[i, j] == null)
+-        {
+-            Main.tile[i, j] = new Tile();
+-        }
+-
+         int frameX = Main.tile[i, j].frameX;
+         Tile tile = Main.tile[i, j];
+         if (tile.type != 11)
+@@ -34690,11 +_,6 @@
+         {
+             for (int m = num3; m < num3 + 3; m++)
+             {
+-                if (Main.tile[l, m] == null)
+-                {
+-                    Main.tile[l, m] = new Tile();
+-                }
+-
+                 Tile tile2 = Main.tile[l, m];
+                 if (tile2.active() && tile2.type == 11)
+                 {
+@@ -40924,11 +_,6 @@
+         SoundEngine.PlaySound(22, i * 16, num * 16 + 16);
+         for (int k = num; k <= num + 2; k++)
+         {
+-            if (Main.tile[i, k] == null)
+-            {
+-                Main.tile[i, k] = new Tile();
+-            }
+-
+             Main.tile[i, k].frameY += 54;
+             for (int l = 0; l < 4; l++)
+             {
+@@ -40942,26 +_,6 @@
+     public static bool OpenDoor(int i, int j, int direction)
+     {
+         int num = 0;
+-        if (Main.tile[i, j - 1] == null)
+-        {
+-            Main.tile[i, j - 1] = new Tile();
+-        }
+-
+-        if (Main.tile[i, j - 2] == null)
+-        {
+-            Main.tile[i, j - 2] = new Tile();
+-        }
+-
+-        if (Main.tile[i, j + 1] == null)
+-        {
+-            Main.tile[i, j + 1] = new Tile();
+-        }
+-
+-        if (Main.tile[i, j] == null)
+-        {
+-            Main.tile[i, j] = new Tile();
+-        }
+-
+         Tile tile = Main.tile[i, j];
+         if (tile.type != 10)
+         {
+@@ -40997,17 +_,7 @@
+         }
+ 
+         TileColorCache cache = Main.tile[num6, num].BlockColorAndCoating();
+-        if (Main.tile[num6, num + 1] == null)
+-        {
+-            Main.tile[num6, num + 1] = new Tile();
+-        }
+-
+         TileColorCache cache2 = Main.tile[num6, num + 1].BlockColorAndCoating();
+-        if (Main.tile[num6, num + 2] == null)
+-        {
+-            Main.tile[num6, num + 2] = new Tile();
+-        }
+-
+         TileColorCache cache3 = Main.tile[num6, num + 2].BlockColorAndCoating();
+         int num7;
+         if (direction == -1)
+@@ -41057,51 +_,26 @@
+         Main.tile[num6, num].frameY = (short)num8;
+         Main.tile[num6, num].frameX = num2;
+         Main.tile[num6, num].UseBlockColors(cache);
+-        if (Main.tile[num6 + 1, num] == null)
+-        {
+-            Main.tile[num6 + 1, num] = new Tile();
+-        }
+-
+         Main.tile[num6 + 1, num].active(active: true);
+         Main.tile[num6 + 1, num].type = 11;
+         Main.tile[num6 + 1, num].frameY = (short)num8;
+         Main.tile[num6 + 1, num].frameX = (short)(num2 + 18);
+         Main.tile[num6 + 1, num].UseBlockColors(cache);
+-        if (Main.tile[num6, num + 1] == null)
+-        {
+-            Main.tile[num6, num + 1] = new Tile();
+-        }
+-
+         Main.tile[num6, num + 1].active(active: true);
+         Main.tile[num6, num + 1].type = 11;
+         Main.tile[num6, num + 1].frameY = (short)(num8 + 18);
+         Main.tile[num6, num + 1].frameX = num2;
+         Main.tile[num6, num + 1].UseBlockColors(cache2);
+-        if (Main.tile[num6 + 1, num + 1] == null)
+-        {
+-            Main.tile[num6 + 1, num + 1] = new Tile();
+-        }
+-
+         Main.tile[num6 + 1, num + 1].active(active: true);
+         Main.tile[num6 + 1, num + 1].type = 11;
+         Main.tile[num6 + 1, num + 1].frameY = (short)(num8 + 18);
+         Main.tile[num6 + 1, num + 1].frameX = (short)(num2 + 18);
+         Main.tile[num6 + 1, num + 1].UseBlockColors(cache2);
+-        if (Main.tile[num6, num + 2] == null)
+-        {
+-            Main.tile[num6, num + 2] = new Tile();
+-        }
+-
+         Main.tile[num6, num + 2].active(active: true);
+         Main.tile[num6, num + 2].type = 11;
+         Main.tile[num6, num + 2].frameY = (short)(num8 + 36);
+         Main.tile[num6, num + 2].frameX = num2;
+         Main.tile[num6, num + 2].UseBlockColors(cache3);
+-        if (Main.tile[num6 + 1, num + 2] == null)
+-        {
+-            Main.tile[num6 + 1, num + 2] = new Tile();
+-        }
+-
+         Main.tile[num6 + 1, num + 2].active(active: true);
+         Main.tile[num6 + 1, num + 2].type = 11;
+         Main.tile[num6 + 1, num + 2].frameY = (short)(num8 + 36);
+@@ -41145,11 +_,6 @@
+         bool flag = false;
+         for (int i = 0; i < num; i++)
+         {
+-            if (Main.tile[x, num5 + i] == null)
+-            {
+-                Main.tile[x, num5 + i] = new Tile();
+-            }
+-
+             if (!Main.tile[x, num5 + i].active())
+             {
+                 flag = true;
+@@ -41168,11 +_,6 @@
+             }
+         }
+ 
+-        if (Main.tile[x, num5 + num] == null)
+-        {
+-            Main.tile[x, num5 + num] = new Tile();
+-        }
+-
+         if (!SolidTileAllowBottomSlope(x, num5 + num))
+         {
+             flag = true;
+@@ -41362,11 +_,6 @@
+             num--;
+         }
+ 
+-        if (Main.tile[num, j] == null)
+-        {
+-            Main.tile[num, j] = new Tile();
+-        }
+-
+         int num3 = Main.tile[num, j].frameY / 18;
+         int num4 = 3;
+         if (type == 104)
+@@ -41392,21 +_,11 @@
+             num5 += 2;
+         }
+ 
+-        if (Main.tile[num, num6] == null)
+-        {
+-            Main.tile[num, num6] = new Tile();
+-        }
+-
+         int frameX = Main.tile[num, j].frameX;
+         int frameY = Main.tile[num, j].frameY;
+         bool flag = false;
+         for (int k = 0; k < num4; k++)
+         {
+-            if (Main.tile[num, num6 + k] == null)
+-            {
+-                Main.tile[num, num6 + k] = new Tile();
+-            }
+-
+             if (!Main.tile[num, num6 + k].active())
+             {
+                 flag = true;
+@@ -41424,11 +_,6 @@
+                 flag = true;
+             }
+ 
+-            if (Main.tile[num + 1, num6 + k] == null)
+-            {
+-                Main.tile[num + 1, num6 + k] = new Tile();
+-            }
+-
+             if (!Main.tile[num + 1, num6 + k].active())
+             {
+                 flag = true;
+@@ -41718,21 +_,6 @@
+ 
+     public static void PlaceTight(int x, int y, bool spiders = false)
+     {
+-        if (Main.tile[x, y - 1] == null)
+-        {
+-            Main.tile[x, y - 1] = new Tile();
+-        }
+-
+-        if (Main.tile[x, y] == null)
+-        {
+-            Main.tile[x, y] = new Tile();
+-        }
+-
+-        if (Main.tile[x, y + 1] == null)
+-        {
+-            Main.tile[x, y + 1] = new Tile();
+-        }
+-
+         if (!Main.tile[x, y].anyShimmer() && (!Main.tile[x, y].active() || Main.tile[x, y].type != 231))
+         {
+             PlaceUncheckedStalactite(x, y, genRand.Next(2) == 0, genRand.Next(3), spiders);
+@@ -42454,21 +_,6 @@
+         int num = j;
+         if (Main.tile[x, num].frameY == 72)
+         {
+-            if (Main.tile[x, num - 1] == null)
+-            {
+-                Main.tile[x, num - 1] = new Tile();
+-            }
+-
+-            if (Main.tile[x, num] == null)
+-            {
+-                Main.tile[x, num] = new Tile();
+-            }
+-
+-            if (Main.tile[x, num + 1] == null)
+-            {
+-                Main.tile[x, num + 1] = new Tile();
+-            }
+-
+             bool flag = false;
+             if (!SolidTile(x, num - 1))
+             {
+@@ -42496,21 +_,6 @@
+ 
+         if (Main.tile[x, num].frameY == 90)
+         {
+-            if (Main.tile[x, num - 1] == null)
+-            {
+-                Main.tile[x, num - 1] = new Tile();
+-            }
+-
+-            if (Main.tile[x, num] == null)
+-            {
+-                Main.tile[x, num] = new Tile();
+-            }
+-
+-            if (Main.tile[x, num + 1] == null)
+-            {
+-                Main.tile[x, num + 1] = new Tile();
+-            }
+-
+             bool flag2 = false;
+             if (!SolidTile(x, num + 1))
+             {
+@@ -42548,21 +_,6 @@
+                 num--;
+             }
+ 
+-            if (Main.tile[x, num] == null)
+-            {
+-                Main.tile[x, num] = new Tile();
+-            }
+-
+-            if (Main.tile[x, num + 1] == null)
+-            {
+-                Main.tile[x, num + 1] = new Tile();
+-            }
+-
+-            if (Main.tile[x, num + 2] == null)
+-            {
+-                Main.tile[x, num + 2] = new Tile();
+-            }
+-
+             bool flag3 = false;
+             if (!SolidTile(x, num + 2))
+             {
+@@ -42613,21 +_,6 @@
+             num--;
+         }
+ 
+-        if (Main.tile[x, num - 1] == null)
+-        {
+-            Main.tile[x, num - 1] = new Tile();
+-        }
+-
+-        if (Main.tile[x, num] == null)
+-        {
+-            Main.tile[x, num] = new Tile();
+-        }
+-
+-        if (Main.tile[x, num + 1] == null)
+-        {
+-            Main.tile[x, num + 1] = new Tile();
+-        }
+-
+         bool flag4 = false;
+         if (!SolidTile(x, num - 1))
+         {
+@@ -42678,11 +_,6 @@
+         bool flag = true;
+         for (int i = y - num2 + 1; i < y + 1; i++)
+         {
+-            if (Main.tile[x, i] == null)
+-            {
+-                Main.tile[x, i] = new Tile();
+-            }
+-
+             if (Main.tile[x, i].active())
+             {
+                 flag = false;
+@@ -43266,20 +_,11 @@
+         bool flag = true;
+         for (int i = y - num3 + 1; i < y + 1; i++)
+         {
+-            if (Main.tile[x, i] == null)
+-            {
+-                Main.tile[x, i] = new Tile();
+-            }
+-
+             if (Main.tile[x, i].active())
+             {
+                 flag = false;
+             }
+ 
+-            if (Main.tile[x + 1, i] == null)
+-            {
+-                Main.tile[x + 1, i] = new Tile();
+-            }
+ 
+             if (Main.tile[x + 1, i].active())
+             {
+@@ -46963,15 +_,7 @@
+ 
+         int num = j;
+         bool flag = true;
+-        if (Main.tile[x, num] == null)
+-        {
+-            Main.tile[x, num] = new Tile();
+-        }
+ 
+-        if (Main.tile[x, num + 1] == null)
+-        {
+-            Main.tile[x, num + 1] = new Tile();
+-        }
+ 
+         short num2 = Main.tile[x, num].frameY;
+         int num3 = 0;
+@@ -46986,10 +_,6 @@
+             num--;
+         }
+ 
+-        if (Main.tile[x, num] == null)
+-        {
+-            Main.tile[x, num] = new Tile();
+-        }
+ 
+         int num4 = Main.tile[x, num].frameX / 18;
+         if (Main.tile[x, num].frameX == -1)
+@@ -47002,10 +_,6 @@
+             flag = false;
+         }
+ 
+-        if (Main.tile[x, num + 2] == null)
+-        {
+-            Main.tile[x, num + 2] = new Tile();
+-        }
+ 
+         if (!SolidTileAllowBottomSlope(x, num + 2) && !TileID.Sets.Platforms[Main.tile[x, num + 2].type])
+         {
+@@ -47215,10 +_,6 @@
+         {
+             for (int j = num3; j < num4; j++)
+             {
+-                if (Main.tile[i, j] == null)
+-                {
+-                    Main.tile[i, j] = new Tile();
+-                }
+             }
+         }
+ 
+@@ -47458,10 +_,6 @@
+         {
+             for (int j = num3; j < num4; j++)
+             {
+-                if (Main.tile[i, j] == null)
+-                {
+-                    Main.tile[i, j] = new Tile();
+-                }
+             }
+         }
+ 
+@@ -47549,10 +_,6 @@
+         {
+             for (int j = num3; j < num4; j++)
+             {
+-                if (Main.tile[i, j] == null)
+-                {
+-                    Main.tile[i, j] = new Tile();
+-                }
+             }
+         }
+ 
+@@ -48939,15 +_,7 @@
+             return;
+         }
+ 
+-        if (Main.tile[x, y] == null)
+-        {
+-            Main.tile[x, y] = new Tile();
+-        }
+ 
+-        if (Main.tile[x, y + 1] == null)
+-        {
+-            Main.tile[x, y + 1] = new Tile();
+-        }
+ 
+         Tile tile = Main.tile[x, y];
+         Tile tile2 = Main.tile[x, y + 1];
+@@ -49068,16 +_,6 @@
+     public static void PlaceLogicTiles(int x, int y, int type, int style = 0)
+     {
+         Tile tile = Main.tile[x, y];
+-        if (Main.tile[x, y] == null)
+-        {
+-            tile = new Tile();
+-            Main.tile[x, y] = tile;
+-        }
+-
+-        if (Main.tile[x, y + 1] == null)
+-        {
+-            Main.tile[x, y + 1] = new Tile();
+-        }
+ 
+         if (type == 419)
+         {
+@@ -49101,15 +_,7 @@
+     public static void PlaceOnTable1x1(int x, int y, int type, int style = 0)
+     {
+         bool flag = false;
+-        if (Main.tile[x, y] == null)
+-        {
+-            Main.tile[x, y] = new Tile();
+-        }
+ 
+-        if (Main.tile[x, y + 1] == null)
+-        {
+-            Main.tile[x, y + 1] = new Tile();
+-        }
+ 
+         if (!Main.tile[x, y].active() && Main.tile[x, y + 1].nactive() && Main.tileTable[Main.tile[x, y + 1].type])
+         {
+@@ -49145,16 +_,6 @@
+ 
+     public static bool PlaceAlch(int x, int y, int style)
+     {
+-        if (Main.tile[x, y] == null)
+-        {
+-            Main.tile[x, y] = new Tile();
+-        }
+-
+-        if (Main.tile[x, y + 1] == null)
+-        {
+-            Main.tile[x, y + 1] = new Tile();
+-        }
+-
+         Tile tile = Main.tile[x, y];
+         Tile tile2 = Main.tile[x, y + 1];
+         if (!tile.active() && tile2.nactive() && !tile2.halfBrick() && tile2.slope() == 0)
+@@ -49809,16 +_,6 @@
+ 
+     public static void CheckAlch(int x, int y)
+     {
+-        if (Main.tile[x, y] == null)
+-        {
+-            Main.tile[x, y] = new Tile();
+-        }
+-
+-        if (Main.tile[x, y + 1] == null)
+-        {
+-            Main.tile[x, y + 1] = new Tile();
+-        }
+-
+         bool flag = false;
+         if (!Main.tile[x, y + 1].nactive())
+         {
+@@ -49969,11 +_,6 @@
+         bool flag = false;
+         for (int i = 0; i < 3; i++)
+         {
+-            if (Main.tile[x, num + i] == null)
+-            {
+-                Main.tile[x, num + i] = new Tile();
+-            }
+-
+             if (!Main.tile[x, num + i].active())
+             {
+                 flag = true;
+@@ -49992,10 +_,6 @@
+             }
+         }
+ 
+-        if (Main.tile[x, num - 1] == null)
+-        {
+-            Main.tile[x, num - 1] = new Tile();
+-        }
+ 
+         Tile tile = Main.tile[x, num - 1];
+         if (!tile.nactive())
+@@ -50139,26 +_,6 @@
+             num2 += 54;
+         }
+ 
+-        if (Main.tile[x, y - 1] == null)
+-        {
+-            Main.tile[x, y - 1] = new Tile();
+-        }
+-
+-        if (Main.tile[x, y] == null)
+-        {
+-            Main.tile[x, y] = new Tile();
+-        }
+-
+-        if (Main.tile[x, y + 1] == null)
+-        {
+-            Main.tile[x, y + 1] = new Tile();
+-        }
+-
+-        if (Main.tile[x, y + 2] == null)
+-        {
+-            Main.tile[x, y + 2] = new Tile();
+-        }
+-
+         if (Main.tile[x, y - 1].nactive() && Main.tileSolid[Main.tile[x, y - 1].type] && !Main.tileSolidTop[Main.tile[x, y - 1].type] && !Main.tile[x, y].active() && !Main.tile[x, y + 1].active() && !Main.tile[x, y + 2].active())
+         {
+             Main.tile[x, y].active(active: true);
+@@ -50571,16 +_,6 @@
+             frameX = (short)(genRand.Next(3) * 18);
+         }
+ 
+-        if (Main.tile[x, y - 1] == null)
+-        {
+-            Main.tile[x, y - 1] = new Tile();
+-        }
+-
+-        if (Main.tile[x, y + 1] == null)
+-        {
+-            Main.tile[x, y + 1] = new Tile();
+-        }
+-
+         if (SolidTile2(x, y + 1) & !Main.tile[x, y - 1].active())
+         {
+             short num = (short)(style * 40);
+@@ -50598,15 +_,7 @@
+     public static void Place1x2Top(int x, int y, ushort type, int style)
+     {
+         short frameX = 0;
+-        if (Main.tile[x, y - 1] == null)
+-        {
+-            Main.tile[x, y - 1] = new Tile();
+-        }
+ 
+-        if (Main.tile[x, y + 1] == null)
+-        {
+-            Main.tile[x, y + 1] = new Tile();
+-        }
+ 
+         if (Main.tile[x, y - 1].nactive() && Main.tileSolid[Main.tile[x, y - 1].type] && !Main.tileSolidTop[Main.tile[x, y - 1].type] && !Main.tile[x, y + 1].active())
+         {
+@@ -50641,31 +_,11 @@
+ 
+         num -= num2;
+         num2 = num3 * 36;
+-        if (Main.tile[x, num] == null)
+-        {
+-            Main.tile[x, num] = new Tile();
+-        }
+-
+-        if (Main.tile[x, num + 1] == null)
+-        {
+-            Main.tile[x, num + 1] = new Tile();
+-        }
+-
+-        if (Main.tile[x, num] == null)
+-        {
+-            Main.tile[x, num] = new Tile();
+-        }
+-
+         if (Main.tile[x, num].frameY == num2 && Main.tile[x, num + 1].frameY == num2 + 18 && Main.tile[x, num].type == type && Main.tile[x, num + 1].type == type)
+         {
+             flag = false;
+         }
+ 
+-        if (Main.tile[x, num - 1] == null)
+-        {
+-            Main.tile[x, num - 1] = new Tile();
+-        }
+-
+         bool flag2 = false;
+         bool flag3 = false;
+         switch (type)
+@@ -50753,26 +_,6 @@
+     {
+         short frameY = (short)(pileSize * 18);
+         short frameX = (short)(pileStyle * 18);
+-        if (Main.tile[i, j] == null)
+-        {
+-            Main.tile[i, j] = new Tile();
+-        }
+-
+-        if (Main.tile[i + 1, j] == null)
+-        {
+-            Main.tile[i + 1, j] = new Tile();
+-        }
+-
+-        if (Main.tile[i, j + 1] == null)
+-        {
+-            Main.tile[i, j + 1] = new Tile();
+-        }
+-
+-        if (Main.tile[i + 1, j + 1] == null)
+-        {
+-            Main.tile[i + 1, j + 1] = new Tile();
+-        }
+-
+         if (Main.tile[i, j].anyLava())
+         {
+             return false;
+@@ -50819,26 +_,6 @@
+ 
+     public static void CheckPile(int i, int y)
+     {
+-        if (Main.tile[i, y] == null)
+-        {
+-            Main.tile[i, y] = new Tile();
+-        }
+-
+-        if (Main.tile[i + 1, y] == null)
+-        {
+-            Main.tile[i + 1, y] = new Tile();
+-        }
+-
+-        if (Main.tile[i, y + 1] == null)
+-        {
+-            Main.tile[i, y + 1] = new Tile();
+-        }
+-
+-        if (Main.tile[i + 1, y + 1] == null)
+-        {
+-            Main.tile[i + 1, y + 1] = new Tile();
+-        }
+-
+         Tile tile = Main.tile[i, y];
+         if (tile.frameY == 18 || tile.type == 649)
+         {
+@@ -50932,35 +_,15 @@
+ 
+         int num = i;
+         bool flag = true;
+-        if (Main.tile[num, y] == null)
+-        {
+-            Main.tile[num, y] = new Tile();
+-        }
+ 
+         int num2 = Main.tile[num, y].frameX / 18;
+         int num3 = num2 >> 1;
+         int num4 = Main.tile[num, y].frameY / 18;
+         num2 %= 2;
+         num -= num2;
+-        if (Main.tile[num, y] == null)
+-        {
+-            Main.tile[num, y] = new Tile();
+-        }
+-
+-        if (Main.tile[num + 1, y] == null)
+-        {
+-            Main.tile[num + 1, y] = new Tile();
+-        }
+-
+-        if (Main.tile[num, y + 1] == null)
+-        {
+-            Main.tile[num, y + 1] = new Tile();
+-        }
+-
+-        if (Main.tile[num + 1, y + 1] == null)
+-        {
+-            Main.tile[num + 1, y + 1] = new Tile();
+-        }
++
++
++
+ 
+         if (Main.tile[num + 1, y].frameX == Main.tile[num, y].frameX + 18 && Main.tile[num, y].type == type && Main.tile[num + 1, y].type == type && Main.tile[num, y].active() && Main.tile[num + 1, y].active())
+         {
+@@ -51359,26 +_,6 @@
+ 
+     public static void Place2x1(int x, int y, ushort type, int style = 0)
+     {
+-        if (Main.tile[x, y] == null)
+-        {
+-            Main.tile[x, y] = new Tile();
+-        }
+-
+-        if (Main.tile[x + 1, y] == null)
+-        {
+-            Main.tile[x + 1, y] = new Tile();
+-        }
+-
+-        if (Main.tile[x, y + 1] == null)
+-        {
+-            Main.tile[x, y + 1] = new Tile();
+-        }
+-
+-        if (Main.tile[x + 1, y + 1] == null)
+-        {
+-            Main.tile[x + 1, y + 1] = new Tile();
+-        }
+-
+         bool flag = false;
+         if (type != 29 && type != 103 && SolidTile2(x, y + 1) && SolidTile2(x + 1, y + 1) && !Main.tile[x, y].active() && !Main.tile[x + 1, y].active())
+         {
+@@ -51451,10 +_,6 @@
+                     num5 += num3 * 36;
+                 }
+ 
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+ 
+                 if (!Main.tile[k, l].active() || Main.tile[k, l].type != type || Main.tile[k, l].frameX != num4 || Main.tile[k, l].frameY != num5)
+                 {
+@@ -51462,10 +_,6 @@
+                 }
+             }
+ 
+-            if (Main.tile[k, num2 + 2] == null)
+-            {
+-                Main.tile[k, num2 + 2] = new Tile();
+-            }
+ 
+             if (!SolidTileAllowBottomSlope(k, num2 + 2) && (!Main.tile[k, num2 + 2].active() || !TileID.Sets.Platforms[Main.tile[k, num2 + 2].type]))
+             {
+@@ -51567,11 +_,6 @@
+         {
+             for (int j = Y - 1; j < Y + 1; j++)
+             {
+-                if (Main.tile[i, j] == null)
+-                {
+-                    Main.tile[i, j] = new Tile();
+-                }
+-
+                 if (Main.tile[i, j].active() && Main.tile[i, j].type != 529)
+                 {
+                     flag = false;
+@@ -51583,10 +_,6 @@
+                 }
+             }
+ 
+-            if (Main.tile[i, Y + 1] == null)
+-            {
+-                Main.tile[i, Y + 1] = new Tile();
+-            }
+ 
+             if (!SolidTile(i, Y + 1) || !TileID.Sets.Conversion.Sand[Main.tile[i, Y + 1].type])
+             {
+@@ -51665,21 +_,12 @@
+         {
+             for (int l = num; l < num + 2; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (!Main.tile[k, l].active() || Main.tile[k, l].type != type || Main.tile[k, l].frameX != (k - num3) * 18 + num5 || Main.tile[k, l].frameY != (l - num) * 18)
+                 {
+                     flag = true;
+                 }
+             }
+ 
+-            if (Main.tile[k, num + 2] == null)
+-            {
+-                Main.tile[k, num + 2] = new Tile();
+-            }
+ 
+             if (!SolidTile(k, num + 2) || !TileID.Sets.Conversion.Sand[Main.tile[k, num + 2].type])
+             {
+@@ -51698,11 +_,6 @@
+         {
+             for (int n = num; n < num + 2; n++)
+             {
+-                if (Main.tile[m, n] == null)
+-                {
+-                    Main.tile[m, n] = new Tile();
+-                }
+-
+                 if (Main.tile[m, n].type == type && Main.tile[m, n].active())
+                 {
+                     KillTile(m, n);
+@@ -51845,11 +_,6 @@
+             {
+                 for (int j = num - 1; j < num + 1; j++)
+                 {
+-                    if (Main.tile[i, j] == null)
+-                    {
+-                        Main.tile[i, j] = new Tile();
+-                    }
+-
+                     Tile tile = Main.tile[i, j];
+                     if (tile.active() && tile.type != 61 && tile.type != 703 && tile.type != 62 && tile.type != 655 && tile.type != 69 && tile.type != 74 && (type != 236 || tile.type != 233) && (type != 702 || tile.type != 233) && (type != 238 || tile.type != 233) && (tile.type != 185 || tile.frameY != 0))
+                     {
+@@ -51862,10 +_,6 @@
+                     }
+                 }
+ 
+-                if (Main.tile[i, num + 1] == null)
+-                {
+-                    Main.tile[i, num + 1] = new Tile();
+-                }
+ 
+                 if (!SolidTile(i, num + 1) || Main.tile[i, num + 1].type != 60)
+                 {
+@@ -51933,21 +_,12 @@
+             {
+                 for (int n = Y2 - 1; n < Y2 + 1; n++)
+                 {
+-                    if (Main.tile[m, n] == null)
+-                    {
+-                        Main.tile[m, n] = new Tile();
+-                    }
+-
+                     if (Main.tile[m, n].active() && Main.tile[m, n].type != 61 && Main.tile[m, n].type != 703 && Main.tile[m, n].type != 62 && Main.tile[m, n].type != 69 && Main.tile[m, n].type != 655 && Main.tile[m, n].type != 74 && (Main.tile[m, n].type != 185 || Main.tile[m, n].frameY != 0))
+                     {
+                         flag2 = false;
+                     }
+                 }
+ 
+-                if (Main.tile[m, Y2 + 1] == null)
+-                {
+-                    Main.tile[m, Y2 + 1] = new Tile();
+-                }
+ 
+                 if (!SolidTile(m, Y2 + 1) || Main.tile[m, Y2 + 1].type != 60)
+                 {
+@@ -52045,21 +_,12 @@
+             {
+                 for (int l = num4; l < num4 + 2; l++)
+                 {
+-                    if (Main.tile[k, l] == null)
+-                    {
+-                        Main.tile[k, l] = new Tile();
+-                    }
+-
+                     if (!Main.tile[k, l].active() || Main.tile[k, l].type != type || Main.tile[k, l].frameX != (k - num) * 18 + num5 || Main.tile[k, l].frameY != (l - num4) * 18 + num3)
+                     {
+                         flag = true;
+                     }
+                 }
+ 
+-                if (Main.tile[k, num4 + 2] == null)
+-                {
+-                    Main.tile[k, num4 + 2] = new Tile();
+-                }
+ 
+                 if (type == 702)
+                 {
+@@ -52117,11 +_,6 @@
+             {
+                 for (int num10 = num4; num10 < num4 + 2; num10++)
+                 {
+-                    if (Main.tile[n, num10] == null)
+-                    {
+-                        Main.tile[n, num10] = new Tile();
+-                    }
+-
+                     if (Main.tile[n, num10].type == type && Main.tile[n, num10].active())
+                     {
+                         KillTile(n, num10);
+@@ -52150,21 +_,12 @@
+         {
+             for (int num16 = num11; num16 < num11 + 2; num16++)
+             {
+-                if (Main.tile[num15, num16] == null)
+-                {
+-                    Main.tile[num15, num16] = new Tile();
+-                }
+-
+                 if (!Main.tile[num15, num16].active() || Main.tile[num15, num16].type != type || Main.tile[num15, num16].frameX != (num15 - num12) * 18 + num14 || Main.tile[num15, num16].frameY != (num16 - num11) * 18)
+                 {
+                     flag2 = true;
+                 }
+             }
+ 
+-            if (Main.tile[num15, num11 + 2] == null)
+-            {
+-                Main.tile[num15, num11 + 2] = new Tile();
+-            }
+ 
+             if (!SolidTile(num15, num11 + 2) || Main.tile[num15, num11 + 2].type != 60)
+             {
+@@ -52183,11 +_,6 @@
+         {
+             for (int num18 = num11; num18 < num11 + 3; num18++)
+             {
+-                if (Main.tile[num17, num18] == null)
+-                {
+-                    Main.tile[num17, num18] = new Tile();
+-                }
+-
+                 if (Main.tile[num17, num18].type == type && Main.tile[num17, num18].active())
+                 {
+                     KillTile(num17, num18);
+@@ -52588,16 +_,6 @@
+ 
+         if (TileID.Sets.Boulders[type])
+         {
+-            if (Main.tile[num2, num6 - 1] == null)
+-            {
+-                Main.tile[num2, num6 - 1] = new Tile();
+-            }
+-
+-            if (Main.tile[num2 + 1, num6 - 1] == null)
+-            {
+-                Main.tile[num2 + 1, num6 - 1] = new Tile();
+-            }
+-
+             ushort type2 = Main.tile[num2, num6 - 1].type;
+             ushort type3 = Main.tile[num2 + 1, num6 - 1].type;
+             if (!TileID.Sets.BasicChest[type2] && !TileID.Sets.BasicChest[type3] && type2 != 88 && type3 != 88 && !TileID.Sets.BasicChestFake[type2] && !TileID.Sets.BasicChestFake[type3] && type2 != 470 && type3 != 470 && type2 != 475 && type3 != 475 && !SolidTileAllowBottomSlope(num2, num6 + 2) && !SolidTileAllowBottomSlope(num2 + 1, num6 + 2))
+@@ -52631,15 +_,7 @@
+                 }
+             }
+ 
+-            if (Main.tile[num2, num6 + 2] == null)
+-            {
+-                Main.tile[num2, num6 + 2] = new Tile();
+-            }
+ 
+-            if (Main.tile[num2 + 1, num6 + 2] == null)
+-            {
+-                Main.tile[num2 + 1, num6 + 2] = new Tile();
+-            }
+ 
+             Tile tile3 = Main.tile[num2, num6 + 2];
+             Tile tile4 = Main.tile[num2 + 1, num6 + 2];
+@@ -53305,10 +_,6 @@
+         }
+ 
+         bool flag = false;
+-        if (Main.tile[i, j] == null)
+-        {
+-            Main.tile[i, j] = new Tile();
+-        }
+ 
+         int num = Main.tile[i, j].frameX / 18;
+         int num2 = 0;
+@@ -53322,11 +_,6 @@
+         int num3 = num2 * 54;
+         for (int k = num; k < num + 3; k++)
+         {
+-            if (Main.tile[k, j] == null)
+-            {
+-                Main.tile[k, j] = new Tile();
+-            }
+-
+             if (!Main.tile[k, j].active() || Main.tile[k, j].type != type || Main.tile[k, j].frameX != (k - num) * 18 + num3 || Main.tile[k, j].frameY != 0)
+             {
+                 flag = true;
+@@ -53363,11 +_,6 @@
+ 
+         for (int m = num; m < num + 3; m++)
+         {
+-            if (Main.tile[m, j] == null)
+-            {
+-                Main.tile[m, j] = new Tile();
+-            }
+-
+             if (Main.tile[m, j].type == type && Main.tile[m, j].active())
+             {
+                 KillTile(m, j);
+@@ -53394,10 +_,6 @@
+         bool flag = false;
+         bool flag2 = false;
+         int num = j;
+-        if (Main.tile[i, j] == null)
+-        {
+-            Main.tile[i, j] = new Tile();
+-        }
+ 
+         int num2 = 36;
+         int num3 = Main.tile[i, j].frameY / num2;
+@@ -53428,11 +_,6 @@
+         {
+             for (int l = num; l < num8; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (!Main.tile[k, l].active() || Main.tile[k, l].type != type || Main.tile[k, l].frameX != (k - num5) * 18 + num7 || Main.tile[k, l].frameY != (l - num) * 18 + num3 * 36)
+                 {
+                     flag = true;
+@@ -53653,11 +_,6 @@
+         {
+             for (int num11 = num; num11 < num8; num11++)
+             {
+-                if (Main.tile[num10, num11] == null)
+-                {
+-                    Main.tile[num10, num11] = new Tile();
+-                }
+-
+                 if (Main.tile[num10, num11].type == type && Main.tile[num10, num11].active())
+                 {
+                     KillTile(num10, num11);
+@@ -54397,21 +_,12 @@
+         {
+             for (int l = num2; l < num2 + 4; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (!Main.tile[k, l].active() || Main.tile[k, l].type != type || Main.tile[k, l].frameX != num3 * 54 + (k - num) * 18 || Main.tile[k, l].frameY != num4 * 72 + (l - num2) * 18)
+                 {
+                     flag = true;
+                 }
+             }
+ 
+-            if (Main.tile[k, num2 + 4] == null)
+-            {
+-                Main.tile[k, num2 + 4] = new Tile();
+-            }
+ 
+             if (!SolidTileAllowBottomSlope(k, num2 + 4))
+             {
+@@ -54499,21 +_,12 @@
+         {
+             for (int l = num2; l < num2 + 4; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (!Main.tile[k, l].active() || Main.tile[k, l].type != type || Main.tile[k, l].frameX != num3 * 90 + (k - num) * 18 || Main.tile[k, l].frameY != (l - num2) * 18)
+                 {
+                     flag = true;
+                 }
+             }
+ 
+-            if (Main.tile[k, num2 + 4] == null)
+-            {
+-                Main.tile[k, num2 + 4] = new Tile();
+-            }
+ 
+             if (!SolidTileAllowBottomSlope(k, num2 + 4))
+             {
+@@ -54575,10 +_,6 @@
+             for (int l = num2; l < num2 + 3; l++)
+             {
+                 int num3 = (k - num) * 18;
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+ 
+                 if (!Main.tile[k, l].active() || Main.tile[k, l].type != type || Main.tile[k, l].frameX != num3 || Main.tile[k, l].frameY != (l - num2) * 18)
+                 {
+@@ -54586,10 +_,6 @@
+                 }
+             }
+ 
+-            if (Main.tile[k, num2 + 3] == null)
+-            {
+-                Main.tile[k, num2 + 3] = new Tile();
+-            }
+ 
+             if (!SolidTileAllowBottomSlope(k, num2 + 3) && (!Main.tile[k, num2 + 3].nactive() || !Main.tileSolidTop[Main.tile[k, num2 + 3].type] || Main.tile[k, num2 + 3].frameY != 0))
+             {
+@@ -54841,21 +_,12 @@
+         {
+             for (int j = y - 2; j <= y; j++)
+             {
+-                if (Main.tile[i, j] == null)
+-                {
+-                    Main.tile[i, j] = new Tile();
+-                }
+-
+                 if (Main.tile[i, j].active())
+                 {
+                     flag = false;
+                 }
+             }
+ 
+-            if (Main.tile[i, y + 1] == null)
+-            {
+-                Main.tile[i, y + 1] = new Tile();
+-            }
+ 
+             if (!SolidTile2(i, y + 1) && (!Main.tile[i, y + 1].nactive() || !Main.tileSolidTop[Main.tile[i, y + 1].type] || Main.tile[i, y + 1].frameY != 0))
+             {
+@@ -54897,21 +_,12 @@
+         {
+             for (int j = y - 1; j < y + 1; j++)
+             {
+-                if (Main.tile[i, j] == null)
+-                {
+-                    Main.tile[i, j] = new Tile();
+-                }
+-
+                 if (Main.tile[i, j].active())
+                 {
+                     flag = false;
+                 }
+             }
+ 
+-            if (Main.tile[i, y + 1] == null)
+-            {
+-                Main.tile[i, y + 1] = new Tile();
+-            }
+ 
+             if (!SolidTile2(i, y + 1))
+             {
+@@ -55176,11 +_,6 @@
+         {
+             for (int l = num2; l < num2 + 3; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (Main.tile[k, l].active() && Main.tile[k, l].type == 209)
+                 {
+                     Main.tile[k, l].frameY = (short)(Main.tile[k, l].frameY + num3);
+@@ -55223,11 +_,6 @@
+             int num6 = num4;
+             for (int l = num3; l < num3 + 3; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (!Main.tile[k, l].active() || Main.tile[k, l].type != type || Main.tile[k, l].frameX != num5 || Main.tile[k, l].frameY != num6)
+                 {
+                     flag = true;
+@@ -55236,10 +_,6 @@
+                 num6 += 18;
+             }
+ 
+-            if (Main.tile[k, num3 + 3] == null)
+-            {
+-                Main.tile[k, num3 + 3] = new Tile();
+-            }
+ 
+             if (!SolidTileAllowBottomSlope(k, num3 + 3) && k != num && k != num + 3)
+             {
+@@ -55304,21 +_,12 @@
+         {
+             for (int j = y - 2; j < y + 1; j++)
+             {
+-                if (Main.tile[i, j] == null)
+-                {
+-                    Main.tile[i, j] = new Tile();
+-                }
+-
+                 if (Main.tile[i, j].active())
+                 {
+                     flag = false;
+                 }
+             }
+ 
+-            if (Main.tile[i, y + 1] == null)
+-            {
+-                Main.tile[i, y + 1] = new Tile();
+-            }
+ 
+             if (!SolidTile2(i, y + 1) && i != x - 1 && i != x + 2)
+             {
+@@ -55402,11 +_,6 @@
+         {
+             for (int l = num2; l < num2 + 2; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (Main.tile[k, l].active() && (Main.tile[k, l].type == 139 || Main.tile[k, l].type == 35))
+                 {
+                     if (Main.tile[k, l].frameX < 36)
+@@ -55460,11 +_,6 @@
+         {
+             for (int l = num4; l < num4 + num2; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 Tile tile = Main.tile[k, l];
+                 if (!tile.active())
+                 {
+@@ -55608,11 +_,6 @@
+         {
+             for (int l = num2; l < num2 + 4; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (Main.tile[k, l].active() && Main.tile[k, l].type == 207)
+                 {
+                     if (Main.tile[k, l].frameY < 72)
+@@ -55673,11 +_,6 @@
+         {
+             for (int l = num2; l < num2 + 2; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (!Main.tile[k, l].active() || Main.tile[k, l].type != type || Main.tile[k, l].frameX != (k - num) * 18 + num6 * 36 || Main.tile[k, l].frameY != (l - num2) * 18 + num3 * 36)
+                 {
+                     flag = true;
+@@ -55745,21 +_,12 @@
+         {
+             for (int j = y - 1; j < y + 1; j++)
+             {
+-                if (Main.tile[i, j] == null)
+-                {
+-                    Main.tile[i, j] = new Tile();
+-                }
+-
+                 if (Main.tile[i, j].active())
+                 {
+                     flag = false;
+                 }
+             }
+ 
+-            if (Main.tile[i, y + 1] == null)
+-            {
+-                Main.tile[i, y + 1] = new Tile();
+-            }
+ 
+             if (!Main.tile[i, y + 1].active() || Main.tile[i, y + 1].halfBrick() || (!Main.tileSolid[Main.tile[i, y + 1].type] && !Main.tileTable[Main.tile[i, y + 1].type]))
+             {
+@@ -55854,15 +_,7 @@
+         if (type == 132)
+         {
+             bool flag = true;
+-            if (Main.tile[x - 1, y + 1] == null)
+-            {
+-                Main.tile[x - 1, y + 1] = new Tile();
+-            }
+ 
+-            if (Main.tile[x, y + 1] == null)
+-            {
+-                Main.tile[x, y + 1] = new Tile();
+-            }
+ 
+             if (!Main.tile[x - 1, y + 1].nactive() || (!SolidTile2(x - 1, y + 1) && !Main.tileTable[Main.tile[x - 1, y + 1].type]))
+             {
+@@ -56466,21 +_,12 @@
+         {
+             for (int j = y - 3; j < y + 1; j++)
+             {
+-                if (Main.tile[i, j] == null)
+-                {
+-                    Main.tile[i, j] = new Tile();
+-                }
+-
+                 if (Main.tile[i, j].active())
+                 {
+                     flag = false;
+                 }
+             }
+ 
+-            if (Main.tile[i, y + 1] == null)
+-            {
+-                Main.tile[i, y + 1] = new Tile();
+-            }
+ 
+             if (!SolidTile2(i, y + 1))
+             {
+@@ -56522,21 +_,12 @@
+         {
+             for (int j = y - 3; j < y + 1; j++)
+             {
+-                if (Main.tile[i, j] == null)
+-                {
+-                    Main.tile[i, j] = new Tile();
+-                }
+-
+                 if (Main.tile[i, j].active())
+                 {
+                     flag = false;
+                 }
+             }
+ 
+-            if (Main.tile[i, y + 1] == null)
+-            {
+-                Main.tile[i, y + 1] = new Tile();
+-            }
+ 
+             if (!SolidTile2(i, y + 1))
+             {
+@@ -56584,20 +_,11 @@
+         bool flag = true;
+         for (int i = x - 1; i < x + 2; i++)
+         {
+-            if (Main.tile[i, y] == null)
+-            {
+-                Main.tile[i, y] = new Tile();
+-            }
+-
+             if (Main.tile[i, y].active())
+             {
+                 flag = false;
+             }
+ 
+-            if (Main.tile[i, y + 1] == null)
+-            {
+-                Main.tile[i, y + 1] = new Tile();
+-            }
+ 
+             if (!SolidTile2(i, y + 1))
+             {
+@@ -56647,11 +_,6 @@
+         {
+             for (int j = num; j < y + 1; j++)
+             {
+-                if (Main.tile[i, j] == null)
+-                {
+-                    Main.tile[i, j] = new Tile();
+-                }
+-
+                 Tile tile = Main.tile[i, j];
+                 if (tile.active())
+                 {
+@@ -56664,10 +_,6 @@
+                 }
+             }
+ 
+-            if (Main.tile[i, y + 1] == null)
+-            {
+-                Main.tile[i, y + 1] = new Tile();
+-            }
+ 
+             switch (type)
+             {
+@@ -56789,21 +_,12 @@
+         {
+             for (int j = y - 1; j < y + 1; j++)
+             {
+-                if (Main.tile[i, j] == null)
+-                {
+-                    Main.tile[i, j] = new Tile();
+-                }
+-
+                 if (Main.tile[i, j].active())
+                 {
+                     flag = false;
+                 }
+             }
+ 
+-            if (Main.tile[i, y + 1] == null)
+-            {
+-                Main.tile[i, y + 1] = new Tile();
+-            }
+ 
+             if (!SolidTile(i, y + 1))
+             {
+@@ -56908,11 +_,6 @@
+         {
+             for (int l = num; l < num + 2; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (!Main.tile[k, l].active() || Main.tile[k, l].type != type || Main.tile[k, l].frameX != (k - num3) * 18 + num5)
+                 {
+                     flag = true;
+@@ -56953,11 +_,6 @@
+         {
+             for (int n = num; n < num + 2; n++)
+             {
+-                if (Main.tile[m, n] == null)
+-                {
+-                    Main.tile[m, n] = new Tile();
+-                }
+-
+                 if (Main.tile[m, n].type == type && Main.tile[m, n].active())
+                 {
+                     KillTile(m, n);
+@@ -57058,11 +_,6 @@
+         {
+             for (int j = superY - 1; j < superY + 1; j++)
+             {
+-                if (Main.tile[i, j] == null)
+-                {
+-                    Main.tile[i, j] = new Tile();
+-                }
+-
+                 if (Main.tile[i, j].active() && Main.tile[i, j].type != 3 && Main.tile[i, j].type != 73 && Main.tile[i, j].type != 113 && Main.tile[i, j].type != 110 && (Main.tile[i, j].type != 185 || Main.tile[i, j].frameY != 0))
+                 {
+                     flag = false;
+@@ -57135,11 +_,6 @@
+         {
+             for (int l = num; l < num + 2; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (!Main.tile[k, l].active() || Main.tile[k, l].type != type || Main.tile[k, l].frameX != (k - num3) * 18 + num5)
+                 {
+                     flag = true;
+@@ -57158,11 +_,6 @@
+             {
+                 for (int n = num; n < num + 2; n++)
+                 {
+-                    if (Main.tile[m, n] == null)
+-                    {
+-                        Main.tile[m, n] = new Tile();
+-                    }
+-
+                     if (Main.tile[m, n].type == type && Main.tile[m, n].active())
+                     {
+                         Main.tile[m, n].frameX += 36;
+@@ -57345,11 +_,6 @@
+         {
+             for (int l = num3; l < num3 + 3; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (Main.tile[k, l].active() && Main.tile[k, l].type == type)
+                 {
+                     Main.tile[k, l].type = 34;
+@@ -57367,11 +_,6 @@
+         {
+             for (int j = y; j < y + 3; j++)
+             {
+-                if (Main.tile[i, j] == null)
+-                {
+-                    Main.tile[i, j] = new Tile();
+-                }
+-
+                 if (Main.tile[i, j].active())
+                 {
+                     flag = false;
+@@ -57379,10 +_,6 @@
+             }
+         }
+ 
+-        if (Main.tile[x, y - 1] == null)
+-        {
+-            Main.tile[x, y - 1] = new Tile();
+-        }
+ 
+         if (!Main.tile[x, y - 1].nactive() || !Main.tileSolid[Main.tile[x, y - 1].type] || Main.tileSolidTop[Main.tile[x, y - 1].type])
+         {
+@@ -57498,11 +_,6 @@
+         {
+             for (int l = num2; l < num2 + 3; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (!Main.tile[k, l].active() || Main.tile[k, l].type != type || Main.tile[k, l].frameX != (k - num5) * 18 + num6 || Main.tile[k, l].frameY != (l - num2) * 18 + num8)
+                 {
+                     flag = true;
+@@ -57510,10 +_,6 @@
+             }
+         }
+ 
+-        if (Main.tile[num + 1, num2 - 1] == null)
+-        {
+-            Main.tile[num + 1, num2 - 1] = new Tile();
+-        }
+ 
+         if (!Main.tile[num + 1, num2 - 1].nactive() || !Main.tileSolid[Main.tile[num + 1, num2 - 1].type] || Main.tileSolidTop[Main.tile[num + 1, num2 - 1].type])
+         {
+@@ -57684,11 +_,6 @@
+         {
+             for (int l = num2; l < num2 + 4; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (!Main.tile[k, l].active() || Main.tile[k, l].type != type || Main.tile[k, l].frameX != (k - num4) * 18 + num5 || Main.tile[k, l].frameY != (l - num2) * 18 + num6 * 72)
+                 {
+                     flag = true;
+@@ -57698,11 +_,6 @@
+ 
+         for (int m = num; m < num + 4; m++)
+         {
+-            if (Main.tile[m, num2 + 4] == null)
+-            {
+-                Main.tile[m, num2 + 4] = new Tile();
+-            }
+-
+             if (!SolidTileAllowBottomSlope(m, num2 + 4))
+             {
+                 flag = true;
+@@ -57775,11 +_,6 @@
+         {
+             for (int l = num2; l < num2 + 3; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (!Main.tile[k, l].active() || Main.tile[k, l].type != type || Main.tile[k, l].frameX != (k - num4) * 18 + num5 || Main.tile[k, l].frameY != (l - num2) * 18 + num6 * 54)
+                 {
+                     flag = true;
+@@ -57791,11 +_,6 @@
+         {
+             for (int m = num; m < num + 3; m++)
+             {
+-                if (Main.tile[m, num2 + 3] == null)
+-                {
+-                    Main.tile[m, num2 + 3] = new Tile();
+-                }
+-
+                 if (!SolidTileAllowBottomSlope(m, num2 + 3))
+                 {
+                     flag = true;
+@@ -57805,11 +_,6 @@
+         }
+         else
+         {
+-            if (Main.tile[num + 1, num2 - 1] == null)
+-            {
+-                Main.tile[num + 1, num2 - 1] = new Tile();
+-            }
+-
+             if (!Main.tile[num + 1, num2 - 1].nactive() || !Main.tileSolid[Main.tile[num + 1, num2 - 1].type] || Main.tileSolidTop[Main.tile[num + 1, num2 - 1].type])
+             {
+                 flag = true;
+@@ -57991,11 +_,6 @@
+         {
+             for (int l = num2; l < num2 + 5; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (!Main.tile[k, l].active() || Main.tile[k, l].type != type || Main.tile[k, l].frameX != (k - num4) * 18 + num5 || Main.tile[k, l].frameY != (l - num2) * 18)
+                 {
+                     flag = true;
+@@ -58005,11 +_,6 @@
+ 
+         for (int m = num; m < num + 2; m++)
+         {
+-            if (Main.tile[m, num2 + 5] == null)
+-            {
+-                Main.tile[m, num2 + 5] = new Tile();
+-            }
+-
+             if (!SolidTileAllowBottomSlope(m, num2 + 5))
+             {
+                 flag = true;
+@@ -58086,11 +_,6 @@
+         {
+             for (int l = num2; l < num2 + 5; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (!Main.tile[k, l].active() || Main.tile[k, l].type != type || Main.tile[k, l].frameX != (k - num4) * 18 + num5 || Main.tile[k, l].frameY != (l - num2) * 18)
+                 {
+                     flag = true;
+@@ -58100,11 +_,6 @@
+ 
+         for (int m = num; m < num + 3; m++)
+         {
+-            if (Main.tile[m, num2 + 5] == null)
+-            {
+-                Main.tile[m, num2 + 5] = new Tile();
+-            }
+-
+             if (!SolidTileAllowBottomSlope(m, num2 + 5))
+             {
+                 flag = true;
+@@ -58176,11 +_,6 @@
+         {
+             for (int l = num2; l < num2 + 6; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 if (!Main.tile[k, l].active() || Main.tile[k, l].type != type || Main.tile[k, l].frameX != (k - num4) * 18 + num5 || Main.tile[k, l].frameY != (l - num2) * 18)
+                 {
+                     flag = true;
+@@ -58190,11 +_,6 @@
+ 
+         for (int m = num; m < num + 3; m++)
+         {
+-            if (Main.tile[m, num2 + 6] == null)
+-            {
+-                Main.tile[m, num2 + 6] = new Tile();
+-            }
+-
+             if (!SolidTileAllowBottomSlope(m, num2 + 6))
+             {
+                 flag = true;
+@@ -58257,11 +_,6 @@
+             {
+                 for (int j = y - 2; j < y + 1; j++)
+                 {
+-                    if (Main.tile[i, j] == null)
+-                    {
+-                        Main.tile[i, j] = new Tile();
+-                    }
+-
+                     if (Main.tile[i, j].active())
+                     {
+                         flag = false;
+@@ -58271,11 +_,6 @@
+ 
+             for (int k = x - 1; k < x + 2; k++)
+             {
+-                if (Main.tile[k, y + 1] == null)
+-                {
+-                    Main.tile[k, y + 1] = new Tile();
+-                }
+-
+                 if (!SolidTile2(k, y + 1))
+                 {
+                     flag = false;
+@@ -58289,11 +_,6 @@
+             {
+                 for (int m = y; m < y + 3; m++)
+                 {
+-                    if (Main.tile[l, m] == null)
+-                    {
+-                        Main.tile[l, m] = new Tile();
+-                    }
+-
+                     if (Main.tile[l, m].active())
+                     {
+                         flag = false;
+@@ -58301,10 +_,6 @@
+                 }
+             }
+ 
+-            if (Main.tile[x, y - 1] == null)
+-            {
+-                Main.tile[x, y - 1] = new Tile();
+-            }
+ 
+             if (!Main.tile[x, y - 1].nactive() || !Main.tileSolid[Main.tile[x, y - 1].type] || Main.tileSolidTop[Main.tile[x, y - 1].type])
+             {
+@@ -58366,21 +_,12 @@
+         {
+             for (int j = y - 3; j < y + 1; j++)
+             {
+-                if (Main.tile[i, j] == null)
+-                {
+-                    Main.tile[i, j] = new Tile();
+-                }
+-
+                 if (Main.tile[i, j].active() || Main.tile[i, j].wall > 0)
+                 {
+                     flag = false;
+                 }
+             }
+ 
+-            if (Main.tile[i, y + 1] == null)
+-            {
+-                Main.tile[i, y + 1] = new Tile();
+-            }
+ 
+             if (!Main.tile[i, y + 1].nactive() || Main.tile[i, y + 1].halfBrick() || Main.tile[i, y + 1].slope() != 0 || (Main.tile[i, y + 1].type != 2 && Main.tile[i, y + 1].type != 109))
+             {
+@@ -58481,11 +_,6 @@
+         {
+             for (int l = num2; l < num2 + 4; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 int num3;
+                 for (num3 = Main.tile[k, l].frameX / 18; num3 > 1; num3 -= 2)
+                 {
+@@ -58497,10 +_,6 @@
+                 }
+             }
+ 
+-            if (Main.tile[k, num2 + 4] == null)
+-            {
+-                Main.tile[k, num2 + 4] = new Tile();
+-            }
+ 
+             if (!Main.tile[k, num2 + 4].nactive() || (Main.tile[k, num2 + 4].type != 2 && Main.tile[k, num2 + 4].type != 477 && Main.tile[k, num2 + 4].type != 492 && Main.tile[k, num2 + 4].type != 109 && Main.tile[k, num2 + 4].type != 60 && Main.tile[k, num2 + 4].type != 633))
+             {
+@@ -58721,10 +_,6 @@
+             flag = false;
+         }
+ 
+-        if (Main.tile[x, num2 + 2] == null)
+-        {
+-            Main.tile[x, num2 + 2] = new Tile();
+-        }
+ 
+         if (!SolidTileAllowBottomSlope(x, num2 + 2) && !TileID.Sets.Platforms[Main.tile[x, num2 + 2].type])
+         {
+@@ -58851,21 +_,12 @@
+         {
+             for (int j = y - 1; j < y + 1; j++)
+             {
+-                if (Main.tile[i, j] == null)
+-                {
+-                    Main.tile[i, j] = new Tile();
+-                }
+-
+                 if (Main.tile[i, j].active())
+                 {
+                     flag = false;
+                 }
+             }
+ 
+-            if (Main.tile[i, y + 1] == null)
+-            {
+-                Main.tile[i, y + 1] = new Tile();
+-            }
+ 
+             if (!Main.tile[i, y + 1].nactive() || Main.tile[i, y + 1].halfBrick() || Main.tile[i, y + 1].slope() != 0 || !Main.tileSolid[Main.tile[i, y + 1].type])
+             {
+@@ -61820,11 +_,6 @@
+         {
+             for (int l = num2; l < num2 + 2; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 int num5;
+                 for (num5 = Main.tile[k, l].frameX / 18; num5 > 1; num5 -= 2)
+                 {
+@@ -61836,10 +_,6 @@
+                 }
+             }
+ 
+-            if (Main.tile[k, num2 + 2] == null)
+-            {
+-                Main.tile[k, num2 + 2] = new Tile();
+-            }
+ 
+             if (type == 653)
+             {
+@@ -63011,10 +_,6 @@
+         {
+             for (int j = -1; j <= 0; j++)
+             {
+-                if (Main.tile[x + i, y + j] == null)
+-                {
+-                    Main.tile[x + i, y + j] = new Tile();
+-                }
+             }
+         }
+ 
+@@ -63047,10 +_,6 @@
+         {
+             for (int j = -1; j <= 0; j++)
+             {
+-                if (Main.tile[x + i, y + j] == null)
+-                {
+-                    Main.tile[x + i, y + j] = new Tile();
+-                }
+             }
+         }
+ 
+@@ -63104,11 +_,6 @@
+         {
+             for (int l = num2; l < num2 + 2; l++)
+             {
+-                if (Main.tile[k, l] == null)
+-                {
+-                    Main.tile[k, l] = new Tile();
+-                }
+-
+                 int num3;
+                 for (num3 = Main.tile[k, l].frameX / 18; num3 > 1; num3 -= 2)
+                 {
+@@ -63120,10 +_,6 @@
+                 }
+             }
+ 
+-            if (Main.tile[k, num2 + 2] == null)
+-            {
+-                Main.tile[k, num2 + 2] = new Tile();
+-            }
+ 
+             if ((!Main.tile[k, num2 + 2].active() || !Main.tileSolid[Main.tile[k, num2 + 2].type]) && Chest.CanDestroyChest(num, num2))
+             {
+@@ -64683,11 +_,6 @@
+         if (i >= 0 && j >= 0 && i < Main.maxTilesX && j < Main.maxTilesY)
+         {
+             Tile tile = Main.tile[i, j];
+-            if (tile == null)
+-            {
+-                tile = new Tile();
+-                Main.tile[i, j] = tile;
+-            }
+ 
+             if (tile.active())
+             {
+@@ -64773,16 +_,6 @@
+ 
+                 if (num == 81)
+                 {
+-                    if (Main.tile[i, j - 1] == null)
+-                    {
+-                        Main.tile[i, j - 1] = new Tile();
+-                    }
+-
+-                    if (Main.tile[i, j + 1] == null)
+-                    {
+-                        Main.tile[i, j + 1] = new Tile();
+-                    }
+-
+                     if (Main.tile[i, j - 1].active())
+                     {
+                         return false;
+@@ -65113,21 +_,6 @@
+                 }
+                 else if (num == 136)
+                 {
+-                    if (Main.tile[i - 1, j] == null)
+-                    {
+-                        Main.tile[i - 1, j] = new Tile();
+-                    }
+-
+-                    if (Main.tile[i + 1, j] == null)
+-                    {
+-                        Main.tile[i + 1, j] = new Tile();
+-                    }
+-
+-                    if (Main.tile[i, j + 1] == null)
+-                    {
+-                        Main.tile[i, j + 1] = new Tile();
+-                    }
+-
+                     if ((Main.tile[i - 1, j].nactive() && !Main.tile[i - 1, j].halfBrick() && !TileID.Sets.NotReallySolid[Main.tile[i - 1, j].type] && Main.tile[i - 1, j].slope() == 0 && (SolidTile(i - 1, j) || TileID.Sets.IsBeam[Main.tile[i - 1, j].type] || (Main.tile[i - 1, j].type == 5 && Main.tile[i - 1, j - 1].type == 5 && Main.tile[i - 1, j + 1].type == 5))) || (Main.tile[i + 1, j].nactive() && !Main.tile[i + 1, j].halfBrick() && !TileID.Sets.NotReallySolid[Main.tile[i + 1, j].type] && Main.tile[i + 1, j].slope() == 0 && (SolidTile(i + 1, j) || TileID.Sets.IsBeam[Main.tile[i + 1, j].type] || (Main.tile[i + 1, j].type == 5 && Main.tile[i + 1, j - 1].type == 5 && Main.tile[i + 1, j + 1].type == 5))) || (Main.tile[i, j + 1].nactive() && !Main.tile[i, j + 1].halfBrick() && SolidTile(i, j + 1) && Main.tile[i, j + 1].slope() == 0) || tile.wall > 0)
+                     {
+                         tile.active(active: true);
+@@ -65137,21 +_,6 @@
+                 }
+                 else if (num == 442)
+                 {
+-                    if (Main.tile[i - 1, j] == null)
+-                    {
+-                        Main.tile[i - 1, j] = new Tile();
+-                    }
+-
+-                    if (Main.tile[i + 1, j] == null)
+-                    {
+-                        Main.tile[i + 1, j] = new Tile();
+-                    }
+-
+-                    if (Main.tile[i, j + 1] == null)
+-                    {
+-                        Main.tile[i, j + 1] = new Tile();
+-                    }
+-
+                     if ((Main.tile[i - 1, j].nactive() && !Main.tile[i - 1, j].halfBrick() && !TileID.Sets.NotReallySolid[Main.tile[i - 1, j].type] && Main.tile[i - 1, j].slope() == 0 && (SolidTile(i - 1, j) || TileID.Sets.IsBeam[Main.tile[i - 1, j].type] || (Main.tile[i - 1, j].type == 5 && Main.tile[i - 1, j - 1].type == 5 && Main.tile[i - 1, j + 1].type == 5))) || (Main.tile[i + 1, j].nactive() && !Main.tile[i + 1, j].halfBrick() && !TileID.Sets.NotReallySolid[Main.tile[i + 1, j].type] && Main.tile[i + 1, j].slope() == 0 && (SolidTile(i + 1, j) || TileID.Sets.IsBeam[Main.tile[i + 1, j].type] || (Main.tile[i + 1, j].type == 5 && Main.tile[i + 1, j - 1].type == 5 && Main.tile[i + 1, j + 1].type == 5))) || (Main.tile[i, j + 1].nactive() && !Main.tile[i, j + 1].halfBrick() && SolidTile(i, j + 1) && Main.tile[i, j + 1].slope() == 0))
+                     {
+                         tile.active(active: true);
+@@ -65161,41 +_,6 @@
+                 }
+                 else if (num == 4)
+                 {
+-                    if (Main.tile[i - 1, j] == null)
+-                    {
+-                        Main.tile[i - 1, j] = new Tile();
+-                    }
+-
+-                    if (Main.tile[i + 1, j] == null)
+-                    {
+-                        Main.tile[i + 1, j] = new Tile();
+-                    }
+-
+-                    if (Main.tile[i, j + 1] == null)
+-                    {
+-                        Main.tile[i, j + 1] = new Tile();
+-                    }
+-
+-                    if (Main.tile[i - 1, j - 1] == null)
+-                    {
+-                        Main.tile[i - 1, j - 1] = new Tile();
+-                    }
+-
+-                    if (Main.tile[i + 1, j - 1] == null)
+-                    {
+-                        Main.tile[i + 1, j - 1] = new Tile();
+-                    }
+-
+-                    if (Main.tile[i - 1, j + 1] == null)
+-                    {
+-                        Main.tile[i - 1, j + 1] = new Tile();
+-                    }
+-
+-                    if (Main.tile[i + 1, j + 1] == null)
+-                    {
+-                        Main.tile[i + 1, j + 1] = new Tile();
+-                    }
+-
+                     Tile tile2 = Main.tile[i - 1, j];
+                     Tile tile3 = Main.tile[i + 1, j];
+                     Tile tile4 = Main.tile[i, j + 1];
+@@ -65213,36 +_,6 @@
+                 }
+                 else if (num == 10)
+                 {
+-                    if (Main.tile[i, j - 1] == null)
+-                    {
+-                        Main.tile[i, j - 1] = new Tile();
+-                    }
+-
+-                    if (Main.tile[i, j - 2] == null)
+-                    {
+-                        Main.tile[i, j - 2] = new Tile();
+-                    }
+-
+-                    if (Main.tile[i, j - 3] == null)
+-                    {
+-                        Main.tile[i, j - 3] = new Tile();
+-                    }
+-
+-                    if (Main.tile[i, j + 1] == null)
+-                    {
+-                        Main.tile[i, j + 1] = new Tile();
+-                    }
+-
+-                    if (Main.tile[i, j + 2] == null)
+-                    {
+-                        Main.tile[i, j + 2] = new Tile();
+-                    }
+-
+-                    if (Main.tile[i, j + 3] == null)
+-                    {
+-                        Main.tile[i, j + 3] = new Tile();
+-                    }
+-
+                     if (!Main.tile[i, j - 1].active() && !Main.tile[i, j - 2].active() && Main.tile[i, j - 3].active() && Main.tileSolid[Main.tile[i, j - 3].type])
+                     {
+                         PlaceDoor(i, j - 1, num, style);
+@@ -65391,11 +_,6 @@
+                             break;
+                         case 20:
+                             {
+-                                if (Main.tile[i, j + 1] == null)
+-                                {
+-                                    Main.tile[i, j + 1] = new Tile();
+-                                }
+-
+                                 int type = Main.tile[i, j + 1].type;
+                                 if (Main.tile[i, j + 1].active() && (type == 2 || type == 109 || type == 147 || type == 60 || type == 23 || type == 199 || type == 661 || type == 662 || type == 53 || type == 234 || type == 116 || type == 112 || type == 633))
+                                 {
+@@ -65410,15 +_,7 @@
+                         case 216:
+                         case 338:
+                         case 390:
+-                            if (Main.tile[i, j - 1] == null)
+-                            {
+-                                Main.tile[i, j - 1] = new Tile();
+-                            }
+ 
+-                            if (Main.tile[i, j] == null)
+-                            {
+-                                Main.tile[i, j] = new Tile();
+-                            }
+ 
+                             Place1x2(i, j, (ushort)num, style);
+                             SquareTileFrame(i, j);
+@@ -65780,11 +_,6 @@
+         }
+ 
+         Tile tile = Main.tile[i, j];
+-        if (tile == null)
+-        {
+-            tile = new Tile();
+-            Main.tile[i, j] = tile;
+-        }
+ 
+         if (tile.wall <= 0)
+         {
+@@ -67928,7 +_,7 @@
+         }
+ 
+         Tile tile = Main.tile[i, j];
+-        Tile tile2 = null;
++        TileData tile2 = new TileData();
+         if (tile == null)
+         {
+             return false;
+@@ -67946,10 +_,10 @@
+ 
+         if (j >= 1)
+         {
+-            tile2 = Main.tile[i, j - 1];
++            tile2 = Main.tile.GetTileRef(i, j - 1);
+         }
+ 
+-        if (tile2 != null && tile2.active())
++        if (tile2.active())
+         {
+             int type = tile2.type;
+             if (TileID.Sets.IsATreeTrunk[type] && tile.type != type && (tile2.frameX != 66 || tile2.frameY < 0 || tile2.frameY > 44) && (tile2.frameX != 88 || tile2.frameY < 66 || tile2.frameY > 110) && tile2.frameY < 198)
+@@ -68100,24 +_,9 @@
+ 
+     public static int CheckTileBreakability(int x, int y)
+     {
+-        if (Main.tile[x, y] == null)
+-        {
+-            Main.tile[x, y] = new Tile();
+-        }
+-
+         Tile tile = Main.tile[x, y];
+         if (y >= 1 && y <= Main.maxTilesY - 1)
+         {
+-            if (Main.tile[x, y - 1] == null)
+-            {
+-                Main.tile[x, y - 1] = new Tile();
+-            }
+-
+-            if (Main.tile[x, y + 1] == null)
+-            {
+-                Main.tile[x, y + 1] = new Tile();
+-            }
+-
+             Tile tile2 = Main.tile[x, y - 1];
+             Tile tile3 = Main.tile[x, y + 1];
+             if (tile3 != null && tile3.active() && IsLockedDoor(tile3))
+@@ -68236,10 +_,6 @@
+             return false;
+         }
+ 
+-        if (Main.tile[x, y] == null)
+-        {
+-            Main.tile[x, y] = new Tile();
+-        }
+ 
+         Tile tile = Main.tile[x, y];
+         if (TileID.Sets.BasicChest[tile.type])
+@@ -69229,7 +_,7 @@
+         int treeHeight = 0;
+         int treeFrame = 0;
+         int passStyle = 0;
+-        GetTreeLeaf(bottomX, Main.tile[bottomX, bottomY], Main.tile[bottomX, num], ref treeHeight, out treeFrame, out passStyle);
++        GetTreeLeaf(bottomX, ref Main.tile.GetTileRef(bottomX, bottomY), ref Main.tile.GetTileRef(bottomX, num), ref treeHeight, out treeFrame, out passStyle);
+         if (passStyle != -1)
+         {
+             if (Main.netMode == 2)
+@@ -69354,20 +_,10 @@
+         }
+ 
+         Tile tile = Main.tile[i, j];
+-        if (tile == null)
+-        {
+-            tile = new Tile();
+-            Main.tile[i, j] = tile;
+-        }
+ 
+         if (!tile.active())
+         {
+             return;
+-        }
+-
+-        if (j >= 1 && Main.tile[i, j - 1] == null)
+-        {
+-            Main.tile[i, j - 1] = new Tile();
+         }
+ 
+         int num = CheckTileBreakability(i, j);
+@@ -77768,10 +_,6 @@
+             for (int i = num6; i < num5; i++)
+             {
+                 Tile tile = Main.tile[X, i];
+-                if (tile == null)
+-                {
+-                    tile = (Main.tile[X, i] = new Tile());
+-                }
+ 
+                 Skyblock.hasWall[tile.wall] = true;
+                 if (!tile.active())
+@@ -82106,10 +_,6 @@
+             return;
+         }
+ 
+-        if (Main.tile[i, j] == null)
+-        {
+-            Main.tile[i, j] = new Tile();
+-        }
+ 
+         if (Main.tile[i, j].wall == 0)
+         {
+@@ -87955,11 +_,6 @@
+         {
+             for (int j = tileStartY - 1; j < tileEndY + 1; j++)
+             {
+-                if (Main.tile[i, j] == null)
+-                {
+-                    Main.tile[i, j] = new Tile();
+-                }
+-
+                 Reframe(i, j, resetFrame: true);
+             }
+         }
+@@ -88334,21 +_,6 @@
+ 
+     public static bool CanPoundTile(int x, int y)
+     {
+-        if (Main.tile[x, y] == null)
+-        {
+-            Main.tile[x, y] = new Tile();
+-        }
+-
+-        if (Main.tile[x, y - 1] == null)
+-        {
+-            Main.tile[x, y - 1] = new Tile();
+-        }
+-
+-        if (Main.tile[x, y + 1] == null)
+-        {
+-            Main.tile[x, y + 1] = new Tile();
+-        }
+-
+         switch (Main.tile[x, y].type)
+         {
+             case 10:
 @@ -89053,6 +_,9 @@
  
      public static void TileFrame(int i, int j, bool resetFrame = false, bool noBreak = false)
@@ -107,3 +2348,61 @@
                              bool flag4 = false;
                              switch (num)
                              {
+@@ -94408,17 +_,7 @@
+ 
+         Tile tile = Main.tile[num2, num3 - 1];
+         Tile tile2 = Main.tile[num2, num3 + 3];
+-        if (tile == null)
+-        {
+-            tile = new Tile();
+-            Main.tile[num2, num3 - 1] = tile;
+-        }
+ 
+-        if (tile2 == null)
+-        {
+-            tile2 = new Tile();
+-            Main.tile[num2, num3 + 3] = tile2;
+-        }
+ 
+         if (!SolidTile(tile) || !SolidTile(tile2))
+         {
+@@ -94491,35 +_,10 @@
+         Tile tile3 = Main.tile[i, num + 1];
+         Tile tile4 = Main.tile[i, num + 2];
+         Tile tile5 = Main.tile[i, num + 3];
+-        if (tile == null)
+-        {
+-            tile = new Tile();
+-            Main.tile[i, num - 1] = tile;
+-        }
+-
+-        if (tile2 == null)
+-        {
+-            tile2 = new Tile();
+-            Main.tile[i, num] = tile2;
+-        }
+-
+-        if (tile3 == null)
+-        {
+-            tile3 = new Tile();
+-            Main.tile[i, num + 1] = tile3;
+-        }
+-
+-        if (tile4 == null)
+-        {
+-            tile4 = new Tile();
+-            Main.tile[i, num + 2] = tile4;
+-        }
+-
+-        if (tile5 == null)
+-        {
+-            tile5 = new Tile();
+-            Main.tile[i, num + 3] = tile5;
+-        }
++
++
++
++
+ 
+         if (!SolidTile(tile))
+         {

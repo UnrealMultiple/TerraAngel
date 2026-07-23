@@ -24,6 +24,19 @@
          int[] wallBlend = Main.wallBlend;
          _tileArray = Main.tile;
          int num = (int)(120f * (1f - gfxQuality) + 40f * gfxQuality);
+@@ -75,12 +_,6 @@
+             for (int j = firstTileX; j < lastTileX; j++)
+             {
+                 Tile tile = _tileArray[j, i];
+-                if (tile == null)
+-                {
+-                    tile = new Tile();
+-                    _tileArray[j, i] = tile;
+-                }
+-
+                 ushort wall = tile.wall;
+                 if (wall <= 0 || FullTile(j, i) || (wall == 318 && !_shouldShowInvisibleWalls) || (tile.invisibleWall() && !_shouldShowInvisibleWalls))
+                 {
 @@ -149,12 +_,12 @@
                          }
                      }

@@ -31,6 +31,30 @@
                      break;
                  }
  
+@@ -1194,11 +_,6 @@
+                         break;
+                     }
+ 
+-                    if (Main.tile[num145, num146] == null)
+-                    {
+-                        Main.tile[num145, num146] = new Tile();
+-                    }
+-
+                     if (Main.netMode == 2)
+                     {
+                         if (!flag12)
+@@ -1459,11 +_,6 @@
+                     {
+                         for (int m = num63; m < num63 + num65; m++)
+                         {
+-                            if (Main.tile[l, m] == null)
+-                            {
+-                                Main.tile[l, m] = new Tile();
+-                            }
+-
+                             tile4 = Main.tile[l, m];
+                             bool flag4 = tile4.active();
+                             bitsByte5 = reader.ReadByte();
 @@ -2690,42 +_,9 @@
                      int num15 = reader.ReadInt16();
                      byte b3 = reader.ReadByte();

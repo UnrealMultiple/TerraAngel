@@ -1,5 +1,29 @@
 --- src/Terraria/Terraria/Utils.cs
 +++ src/TerraAngel/Terraria/Utils.cs
+@@ -507,11 +_,6 @@
+                 continue;
+             }
+ 
+-            if (Main.tile[num4, num5] == null)
+-            {
+-                Main.tile[num4, num5] = new Tile();
+-            }
+-
+             Tile tile = Main.tile[num4, num5];
+             if ((settings.avoidWalls && tile.wall > 0) || (tile.wall == 87 && (double)num5 > Main.worldSurface && !NPC.downedPlantBoss) || (Main.wallDungeon[tile.wall] && (double)num5 > Main.worldSurface && !NPC.downedBoss3) || !CheckForGoodTeleportationSpot_CheckNoInvalidTiles(num4, num5, settings))
+             {
+@@ -528,11 +_,6 @@
+                     break;
+                 }
+ 
+-                if (Main.tile[num4, num5 + num8] == null)
+-                {
+-                    Main.tile[num4, num5 + num8] = new Tile();
+-                }
+-
+                 Tile tile2 = Main.tile[num4, num5 + num8];
+                 vector = new Vector2(num4, num5 + num8) * 16f + new Vector2(-num6 / 2 + 8, -num2);
+                 Collision.SlopeCollision(vector, teleporteeVelocity, num6, num2, teleporteeGravityDirection);
 @@ -1131,7 +_,8 @@
  
      public static Vector2 ScreenToWorldPosition(this Vector2 screenPosition)

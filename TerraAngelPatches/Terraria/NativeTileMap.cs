@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace Terraria;
 
-public unsafe class NativeTileMap
+public unsafe class NativeTileMap : IDisposable
 {
     public readonly uint Width;
     public readonly uint Height;
@@ -15,6 +15,8 @@ public unsafe class NativeTileMap
     public readonly long HeapSize;
 
     public readonly TileData[,] TileHeap;
+    // ReSharper disable once InconsistentNaming
+    private PinnedGCHandle<TileData[,]> TileHeapGCHandle;
 
     public bool[,] LoadedTileSections = new bool[0, 0];
 
@@ -25,32 +27,42 @@ public unsafe class NativeTileMap
         HeapSize = Width * Height * sizeof(TileData);
 
         TileHeap = new TileData[Width, Height];
+        TileHeapGCHandle = new PinnedGCHandle<TileData[,]>(TileHeap);
 
         LoadedTileSections = new bool[Width / Main.sectionWidth, Height / Main.sectionHeight];
     }
 
+    ~NativeTileMap() => Dispose(false);
+    
+    private void ReleaseUnmanagedResources()
+    {
+        TileHeapGCHandle.Dispose();
+    }
+
+    private void Dispose(bool disposing)
+    {
+        ReleaseUnmanagedResources();
+        if (disposing)
+        {
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
     public Tile this[int x, int y]
     {
-        get
-        {
-            return new Tile(ref TileHeap[x, y]);
-        }
-        set
-        {
-            TileHeap[x, y] = value.RefData;
-        }
+        get => new(ref TileHeap[x, y]);
+        set => TileHeap[x, y] = value.RefData;
     }
 
     public Tile this[Vector2i position]
     {
-        get
-        {
-            return new Tile(ref TileHeap[position.X, position.Y]);
-        }
-        set
-        {
-            TileHeap[position.X, position.Y] = value.RefData;
-        }
+        get => new(ref TileHeap[position.X, position.Y]);
+        set => TileHeap[position.X, position.Y] = value.RefData;
     }
 
     public ref TileData GetTileRef(int x, int y)
@@ -96,12 +108,8 @@ public unsafe class NativeTileMap
 
     public bool IsTileInLoadedSection(int x, int y)
     {
-        if (Main.netMode == 0)
-            return true;
-        else if (Main.netMode == 1)
-        {
-            return IsTileSectionLoaded(x / Main.sectionWidth, y / Main.sectionHeight);
-        }
+        if (Main.netMode == 0) return true;
+        if (Main.netMode == 1) return IsTileSectionLoaded(x / Main.sectionWidth, y / Main.sectionHeight);
         return true;
     }
 }

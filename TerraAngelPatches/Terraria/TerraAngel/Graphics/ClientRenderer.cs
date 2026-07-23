@@ -179,9 +179,17 @@ public class ClientRenderer : ImGuiRenderer
         AddWindow(new ImeWindow());
     }
 
+    // TODO: improve this, this sucks
     public void PreUpdate()
     {
         ToolManager.GetTool<NPCInspectorTool>().PreDraw();
+        foreach (var worldEdit in WorldEdits)
+        {
+            if (worldEdit is WorldEditCopyPaste wecp)
+                wecp.PreUpdate();
+            if (worldEdit is WorldEditPixelArt wepa)
+                wepa.PreUpdate();
+        }
     }
 
     public void Update()

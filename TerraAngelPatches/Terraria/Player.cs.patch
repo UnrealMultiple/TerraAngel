@@ -67,6 +67,56 @@
      {
          IsAllowedToHoldItems = true;
          if (rapidAttackBonus > 0f)
+@@ -19723,16 +_,6 @@
+         }
+ 
+         float num3 = position.Y;
+-        if (Main.tile[num, num2 - 1] == null)
+-        {
+-            Main.tile[num, num2 - 1] = new Tile();
+-        }
+-
+-        if (Main.tile[num, num2 + 1] == null)
+-        {
+-            Main.tile[num, num2 + 1] = new Tile();
+-        }
+-
+         if ((!Main.tile[num, num2 - 1].active() || !Main.tileRope[Main.tile[num, num2 - 1].type]) && (!Main.tile[num, num2 + 1].active() || !Main.tileRope[Main.tile[num, num2 + 1].type]))
+         {
+             num3 = num2 * 16 + 22;
+@@ -23664,10 +_,6 @@
+                 int num3 = (int)((position.Y + (float)num2 - 44f * gravDir) / 16f);
+                 if (Main.tile[num, num3] != null && Main.tile[num, num3].liquid < 128)
+                 {
+-                    if (Main.tile[num, num3] == null)
+-                    {
+-                        Main.tile[num, num3] = new Tile();
+-                    }
+ 
+                     if (!Main.tile[num, num3].active() || !Main.tileSolid[Main.tile[num, num3].type] || Main.tileSolidTop[Main.tile[num, num3].type])
+                     {
+@@ -24274,21 +_,6 @@
+     public static Tile GetFloorTile(int x, int y)
+     {
+         Tile result = null;
+-        if (Main.tile[x - 1, y] == null)
+-        {
+-            Main.tile[x - 1, y] = new Tile();
+-        }
+-
+-        if (Main.tile[x + 1, y] == null)
+-        {
+-            Main.tile[x + 1, y] = new Tile();
+-        }
+-
+-        if (Main.tile[x, y] == null)
+-        {
+-            Main.tile[x, y] = new Tile();
+-        }
+-
+         if (Main.tile[x, y].nactive() && Main.tileSolid[Main.tile[x, y].type])
+         {
+             result = Main.tile[x, y];
 @@ -24307,7 +_,7 @@
  
      public static int GetFloorTileType(int x, int y)
@@ -88,6 +138,69 @@
          maxFallSpeed = 10f;
          gravity = defaultGravity;
          jumpHeight = 15;
+@@ -26144,21 +_,6 @@
+             tileTargetY = 5;
+         }
+ 
+-        if (Main.tile[tileTargetX - 1, tileTargetY] == null)
+-        {
+-            Main.tile[tileTargetX - 1, tileTargetY] = new Tile();
+-        }
+-
+-        if (Main.tile[tileTargetX + 1, tileTargetY] == null)
+-        {
+-            Main.tile[tileTargetX + 1, tileTargetY] = new Tile();
+-        }
+-
+-        if (Main.tile[tileTargetX, tileTargetY] == null)
+-        {
+-            Main.tile[tileTargetX, tileTargetY] = new Tile();
+-        }
+-
+         if (inventory[selectedItem].axe > 0 && !Main.tile[tileTargetX, tileTargetY].active() && inventory[selectedItem].createWall <= 0 && (inventory[selectedItem].hammer <= 0 || inventory[selectedItem].axe != 0))
+         {
+             if (Main.tile[tileTargetX - 1, tileTargetY].active() && Main.tile[tileTargetX - 1, tileTargetY].type == 323)
+@@ -27024,16 +_,6 @@
+                     int num33 = num32 * 16 + 8 - width / 2;
+                     float y2 = position.Y;
+                     y2 = num30 * 16 + 22;
+-                    if (Main.tile[num32, num30 - 1] == null)
+-                    {
+-                        Main.tile[num32, num30 - 1] = new Tile();
+-                    }
+-
+-                    if (Main.tile[num32, num30 + 1] == null)
+-                    {
+-                        Main.tile[num32, num30 + 1] = new Tile();
+-                    }
+-
+                     if (WorldGen.IsRope(num32, num30 - 1) || WorldGen.IsRope(num32, num30 + 1))
+                     {
+                         y2 = num30 * 16 + 22;
+@@ -27077,11 +_,6 @@
+                 pulley = false;
+             }
+ 
+-            if (Main.tile[num29, num30] == null)
+-            {
+-                Main.tile[num29, num30] = new Tile();
+-            }
+-
+             if (!WorldGen.IsRope(num29, num30))
+             {
+                 pulley = false;
+@@ -27144,11 +_,6 @@
+                 flag17 = true;
+             }
+ 
+-            if (Main.tile[num34, num35] == null)
+-            {
+-                Main.tile[num34, num35] = new Tile();
+-            }
+-
+             if (!WorldGen.IsRope(num34, num35))
+             {
+                 flag16 = false;
 @@ -29074,9 +_,12 @@
              CheckCrackedBrickBreak();
          }
@@ -163,6 +276,18 @@
      {
          int num;
          if (!controlLeft && !controlRight && !controlUp && !controlDown && PlayerInput.UsingGamepad && Main.SmartCursorIsUsed)
+@@ -33240,11 +_,6 @@
+ 
+     public void TileInteractionsCheck(int myX, int myY)
+     {
+-        if (Main.tile[myX, myY] == null)
+-        {
+-            Main.tile[myX, myY] = new Tile();
+-        }
+-
+         if (Main.tile[myX, myY].active())
+         {
+             TileInteractionsMouseOver(myX, myY);
 @@ -34639,14 +_,16 @@
          if (Recipe.TileUsedInRecipes[type])
          {
@@ -403,6 +528,18 @@
                          {
                              item.stack--;
                          }
+@@ -53083,11 +_,6 @@
+                 {
+                     int num7 = (int)(itemLocation.X + (float)heldItemFrame.Width * 0.8f * (float)direction) / 16;
+                     int num8 = (int)(itemLocation.Y + mountOffset + (float)(heldItemFrame.Height / 2)) / 16;
+-                    if (Main.tile[num7, num8] == null)
+-                    {
+-                        Main.tile[num7, num8] = new Tile();
+-                    }
+-
+                     if (Main.tile[num7, num8].active() && TileID.Sets.Campfires[Main.tile[num7, num8].type] && Main.tile[num7, num8].frameY < 54)
+                     {
+                         miscTimer++;
 @@ -54536,6 +_,7 @@
              {
                  if (Main.projectile[i].active && Main.projectile[i].owner == whoAmI && Main.projectile[i].minion && Main.projectile[i].type == sItem.shoot)

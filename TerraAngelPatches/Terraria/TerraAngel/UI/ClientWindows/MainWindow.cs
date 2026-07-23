@@ -123,16 +123,19 @@ public class MainWindow : ClientWindow
                                     if (Main.netMode == 1)
                                     {
                                         for (var x = 0; x < Main.maxSectionsX; x++)
+                                        for (var y = 0; y < Main.maxSectionsY; y++)
                                         {
-                                            for (var y = 0; y < Main.maxSectionsY; y++)
-                                            {
-                                                NetMessage.SendData(MessageID.RequestSection, -1, -1, null, x, y);
-                                            }
+                                            NetMessage.SendData(MessageID.RequestSection, -1, -1, null, x, y);
                                         }
 
                                         while (watch.Elapsed.TotalSeconds <= 120)
                                         {
-                                            var leftSections = Main.tile.LoadedTileSections.Cast<bool>().Count(x=> !x);
+                                            var leftSections = 0;
+                                            for (var x = 0; x < Main.maxSectionsX; x++)
+                                            for (var y = 0; y < Main.maxSectionsY; y++)
+                                            {
+                                                leftSections += !Main.tile.IsTileSectionLoaded(x, y) ? 1 : 0;
+                                            }
 
                                             if (leftSections == 0)
                                             {

@@ -1,12 +1,15 @@
 --- src/Terraria/Terraria/Tile.cs
 +++ src/TerraAngel/Terraria/Tile.cs
-@@ -1,18 +_,47 @@
+@@ -1,18 +_,86 @@
+-using Microsoft.Xna.Framework;
 +using System;
-+using System.Collections.Generic;
++using System.ComponentModel;
 +using System.Runtime.CompilerServices;
 +using System.Runtime.InteropServices;
- using Microsoft.Xna.Framework;
  using Terraria.DataStructures;
++// ReSharper disable InconsistentNaming
++// ReSharper disable UnusedMember.Local
++// ReSharper disable RedundantCast
  
  namespace Terraria;
 -public class Tile
@@ -21,7 +24,28 @@
 -    public byte bTileHeader3;
 -    public short frameX;
 -    public short frameY;
-+    private readonly TileData? TemporalData = null;
++    // TODO: We need better way handling Tile() ctor...
++    private sealed class TileDataBox
++    {
++        public readonly TileData* Data;
++        public ref TileData RefData => ref Unsafe.AsRef<TileData>(Data);
++    
++        private PinnedGCHandle<object> _gcHandle;
++
++        public TileDataBox()
++        {
++            // box it, move it onto heap
++            var boxedTileData = (object)new TileData();
++            _gcHandle = new PinnedGCHandle<object>(boxedTileData);
++            Data = (TileData*)_gcHandle.GetAddressOfObjectData();
++        }
++
++        ~TileDataBox()
++        {
++            _gcHandle.Dispose();
++        }
++    }
++    
 +    public readonly TileData* Data;
 +    public readonly ref TileData RefData => ref Unsafe.AsRef<TileData>(Data);
 +    public ref ushort type => ref Data->type;
@@ -33,10 +57,24 @@
 +    public ref byte bTileHeader => ref Data->bTileHeader;
 +    public ref byte bTileHeader2 => ref Data->bTileHeader2;
 +    public ref byte bTileHeader3 => ref Data->bTileHeader3;
++    
++    // Tile() ctor workaround
++    // because of the managed reference now we lose some optimization :(
++    // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
++    private readonly TileDataBox? DataBox = null;
++
++    [Obsolete("NEVER USE THIS!!!!\n" +
++              "Tile is a handle to TileData.\n" +
++              "Constructing a Tile instance using this ctor creates a Tile pointing to a boxed and pinned TileData (inefficient).\n" +
++              "And if its Data* is passed to another Tile, it creates a DANGLING POINTER!\n" +
++              "If you need to temporarily store a Tile outside of NativeTileMap, use TileData and its ref.\n" +
++              "This ctor is left here for compatibility ONLY.")]
 +    public Tile()
 +    {
-+        TemporalData = new TileData();
-+        Data = (TileData*)Unsafe.AsPointer(ref TemporalData);
++        // Tile() ctor workaround
++        // TODO: We need better way handling Tile() ctor...
++        DataBox = new TileDataBox();
++        Data = DataBox.Data;
 +    }
 +    public Tile(ref TileData data)
 +    {
@@ -48,13 +86,15 @@
 +    }
 +    public static implicit operator Tile(ImplicitHack? o)
 +    {
-+        return new Tile();
++        return new Tile(null);
 +    }
-+    public static bool operator ==(Tile rhs, object lhs) => lhs == null && rhs.Data == null;
-+    public static bool operator !=(Tile rhs, object lhs) => !(lhs == null && rhs.Data == null);
++    public static bool operator ==(Tile lhs, object? rhs) => rhs == null && lhs.Data == null;
++    public static bool operator !=(Tile lhs, object? rhs) => !(rhs == null && lhs.Data == null);
 +    public override bool Equals(object? obj) => obj is Tile tile && tile.Data == this.Data;
++    // ReSharper disable once UsageOfDefaultStructEquality
 +    public override int GetHashCode() => HashCode.Combine(*Data);
-+    public class ImplicitHack { }
++    [EditorBrowsable(EditorBrowsableState.Never)]
++    public class ImplicitHack;
      private const int Bit0 = 1;
      private const int Bit1 = 2;
      private const int Bit2 = 4;
@@ -222,7 +262,7 @@
 -        frameY = 0;
 -        this.type = type;
 -    }
-+    public void ResetToType(ushort type) => Data->ResetToType(type);
++    public void ResetToType(ushort t) => Data->ResetToType(t);
  
 -    internal void ClearMetadata()
 -    {
@@ -323,3 +363,14 @@
  
      public TileColorCache BlockColorAndCoating()
      {
+@@ -949,6 +_,9 @@
+ 
+     public override string ToString()
+     {
+-        return "Tile Type:" + type + " Active:" + active().ToString() + " Wall:" + wall + " Slope:" + slope() + " fX:" + frameX + " fY:" + frameY;
++        var boxInfo = DataBox != null
++            ? " DataBox:nonNull"
++            : "";
++        return $"Tile Type:{type} Active:{active()} Wall:{wall} Slope:{slope()} fX:{frameX} fY:{frameY}{boxInfo}";
+     }
+ }

@@ -243,7 +243,7 @@
          }
      }
  
-@@ -4090,35 +_,14 @@
+@@ -4090,54 +_,33 @@
          }
      }
  
@@ -251,10 +251,14 @@
 +
      private void DrawTile_LiquidBehindTile(bool solidLayer, int waterStyleOverride, Vector2 screenPosition, Vector2 screenOffset, int tileX, int tileY, Tile tileCache)
      {
-         Tile tile = Main.tile[tileX + 1, tileY];
-         Tile tile2 = Main.tile[tileX - 1, tileY];
-         Tile tile3 = Main.tile[tileX, tileY - 1];
-         Tile tile4 = Main.tile[tileX, tileY + 1];
+-        Tile tile = Main.tile[tileX + 1, tileY];
++        TileData tile = Main.tile[tileX + 1, tileY].RefData;
+-        Tile tile2 = Main.tile[tileX - 1, tileY];
++        TileData tile2 = Main.tile[tileX - 1, tileY].RefData;
+-        Tile tile3 = Main.tile[tileX, tileY - 1];
++        TileData tile3 = Main.tile[tileX, tileY - 1].RefData;
+-        Tile tile4 = Main.tile[tileX, tileY + 1];
++        TileData tile4 = Main.tile[tileX, tileY + 1].RefData;
 -        if (tile == null)
 -        {
 -            tile = new Tile();
@@ -281,6 +285,29 @@
  
          if (tile.type == 379)
          {
+-            tile = new Tile();
++            tile = new TileData();
+         }
+ 
+         if (tile2.type == 379)
+         {
+-            tile2 = new Tile();
++            tile2 = new TileData();
+         }
+ 
+         if (tile3.type == 379)
+         {
+-            tile3 = new Tile();
++            tile3 = new TileData();
+         }
+ 
+         if (tile4.type == 379)
+         {
+-            tile4 = new Tile();
++            tile4 = new TileData();
+         }
+ 
+         if (DebugOptions.hideWater || !tileCache.active() || tileCache.inActive() || _tileSolidTop[tileCache.type] || (tileCache.halfBrick() && (tile2.liquid > 160 || tile.liquid > 160) && Main.instance.waterfallManager.CheckForWaterfall(tileX, tileY)) || (TileID.Sets.BlocksWaterDrawingBehindSelf[tileCache.type] && tileCache.slope() == 0))
 @@ -4868,6 +_,8 @@
          return WorldGen.InAPlaceWithWind(x, y, width, height);
      }
@@ -328,6 +355,22 @@
 +    private bool ShouldSwayInWind(int x, int y, ref TileData tileCache)
      {
          if (!Main.SettingsEnabled_TilesSwayInWind)
+         {
+@@ -8527,13 +_,13 @@
+         }
+ 
+         int treeHeight = grassPosY - tilePosY;
+-        Tile tile = Main.tile[tilePosX, tilePosY];
++        ref TileData tile = ref Main.tile.GetTileRef(tilePosX, tilePosY);
+         if (tile.liquid > 0)
+         {
+             return;
+         }
+ 
+-        WorldGen.GetTreeLeaf(tilePosX, tile, Main.tile[grassPosX, grassPosY], ref treeHeight, out var _, out var passStyle);
++        WorldGen.GetTreeLeaf(tilePosX, ref tile, ref Main.tile.GetTileRef(grassPosX, grassPosY), ref treeHeight, out var _, out var passStyle);
+         int num;
+         switch (passStyle)
          {
 @@ -9929,11 +_,6 @@
          for (int i = startY; i < Main.maxTilesY - 10; i++)
