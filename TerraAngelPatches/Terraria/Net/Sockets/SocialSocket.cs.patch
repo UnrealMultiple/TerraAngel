@@ -1,0 +1,32 @@
+--- src/Terraria/Terraria/Net/Sockets/SocialSocket.cs
++++ src/TerraAngel/Terraria/Net/Sockets/SocialSocket.cs
+@@ -1,10 +_,10 @@
+ using System.Threading;
++using System.Threading.Tasks;
+ using Terraria.Social;
+ 
+ namespace Terraria.Net.Sockets;
+ public class SocialSocket : ISocket
+ {
+-    private delegate void InternalReadCallback(byte[] data, int offset, int size, SocketReceiveCallback callback, object state);
+     private RemoteAddress _remoteAddress;
+     public SocialSocket()
+     {
+@@ -38,7 +_,7 @@
+     void ISocket.AsyncSend(byte[] data, int offset, int size, SocketSendCallback callback, object state)
+     {
+         SocialAPI.Network.Send(_remoteAddress, data, size);
+-        callback.BeginInvoke(state, null, null);
++        Task.Run(() => callback(state));
+     }
+ 
+     private void ReadCallback(byte[] data, int offset, int size, SocketReceiveCallback callback, object state)
+@@ -54,7 +_,7 @@
+ 
+     void ISocket.AsyncReceive(byte[] data, int offset, int size, SocketReceiveCallback callback, object state)
+     {
+-        new InternalReadCallback(ReadCallback).BeginInvoke(data, offset, size, callback, state, null, null);
++        Task.Run(() => ReadCallback(data, offset, size, callback, state));
+     }
+ 
+     bool ISocket.IsDataAvailable()
