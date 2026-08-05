@@ -208,7 +208,6 @@ public unsafe class ClientLoader
 
     public static void LoadClient()
     {
-        if (typeof(Main).Assembly.GetType("TerraAngel.Sexer") is null) throw new Exception("No sexer.");
 #if !DEBUG
         try
         {
