@@ -8,13 +8,14 @@
          if (!flag && fisher.inLava)
          {
              int num3 = 0;
-@@ -32249,6 +_,31 @@
+@@ -32249,6 +_,32 @@
              }
  
              localAI[1] = MathHelper.Lerp(localAI[1], num734, amount);
 +
 +            // TerraAngel: Break tiles when laser touches them (if enabled in TerrariaPrismTool)
-+            if (type == 632 && Main.projectile[(int)this.ai[1]].active && Main.projectile[(int)this.ai[1]].type == 633)
++            // Only break tiles for our own prism so other players' LastPrism doesn't wreck the map
++            if (owner == Main.myPlayer && type == 632 && Main.projectile[(int)this.ai[1]].active && Main.projectile[(int)this.ai[1]].type == 633)
 +            {
 +                var prismTool = ToolManager.GetTool<TerraAngel.Tools.Exploit.TerrariaPrismTool>();
 +                if (prismTool.ShouldBreakTiles())
