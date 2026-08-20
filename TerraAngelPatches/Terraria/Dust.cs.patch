@@ -38,11 +38,9 @@
          {
              return 6000;
          }
-@@ -272,6 +_,12 @@
-         }
- 
+@@ -274,4 +_,10 @@
          int num = NewDust(rf.position, 0, 0, rf.type);
-+        
++
 +        if (num == Main.maxDustToDraw)
 +        {
 +            return rf;
