@@ -11,4 +11,5 @@ public enum ToolTabs
     AutomationTools,
     Inspector,
     MiscTools,
+    BrokenTools,
 }
