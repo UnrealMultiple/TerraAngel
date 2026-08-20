@@ -15,7 +15,7 @@
 +
 +                if (NetMessageWindow.Instance.MessagesTypesToLogTraces.Contains(MessageID.NetModules))
 +                {
-+                    packetLog.StackTrace = new System.Diagnostics.StackTrace(2, true).ToString();
++                    packetLog.StackTrace = new System.Diagnostics.StackTrace(1, true).ToString();
 +                }
 +
 +                NetMessageWindow.Instance.SentNetPacketLogs[MessageID.NetModules].Add(packetLog);

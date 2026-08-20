@@ -46,7 +46,7 @@
 +
 +                if (NetMessageWindow.Instance.MessagesTypesToLogTraces.Contains(msgType))
 +                {
-+                    packetLog.StackTrace = new StackTrace(2, true).ToString();
++                    packetLog.StackTrace = new StackTrace(1, true).ToString();
 +                }
 +
 +                NetMessageWindow.Instance.SentNetPacketLogs[msgType].Add(packetLog);
