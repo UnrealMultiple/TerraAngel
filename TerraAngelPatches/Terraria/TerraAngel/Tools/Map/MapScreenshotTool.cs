@@ -113,7 +113,7 @@ public class MapScreenshotTool : Tool
                             int tileX = x + start.X;
                             int tileY = y + start.Y;
                             Terraria.Map.MapTile mapTile = Main.Map[tileX, tileY];
-                            Color col = Terraria.Map.MapHelper.GetMapTileXnaColor(mapTile);
+                            Color col = Terraria.Map.MapHelper.GetMapTileXnaColor(mapTile, tileX, tileY);
                             (col.B, col.R) = (col.R, col.B);
 
                             for (int yp = 0; yp < ppt; yp++)

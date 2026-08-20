@@ -1,10 +1,10 @@
 --- src/Terraria/Terraria/Audio/LegacyAudioSystem.cs
 +++ src/TerraAngel/Terraria/Audio/LegacyAudioSystem.cs
-@@ -118,10 +_,11 @@
+@@ -132,10 +_,11 @@
  
-     public LegacyAudioSystem()
+     public void Init(string renderer = "")
      {
--        Engine = new AudioEngine("Content\\TerrariaMusic.xgs");
+-        Engine = new AudioEngine("Content\\TerrariaMusic.xgs", TimeSpan.FromMilliseconds(250.0), renderer);
 -        SoundBank = new SoundBank(Engine, "Content\\Sound Bank.xsb");
 +        Engine = new AudioEngine($"{Main.instance.Content.RootDirectory}\\TerrariaMusic.xgs");
 +        SoundBank = new SoundBank(Engine, $"{Main.instance.Content.RootDirectory}\\Sound Bank.xsb");

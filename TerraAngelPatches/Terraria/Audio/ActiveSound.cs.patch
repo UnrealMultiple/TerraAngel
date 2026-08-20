@@ -4,17 +4,17 @@
 +using System.Threading;
  using Microsoft.Xna.Framework;
  using Microsoft.Xna.Framework.Audio;
- 
-@@ -37,6 +_,8 @@
- 
+ using Terraria.Testing;
+@@ -39,6 +_,8 @@
      public ActiveSound(SoundStyle style, Vector2 position, SoundPlayOverrides overrides)
      {
+         Invariant.Assert(style.IsTrackable, "Only trackable sounds may be used here.");
 +        lock (SoundEngine.AudioLock)
 +        {
          Position = position;
          Volume = 1f;
          Pitch = style.PitchVariance;
-@@ -44,20 +_,26 @@
+@@ -46,22 +_,28 @@
          Style = style;
          UseOverrides(overrides);
          Play();
@@ -23,6 +23,7 @@
  
      public ActiveSound(SoundStyle style)
      {
+         Invariant.Assert(style.IsTrackable, "Only trackable sounds may be used here.");
 +        lock (SoundEngine.AudioLock)
 +        {
          Position = Vector2.Zero;
@@ -36,12 +37,13 @@
  
      public ActiveSound(SoundStyle style, Vector2 position, LoopedPlayCondition condition, SoundPlayOverrides overrides)
      {
+         Invariant.Assert(style.IsTrackable, "Only trackable sounds may be used here.");
 +        lock (SoundEngine.AudioLock)
 +        {
          Position = position;
          Volume = 1f;
          Pitch = style.PitchVariance;
-@@ -65,6 +_,7 @@
+@@ -69,6 +_,7 @@
          Style = style;
          UseOverrides(overrides);
          PlayLooped(condition);
@@ -49,7 +51,7 @@
      }
  
      private void Play()
-@@ -92,7 +_,7 @@
+@@ -96,7 +_,7 @@
  
      public void Stop()
      {

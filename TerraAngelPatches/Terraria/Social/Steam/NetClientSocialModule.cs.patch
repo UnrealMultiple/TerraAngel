@@ -32,7 +32,7 @@
          SteamNetworking.AllowP2PPacketRelay(bAllow: true);
          SendAuthTicket(_lobby.Owner);
          int num = 0;
-@@ -209,12 +_,11 @@
+@@ -208,12 +_,11 @@
  
      private void SendAuthTicket(CSteamID address)
      {
@@ -46,7 +46,7 @@
          }
  
          int num = (int)(_authDataLength + 3);
-@@ -255,13 +_,11 @@
+@@ -254,13 +_,11 @@
  
      private void OnSessionConnectFail(P2PSessionConnectFail_t result)
      {

@@ -394,7 +394,7 @@ public static class ImGuiUtil
         string[] array = new string[30];
         Color[] lineColors = new Color[30];
 
-        Main.MouseText_DrawItemTooltip_GetLinesInfo(item, ref yoyoLogo, ref researchLine, item.knockBack, ref numLines, array, lineColors);
+        Main.MouseText_DrawItemTooltip_GetLinesInfo(item, ref yoyoLogo, item.knockBack, ref numLines, array, lineColors);
 
         for (int i = 0; i < numLines; i++)
         {

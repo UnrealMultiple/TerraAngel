@@ -23,12 +23,12 @@ public static class ItemSpawner
 
     public static Item SpawnItemInWorld(Vector2 position, int id, Vector2 velocity = default, int stack = 1, bool syncWithServer = true)
     {
-        int itemIndex = Item.NewItem(null, (int)position.X, (int)position.Y, 1, 1, id, stack, !syncWithServer, 0, true);
+        int itemIndex = Item.NewItem(null,position, id, stack, 0, NewItemOwnership.GrabDelayForAllPlayers, velocity, null ,true);
 
         WorldItem worldItem = Main.item[itemIndex];
 
         worldItem.velocity = velocity;
-        worldItem.newAndShiny = false;
+        //worldItem.newAndShiny = false;
         worldItem.stack = Utils.Clamp(stack, 1, worldItem.maxStack);
 
         if (syncWithServer)

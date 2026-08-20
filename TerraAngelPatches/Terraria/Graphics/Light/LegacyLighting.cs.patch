@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Graphics/Light/LegacyLighting.cs
 +++ src/TerraAngel/Terraria/Graphics/Light/LegacyLighting.cs
-@@ -106,6 +_,7 @@
+@@ -107,6 +_,7 @@
      private int _maxY;
      private const int MAX_TEMP_LIGHTS = 2000;
      private Dictionary<Point16, ColorTriplet> _tempLights;
@@ -8,7 +8,7 @@
      private int _expandedRectLeft;
      private int _expandedRectTop;
      private int _expandedRectRight;
-@@ -151,9 +_,12 @@
+@@ -152,9 +_,12 @@
  
      public void Rebuild()
      {
@@ -22,7 +22,7 @@
          }
  
          _swipe = new LightingSwipeData();
-@@ -403,12 +_,6 @@
+@@ -404,12 +_,6 @@
              {
                  LightingState lightingState = array[j - _expandedRectTop];
                  Tile tile = Main.tile[i, j];
@@ -35,7 +35,7 @@
                  if ((!tile.active() || !Main.tileNoSunLight[tile.type]) && lightingState.R < _skyColor && tile.liquid < 200 && (Main.wallLight[tile.wall] || tile.wall == 73))
                  {
                      lightingState.R = tileR;
-@@ -594,6 +_,8 @@
+@@ -595,6 +_,8 @@
      public void Clear()
      {
          _lastCameraPosition = null;
@@ -44,7 +44,7 @@
          int num = (int)_camera.UnscaledSize.X / 16 + Lighting.OffScreenTiles * 2;
          int num2 = (int)_camera.UnscaledSize.Y / 16 + Lighting.OffScreenTiles * 2;
          for (int i = 0; i < num; i++)
-@@ -696,7 +_,11 @@
+@@ -697,7 +_,11 @@
          num3 = Utils.Clamp(_expandedRectTop, 5, Main.maxTilesY - 1);
          num4 = Utils.Clamp(_expandedRectBottom, 5, Main.maxTilesY - 1);
          Main.UpdateSceneMetrics();
@@ -57,7 +57,7 @@
          _tileScanner.ExportTo(new Rectangle(num, num3, num2 - num, num4 - num3), _lightMap, new TileLightScannerOptions { DrawInvisibleWalls = Main.ShouldShowInvisibleBlocksAndWalls() });
          for (int m = num; m < num2; m++)
          {
-@@ -705,12 +_,6 @@
+@@ -706,12 +_,6 @@
              {
                  LightingState lightingState2 = array3[n - _expandedRectTop];
                  Tile tile = Main.tile[m, n];
@@ -70,7 +70,7 @@
                  _lightMap.GetLight(m - num, n - num3, out var color);
                  if (_rgb)
                  {
-@@ -767,7 +_,9 @@
+@@ -768,7 +_,9 @@
              }
          }
  
@@ -81,7 +81,7 @@
          {
              int num14 = tempLight.Key.X - _requestedRectLeft + Lighting.OffScreenTiles;
              int num15 = tempLight.Key.Y - _requestedRectTop + Lighting.OffScreenTiles;
-@@ -811,8 +_,10 @@
+@@ -812,8 +_,10 @@
              }
          }
  
@@ -93,7 +93,7 @@
              _tempLights.Clear();
          }
  
-@@ -833,8 +_,13 @@
+@@ -841,8 +_,13 @@
  
      private void DoColors()
      {
@@ -107,7 +107,7 @@
              _blueWave += (float)_blueDir * 0.0001f;
              if (_blueWave > 1f)
              {
-@@ -846,6 +_,7 @@
+@@ -854,6 +_,7 @@
                  _blueWave = 0.97f;
                  _blueDir = 1;
              }
@@ -115,7 +115,7 @@
  
              if (_rgb)
              {
-@@ -1077,7 +_,7 @@
+@@ -1085,7 +_,7 @@
                  3 => doColors_Mode3_Swipe,
                  _ => doColors_Mode0_Swipe,
              }, _swipe);

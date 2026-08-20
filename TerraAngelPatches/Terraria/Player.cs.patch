@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Player.cs
 +++ src/TerraAngel/Terraria/Player.cs
-@@ -37,6 +_,7 @@
+@@ -39,6 +_,7 @@
  using Terraria.UI.Gamepad;
  using Terraria.Utilities;
  using Terraria.WorldBuilding;
@@ -8,7 +8,7 @@
  
  namespace Terraria;
  public class Player : Entity, IFixLoadedData
-@@ -733,6 +_,8 @@
+@@ -751,6 +_,8 @@
      public bool active;
      public bool host;
      public Minecart.Customization MinecartSettings;
@@ -17,8 +17,8 @@
      public int emoteTime;
      public CreativeUnlocksTracker creativeTracker;
      private static byte[] ENCRYPTION_KEY = new UnicodeEncoding().GetBytes("h3y_gUyZ");
-@@ -1125,8 +_,10 @@
-     public int potionDelay;
+@@ -1184,8 +_,10 @@
+     public int manaPotionDelay;
      public byte difficulty;
      public byte wetSlime;
 -    public HitTile hitTile;
@@ -30,7 +30,7 @@
      public int jump;
      public int head = -1;
      public int body = -1;
-@@ -11536,6 +_,7 @@
+@@ -12018,6 +_,7 @@
  
      public void Yoraiz0rEye()
      {
@@ -38,7 +38,7 @@
          int num = 0;
          num += bodyFrame.Y / 56;
          if (num >= Main.OffsetsPlayerHeadgear.Length)
-@@ -14025,7 +_,7 @@
+@@ -14658,7 +_,7 @@
              shinyStone = true;
          }
  
@@ -47,7 +47,7 @@
          {
              empressBrooch = true;
              moveSpeed += 0.075f;
-@@ -17830,7 +_,7 @@
+@@ -18030,7 +_,7 @@
                  }
  
                  int num5 = tile.frameY / 22;
@@ -56,7 +56,7 @@
                  {
                      nearbyTorch[num5] = true;
                      if (num5 == 17 && (tile.liquid == 0 || tile.liquidType() != 0))
-@@ -18377,7 +_,9 @@
+@@ -18572,7 +_,9 @@
          return (int)((float)damage * (1f + num3));
      }
  
@@ -67,7 +67,7 @@
      {
          IsAllowedToHoldItems = true;
          if (rapidAttackBonus > 0f)
-@@ -19723,16 +_,6 @@
+@@ -20076,16 +_,6 @@
          }
  
          float num3 = position.Y;
@@ -84,7 +84,7 @@
          if ((!Main.tile[num, num2 - 1].active() || !Main.tileRope[Main.tile[num, num2 - 1].type]) && (!Main.tile[num, num2 + 1].active() || !Main.tileRope[Main.tile[num, num2 + 1].type]))
          {
              num3 = num2 * 16 + 22;
-@@ -23664,10 +_,6 @@
+@@ -24067,10 +_,6 @@
                  int num3 = (int)((position.Y + (float)num2 - 44f * gravDir) / 16f);
                  if (Main.tile[num, num3] != null && Main.tile[num, num3].liquid < 128)
                  {
@@ -95,7 +95,7 @@
  
                      if (!Main.tile[num, num3].active() || !Main.tileSolid[Main.tile[num, num3].type] || Main.tileSolidTop[Main.tile[num, num3].type])
                      {
-@@ -24274,21 +_,6 @@
+@@ -24677,21 +_,6 @@
      public static Tile GetFloorTile(int x, int y)
      {
          Tile result = null;
@@ -117,7 +117,7 @@
          if (Main.tile[x, y].nactive() && Main.tileSolid[Main.tile[x, y].type])
          {
              result = Main.tile[x, y];
-@@ -24307,7 +_,7 @@
+@@ -24710,7 +_,7 @@
  
      public static int GetFloorTileType(int x, int y)
      {
@@ -126,7 +126,7 @@
      }
  
      private void MakeFloorDust(bool Falling, int type, int frameX, int frameY, int paintColor)
-@@ -24973,6 +_,11 @@
+@@ -25377,6 +_,11 @@
              LockGamepadTileInteractions();
          }
  
@@ -138,7 +138,7 @@
          maxFallSpeed = 10f;
          gravity = defaultGravity;
          jumpHeight = 15;
-@@ -26144,21 +_,6 @@
+@@ -26567,21 +_,6 @@
              tileTargetY = 5;
          }
  
@@ -160,48 +160,48 @@
          if (inventory[selectedItem].axe > 0 && !Main.tile[tileTargetX, tileTargetY].active() && inventory[selectedItem].createWall <= 0 && (inventory[selectedItem].hammer <= 0 || inventory[selectedItem].axe != 0))
          {
              if (Main.tile[tileTargetX - 1, tileTargetY].active() && Main.tile[tileTargetX - 1, tileTargetY].type == 323)
-@@ -27024,16 +_,6 @@
-                     int num33 = num32 * 16 + 8 - width / 2;
+@@ -27483,16 +_,6 @@
+                     int num35 = num34 * 16 + 8 - width / 2;
                      float y2 = position.Y;
-                     y2 = num30 * 16 + 22;
--                    if (Main.tile[num32, num30 - 1] == null)
+                     y2 = num32 * 16 + 22;
+-                    if (Main.tile[num34, num32 - 1] == null)
 -                    {
--                        Main.tile[num32, num30 - 1] = new Tile();
+-                        Main.tile[num34, num32 - 1] = new Tile();
 -                    }
 -
--                    if (Main.tile[num32, num30 + 1] == null)
+-                    if (Main.tile[num34, num32 + 1] == null)
 -                    {
--                        Main.tile[num32, num30 + 1] = new Tile();
+-                        Main.tile[num34, num32 + 1] = new Tile();
 -                    }
 -
-                     if (WorldGen.IsRope(num32, num30 - 1) || WorldGen.IsRope(num32, num30 + 1))
+                     if (WorldGen.IsRope(num34, num32 - 1) || WorldGen.IsRope(num34, num32 + 1))
                      {
-                         y2 = num30 * 16 + 22;
-@@ -27077,11 +_,6 @@
+                         y2 = num32 * 16 + 22;
+@@ -27536,11 +_,6 @@
                  pulley = false;
              }
  
--            if (Main.tile[num29, num30] == null)
+-            if (Main.tile[num31, num32] == null)
 -            {
--                Main.tile[num29, num30] = new Tile();
+-                Main.tile[num31, num32] = new Tile();
 -            }
 -
-             if (!WorldGen.IsRope(num29, num30))
+             if (!WorldGen.IsRope(num31, num32))
              {
                  pulley = false;
-@@ -27144,11 +_,6 @@
-                 flag17 = true;
+@@ -27603,11 +_,6 @@
+                 flag16 = true;
              }
  
--            if (Main.tile[num34, num35] == null)
+-            if (Main.tile[num36, num37] == null)
 -            {
--                Main.tile[num34, num35] = new Tile();
+-                Main.tile[num36, num37] = new Tile();
 -            }
 -
-             if (!WorldGen.IsRope(num34, num35))
+             if (!WorldGen.IsRope(num36, num37))
              {
-                 flag16 = false;
-@@ -29074,9 +_,12 @@
+                 flag15 = false;
+@@ -29538,9 +_,12 @@
              CheckCrackedBrickBreak();
          }
  
@@ -211,10 +211,10 @@
          {
              SlopeDownMovement();
 +            // patch context
-             bool flag27 = mount.Type == 7 || mount.Type == 8 || mount.Type == 12 || mount.Type == 44 || mount.Type == 49;
-             bool flag28 = mount.Type == 48;
+             bool flag28 = mount.Type == 7 || mount.Type == 8 || mount.Type == 12 || mount.Type == 44 || mount.Type == 49;
+             bool flag29 = mount.Type == 48;
              if (!mount.Active)
-@@ -29089,20 +_,24 @@
+@@ -29553,20 +_,24 @@
              {
                  Collision.StepDown(ref position, ref velocity, width, height, ref stepSpeed, ref gfxOffY, (int)gravDir, waterWalk || waterWalk2);
              }
@@ -229,7 +229,7 @@
                  }
 +                // patch context
              }
-             else if ((carpetFrame != -1 || velocity.Y >= gravity) && !controlDown && !IsRidingTracks && !flag27 && grappling[0] == -1)
+             else if ((carpetFrame != -1 || velocity.Y >= gravity) && !controlDown && !IsRidingTracks && !flag28 && grappling[0] == -1)
              {
                  Collision.StepUp(ref position, ref velocity, width, height, ref stepSpeed, ref gfxOffY, (int)gravDir, controlUp);
              }
@@ -240,7 +240,7 @@
          oldPosition = position;
          oldDirection = direction;
          bool falling = false;
-@@ -29327,20 +_,22 @@
+@@ -29791,20 +_,22 @@
          {
              FloorVisuals(falling);
          }
@@ -265,7 +265,7 @@
  
          ItemCheckWrapped(i);
          PlayerFrame();
-@@ -32978,7 +_,9 @@
+@@ -33651,7 +_,9 @@
          }
      }
  
@@ -276,7 +276,7 @@
      {
          int num;
          if (!controlLeft && !controlRight && !controlUp && !controlDown && PlayerInput.UsingGamepad && Main.SmartCursorIsUsed)
-@@ -33240,11 +_,6 @@
+@@ -33905,11 +_,6 @@
  
      public void TileInteractionsCheck(int myX, int myY)
      {
@@ -288,7 +288,7 @@
          if (Main.tile[myX, myY].active())
          {
              TileInteractionsMouseOver(myX, myY);
-@@ -34639,14 +_,16 @@
+@@ -35309,14 +_,16 @@
          if (Recipe.TileUsedInRecipes[type])
          {
              int baseOption = 0;
@@ -307,7 +307,7 @@
              return new NewCraftingUI.WaterSourceRecipeFilter(type, baseOption2);
          }
  
-@@ -39164,6 +_,17 @@
+@@ -39828,6 +_,17 @@
  
      public void Teleport(Vector2 newPos, int Style = 0, int extraInfo = 0)
      {
@@ -325,7 +325,7 @@
          try
          {
              _funkytownAchievementCheckCooldown = 100;
-@@ -39821,6 +_,17 @@
+@@ -40675,6 +_,17 @@
  
      public double Hurt(PlayerDeathReason damageSource, int Damage, int hitDirection, bool pvp = false, bool quiet = false, bool Crit = false, int cooldownCounter = -1, bool dodgeable = true)
      {
@@ -343,7 +343,7 @@
          if (shimmering && AllowShimmerDodge(damageSource, cooldownCounter, dodgeable))
          {
              return 0.0;
-@@ -40497,6 +_,12 @@
+@@ -41369,6 +_,12 @@
  
      public void KillMe(PlayerDeathReason damageSource, double dmg, int hitDirection, bool pvp = false)
      {
@@ -353,10 +353,10 @@
 +            return;
 +        }
 +
-         if (creativeGodMode || (DebugOptions.PracticeMode && DebugUtils.PracticeModeReset(this, damageSource)) || dead)
+         if (creativeGodMode || dead)
          {
              return;
-@@ -41336,13 +_,23 @@
+@@ -42282,13 +_,23 @@
  
      private void PlaceThing_Walls()
      {
@@ -382,7 +382,7 @@
          {
              return;
          }
-@@ -41474,7 +_,13 @@
+@@ -42420,7 +_,13 @@
      {
          Item item = inventory[selectedItem];
          int tileToCreate = item.createTile;
@@ -397,7 +397,7 @@
          {
              return;
          }
-@@ -41504,7 +_,7 @@
+@@ -42450,7 +_,7 @@
              }
          }
  
@@ -406,7 +406,7 @@
          {
              bool? overrideCanPlace = null;
              int? forcedRandom = null;
-@@ -41547,6 +_,9 @@
+@@ -42493,6 +_,9 @@
              canPlace = PlaceThing_Tiles_BlockPlacementForAssortedThings(canPlace);
          }
  
@@ -416,9 +416,9 @@
          if (canPlace)
          {
              PlaceThing_Tiles_PlaceIt(newObjectType, data, tileToCreate);
-@@ -43741,7 +_,12 @@
+@@ -44690,7 +_,12 @@
  
-     private void PlaceThing_PaintScrapper()
+     private void PlaceThing_PaintScraper()
      {
 -        if (ItemID.Sets.IsPaintScraper[inventory[selectedItem].type] && IsInTileInteractionRange(tileTargetX, tileTargetY, TileReachCheckSettings.Simple, inventory[selectedItem].tileBoost + blockRange))
 +        bool allowedByRangeCheck = IsInTileInteractionRange(tileTargetX, tileTargetY, TileReachCheckSettings.Simple, inventory[selectedItem].tileBoost + blockRange);
@@ -430,7 +430,7 @@
          {
              int num = tileTargetX;
              int num2 = tileTargetY;
-@@ -43761,7 +_,7 @@
+@@ -44710,7 +_,7 @@
          }
  
          cursorItemIconEnabled = true;
@@ -439,7 +439,7 @@
          {
              return;
          }
-@@ -43816,7 +_,7 @@
+@@ -44764,7 +_,7 @@
          }
  
          cursorItemIconEnabled = true;
@@ -448,7 +448,7 @@
          {
              if (WorldGen.paintTile(x, y, 0, broadCast: true) || WorldGen.paintCoatTile(x, y, 0, broadcast: true))
              {
-@@ -43831,7 +_,12 @@
+@@ -44779,7 +_,12 @@
  
      private void PlaceThing_PaintRoller()
      {
@@ -462,7 +462,7 @@
          {
              return;
          }
-@@ -43841,7 +_,7 @@
+@@ -44789,7 +_,7 @@
          if (Main.tile[num, num2] != null && Main.tile[num, num2].wall > 0)
          {
              cursorItemIconEnabled = true;
@@ -471,7 +471,7 @@
              {
                  TryPainting(num, num2, paintingAWall: true);
              }
-@@ -43850,7 +_,12 @@
+@@ -44798,7 +_,12 @@
  
      private void PlaceThing_Paintbrush()
      {
@@ -485,7 +485,7 @@
          {
              return;
          }
-@@ -43860,7 +_,7 @@
+@@ -44808,7 +_,7 @@
          if (Main.tile[num, num2] != null && Main.tile[num, num2].active())
          {
              cursorItemIconEnabled = true;
@@ -494,7 +494,7 @@
              {
                  TryPainting(num, num2);
              }
-@@ -44237,7 +_,7 @@
+@@ -45181,7 +_,7 @@
          return num;
      }
  
@@ -503,7 +503,7 @@
      {
          baitPower = 0;
          baitType = 0;
-@@ -45308,6 +_,7 @@
+@@ -46294,6 +_,7 @@
                  lastVisualizedSelectedItem = item.Clone();
              }
  
@@ -511,15 +511,15 @@
              if (whoAmI == Main.myPlayer)
              {
                  if (!dontConsumeWand && itemTimeMax != 0 && itemTime == itemTimeMax && item.tileWand > 0)
-@@ -45317,6 +_,7 @@
+@@ -46303,6 +_,7 @@
                      {
-                         if (tileWand == inventory[num15].type && inventory[num15].stack > 0)
+                         if (tileWand == inventory[num18].type && inventory[num18].stack > 0)
                          {
 +                            if (noConsumeInBuilderMode) break;
-                             inventory[num15].stack--;
-                             if (inventory[num15].stack <= 0)
+                             inventory[num18].stack--;
+                             if (inventory[num18].stack <= 0)
                              {
-@@ -45372,7 +_,7 @@
+@@ -46358,7 +_,7 @@
  
                      if (flag7)
                      {
@@ -528,7 +528,7 @@
                          {
                              item.stack--;
                          }
-@@ -53083,11 +_,6 @@
+@@ -54450,11 +_,6 @@
                  {
                      int num7 = (int)(itemLocation.X + (float)heldItemFrame.Width * 0.8f * (float)direction) / 16;
                      int num8 = (int)(itemLocation.Y + mountOffset + (float)(heldItemFrame.Height / 2)) / 16;
@@ -540,15 +540,15 @@
                      if (Main.tile[num7, num8].active() && TileID.Sets.Campfires[Main.tile[num7, num8].type] && Main.tile[num7, num8].frameY < 54)
                      {
                          miscTimer++;
-@@ -54536,6 +_,7 @@
+@@ -55939,6 +_,7 @@
              {
-                 if (Main.projectile[i].active && Main.projectile[i].owner == whoAmI && Main.projectile[i].minion && Main.projectile[i].type == sItem.shoot)
+                 if (Main.projectile[i].active && Main.projectile[i].owner == whoAmI && Main.projectile[i].minion && (Main.projectile[i].type == 1093 || Main.projectile[i].type == 1112))
                  {
 +                    if (!TerraAngel.Tools.ToolManager.GetTool<InfiniteMinionTool>().Enabled)
                      Main.projectile[i].Kill();
                  }
              }
-@@ -59196,8 +_,6 @@
+@@ -60851,8 +_,6 @@
          usedGummyWorm = false;
          usedAmbrosia = false;
          Array.Clear(adjTile, 0, adjTile.Length);

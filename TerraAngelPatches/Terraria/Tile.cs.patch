@@ -98,7 +98,7 @@
      private const int Bit0 = 1;
      private const int Bit1 = 2;
      private const int Bit2 = 4;
-@@ -62,71 +_,9 @@
+@@ -62,19 +_,6 @@
          }
      }
  
@@ -115,65 +115,10 @@
 -        frameY = 0;
 -    }
 -
--    public Tile(Tile copy)
--    {
--        if (copy == null)
--        {
--            type = 0;
--            wall = 0;
--            liquid = 0;
--            sTileHeader = 0;
--            bTileHeader = 0;
--            bTileHeader2 = 0;
--            bTileHeader3 = 0;
--            frameX = 0;
--            frameY = 0;
--        }
--        else
--        {
--            type = copy.type;
--            wall = copy.wall;
--            liquid = copy.liquid;
--            sTileHeader = copy.sTileHeader;
--            bTileHeader = copy.bTileHeader;
--            bTileHeader2 = copy.bTileHeader2;
--            bTileHeader3 = copy.bTileHeader3;
--            frameX = copy.frameX;
--            frameY = copy.frameY;
--        }
--    }
--
--    public object Clone()
--    {
--        return MemberwiseClone();
--    }
--
--    public void ClearEverything()
--    {
--        type = 0;
--        wall = 0;
--        liquid = 0;
--        sTileHeader = 0;
--        bTileHeader = 0;
--        bTileHeader2 = 0;
--        bTileHeader3 = 0;
--        frameX = 0;
--        frameY = 0;
--    }
--
--    public void ClearTile()
--    {
--        ClearSlope();
--        active(active: false);
--        inActive(inActive: false);
--    }
-+    public void ClearEverything() => Data->ClearEverything();
-+
-+    public void ClearTile() => Data->ClearTile();
- 
-     public void ClearSlope()
+     public object Clone()
      {
-@@ -142,71 +_,10 @@
+         return MemberwiseClone();
+@@ -114,71 +_,10 @@
  
      public void CopyFrom(Tile from)
      {
@@ -247,7 +192,7 @@
  
      public int blockType()
      {
-@@ -258,28 +_,9 @@
+@@ -230,28 +_,9 @@
          return false;
      }
  
@@ -278,7 +223,7 @@
  
      public Color actColor(Color oldColor)
      {
-@@ -763,60 +_,7 @@
+@@ -735,60 +_,7 @@
          return true;
      }
  
@@ -340,7 +285,7 @@
  
      public static void SmoothSlope(int x, int y, bool applyToNeighbors = true, bool sync = false)
      {
-@@ -828,7 +_,7 @@
+@@ -800,7 +_,7 @@
              SmoothSlope(x, y - 1, applyToNeighbors: false, sync);
          }
  
@@ -349,7 +294,7 @@
          if (!WorldGen.CanPoundTile(x, y) || !WorldGen.SolidOrSlopedTile(x, y))
          {
              return;
-@@ -898,12 +_,7 @@
+@@ -870,12 +_,7 @@
          }
      }
  
@@ -363,7 +308,7 @@
  
      public TileColorCache BlockColorAndCoating()
      {
-@@ -949,6 +_,9 @@
+@@ -921,6 +_,9 @@
  
      public override string ToString()
      {

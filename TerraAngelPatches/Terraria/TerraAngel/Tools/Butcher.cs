@@ -49,7 +49,7 @@ public class Butcher
         SpecialNetMessage.SendPlayerControl(npc.position);
         for (int j = 0; j < trueHitCount; j++)
         {
-            npc.StrikeNPCNoInteraction(damage, 0f, 0, crit: true, noEffect: false, fromNet: false);
+            npc.StrikeNPCNoInteraction(damage, 0f, 0);
             NetMessage.SendData(28, -1, -1, null, npc.whoAmI, damage, 1, 1, 1, 1, 1);
         }
         NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Main.myPlayer);

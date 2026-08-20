@@ -48,7 +48,7 @@
 -    public const byte Unknown60 = 60;
 +    public const byte UpdateNPCHome = 60;
      public const byte SpawnBossUseLicenseStartEvent = 61;
--    public const byte Unknown62 = 62;
+-    public const byte SyncDodge = 62;
 +    public const byte PlayerDodge = 62;
 -    public const byte SyncTilePaintOrCoating = 63;
 +    public const byte PaintTile = 63;

@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Projectile.cs
 +++ src/TerraAngel/Terraria/Projectile.cs
-@@ -20118,6 +_,7 @@
+@@ -21738,6 +_,7 @@
              flag = true;
          }
  
@@ -8,10 +8,10 @@
          if (!flag && fisher.inLava)
          {
              int num3 = 0;
-@@ -32249,6 +_,31 @@
+@@ -34009,6 +_,31 @@
              }
  
-             localAI[1] = MathHelper.Lerp(localAI[1], num734, amount);
+             localAI[1] = MathHelper.Lerp(localAI[1], num704, amount);
 +
 +            // TerraAngel: Break tiles when laser touches them (if enabled in TerrariaPrismTool)
 +            if (type == 632 && Main.projectile[(int)this.ai[1]].active && Main.projectile[(int)this.ai[1]].type == 633)
@@ -40,7 +40,7 @@
              if (type == 455)
              {
                  Vector2 vector64 = base.Center + velocity * (localAI[1] - 14f);
-@@ -38871,8 +_,8 @@
+@@ -42051,8 +_,8 @@
          Vector2 value = master.MountedCenter + new Vector2(master.direction * 10, 0f);
          Vector2 tangent = new Vector2(0f, -100f);
          Vector2 tangent2 = new Vector2(0f, -100f);
@@ -51,7 +51,7 @@
          for (float num4 = 0f; num4 <= 1f; num4 += 0.1f)
          {
              Dust dust = Dust.NewDustPerfect(Vector2.Lerp(vector, vector2, num4), 306, (vector2 - vector) * 0.1f, 0, new Color(100, 227, 255, 127), 1f + num3);
-@@ -45692,7 +_,7 @@
+@@ -49481,7 +_,7 @@
              }
  
              float amount = MathHelper.Lerp(value, value2, Utils.GetLerpValue(num, 30f, timeLeft, clamped: true));
@@ -60,7 +60,7 @@
              if (type == 931 || type == 1039)
              {
                  velocity *= MathHelper.Lerp(0.85f, 1f, Utils.GetLerpValue(0f, 90f, timeLeft, clamped: true));
-@@ -46813,7 +_,7 @@
+@@ -50613,7 +_,7 @@
          Vector2 vector2 = -velocity;
          Vector2 value = center + vector2 * 2f;
          Vector2 value2 = vector + vector2 * (1f - num2 * 3f);
@@ -69,7 +69,7 @@
          int num3 = type;
          if (num3 == 856)
          {
-@@ -46983,7 +_,7 @@
+@@ -50783,7 +_,7 @@
          }
  
          ai[0] += 1f / ai[1];
@@ -78,7 +78,7 @@
          if (flag)
          {
              for (float num3 = 0f; num3 < 1f; num3 += 0.5f)
-@@ -52058,7 +_,7 @@
+@@ -56231,7 +_,7 @@
                  AI_GetMyGroupIndexAndFillBlackList(blacklist, out var index2, out var totalIndexesInGroup2);
                  AI_156_GetIdlePosition(index2, totalIndexesInGroup2, out var idleSpot2, out var _);
                  velocity = Vector2.Zero;
@@ -87,7 +87,7 @@
                  if (Main.rand.Next(20) == 0)
                  {
                      int num6 = AI_156_TryAttackingNPCs(blacklist);
-@@ -52081,7 +_,7 @@
+@@ -56254,7 +_,7 @@
              AI_GetMyGroupIndexAndFillBlackList(blacklist, out var index3, out var totalIndexesInGroup3);
              AI_156_GetIdlePosition(index3, totalIndexesInGroup3, out var idleSpot3, out var idleRotation3);
              velocity = Vector2.Zero;
@@ -96,7 +96,7 @@
              rotation = rotation.AngleLerp(idleRotation3, 0.45f);
              if (Main.rand.Next(20) == 0)
              {
-@@ -53237,11 +_,6 @@
+@@ -57410,11 +_,6 @@
              {
                  for (int j = num12; j < num13; j++)
                  {
@@ -108,7 +108,7 @@
                      vector5.X = i * 16;
                      vector5.Y = j * 16;
                      if (!(vector3.X + 10f > vector5.X) || !(vector3.X < vector5.X + 16f) || !(vector3.Y + 10f > vector5.Y) || !(vector3.Y < vector5.Y + 16f))
-@@ -53426,11 +_,6 @@
+@@ -57599,11 +_,6 @@
          else if (ai[0] == 2f)
          {
              Point point3 = base.Center.ToTileCoordinates();
@@ -120,7 +120,7 @@
              bool flag = true;
              if (AI_007_GrapplingHooks_CanTileBeLatchedOnTo(Main.tile[point3.X, point3.Y]))
              {
-@@ -54176,16 +_,6 @@
+@@ -58349,16 +_,6 @@
              int num4 = (int)(base.Center.Y / 16f);
              _ = position.Y / 16f;
              int num5 = (int)((position.Y + (float)height) / 16f);
@@ -137,7 +137,7 @@
              if (velocity.Y > 0f)
              {
                  velocity.Y *= 0.5f;
-@@ -54464,16 +_,6 @@
+@@ -58637,16 +_,6 @@
              int num8 = (int)(base.Center.Y / 16f);
              _ = position.Y / 16f;
              int num9 = (int)((position.Y + (float)height) / 16f);
@@ -154,7 +154,7 @@
              if (velocity.Y > 0f)
              {
                  velocity.Y *= 0.5f;
-@@ -54580,21 +_,6 @@
+@@ -58753,21 +_,6 @@
      private float AI_061_FishingBobber_GetWaterLine(int X, int Y)
      {
          float result = position.Y + (float)height;
@@ -176,7 +176,7 @@
          if (Main.tile[X, Y - 1].liquid > 0)
          {
              result = Y * 16;
-@@ -68518,7 +_,17 @@
+@@ -72826,7 +_,17 @@
                  num37 = 5f;
              }
  
@@ -194,7 +194,7 @@
              ai[0] += 1f;
              ai[1] += 1f;
              bool flag8 = false;
-@@ -68538,7 +_,7 @@
+@@ -72846,7 +_,7 @@
              {
                  ai[1] = 0f;
                  flag9 = true;
@@ -203,7 +203,7 @@
                  {
                      float num39 = player.inventory[player.selectedItem].shootSpeed * scale;
                      Vector2 vector18 = vector;
-@@ -68590,7 +_,21 @@
+@@ -72898,7 +_,21 @@
              {
                  bool flag10 = false;
                  flag10 = !flag8 || player.CheckMana(player.inventory[player.selectedItem].mana, pay: true);
@@ -226,24 +226,32 @@
                  {
                      if (ai[0] == 1f)
                      {
-@@ -78056,11 +_,6 @@
+@@ -83107,11 +_,6 @@
  
-                 int num696 = (int)position.X / 16;
-                 int num697 = (int)position.Y / 16;
--                if (Main.tile[num696, num697] == null)
+                 int num726 = (int)position.X / 16;
+                 int num727 = (int)position.Y / 16;
+-                if (Main.tile[num726, num727] == null)
 -                {
--                    Main.tile[num696, num697] = new Tile();
+-                    Main.tile[num726, num727] = new Tile();
 -                }
 -
-                 if (Main.tile[num696, num697].type == 127 && Main.tile[num696, num697].active())
+                 if (Main.tile[num726, num727].type == 127 && Main.tile[num726, num727].active())
                  {
-                     WorldGen.KillTile(num696, num697);
-@@ -79444,7 +_,7 @@
-                                 Vector2 value13 = vector73.RotatedBy(((num904 == 0) ? 1f : (-1f)) * ((float)Math.PI * 2f) / (num899 * 2f));
-                                 for (float num905 = 0f; num905 < num902; num905++)
+                     WorldGen.KillTile(num726, num727);
+@@ -84568,14 +_,14 @@
+                                 Vector2 value14 = vector79.RotatedBy(((num939 == 0) ? 1f : (-1f)) * ((float)Math.PI * 2f) / (num934 * 2f));
+                                 for (float num940 = 0f; num940 < num937; num940++)
                                  {
--                                    Vector2 vector74 = Vector2.SmoothStep(vector73, value13, num905 / num902);
-+                                    Vector2 vector74 = VectorExtensions.SmoothStep(vector73, value13, num905 / num902);
-                                     float num906 = MathHelper.SmoothStep(num900, num901, num905 / num902);
-                                     int num907 = Dust.NewDust(new Vector2(position.X, position.Y), 6, 6, 134, 0f, 0f, 100, default(Color), 1.3f);
-                                     Dust dust2 = Main.dust[num907];
+-                                    Vector2 vector80 = Vector2.SmoothStep(vector79, value14, num940 / num937);
++                                    Vector2 vector74 = VectorExtensions.SmoothStep(vector79, value14, num940 / num937);
+                                     float num941 = MathHelper.SmoothStep(num935, num936, num940 / num937);
+                                     int num942 = Dust.NewDust(new Vector2(position.X, position.Y), 6, 6, 134, 0f, 0f, 100, default(Color), 1.3f);
+                                     Dust dust2 = Main.dust[num942];
+                                     dust2.velocity *= 0.1f;
+                                     Main.dust[num942].noGravity = true;
+                                     dust2 = Main.dust[num942];
+-                                    dust2.velocity += vector80 * num941;
++                                    dust2.velocity += vector74 * num941;
+                                 }
+                             }
+ 

@@ -1,8 +1,8 @@
 --- src/Terraria/Terraria/NPC.cs
 +++ src/TerraAngel/Terraria/NPC.cs
-@@ -6762,7 +_,27 @@
-         }
-     }
+@@ -6840,7 +_,27 @@
+ 
+     public byte generation { get; private set; }
  
 -    public string TypeName => Lang.GetNPCNameValue(netID);
 +    public string TypeName
@@ -29,7 +29,7 @@
      public string FullName
      {
          get
-@@ -6776,6 +_,20 @@
+@@ -6854,6 +_,20 @@
          }
      }
  
@@ -50,121 +50,121 @@
      public bool HasGivenName => _givenName.Length != 0;
      public string GivenOrTypeName
      {
-@@ -23247,11 +_,6 @@
+@@ -23350,11 +_,6 @@
                  return;
              }
  
--            if (Main.tile[(int)this.ai[0], (int)this.ai[1]] == null)
+-            if (Main.tile[num217, num218] == null)
 -            {
--                Main.tile[(int)this.ai[0], (int)this.ai[1]] = new Tile();
+-                Main.tile[num217, num218] = new Tile();
 -            }
 -
-             if (!Main.tile[(int)this.ai[0], (int)this.ai[1]].active())
+             if (!Main.tile[num217, num218].active())
              {
                  life = -1;
-@@ -24778,21 +_,6 @@
+@@ -24817,21 +_,6 @@
  
-                     int num270 = (int)(position.X + (float)(width / 2)) / 16;
-                     int num271 = (int)(position.Y + (float)(height / 2)) / 16;
--                    if (Main.tile[num270, num271 - 1] == null)
+                     int num272 = (int)(position.X + (float)(width / 2)) / 16;
+                     int num273 = (int)(position.Y + (float)(height / 2)) / 16;
+-                    if (Main.tile[num272, num273 - 1] == null)
 -                    {
--                        Main.tile[num270, num271 - 1] = new Tile();
+-                        Main.tile[num272, num273 - 1] = new Tile();
 -                    }
 -
--                    if (Main.tile[num270, num271 + 1] == null)
+-                    if (Main.tile[num272, num273 + 1] == null)
 -                    {
--                        Main.tile[num270, num271 + 1] = new Tile();
+-                        Main.tile[num272, num273 + 1] = new Tile();
 -                    }
 -
--                    if (Main.tile[num270, num271 + 2] == null)
+-                    if (Main.tile[num272, num273 + 2] == null)
 -                    {
--                        Main.tile[num270, num271 + 2] = new Tile();
+-                        Main.tile[num272, num273 + 2] = new Tile();
 -                    }
 -
-                     if (Main.tile[num270, num271 - 1].liquid > 128)
+                     if (Main.tile[num272, num273 - 1].liquid > 128)
                      {
-                         if (Main.tile[num270, num271 + 1].active())
-@@ -25249,21 +_,6 @@
+                         if (Main.tile[num272, num273 + 1].active())
+@@ -25288,21 +_,6 @@
  
-                 int num282 = (int)(position.X + (float)(width / 2)) / 16;
-                 int num283 = (int)(position.Y + (float)(height / 2)) / 16;
--                if (Main.tile[num282, num283 - 1] == null)
+                 int num284 = (int)(position.X + (float)(width / 2)) / 16;
+                 int num285 = (int)(position.Y + (float)(height / 2)) / 16;
+-                if (Main.tile[num284, num285 - 1] == null)
 -                {
--                    Main.tile[num282, num283 - 1] = new Tile();
+-                    Main.tile[num284, num285 - 1] = new Tile();
 -                }
 -
--                if (Main.tile[num282, num283 + 1] == null)
+-                if (Main.tile[num284, num285 + 1] == null)
 -                {
--                    Main.tile[num282, num283 + 1] = new Tile();
+-                    Main.tile[num284, num285 + 1] = new Tile();
 -                }
 -
--                if (Main.tile[num282, num283 + 2] == null)
+-                if (Main.tile[num284, num285 + 2] == null)
 -                {
--                    Main.tile[num282, num283 + 2] = new Tile();
+-                    Main.tile[num284, num285 + 2] = new Tile();
 -                }
 -
-                 if (Main.tile[num282, num283 - 1].liquid > 128)
+                 if (Main.tile[num284, num285 - 1].liquid > 128)
                  {
-                     if (Main.tile[num282, num283 + 1].active())
-@@ -25398,21 +_,6 @@
-                 int num299 = (int)(position.X + (float)width) / 16;
-                 int num300 = (int)(position.Y + (float)height) / 16;
-                 bool flag26 = false;
--                if (Main.tile[num297, num300] == null)
+                     if (Main.tile[num284, num285 + 1].active())
+@@ -25443,21 +_,6 @@
+                 int num301 = (int)(position.X + (float)width) / 16;
+                 int num302 = (int)(position.Y + (float)height) / 16;
+                 bool flag29 = false;
+-                if (Main.tile[num299, num302] == null)
 -                {
--                    Main.tile[num297, num300] = new Tile();
+-                    Main.tile[num299, num302] = new Tile();
 -                }
 -
--                if (Main.tile[num298, num300] == null)
+-                if (Main.tile[num300, num302] == null)
 -                {
--                    Main.tile[num297, num300] = new Tile();
+-                    Main.tile[num299, num302] = new Tile();
 -                }
 -
--                if (Main.tile[num299, num300] == null)
+-                if (Main.tile[num301, num302] == null)
 -                {
--                    Main.tile[num297, num300] = new Tile();
+-                    Main.tile[num299, num302] = new Tile();
 -                }
 -
-                 if ((Main.tile[num297, num300].nactive() && Main.tileSolid[Main.tile[num297, num300].type]) || (Main.tile[num298, num300].nactive() && Main.tileSolid[Main.tile[num298, num300].type]) || (Main.tile[num299, num300].nactive() && Main.tileSolid[Main.tile[num299, num300].type]))
+                 if ((Main.tile[num299, num302].nactive() && Main.tileSolid[Main.tile[num299, num302].type]) || (Main.tile[num300, num302].nactive() && Main.tileSolid[Main.tile[num300, num302].type]) || (Main.tile[num301, num302].nactive() && Main.tileSolid[Main.tile[num301, num302].type]))
                  {
-                     flag26 = true;
-@@ -25961,11 +_,6 @@
+                     flag29 = true;
+@@ -26000,11 +_,6 @@
                  {
-                     for (int num342 = num309; num342 < num309 + num310; num342++)
+                     for (int num342 = num311; num342 < num311 + num312; num342++)
                      {
--                        if (Main.tile[num308, num342] == null)
+-                        if (Main.tile[num310, num342] == null)
 -                        {
--                            Main.tile[num308, num342] = new Tile();
+-                            Main.tile[num310, num342] = new Tile();
 -                        }
 -
-                         if ((Main.tile[num308, num342].nactive() && Main.tileSolid[Main.tile[num308, num342].type]) || Main.tile[num308, num342].liquid > 0)
+                         if ((Main.tile[num310, num342].nactive() && Main.tileSolid[Main.tile[num310, num342].type]) || Main.tile[num310, num342].liquid > 0)
                          {
-                             if (num342 <= num309 + 1)
-@@ -25985,11 +_,6 @@
-                 bool flag33 = false;
-                 for (int num343 = num309; num343 < num309 + num310 - 2; num343++)
+                             if (num342 <= num311 + 1)
+@@ -26024,11 +_,6 @@
+                 bool flag37 = false;
+                 for (int num343 = num311; num343 < num311 + num312 - 2; num343++)
                  {
--                    if (Main.tile[num308, num343] == null)
+-                    if (Main.tile[num310, num343] == null)
 -                    {
--                        Main.tile[num308, num343] = new Tile();
+-                        Main.tile[num310, num343] = new Tile();
 -                    }
 -
-                     if ((Main.tile[num308, num343].nactive() && Main.tileSolid[Main.tile[num308, num343].type]) || Main.tile[num308, num343].liquid > 0)
+                     if ((Main.tile[num310, num343].nactive() && Main.tileSolid[Main.tile[num310, num343].type]) || Main.tile[num310, num343].liquid > 0)
                      {
-                         flag33 = true;
-@@ -26004,11 +_,6 @@
+                         flag37 = true;
+@@ -26043,11 +_,6 @@
              {
-                 for (int num344 = num309 - 3; num344 < num309; num344++)
+                 for (int num344 = num311 - 3; num344 < num311; num344++)
                  {
--                    if (Main.tile[num308, num344] == null)
+-                    if (Main.tile[num310, num344] == null)
 -                    {
--                        Main.tile[num308, num344] = new Tile();
+-                        Main.tile[num310, num344] = new Tile();
 -                    }
 -
-                     if ((Main.tile[num308, num344].nactive() && Main.tileSolid[Main.tile[num308, num344].type] && !TileID.Sets.Platforms[Main.tile[num308, num344].type]) || Main.tile[num308, num344].liquid > 0)
+                     if ((Main.tile[num310, num344].nactive() && Main.tileSolid[Main.tile[num310, num344].type] && !TileID.Sets.Platforms[Main.tile[num310, num344].type]) || Main.tile[num310, num344].liquid > 0)
                      {
-                         flag32 = false;
-@@ -26517,11 +_,6 @@
+                         flag35 = false;
+@@ -26556,11 +_,6 @@
                          continue;
                      }
  
@@ -176,7 +176,7 @@
                      if ((Main.tile[num357, num360].nactive() && Main.tileSolid[Main.tile[num357, num360].type]) || Main.tile[num357, num360].liquid > 0)
                      {
                          if (num360 < num358 + 5)
-@@ -36805,16 +_,6 @@
+@@ -36868,16 +_,6 @@
                      int num1067 = (int)(base.Center.Y / 16f);
                      int j4 = (int)(position.Y / 16f);
                      int num1068 = (int)((position.Y + (float)height) / 16f);
@@ -193,7 +193,7 @@
                      if (num1066 < 5 || num1066 > Main.maxTilesX - 5 || WorldGen.SolidTile(num1066, num1067) || WorldGen.SolidTile(num1066, j4) || WorldGen.SolidTile(num1066, num1068) || Main.tile[num1066, num1068].liquid == 0)
                      {
                          direction *= -1;
-@@ -36830,21 +_,6 @@
+@@ -36893,21 +_,6 @@
                      num1066 = (int)(base.Center.X / 16f);
                      num1067 = (int)(base.Center.Y / 16f);
                      float num1069 = position.Y + (float)height;
@@ -215,10 +215,10 @@
                      if (Main.tile[num1066, num1067 - 1].liquid > 0)
                      {
                          num1069 = num1067 * 16;
-@@ -37019,11 +_,6 @@
-                 bool flag67 = false;
-                 for (int num1073 = num1071; num1073 < num1071 + num1072; num1073++)
-                 {
+@@ -37087,11 +_,6 @@
+                         continue;
+                     }
+ 
 -                    if (Main.tile[num1070, num1073] == null)
 -                    {
 -                        Main.tile[num1070, num1073] = new Tile();
@@ -227,117 +227,151 @@
                      if ((Main.tile[num1070, num1073].nactive() && Main.tileSolid[Main.tile[num1070, num1073].type]) || Main.tile[num1070, num1073].liquid > 0)
                      {
                          if (num1073 < num1071 + 5)
-@@ -39530,7 +_,7 @@
+@@ -38646,7 +_,7 @@
+                     else
                      {
-                         Vector2 vector171 = vector170;
-                         vector171.Normalize();
--                        velocity = Vector2.SmoothStep(velocity, vector171 * Math.Min(8f, vector170.Length()), 0.2f);
-+                        velocity = VectorExtensions.SmoothStep(velocity, vector171 * Math.Min(8f, vector170.Length()), 0.2f);
+                         vector146.Normalize();
+-                        velocity = Vector2.Lerp(velocity, vector146 * 16f, 0.1f);
++                        velocity = VectorExtensions.SmoothStep(velocity, vector146 * Math.Min(8f, vector146.Length()), 0.2f);
                      }
                  }
-                 else if (num1232 < 210f)
-@@ -39547,7 +_,7 @@
-                         int num1246 = Projectile.NewProjectile(GetSpawnSource_ForProjectile(), base.Center.X, base.Center.Y, vector172.X, vector172.Y, 454, 40, 1f, Main.myPlayer, 0f, whoAmI);
-                     }
  
--                    Vector2 vector173 = Vector2.SmoothStep(vector168, vector168 + vector169, (num1232 - 30f) / 180f) - base.Center;
-+                    Vector2 vector173 = VectorExtensions.SmoothStep(vector168, vector168 + vector169, (num1232 - 30f) / 180f) - base.Center;
-                     if (vector173 != Vector2.Zero)
-                     {
-                         Vector2 vector174 = vector173;
-@@ -39596,7 +_,7 @@
-                         }
-                     }
- 
--                    Vector2 vector176 = Vector2.SmoothStep(vector168, vector168 + vector169, 1f - (num1232 - 270f) / 30f) - base.Center;
-+                    Vector2 vector176 = VectorExtensions.SmoothStep(vector168, vector168 + vector169, 1f - (num1232 - 270f) / 30f) - base.Center;
-                     if (vector176 != Vector2.Zero)
-                     {
-                         Vector2 vector177 = vector176;
-@@ -39612,7 +_,7 @@
-                     {
-                         Vector2 vector179 = vector178;
-                         vector179.Normalize();
--                        velocity = Vector2.SmoothStep(velocity, vector179 * Math.Min(8f, vector178.Length()), 0.2f);
-+                        velocity = VectorExtensions.SmoothStep(velocity, vector179 * Math.Min(8f, vector178.Length()), 0.2f);
-                     }
-                 }
-             }
-@@ -39835,7 +_,7 @@
-                             {
-                                 Vector2 vector189 = vector188;
-                                 vector189.Normalize();
--                                velocity = Vector2.SmoothStep(velocity, vector189 * Math.Min(8f, vector188.Length()), 0.2f);
-+                                velocity = VectorExtensions.SmoothStep(velocity, vector189 * Math.Min(8f, vector188.Length()), 0.2f);
-                             }
-                         }
-                         else if (this.ai[1] < 210f)
-@@ -39851,7 +_,7 @@
-                                 int num1254 = Projectile.NewProjectile(GetSpawnSource_ForProjectile(), base.Center.X, base.Center.Y, vector190.X, vector190.Y, 454, 1, 1f, Main.myPlayer, 0f, whoAmI);
-                             }
- 
--                            Vector2 vector191 = Vector2.SmoothStep(vector186, vector186 + vector187, (this.ai[1] - 30f) / 180f) - base.Center;
-+                            Vector2 vector191 = VectorExtensions.SmoothStep(vector186, vector186 + vector187, (this.ai[1] - 30f) / 180f) - base.Center;
-                             if (vector191 != Vector2.Zero)
-                             {
-                                 Vector2 vector192 = vector191;
-@@ -39887,7 +_,7 @@
-                                 }
-                             }
- 
--                            Vector2 vector194 = Vector2.SmoothStep(vector186, vector186 + vector187, 1f - (this.ai[1] - 270f) / 30f) - base.Center;
-+                            Vector2 vector194 = VectorExtensions.SmoothStep(vector186, vector186 + vector187, 1f - (this.ai[1] - 270f) / 30f) - base.Center;
-                             if (vector194 != Vector2.Zero)
-                             {
-                                 Vector2 vector195 = vector194;
-@@ -44978,8 +_,8 @@
+@@ -43102,8 +_,8 @@
                          {
                              foreach (Vector2 item3 in list2)
                              {
--                                Vector2 value13 = Vector2.CatmullRom(vector293 + vector296, vector293, item3, item3 + vector296, num1586);
-+                                Vector2 value13 = VectorExtensions.CatmullRom(vector293 + vector296, vector293, item3, item3 + vector296, num1586);
--                                Vector2 value14 = Vector2.CatmullRom(vector293 + vector296, vector293, item3, item3 + vector296, num1586 + 0.05f);
-+                                Vector2 value14 = VectorExtensions.CatmullRom(vector293 + vector296, vector293, item3, item3 + vector296, num1586 + 0.05f);
-                                 float num1587 = num1586;
-                                 if (num1587 > 0.5f)
+-                                Vector2 value4 = Vector2.CatmullRom(vector214 + vector217, vector214, item3, item3 + vector217, num1477);
++                                Vector2 value13 = VectorExtensions.CatmullRom(vector216 + vector217, vector216, item3, item3 + vector217, num1477);
+-                                Vector2 value5 = Vector2.CatmullRom(vector214 + vector217, vector214, item3, item3 + vector217, num1477 + 0.05f);
++                                Vector2 value14 = VectorExtensions.CatmullRom(vector216 + vector217, vector216, item3, item3 + vector217, num1477 + 0.05f);
+                                 float num1478 = num1477;
+                                 if (num1478 > 0.5f)
                                  {
-@@ -45094,11 +_,6 @@
+@@ -43111,12 +_,12 @@
+                                 }
  
-             for (int num1595 = num1592; num1595 < num1592 + num1568; num1595++)
+                                 float num1479 = 2f;
+-                                if (Vector2.Distance(value4, value5) > 5f)
++                                if (Vector2.Distance(value13, value14) > 5f)
+                                 {
+                                     num1479 = 3f;
+                                 }
+ 
+-                                if (Vector2.Distance(value4, value5) > 10f)
++                                if (Vector2.Distance(value13, value14) > 10f)
+                                 {
+                                     num1479 = 4f;
+                                 }
+@@ -43124,7 +_,7 @@
+                                 for (float num1480 = 0f; num1480 < num1479; num1480++)
+                                 {
+                                     Dust dust25 = Main.dust[Dust.NewDust(vector214, 0, 0, 269)];
+-                                    dust25.position = Vector2.Lerp(value4, value5, num1480 / num1479) + Utils.RandomVector2(Main.rand, -2f, 2f);
++                                    dust25.position = Vector2.Lerp(value13, value14, num1480 / num1479) + Utils.RandomVector2(Main.rand, -2f, 2f);
+                                     dust25.noLight = true;
+                                     dust25.scale = 0.3f + num1477;
+                                 }
+@@ -43218,11 +_,6 @@
+ 
+             for (int num1486 = num1483; num1486 < num1483 + num1459; num1486++)
              {
--                if (Main.tile[num1591, num1595] == null)
+-                if (Main.tile[num1482, num1486] == null)
 -                {
--                    Main.tile[num1591, num1595] = new Tile();
+-                    Main.tile[num1482, num1486] = new Tile();
 -                }
 -
-                 if ((Main.tile[num1591, num1595].nactive() && Main.tileSolid[Main.tile[num1591, num1595].type]) || Main.tile[num1591, num1595].liquid > 0)
+                 if ((Main.tile[num1482, num1486].nactive() && Main.tileSolid[Main.tile[num1482, num1486].type]) || Main.tile[num1482, num1486].liquid > 0)
                  {
-                     if (num1595 <= num1592 + 1)
-@@ -45113,11 +_,6 @@
+                     if (num1486 <= num1483 + 1)
+@@ -43237,11 +_,6 @@
  
-             for (int num1596 = num1593; num1596 < num1593 + num1570; num1596++)
+             for (int num1487 = num1484; num1487 < num1484 + num1461; num1487++)
              {
--                if (Main.tile[num1594, num1596] == null)
+-                if (Main.tile[num1485, num1487] == null)
 -                {
--                    Main.tile[num1594, num1596] = new Tile();
+-                    Main.tile[num1485, num1487] = new Tile();
 -                }
 -
-                 if ((Main.tile[num1594, num1596].nactive() && Main.tileSolid[Main.tile[num1594, num1596].type]) || Main.tile[num1594, num1596].liquid > 0)
+                 if ((Main.tile[num1485, num1487].nactive() && Main.tileSolid[Main.tile[num1485, num1487].type]) || Main.tile[num1485, num1487].liquid > 0)
                  {
-                     flag112 = true;
-@@ -45130,11 +_,6 @@
+                     flag115 = true;
+@@ -43254,11 +_,6 @@
              {
-                 for (int num1597 = num1592 - num1569; num1597 < num1592; num1597++)
+                 for (int num1488 = num1483 - num1460; num1488 < num1483; num1488++)
                  {
--                    if (Main.tile[num1591, num1597] == null)
+-                    if (Main.tile[num1482, num1488] == null)
 -                    {
--                        Main.tile[num1591, num1597] = new Tile();
+-                        Main.tile[num1482, num1488] = new Tile();
 -                    }
 -
-                     if ((Main.tile[num1591, num1597].nactive() && Main.tileSolid[Main.tile[num1591, num1597].type]) || Main.tile[num1591, num1597].liquid > 0)
+                     if ((Main.tile[num1482, num1488].nactive() && Main.tileSolid[Main.tile[num1482, num1488].type]) || Main.tile[num1482, num1488].liquid > 0)
                      {
-                         flag112 = false;
-@@ -46870,11 +_,6 @@
+                         flag115 = false;
+@@ -44736,7 +_,7 @@
+                 {
+                     Vector2 vector11 = vector10;
+                     vector11.Normalize();
+-                    velocity = Vector2.SmoothStep(velocity, vector11 * Math.Min(8f, vector10.Length()), 0.2f);
++                    velocity = VectorExtensions.SmoothStep(velocity, vector11 * Math.Min(8f, vector10.Length()), 0.2f);
+                 }
+             }
+             else if (num2 < 210f)
+@@ -44753,7 +_,7 @@
+                     Projectile.NewProjectile(GetSpawnSource_ForProjectile(), base.Center.X, base.Center.Y, vector12.X, vector12.Y, 454, 40, 1f, Main.myPlayer, 0f, whoAmI);
+                 }
+ 
+-                Vector2 vector13 = Vector2.SmoothStep(vector8, vector8 + vector9, (num2 - 30f) / 180f) - base.Center;
++                Vector2 vector13 = VectorExtensions.SmoothStep(vector8, vector8 + vector9, (num2 - 30f) / 180f) - base.Center;
+                 if (vector13 != Vector2.Zero)
+                 {
+                     Vector2 vector14 = vector13;
+@@ -44802,7 +_,7 @@
+                     }
+                 }
+ 
+-                Vector2 vector16 = Vector2.SmoothStep(vector8, vector8 + vector9, 1f - (num2 - 270f) / 30f) - base.Center;
++                Vector2 vector16 = VectorExtensions.SmoothStep(vector8, vector8 + vector9, 1f - (num2 - 270f) / 30f) - base.Center;
+                 if (vector16 != Vector2.Zero)
+                 {
+                     Vector2 vector17 = vector16;
+@@ -44818,7 +_,7 @@
+                 {
+                     Vector2 vector19 = vector18;
+                     vector19.Normalize();
+-                    velocity = Vector2.SmoothStep(velocity, vector19 * Math.Min(8f, vector18.Length()), 0.2f);
++                    velocity = VectorExtensions.SmoothStep(velocity, vector19 * Math.Min(8f, vector18.Length()), 0.2f);
+                 }
+             }
+         }
+@@ -45046,7 +_,7 @@
+                         {
+                             Vector2 vector27 = vector26;
+                             vector27.Normalize();
+-                            velocity = Vector2.SmoothStep(velocity, vector27 * Math.Min(8f, vector26.Length()), 0.2f);
++                            velocity = VectorExtensions.SmoothStep(velocity, vector27 * Math.Min(8f, vector26.Length()), 0.2f);
+                         }
+                     }
+                     else if (this.ai[1] < 210f)
+@@ -45061,8 +_,7 @@
+                             vector28 *= 1.2f;
+                             Projectile.NewProjectile(GetSpawnSource_ForProjectile(), base.Center.X, base.Center.Y, vector28.X, vector28.Y, 454, 1, 1f, Main.myPlayer, 0f, whoAmI);
+                         }
+-
+-                        Vector2 vector29 = Vector2.SmoothStep(vector24, vector24 + vector25, (this.ai[1] - 30f) / 180f) - base.Center;
++                        Vector2 vector29 = VectorExtensions.SmoothStep(vector24, vector24 + vector25, (this.ai[1] - 30f) / 180f) - base.Center;
+                         if (vector29 != Vector2.Zero)
+                         {
+                             Vector2 vector30 = vector29;
+@@ -45098,7 +_,7 @@
+                             }
+                         }
+ 
+-                        Vector2 vector32 = Vector2.SmoothStep(vector24, vector24 + vector25, 1f - (this.ai[1] - 270f) / 30f) - base.Center;
++                        Vector2 vector32 = VectorExtensions.SmoothStep(vector24, vector24 + vector25, 1f - (this.ai[1] - 270f) / 30f) - base.Center;
+                         if (vector32 != Vector2.Zero)
+                         {
+                             Vector2 vector33 = vector32;
+@@ -46998,11 +_,6 @@
          bool flag2 = false;
          for (int i = num6; i < num6 + num7; i++)
          {
@@ -349,7 +383,51 @@
              if ((Main.tile[num5, i].nactive() && Main.tileSolid[Main.tile[num5, i].type]) || Main.tile[num5, i].liquid > 0)
              {
                  if (i < num6 + 5 + num2)
-@@ -48029,11 +_,6 @@
+@@ -47952,43 +_,35 @@
+                     }
+                 }
+             }
+-
+             if (num5.HasValue)
+             {
+                 num = num5.Value;
+             }
+         }
+-
+         for (int j = 0; j < 20; j++)
+         {
+             if (num < 10)
+             {
+                 break;
+             }
+-
+             if (!WorldGen.SolidTile(x, num))
+             {
+                 break;
+             }
+-
+             num--;
+         }
+-
+         for (int k = 0; k < 20; k++)
+         {
+             if (num > Main.maxTilesY - 10)
+             {
+                 break;
+             }
+-
+             if (WorldGen.ActiveAndWalkableTile(x, num))
+             {
+                 break;
+             }
+-
+             num++;
+         }
+-
+         return num;
+     }
+ 
+@@ -48179,11 +_,6 @@
          int x = point.X;
          for (int i = point.Y; i < point.Y + searchRange; i++)
          {
@@ -361,7 +439,7 @@
              if (Main.tile[x, i].nactive() && Main.tileSolid[Main.tile[x, i].type])
              {
                  tilesTraveled = i - point.Y;
-@@ -51625,11 +_,6 @@
+@@ -51768,11 +_,6 @@
              bool flag2 = false;
              for (int i = num7; i < num7 + num8; i++)
              {
@@ -373,7 +451,7 @@
                  if ((Main.tile[num6, i].nactive() && Main.tileSolid[Main.tile[num6, i].type]) || Main.tile[num6, i].liquid > 0)
                  {
                      if (i < num7 + 5 + num3)
-@@ -51859,11 +_,6 @@
+@@ -52002,11 +_,6 @@
                      {
                          for (int j = num15; j < num15 + num16; j++)
                          {
@@ -385,7 +463,7 @@
                              if ((Main.tile[i, j].nactive() && Main.tileSolid[Main.tile[i, j].type]) || Main.tile[i, j].liquid > 0)
                              {
                                  if (j < num15 + 5)
-@@ -61144,11 +_,6 @@
+@@ -61317,11 +_,6 @@
                  bool flag4 = false;
                  for (int l = num36 - 1; l <= num36 + 1; l++)
                  {
@@ -397,91 +475,91 @@
                      if (Main.tile[l, num37].active() && Main.tileSolid[Main.tile[l, num37].type])
                      {
                          flag4 = true;
-@@ -64742,36 +_,6 @@
-             int num197 = (int)((vector39.Y + (float)height - 1f) / 16f);
-             if (WorldGen.InWorld(num196, num197, 4))
+@@ -64939,36 +_,6 @@
+             int num196 = (int)((vector39.Y + (float)height - 1f) / 16f);
+             if (WorldGen.InWorld(num195, num196, 4))
              {
--                if (Main.tile[num196, num197] == null)
+-                if (Main.tile[num195, num196] == null)
 -                {
--                    Main.tile[num196, num197] = new Tile();
+-                    Main.tile[num195, num196] = new Tile();
 -                }
 -
--                if (Main.tile[num196, num197 - 1] == null)
+-                if (Main.tile[num195, num196 - 1] == null)
 -                {
--                    Main.tile[num196, num197 - 1] = new Tile();
+-                    Main.tile[num195, num196 - 1] = new Tile();
 -                }
 -
--                if (Main.tile[num196, num197 - 2] == null)
+-                if (Main.tile[num195, num196 - 2] == null)
 -                {
--                    Main.tile[num196, num197 - 2] = new Tile();
+-                    Main.tile[num195, num196 - 2] = new Tile();
 -                }
 -
--                if (Main.tile[num196, num197 - 3] == null)
+-                if (Main.tile[num195, num196 - 3] == null)
 -                {
--                    Main.tile[num196, num197 - 3] = new Tile();
+-                    Main.tile[num195, num196 - 3] = new Tile();
 -                }
 -
--                if (Main.tile[num196, num197 + 1] == null)
+-                if (Main.tile[num195, num196 + 1] == null)
 -                {
--                    Main.tile[num196, num197 + 1] = new Tile();
+-                    Main.tile[num195, num196 + 1] = new Tile();
 -                }
 -
--                if (Main.tile[num196 - num195, num197 - 3] == null)
+-                if (Main.tile[num195 - num194, num196 - 3] == null)
 -                {
--                    Main.tile[num196 - num195, num197 - 3] = new Tile();
+-                    Main.tile[num195 - num194, num196 - 3] = new Tile();
 -                }
 -
-                 if ((float)(num196 * 16) < vector39.X + (float)width && (float)(num196 * 16 + 16) > vector39.X && ((Main.tile[num196, num197].nactive() && !Main.tile[num196, num197].topSlope() && !Main.tile[num196, num197 - 1].topSlope() && Main.tileSolid[Main.tile[num196, num197].type] && !Main.tileSolidTop[Main.tile[num196, num197].type]) || (Main.tile[num196, num197 - 1].halfBrick() && Main.tile[num196, num197 - 1].nactive())) && (!Main.tile[num196, num197 - 1].nactive() || !Main.tileSolid[Main.tile[num196, num197 - 1].type] || Main.tileSolidTop[Main.tile[num196, num197 - 1].type] || (Main.tile[num196, num197 - 1].halfBrick() && (!Main.tile[num196, num197 - 4].nactive() || !Main.tileSolid[Main.tile[num196, num197 - 4].type] || Main.tileSolidTop[Main.tile[num196, num197 - 4].type]))) && (!Main.tile[num196, num197 - 2].nactive() || !Main.tileSolid[Main.tile[num196, num197 - 2].type] || Main.tileSolidTop[Main.tile[num196, num197 - 2].type]) && (!Main.tile[num196, num197 - 3].nactive() || !Main.tileSolid[Main.tile[num196, num197 - 3].type] || Main.tileSolidTop[Main.tile[num196, num197 - 3].type]) && (!Main.tile[num196 - num195, num197 - 3].nactive() || !Main.tileSolid[Main.tile[num196 - num195, num197 - 3].type]))
+                 if ((float)(num195 * 16) < vector39.X + (float)width && (float)(num195 * 16 + 16) > vector39.X && ((Main.tile[num195, num196].nactive() && !Main.tile[num195, num196].topSlope() && !Main.tile[num195, num196 - 1].topSlope() && Main.tileSolid[Main.tile[num195, num196].type] && !Main.tileSolidTop[Main.tile[num195, num196].type]) || (Main.tile[num195, num196 - 1].halfBrick() && Main.tile[num195, num196 - 1].nactive())) && (!Main.tile[num195, num196 - 1].nactive() || !Main.tileSolid[Main.tile[num195, num196 - 1].type] || Main.tileSolidTop[Main.tile[num195, num196 - 1].type] || (Main.tile[num195, num196 - 1].halfBrick() && (!Main.tile[num195, num196 - 4].nactive() || !Main.tileSolid[Main.tile[num195, num196 - 4].type] || Main.tileSolidTop[Main.tile[num195, num196 - 4].type]))) && (!Main.tile[num195, num196 - 2].nactive() || !Main.tileSolid[Main.tile[num195, num196 - 2].type] || Main.tileSolidTop[Main.tile[num195, num196 - 2].type]) && (!Main.tile[num195, num196 - 3].nactive() || !Main.tileSolid[Main.tile[num195, num196 - 3].type] || Main.tileSolidTop[Main.tile[num195, num196 - 3].type]) && (!Main.tile[num195 - num194, num196 - 3].nactive() || !Main.tileSolid[Main.tile[num195 - num194, num196 - 3].type]))
                  {
-                     float num198 = num197 * 16;
-@@ -64821,46 +_,6 @@
-                 num201 = (int)((position.X + (float)(width / 2) + (float)((width / 2 + 16) * direction)) / 16f);
+                     float num197 = num196 * 16;
+@@ -65018,46 +_,6 @@
+                 num200 = (int)((position.X + (float)(width / 2) + (float)((width / 2 + 16) * direction)) / 16f);
              }
  
--            if (Main.tile[num201, num202] == null)
+-            if (Main.tile[num200, num201] == null)
 -            {
--                Main.tile[num201, num202] = new Tile();
+-                Main.tile[num200, num201] = new Tile();
 -            }
 -
--            if (Main.tile[num201, num202 - 1] == null)
+-            if (Main.tile[num200, num201 - 1] == null)
 -            {
--                Main.tile[num201, num202 - 1] = new Tile();
+-                Main.tile[num200, num201 - 1] = new Tile();
 -            }
 -
--            if (Main.tile[num201, num202 - 2] == null)
+-            if (Main.tile[num200, num201 - 2] == null)
 -            {
--                Main.tile[num201, num202 - 2] = new Tile();
+-                Main.tile[num200, num201 - 2] = new Tile();
 -            }
 -
--            if (Main.tile[num201, num202 - 3] == null)
+-            if (Main.tile[num200, num201 - 3] == null)
 -            {
--                Main.tile[num201, num202 - 3] = new Tile();
+-                Main.tile[num200, num201 - 3] = new Tile();
 -            }
 -
--            if (Main.tile[num201, num202 + 1] == null)
+-            if (Main.tile[num200, num201 + 1] == null)
 -            {
--                Main.tile[num201, num202 + 1] = new Tile();
+-                Main.tile[num200, num201 + 1] = new Tile();
 -            }
 -
--            if (Main.tile[num201 + direction, num202 - 1] == null)
+-            if (Main.tile[num200 + direction, num201 - 1] == null)
 -            {
--                Main.tile[num201 + direction, num202 - 1] = new Tile();
+-                Main.tile[num200 + direction, num201 - 1] = new Tile();
 -            }
 -
--            if (Main.tile[num201 + direction, num202 + 1] == null)
+-            if (Main.tile[num200 + direction, num201 + 1] == null)
 -            {
--                Main.tile[num201 + direction, num202 + 1] = new Tile();
+-                Main.tile[num200 + direction, num201 + 1] = new Tile();
 -            }
 -
--            if (Main.tile[num201 - direction, num202 + 1] == null)
+-            if (Main.tile[num200 - direction, num201 + 1] == null)
 -            {
--                Main.tile[num201 - direction, num202 + 1] = new Tile();
+-                Main.tile[num200 - direction, num201 + 1] = new Tile();
 -            }
 -
-             Main.tile[num201, num202 + 1].halfBrick();
-             if (Main.tile[num201, num202 - 1].nactive() && (Main.tile[num201, num202 - 1].type == 10 || Main.tile[num201, num202 - 1].type == 388) && flag8)
+             Main.tile[num200, num201 + 1].halfBrick();
+             if (Main.tile[num200, num201 - 1].nactive() && (Main.tile[num200, num201 - 1].type == 10 || Main.tile[num200, num201 - 1].type == 388) && flag8)
              {
-@@ -67899,31 +_,6 @@
+@@ -68098,31 +_,6 @@
              vector8.X += velocity.X;
              int num15 = (int)((vector8.X + (float)(width / 2) + (float)((width / 2 + 1) * num14)) / 16f);
              int num16 = (int)((vector8.Y + (float)height - 1f) / 16f);
@@ -513,7 +591,7 @@
              if ((float)(num15 * 16) < vector8.X + (float)width && (float)(num15 * 16 + 16) > vector8.X && ((Main.tile[num15, num16].nactive() && !Main.tile[num15, num16].topSlope() && !Main.tile[num15, num16 - 1].topSlope() && Main.tileSolid[Main.tile[num15, num16].type] && !Main.tileSolidTop[Main.tile[num15, num16].type]) || (Main.tile[num15, num16 - 1].halfBrick() && Main.tile[num15, num16 - 1].nactive())) && (!Main.tile[num15, num16 - 1].nactive() || !Main.tileSolid[Main.tile[num15, num16 - 1].type] || Main.tileSolidTop[Main.tile[num15, num16 - 1].type] || (Main.tile[num15, num16 - 1].halfBrick() && (!Main.tile[num15, num16 - 4].nactive() || !Main.tileSolid[Main.tile[num15, num16 - 4].type] || Main.tileSolidTop[Main.tile[num15, num16 - 4].type]))) && (!Main.tile[num15, num16 - 2].nactive() || !Main.tileSolid[Main.tile[num15, num16 - 2].type] || Main.tileSolidTop[Main.tile[num15, num16 - 2].type]) && (!Main.tile[num15, num16 - 3].nactive() || !Main.tileSolid[Main.tile[num15, num16 - 3].type] || Main.tileSolidTop[Main.tile[num15, num16 - 3].type]) && (!Main.tile[num15 - num14, num16 - 3].nactive() || !Main.tileSolid[Main.tile[num15 - num14, num16 - 3].type]))
              {
                  float num17 = num16 * 16;
-@@ -67976,56 +_,6 @@
+@@ -68175,56 +_,6 @@
              {
                  int num22 = (int)((position.X + (float)(width / 2) + (float)((width / 2 + 2) * direction) + velocity.X * 5f) / 16f);
                  int num23 = (int)((position.Y + (float)height - 15f) / 16f);
@@ -570,7 +648,7 @@
                  int num24 = spriteDirection;
                  if (type == 423 || type == 410 || type == 546)
                  {
-@@ -71572,11 +_,6 @@
+@@ -71717,11 +_,6 @@
  
          for (int k = num19; k < num19 + num; k++)
          {
@@ -582,7 +660,7 @@
              if ((Main.tile[num18, k].nactive() && Main.tileSolid[Main.tile[num18, k].type]) || Main.tile[num18, k].liquid > 0)
              {
                  if (k <= num19 + 1)
-@@ -71591,11 +_,6 @@
+@@ -71736,11 +_,6 @@
  
          for (int l = num20; l < num20 + num3; l++)
          {
@@ -594,7 +672,7 @@
              if ((Main.tile[num21, l].nactive() && Main.tileSolid[Main.tile[num21, l].type]) || Main.tile[num21, l].liquid > 0)
              {
                  flag4 = true;
-@@ -71608,11 +_,6 @@
+@@ -71753,11 +_,6 @@
          {
              for (int m = num19 - num2; m < num19; m++)
              {
@@ -606,7 +684,7 @@
                  if ((Main.tile[num18, m].nactive() && Main.tileSolid[Main.tile[num18, m].type]) || Main.tile[num18, m].liquid > 0)
                  {
                      flag4 = false;
-@@ -101459,6 +_,7 @@
+@@ -101344,6 +_,7 @@
  
      private void UpdateCollision()
      {

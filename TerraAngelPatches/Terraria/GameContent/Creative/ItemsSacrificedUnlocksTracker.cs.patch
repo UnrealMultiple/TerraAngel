@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/GameContent/Creative/ItemsSacrificedUnlocksTracker.cs
 +++ src/TerraAngel/Terraria/GameContent/Creative/ItemsSacrificedUnlocksTracker.cs
-@@ -86,6 +_,9 @@
+@@ -87,6 +_,9 @@
  
      public bool IsFullyResearched(int itemId)
      {
