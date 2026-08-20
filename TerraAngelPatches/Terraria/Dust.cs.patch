@@ -38,6 +38,27 @@
          {
              return 6000;
          }
+@@ -272,6 +_,12 @@
+         }
+ 
+         int num = NewDust(rf.position, 0, 0, rf.type);
++        
++        if (num == Main.maxDustToDraw)
++        {
++            return rf;
++        }
++
+         Dust obj = Main.dust[num];
+         obj.position = rf.position;
+         obj.velocity = rf.velocity;
+@@ -289,7 +_,6 @@
+         obj.customData = rf.customData;
+         return obj;
+     }
+-
+     public static Dust QuickDust(int x, int y, Color color)
+     {
+         return QuickDust(new Point(x, y), color);
 @@ -432,6 +_,7 @@
              return;
          }

@@ -221,6 +221,15 @@ public class MainWindow : ClientWindow
 
                 ImGui.EndTabItem();
             }
+            if (ImGui.BeginTabItem(GetString("Broken")))
+            {
+                foreach (Tool cringe in ToolManager.GetToolsOfTab(ToolTabs.BrokenTools))
+                {
+                    cringe.DrawUI(io);
+                }
+
+                ImGui.EndTabItem();
+            }
             ImGui.EndTabBar();
         }
     }
