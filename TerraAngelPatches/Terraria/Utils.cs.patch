@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Utils.cs
 +++ src/TerraAngel/Terraria/Utils.cs
-@@ -507,11 +_,6 @@
+@@ -539,11 +_,6 @@
                  continue;
              }
  
@@ -10,9 +10,9 @@
 -            }
 -
              Tile tile = Main.tile[num4, num5];
-             if ((settings.avoidWalls && tile.wall > 0) || (tile.wall == 87 && (double)num5 > Main.worldSurface && !NPC.downedPlantBoss) || (Main.wallDungeon[tile.wall] && (double)num5 > Main.worldSurface && !NPC.downedBoss3) || !CheckForGoodTeleportationSpot_CheckNoInvalidTiles(num4, num5, settings))
+             if ((settings.avoidWalls && tile.wall > 0) || (tile.wall == 87 && !NPC.downedPlantBoss) || (Main.wallDungeon[tile.wall] && (double)num5 > Main.worldSurface && !NPC.downedBoss3) || !CheckForGoodTeleportationSpot_CheckNoInvalidTiles(num4, num5, settings))
              {
-@@ -528,11 +_,6 @@
+@@ -560,11 +_,6 @@
                      break;
                  }
  
@@ -24,7 +24,7 @@
                  Tile tile2 = Main.tile[num4, num5 + num8];
                  vector = new Vector2(num4, num5 + num8) * 16f + new Vector2(-num6 / 2 + 8, -num2);
                  Collision.SlopeCollision(vector, teleporteeVelocity, num6, num2, teleporteeGravityDirection);
-@@ -1131,7 +_,8 @@
+@@ -1163,7 +_,8 @@
  
      public static Vector2 ScreenToWorldPosition(this Vector2 screenPosition)
      {
@@ -34,7 +34,7 @@
      }
  
      public static string PrettifyPercentDisplay(float percent, string originalFormat)
-@@ -1198,7 +_,7 @@
+@@ -1230,7 +_,7 @@
              if (Platform.IsLinux)
              {
                  Process.Start(new ProcessStartInfo(folderPath)
@@ -43,7 +43,7 @@
              }
              else
              {
-@@ -2681,7 +_,7 @@
+@@ -2726,7 +_,7 @@
  
      public static string ReadEmbeddedResource(string path)
      {

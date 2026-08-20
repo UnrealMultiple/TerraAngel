@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/UI/ItemSlot.cs
 +++ src/TerraAngel/Terraria/UI/ItemSlot.cs
-@@ -459,7 +_,7 @@
+@@ -492,7 +_,7 @@
  
          if (Main.keyState.IsKeyDown(Main.FavoriteKey))
          {

@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Graphics/Light/LightingEngine.cs
 +++ src/TerraAngel/Terraria/Graphics/Light/LightingEngine.cs
-@@ -38,6 +_,11 @@
+@@ -40,6 +_,11 @@
      private LightMap _workingLightMap = new LightMap();
      private Rectangle _workingProcessedArea;
      private EngineState _state;
@@ -12,7 +12,7 @@
      public void AddLight(int x, int y, Vector3 color)
      {
          _perFrameLights.Add(new PerFrameLight(new Point(x, y), color));
-@@ -110,7 +_,11 @@
+@@ -113,7 +_,11 @@
          _workingProcessedArea = area;
          _workingLightMap.SetSize(area.Width, area.Height);
          _workingLightMap.NonVisiblePadding = 18;
@@ -25,16 +25,16 @@
          _tileScanner.ExportTo(area, _workingLightMap, new TileLightScannerOptions { DrawInvisibleWalls = Main.ShouldShowInvisibleBlocksAndWalls() });
      }
  
-@@ -202,7 +_,7 @@
+@@ -205,7 +_,7 @@
      private void ApplyPerFrameLights()
      {
          List<PerFrameLight> list = _perFrameLights;
--        if (Main.gamePaused)
-+        if (Main.gamePaused || !Lighting.AbleToProcessPerFrameLights)
+-        if (Main.GameUpdateCount == _perFrameLightSwapUpdateCount)
++        if (Main.GameUpdateCount == _perFrameLightSwapUpdateCount || !Lighting.AbleToProcessPerFrameLights)
          {
              list = _oldPerFrameLights;
          }
-@@ -214,13 +_,14 @@
+@@ -217,15 +_,17 @@
              {
                  Vector3 value = list[i].Color;
                  Vector3 value2 = _workingLightMap[position.X - _workingProcessedArea.X, position.Y - _workingProcessedArea.Y];
@@ -44,10 +44,13 @@
              }
          }
  
--        if (!CaptureManager.Instance.IsCapturing && !Main.gamePaused)
-+        if (!CaptureManager.Instance.IsCapturing && !Main.gamePaused && Lighting.AbleToProcessPerFrameLights)
+-        if (!CaptureManager.Instance.IsCapturing)
++        if (!CaptureManager.Instance.IsCapturing && Lighting.AbleToProcessPerFrameLights)
          {
-+            Lighting.AbleToProcessPerFrameLights = false;
-             Utils.Swap(ref _perFrameLights, ref _oldPerFrameLights);
-             _perFrameLights.Clear();
-         }
+             if (Main.GameUpdateCount != _perFrameLightSwapUpdateCount)
+             {
++                // TODO: check the correct place for placing Lighting.AbleToProcessPerFrameLights = false;
++                Lighting.AbleToProcessPerFrameLights = false;
+                 Utils.Swap(ref _perFrameLights, ref _oldPerFrameLights);
+             }
+ 

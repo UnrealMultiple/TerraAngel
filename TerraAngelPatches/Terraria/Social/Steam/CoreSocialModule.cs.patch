@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Social/Steam/CoreSocialModule.cs
 +++ src/TerraAngel/Terraria/Social/Steam/CoreSocialModule.cs
-@@ -23,16 +_,12 @@
+@@ -18,16 +_,12 @@
      public void Initialize()
      {
          _instance = this;
@@ -20,7 +20,7 @@
          }
  
          SteamInput.Init(bExplicitlyCallRunFrame: false);
-@@ -123,6 +_,6 @@
+@@ -105,6 +_,6 @@
  
      public void OnOverlayActivated(GameOverlayActivated_t result)
      {

@@ -1,6 +1,6 @@
 --- src/Terraria/ReLogic/Graphics/DynamicSpriteFont.cs
 +++ src/TerraAngel/ReLogic/Graphics/DynamicSpriteFont.cs
-@@ -175,7 +_,7 @@
+@@ -181,7 +_,7 @@
                  position += charOffsets[i];
              }
  

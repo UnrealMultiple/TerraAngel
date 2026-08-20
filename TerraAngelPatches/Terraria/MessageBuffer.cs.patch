@@ -8,88 +8,86 @@
  using Terraria.Audio;
  using Terraria.Chat;
  using Terraria.DataStructures;
-@@ -233,7 +_,8 @@
-                     Main.myPlayer = num91;
-                     Player player9 = Main.player[num91];
-                     NetMessage.TrySendData(4, -1, -1, null, num91);
+@@ -244,6 +_,7 @@
+                     Main.myPlayer = num218;
+                     Player player19 = Main.player[num218];
+                     NetMessage.TrySendData(4, -1, -1, null, num218);
 +                    if (ClientConfig.Settings.IsSendClientUUID)
--                    NetMessage.TrySendData(68, -1, -1, null, num91);
-+                        NetMessage.TrySendData(68, -1, -1, null, num91);
-                     NetMessage.TrySendData(16, -1, -1, null, num91);
-                     NetMessage.TrySendData(42, -1, -1, null, num91);
-                     NetMessage.TrySendData(50, -1, -1, null, num91);
-@@ -1111,6 +_,12 @@
+                     NetMessage.TrySendData(68, -1, -1, null, num218);
+                     NetMessage.TrySendData(16, -1, -1, null, num218);
+                     NetMessage.TrySendData(42, -1, -1, null, num218);
+@@ -1131,6 +_,12 @@
                      }
  
-                     Utils.Swap(ref t, ref player19.position);
+                     Utils.Swap(ref t, ref player4.position);
 +
-+                    if (player19.netCameraTarget.GetValueOrDefault() == new Vector2(-114514, -1919810))
++                    if (player4.netCameraTarget.GetValueOrDefault() == new Vector2(-114514, -1919810))
 +                    {
-+                        player19.TerraAngelUser = true;
++                        player4.TerraAngelUser = true;
 +                    }
 +
                      break;
                  }
  
-@@ -1194,11 +_,6 @@
+@@ -1214,11 +_,6 @@
                          break;
                      }
  
--                    if (Main.tile[num145, num146] == null)
+-                    if (Main.tile[num132, num133] == null)
 -                    {
--                        Main.tile[num145, num146] = new Tile();
+-                        Main.tile[num132, num133] = new Tile();
 -                    }
 -
                      if (Main.netMode == 2)
                      {
-                         if (!flag12)
-@@ -1459,11 +_,6 @@
+                         if (!flag11)
+@@ -1482,11 +_,6 @@
                      {
-                         for (int m = num63; m < num63 + num65; m++)
+                         for (int num91 = num87; num91 < num87 + num89; num91++)
                          {
--                            if (Main.tile[l, m] == null)
+-                            if (Main.tile[num90, num91] == null)
 -                            {
--                                Main.tile[l, m] = new Tile();
+-                                Main.tile[num90, num91] = new Tile();
 -                            }
 -
-                             tile4 = Main.tile[l, m];
-                             bool flag4 = tile4.active();
-                             bitsByte5 = reader.ReadByte();
-@@ -2690,42 +_,9 @@
-                     int num15 = reader.ReadInt16();
-                     byte b3 = reader.ReadByte();
+                             tile4 = Main.tile[num90, num91];
+                             bool flag7 = tile4.active();
+                             bitsByte22 = reader.ReadByte();
+@@ -2652,42 +_,9 @@
+                     int num11 = reader.ReadInt16();
+                     byte b2 = reader.ReadByte();
                      byte liquidType = reader.ReadByte();
 -                    if (Main.netMode == 2 && Netplay.SpamCheck)
 -                    {
--                        int num16 = whoAmI;
--                        int num17 = (int)(Main.player[num16].position.X + (float)(Main.player[num16].width / 2));
--                        int num18 = (int)(Main.player[num16].position.Y + (float)(Main.player[num16].height / 2));
--                        int num19 = 10;
--                        int num20 = num17 - num19;
--                        int num21 = num17 + num19;
--                        int num22 = num18 - num19;
--                        int num23 = num18 + num19;
--                        if (num14 < num20 || num14 > num21 || num15 < num22 || num15 > num23)
+-                        int num12 = whoAmI;
+-                        int num13 = (int)(Main.player[num12].position.X + (float)(Main.player[num12].width / 2));
+-                        int num14 = (int)(Main.player[num12].position.Y + (float)(Main.player[num12].height / 2));
+-                        int num15 = 10;
+-                        int num16 = num13 - num15;
+-                        int num17 = num13 + num15;
+-                        int num18 = num14 - num15;
+-                        int num19 = num14 + num15;
+-                        if (num10 < num16 || num10 > num17 || num11 < num18 || num11 > num19)
 -                        {
 -                            Netplay.Clients[whoAmI].SpamWater += 1f;
 -                        }
 -                    }
 -
--                    if (Main.tile[num14, num15] == null)
+-                    if (Main.tile[num10, num11] == null)
 -                    {
--                        Main.tile[num14, num15] = new Tile();
+-                        Main.tile[num10, num11] = new Tile();
 -                    }
 -
--                    lock (Main.tile[num14, num15])
+-                    lock (Main.tile[num10, num11])
 -                    {
-                         Main.tile[num14, num15].liquid = b3;
-                         Main.tile[num14, num15].liquidType(liquidType);
+                         Main.tile[num10, num11].liquid = b2;
+                         Main.tile[num10, num11].liquidType(liquidType);
 -                        if (Main.netMode == 2)
 -                        {
--                            WorldGen.SquareTileFrame(num14, num15);
--                            if (b3 == 0)
+-                            WorldGen.SquareTileFrame(num10, num11);
+-                            if (b2 == 0)
 -                            {
--                                NetMessage.SendData(48, -1, whoAmI, null, num14, num15);
+-                                NetMessage.SendData(48, -1, whoAmI, null, num10, num11);
 -                            }
 -                        }
 -
@@ -98,32 +96,32 @@
                  }
  
              case 49:
-@@ -4086,6 +_,8 @@
-                         Vector2 vector = Vector2.Normalize(value3);
-                         if (!vector.HasNaNs())
+@@ -4096,6 +_,8 @@
+                         Vector2 vector5 = Vector2.Normalize(value2);
+                         if (!vector5.HasNaNs())
                          {
 +                            if (!ClientConfig.Settings.DisableNebulaLagPacket)
 +                            {
-                             int type12 = 90;
-                             float num128 = 0f;
-                             float num129 = (float)Math.PI / 15f;
-@@ -4116,6 +_,7 @@
-                                 num130 = (Main.dust[num133].fadeIn = num130 + num131);
-                                 Main.dust[num133].velocity += vector * 1.5f;
+                             int type9 = 90;
+                             float num107 = 0f;
+                             float num108 = (float)Math.PI / 15f;
+@@ -4126,6 +_,7 @@
+                                 num109 = (Main.dust[num112].fadeIn = num109 + num110);
+                                 Main.dust[num112].velocity += vector5 * 1.5f;
                              }
 +                            }
                          }
  
-                         player11.NebulaLevelup(num126);
-@@ -4324,6 +_,11 @@
+                         player11.NebulaLevelup(num105);
+@@ -4334,6 +_,11 @@
                          if (Main.netMode == 2)
                          {
-                             NetMessage.SendPlayerHurt(num24, playerDeathReason2, damage, num25, flag, pvp2, num26, -1, whoAmI);
+                             NetMessage.SendPlayerHurt(num25, playerDeathReason2, damage, num26, flag, pvp2, num27, -1, whoAmI);
 +                        }
 +                        
 +                        if (damage == 1 && playerDeathReason2._sourceNPCIndex == 203)
 +                        {
-+                            Main.player[num24].TerraAngelUser = true;
++                            Main.player[num25].TerraAngelUser = true;
                          }
                      }
  

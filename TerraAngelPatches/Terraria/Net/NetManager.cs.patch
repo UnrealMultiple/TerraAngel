@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Net/NetManager.cs
 +++ src/TerraAngel/Terraria/Net/NetManager.cs
-@@ -174,6 +_,42 @@
+@@ -183,6 +_,42 @@
          }
  
          packet.ShrinkToFit();

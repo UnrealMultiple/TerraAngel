@@ -32,7 +32,7 @@
              }
          }
  
-@@ -443,16 +_,8 @@
+@@ -443,15 +_,7 @@
          {
              for (int j = firstTileX - 2; j < lastTileX + 2; j++)
              {
@@ -45,12 +45,10 @@
 -                }
 -                else
 -                {
--                    if (!tile.active() || IsTileDrawLayerSolid(tile.type) != solidLayer || (DebugOptions.ShowUnbreakableWall && tile.wall == 350))
 +                ref TileData tile = ref Main.tile.GetTileRef(j, i);
-+                if (!tile.active() || IsTileDrawLayerSolid(tile.type) != solidLayer || (DebugOptions.ShowUnbreakableWall && tile.wall == 350))
+                     if (!tile.active() || IsTileDrawLayerSolid(tile.type) != solidLayer || (DebugOptions.ShowUnbreakableWall && tile.wall == 350))
                      {
                          continue;
-                     }
 @@ -460,7 +_,7 @@
                      if (solidLayer)
                      {
@@ -183,7 +181,7 @@
              }
          }
  
-@@ -1207,7 +_,7 @@
+@@ -1203,7 +_,7 @@
          }
          else
          {
@@ -192,7 +190,7 @@
          }
  
          if (Main.tileGlowMask[tileDrawInfo.tileCache.type] != -1)
-@@ -1485,7 +_,9 @@
+@@ -1481,7 +_,9 @@
          return true;
      }
  
@@ -203,7 +201,7 @@
      {
          TilePaintSystemV2.TileVariationkey tileVariationkey = default(TilePaintSystemV2.TileVariationkey);
          tileVariationkey.TileType = tile.type;
-@@ -1558,7 +_,7 @@
+@@ -1554,7 +_,7 @@
          return TextureAssets.CageTop[key.CageStyle].Value;
      }
  
@@ -212,7 +210,7 @@
      {
          bool flag = !TileID.Sets.DontDrawTileSliced[drawData.tileCache.type];
          bool flag2 = !TileID.Sets.DontDrawTileSlopes[drawData.tileCache.type];
-@@ -1852,7 +_,7 @@
+@@ -1848,7 +_,7 @@
  
      public static int GetTreeVariant(int x, int y)
      {
@@ -221,7 +219,7 @@
          {
              return -1;
          }
-@@ -3907,7 +_,7 @@
+@@ -3903,7 +_,7 @@
      private void DrawXmasTree(Vector2 screenPosition, Vector2 screenOffset, int tileX, int tileY, TileDrawInfo drawData)
      {
          int num = 2;
@@ -230,7 +228,7 @@
          {
              drawData.tileTop -= 16 * drawData.tileFrameY;
              drawData.tileFrameX = Main.tile[tileX, tileY - drawData.tileFrameY].frameX;
-@@ -4038,12 +_,9 @@
+@@ -4034,12 +_,9 @@
          if (WorldGen.IsRope(tileX, tileY, out topRopeY, out bottomRopeY))
          {
              Tile tile = Main.tile[tileX, topRopeY];
@@ -243,72 +241,16 @@
          }
      }
  
-@@ -4090,54 +_,33 @@
+@@ -4086,6 +_,8 @@
          }
      }
  
 +    private void DrawTile_LiquidBehindTile(bool solidLayer, int waterStyleOverride, Vector2 screenPosition, Vector2 screenOffset, int tileX, int tileY, ref TileData tileCache) => DrawTile_LiquidBehindTile(solidLayer, waterStyleOverride, screenPosition, screenOffset, tileX, tileY, new Tile(ref tileCache));
-+
++    
      private void DrawTile_LiquidBehindTile(bool solidLayer, int waterStyleOverride, Vector2 screenPosition, Vector2 screenOffset, int tileX, int tileY, Tile tileCache)
      {
--        Tile tile = Main.tile[tileX + 1, tileY];
-+        TileData tile = Main.tile[tileX + 1, tileY].RefData;
--        Tile tile2 = Main.tile[tileX - 1, tileY];
-+        TileData tile2 = Main.tile[tileX - 1, tileY].RefData;
--        Tile tile3 = Main.tile[tileX, tileY - 1];
-+        TileData tile3 = Main.tile[tileX, tileY - 1].RefData;
--        Tile tile4 = Main.tile[tileX, tileY + 1];
-+        TileData tile4 = Main.tile[tileX, tileY + 1].RefData;
--        if (tile == null)
--        {
--            tile = new Tile();
--            Main.tile[tileX + 1, tileY] = tile;
--        }
--
--        if (tile2 == null)
--        {
--            tile2 = new Tile();
--            Main.tile[tileX - 1, tileY] = tile2;
--        }
--
--        if (tile3 == null)
--        {
--            tile3 = new Tile();
--            Main.tile[tileX, tileY - 1] = tile3;
--        }
--
--        if (tile4 == null)
--        {
--            tile4 = new Tile();
--            Main.tile[tileX, tileY + 1] = tile4;
--        }
- 
-         if (tile.type == 379)
-         {
--            tile = new Tile();
-+            tile = new TileData();
-         }
- 
-         if (tile2.type == 379)
-         {
--            tile2 = new Tile();
-+            tile2 = new TileData();
-         }
- 
-         if (tile3.type == 379)
-         {
--            tile3 = new Tile();
-+            tile3 = new TileData();
-         }
- 
-         if (tile4.type == 379)
-         {
--            tile4 = new Tile();
-+            tile4 = new TileData();
-         }
- 
-         if (DebugOptions.hideWater || !tileCache.active() || tileCache.inActive() || _tileSolidTop[tileCache.type] || (tileCache.halfBrick() && (tile2.liquid > 160 || tile.liquid > 160) && Main.instance.waterfallManager.CheckForWaterfall(tileX, tileY)) || (TileID.Sets.BlocksWaterDrawingBehindSelf[tileCache.type] && tileCache.slope() == 0))
-@@ -4868,6 +_,8 @@
+         int num = 0;
+@@ -4869,6 +_,8 @@
          return WorldGen.InAPlaceWithWind(x, y, width, height);
      }
  
@@ -317,7 +259,7 @@
      private void GetTileDrawData(int x, int y, Tile tileCache, ushort typeCache, ref short tileFrameX, ref short tileFrameY, out int tileWidth, out int tileHeight, out int tileTop, out int halfBrickHeight, out int addFrX, out int addFrY, out SpriteEffects tileSpriteEffect, out Texture2D glowTexture, out Rectangle glowSourceRect, out Color glowColor)
      {
          tileTop = 0;
-@@ -7120,11 +_,6 @@
+@@ -7124,11 +_,6 @@
      private bool IsWindBlocked(int x, int y)
      {
          Tile tile = Main.tile[x, y];
@@ -329,7 +271,7 @@
          if (tile.wall > 0 && !WallID.Sets.AllowsWind[tile.wall])
          {
              return true;
-@@ -7537,7 +_,7 @@
+@@ -7541,7 +_,7 @@
                  bool flag2 = _rand.Next(600) == 0;
                  if (!flag2)
                  {
@@ -338,7 +280,7 @@
                      flag2 = windTimeLeft > 0 && _rand.Next(48) == 0;
                  }
  
-@@ -8310,7 +_,7 @@
+@@ -8314,7 +_,7 @@
          }
      }
  
@@ -347,7 +289,7 @@
      {
          int num = 60;
          switch (typeCache)
-@@ -8438,7 +_,7 @@
+@@ -8442,7 +_,7 @@
          return num2 * lerpValue;
      }
  
@@ -356,7 +298,7 @@
      {
          if (!Main.SettingsEnabled_TilesSwayInWind)
          {
-@@ -8527,13 +_,13 @@
+@@ -8531,13 +_,13 @@
          }
  
          int treeHeight = grassPosY - tilePosY;
@@ -372,7 +314,7 @@
          int num;
          switch (passStyle)
          {
-@@ -9929,11 +_,6 @@
+@@ -9933,11 +_,6 @@
          for (int i = startY; i < Main.maxTilesY - 10; i++)
          {
              Tile tile = Main.tile[x, i];
@@ -384,7 +326,7 @@
              ushort type = tile.type;
              if (!tile.active() || !TileID.Sets.VineThreads[type])
              {
-@@ -10044,8 +_,6 @@
+@@ -10048,8 +_,6 @@
          for (int num6 = startY; num6 > 10; num6--)
          {
              Tile tile = Main.tile[x, num6];
@@ -393,7 +335,7 @@
                  ushort type = tile.type;
                  if (!tile.active() || !TileID.Sets.ReverseVineThreads[type])
                  {
-@@ -10096,7 +_,6 @@
+@@ -10100,7 +_,6 @@
                  }
  
                  vector += (num7 - (float)Math.PI / 2f).ToRotationVector2() * 16f;

@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Item.cs
 +++ src/TerraAngel/Terraria/Item.cs
-@@ -1090,7 +_,9 @@
+@@ -1107,7 +_,9 @@
          return false;
      }
  
@@ -11,7 +11,7 @@
      {
          if (prefix <= 0 || prefix >= Lang.prefix.Length)
          {
-@@ -48786,7 +_,7 @@
+@@ -49185,7 +_,7 @@
          }
  
          RebuildTooltip();

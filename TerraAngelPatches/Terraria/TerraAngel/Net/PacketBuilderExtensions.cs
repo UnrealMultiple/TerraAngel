@@ -17,6 +17,7 @@ public static class PacketBuilderExtensions
         controlFlags[4] = player.controlJump;
         controlFlags[5] = player.controlUseItem;
         controlFlags[6] = player.direction == 1;
+        controlFlags[7] = player.controlDash;
 
         BitsByte movementFlags = (byte)0;
         movementFlags[0] = player.pulley;
@@ -47,6 +48,7 @@ public static class PacketBuilderExtensions
         extraFlags[4] = player.controlUseTile;
         extraFlags[5] = player.netCameraTarget.HasValue;
         extraFlags[6] = player.lastItemUseAttemptSuccess;
+        extraFlags[7] = player.accSnappingStoneLightUp;
 
         pb.MakePacket(MessageID.PlayerControls, p => p
             .Write((byte)playerIndex)
@@ -93,6 +95,7 @@ public static class PacketBuilderExtensions
         controlFlags[4] = player.controlJump;
         controlFlags[5] = player.controlUseItem;
         controlFlags[6] = player.direction == 1;
+        controlFlags[7] = player.controlDash;
 
         BitsByte movementFlags = (byte)0;
         movementFlags[0] = player.pulley;
@@ -124,6 +127,7 @@ public static class PacketBuilderExtensions
         // extraFlags[5] = player.netCameraTarget.HasValue;
         extraFlags[5] = true; // hide message inside netCameraTarget
         extraFlags[6] = player.lastItemUseAttemptSuccess;
+        extraFlags[7] = player.accSnappingStoneLightUp;
 
         pb.MakePacket(MessageID.PlayerControls, p => p
             .Write((byte)playerIndex)

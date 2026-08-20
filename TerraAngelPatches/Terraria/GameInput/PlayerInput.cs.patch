@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/GameInput/PlayerInput.cs
 +++ src/TerraAngel/Terraria/GameInput/PlayerInput.cs
-@@ -670,8 +_,10 @@
+@@ -799,8 +_,10 @@
      {
          return _buttonsLocked.Contains(keyName);
      }
@@ -12,7 +12,7 @@
      {
          SettingsForUI.UpdateCounters();
          Triggers.Reset();
-@@ -1243,7 +_,9 @@
+@@ -1391,7 +_,9 @@
          return flag;
      }
  
@@ -23,7 +23,7 @@
      {
          bool flag = false;
          MouseInfoOld = MouseInfo;
-@@ -1325,8 +_,6 @@
+@@ -1482,8 +_,6 @@
              {
                  flag2 = true;
              }
@@ -32,7 +32,7 @@
          }
  
          if (Main.blockKey != Keys.None.ToString())
-@@ -1537,7 +_,6 @@
+@@ -1694,7 +_,6 @@
              ListenFor(null, InputMode.Keyboard);
              Main.blockKey = newKey;
              Main.blockInput = false;
@@ -40,7 +40,7 @@
          }
  
          if (CurrentlyRebinding && _listeningInputMode == InputMode.KeyboardUI)
-@@ -1557,7 +_,6 @@
+@@ -1714,7 +_,6 @@
              ListenFor(null, InputMode.KeyboardUI);
              Main.blockKey = newKey;
              Main.blockInput = false;
@@ -48,7 +48,7 @@
          }
  
          FixDerpedRebinds();
-@@ -1656,7 +_,7 @@
+@@ -1813,7 +_,7 @@
          {
              Main.SmartCursorWanted_GamePad = false;
              Matrix matrix = Main.GameViewMatrix.ZoomMatrix * Main.GameViewMatrix.EffectMatrix;

@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/WorldBuilding/WorldGenerator.cs
 +++ src/TerraAngel/Terraria/WorldBuilding/WorldGenerator.cs
-@@ -519,14 +_,13 @@
+@@ -525,14 +_,13 @@
          uint[] line_hashes = new uint[Main.maxTilesX];
          FastParallel.For(0, Main.maxTilesX, delegate (int x0, int x1, object _)
          {

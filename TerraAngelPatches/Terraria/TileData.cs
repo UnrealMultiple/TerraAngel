@@ -28,6 +28,18 @@ public struct TileData
         active(active: false);
         inActive(inActive: false);
     }
+    
+    public void ClearSlope()
+    {
+        slope(0);
+        halfBrick(halfBrick: false);
+    }
+
+    public void ClearTileAndPaint()
+    {
+        ClearTile();
+        ClearBlockPaintAndCoating();
+    }
 
     public void CopyFrom(ref TileData from)
     {
@@ -221,6 +233,11 @@ public struct TileData
 
         return true;
     }
+    
+    public bool HasSameSlope(Tile tile)
+    {
+        return (sTileHeader & 0x7400) == (tile.sTileHeader & 0x7400);
+    }
 
     public bool HasSameSlope(ref TileData tile)
     {
@@ -286,6 +303,51 @@ public struct TileData
         {
             bTileHeader &= 159;
         }
+    }
+    
+    public bool water()
+    {
+        return liquidType() == 0;
+    }
+
+    public bool anyWater()
+    {
+        if (liquid > 0)
+        {
+            return water();
+        }
+
+        return false;
+    }
+
+    public bool anyLava()
+    {
+        if (liquid > 0)
+        {
+            return lava();
+        }
+
+        return false;
+    }
+
+    public bool anyHoney()
+    {
+        if (liquid > 0)
+        {
+            return honey();
+        }
+
+        return false;
+    }
+
+    public bool anyShimmer()
+    {
+        if (liquid > 0)
+        {
+            return shimmer();
+        }
+
+        return false;
     }
 
     public bool wire4()
@@ -586,6 +648,16 @@ public struct TileData
         }
     }
 
+    public bool anyWire()
+    {
+        if ((sTileHeader & 0x380) == 0)
+        {
+            return (bTileHeader & 0x80) != 0;
+        }
+
+        return true;
+    }
+
     public void Clear(TileDataType types)
     {
         if ((types & TileDataType.Tile) != 0)
@@ -651,7 +723,7 @@ public struct TileData
             SmoothSlope(x, y - 1, applyToNeighbors: false, sync);
         }
 
-        Tile tile = Main.tile[x, y];
+        ref TileData tile = ref Main.tile.GetTileRef(x, y);
         if (!WorldGen.CanPoundTile(x, y) || !WorldGen.SolidOrSlopedTile(x, y))
         {
             return;
@@ -752,6 +824,16 @@ public struct TileData
         result.Invisible = invisibleWall();
         return result;
     }
+    
+    // public void UseBlockColors(TileColorCache cache)
+    // {
+    //     cache.ApplyToBlock(this);
+    // }
+    //
+    // public void UseWallColors(TileColorCache cache)
+    // {
+    //     cache.ApplyToWall(this);
+    // }
 
     public void ClearBlockPaintAndCoating()
     {

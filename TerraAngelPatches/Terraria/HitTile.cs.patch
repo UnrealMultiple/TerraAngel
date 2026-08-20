@@ -1,31 +1,6 @@
 --- src/Terraria/Terraria/HitTile.cs
 +++ src/TerraAngel/Terraria/HitTile.cs
-@@ -7,7 +_,7 @@
- namespace Terraria;
- public class HitTile
- {
--    public class HitTileObject
-+    public struct HitTileObject
-     {
-         public int X;
-         public int Y;
-@@ -19,6 +_,15 @@
-         public Vector2 animationDirection;
-         public HitTileObject()
-         {
-+            X = 0;
-+            Y = 0;
-+            damage = 0;
-+            type = 0;
-+            timeToLive = 0;
-+            crackStyle = 0;
-+            lastCrack = crackStyle;
-+            animationTimeElapsed = 0;
-+            animationDirection = Vector2.Zero;
-             Clear();
-         }
- 
-@@ -29,12 +_,8 @@
+@@ -24,12 +_,8 @@
              damage = 0;
              type = 0;
              timeToLive = 0;
@@ -39,7 +14,7 @@
              {
              }
  
-@@ -45,9 +_,8 @@
+@@ -61,9 +_,8 @@
      internal const int UNUSED = 0;
      internal const int TILE = 1;
      internal const int WALL = 2;
@@ -50,7 +25,7 @@
      private static int lastCrack = -1;
      public HitTileObject[] data;
      private int[] order;
-@@ -65,10 +_,10 @@
+@@ -81,10 +_,10 @@
  
      public void ClearThisTile(int x, int y)
      {
@@ -63,7 +38,7 @@
              if (hitTileObject.X == x && hitTileObject.Y == y)
              {
                  Clear(i);
-@@ -79,10 +_,9 @@
+@@ -95,10 +_,9 @@
  
      public HitTile()
      {
@@ -75,9 +50,9 @@
 +        order = new int[MAX_HITTILES + 1];
 +        for (int i = 0; i <= MAX_HITTILES; i++)
          {
-             data[i] = new HitTileObject();
+             data[i].Clear();
              order[i] = i;
-@@ -93,10 +_,10 @@
+@@ -109,10 +_,10 @@
  
      public int TryFinding(int x, int y, int hitType)
      {
@@ -90,43 +65,30 @@
              if (hitTileObject.type == hitType)
              {
                  if (hitTileObject.X == x && hitTileObject.Y == y)
-@@ -125,11 +_,11 @@
+@@ -141,10 +_,11 @@
  
      public int HitObject(int x, int y, int hitType)
      {
--        HitTileObject hitTileObject;
--        for (int i = 0; i <= 500; i++)
 +        ref HitTileObject hitTileObject = ref data[0];
+-        for (int i = 0; i <= 500; i++)
 +        for (int i = 0; i <= MAX_HITTILES; i++)
          {
              int num = order[i];
--            hitTileObject = data[num];
+-            HitTileObject hitTileObject = data[num];
 +            hitTileObject = ref data[num];
              if (hitTileObject.type == hitType)
              {
                  if (hitTileObject.X == x && hitTileObject.Y == y)
-@@ -143,7 +_,7 @@
-             }
-         }
- 
--        hitTileObject = data[bufferLocation];
-+        hitTileObject = ref data[bufferLocation];
-         hitTileObject.X = x;
-         hitTileObject.Y = y;
-         hitTileObject.type = hitType;
-@@ -152,9 +_,9 @@
+@@ -164,7 +_,7 @@
  
      public void UpdatePosition(int tileId, int x, int y)
      {
 -        if (tileId >= 0 && tileId <= 500)
 +        if (tileId >= 0 && tileId <= MAX_HITTILES)
          {
--            HitTileObject obj = data[tileId];
-+            ref HitTileObject obj = ref data[tileId];
-             obj.X = x;
-             obj.Y = y;
+             data[tileId].SetPosition(x, y);
          }
-@@ -162,7 +_,7 @@
+@@ -172,7 +_,7 @@
  
      public int AddDamage(int tileId, int damageAmount, bool updateAmount = true)
      {
@@ -135,16 +97,7 @@
          {
              return 0;
          }
-@@ -172,7 +_,7 @@
-             return 0;
-         }
- 
--        HitTileObject hitTileObject = data[tileId];
-+        ref HitTileObject hitTileObject = ref data[tileId];
-         if (!updateAmount)
-         {
-             return hitTileObject.damage + damageAmount;
-@@ -190,13 +_,13 @@
+@@ -196,13 +_,13 @@
      {
          if (tileId == bufferLocation)
          {
@@ -160,7 +113,7 @@
              {
                  order[num] = order[num - 1];
              }
-@@ -206,7 +_,7 @@
+@@ -212,7 +_,7 @@
          else
          {
              int num;
@@ -169,7 +122,7 @@
              {
              }
  
-@@ -224,29 +_,29 @@
+@@ -230,27 +_,27 @@
  
      public void Clear(int tileId)
      {
@@ -200,12 +153,9 @@
 -        for (int i = 0; i <= 500; i++)
 +        for (int i = 0; i <= MAX_HITTILES; i++)
          {
--            HitTileObject hitTileObject = data[i];
-+            ref HitTileObject hitTileObject = ref data[i];
-             if (hitTileObject.type == 0)
-             {
-                 continue;
-@@ -307,7 +_,7 @@
+             flag |= Prune(ref data[i]);
+         }
+@@ -264,7 +_,7 @@
          while (flag)
          {
              flag = false;

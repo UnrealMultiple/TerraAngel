@@ -1,12 +1,21 @@
 --- src/Terraria/Terraria/Audio/LegacyAudioSystem.cs
 +++ src/TerraAngel/Terraria/Audio/LegacyAudioSystem.cs
-@@ -118,10 +_,11 @@
+@@ -119,7 +_,7 @@
  
-     public LegacyAudioSystem()
+     public ReadOnlyCollection<RendererDetail> VeryExpensiveWayToGetAllAudioRenderers()
      {
--        Engine = new AudioEngine("Content\\TerrariaMusic.xgs");
+-        AudioEngine audioEngine = new AudioEngine("Content\\TerrariaMusic.xgs");
++        AudioEngine audioEngine = new AudioEngine($"{Main.instance.Content.RootDirectory}\\TerrariaMusic.xgs");
+         ReadOnlyCollection<RendererDetail> rendererDetails = audioEngine.RendererDetails;
+         audioEngine.Dispose();
+         return rendererDetails;
+@@ -132,10 +_,11 @@
+ 
+     public void Init(string renderer = "")
+     {
+-        Engine = new AudioEngine("Content\\TerrariaMusic.xgs", TimeSpan.FromMilliseconds(250.0), renderer);
++        Engine = new AudioEngine($"{Main.instance.Content.RootDirectory}\\TerrariaMusic.xgs", TimeSpan.FromMilliseconds(250.0), renderer);
 -        SoundBank = new SoundBank(Engine, "Content\\Sound Bank.xsb");
-+        Engine = new AudioEngine($"{Main.instance.Content.RootDirectory}\\TerrariaMusic.xgs");
 +        SoundBank = new SoundBank(Engine, $"{Main.instance.Content.RootDirectory}\\Sound Bank.xsb");
          Engine.Update();
 -        WaveBank = new WaveBank(Engine, "Content\\Wave Bank.xwb", 0, 512);

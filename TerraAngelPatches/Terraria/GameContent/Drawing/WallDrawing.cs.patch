@@ -41,14 +41,14 @@
                          }
                      }
  
--                    Main.tileBatch.Draw(wallDrawTexture, new Vector2(j * 16 - (int)screenPosition.X - 8, i * 16 - (int)screenPosition.Y - 8) + drawOffSet, value, vertices, Vector2.Zero, 1f, SpriteEffects.None);
-+                    Main.tileBatch.Draw(wallDrawTexture, new Vector2(j * 16 - intScreenPosition.X - 8, i * 16 - intScreenPosition.Y - 8) + drawOffSet, value, vertices, Vector2.Zero, 1f, SpriteEffects.None);
+-                    Main.tileBatch.Draw(wallDrawTexture, new Vector2(j * 16 - (int)screenPosition.X - 8, i * 16 - (int)screenPosition.Y - 8) + drawOffSet, sourceRectangle, vertices, Vector2.Zero);
++                    Main.tileBatch.Draw(wallDrawTexture, new Vector2(j * 16 - intScreenPosition.X - 8, i * 16 - intScreenPosition.Y - 8) + drawOffSet, sourceRectangle, vertices, Vector2.Zero);
                      if (tile.wall == 347)
                      {
-                         Texture2D value2 = TextureAssets.GlowMask[361].Value;
+                         Texture2D value = TextureAssets.GlowMask[361].Value;
                          LiquidRenderer.SetShimmerVertexColors_Sparkle(ref vertices, 0.7f, j, i, top: true);
--                        Main.tileBatch.Draw(value2, new Vector2(j * 16 - (int)screenPosition.X - 8, i * 16 - (int)screenPosition.Y - 8) + drawOffSet, value, vertices, Vector2.Zero, 1f, SpriteEffects.None);
-+                        Main.tileBatch.Draw(value2, new Vector2(j * 16 - intScreenPosition.X - 8, i * 16 - intScreenPosition.Y - 8) + drawOffSet, value, vertices, Vector2.Zero, 1f, SpriteEffects.None);
+-                        Main.tileBatch.Draw(value, new Vector2(j * 16 - (int)screenPosition.X - 8, i * 16 - (int)screenPosition.Y - 8) + drawOffSet, sourceRectangle, vertices, Vector2.Zero);
++                        Main.tileBatch.Draw(value, new Vector2(j * 16 - intScreenPosition.X - 8, i * 16 - intScreenPosition.Y - 8) + drawOffSet, sourceRectangle, vertices, Vector2.Zero);
                      }
                  }
                  else
@@ -56,14 +56,14 @@
                          color2 = Color.Lerp(color2, Color.White, 0.5f);
                      }
  
--                    Main.tileBatch.Draw(wallDrawTexture, new Vector2(j * 16 - (int)screenPosition.X - 8, i * 16 - (int)screenPosition.Y - 8) + drawOffSet, value, color2, Vector2.Zero, 1f, SpriteEffects.None);
-+                    Main.tileBatch.Draw(wallDrawTexture, new Vector2(j * 16 - intScreenPosition.X - 8, i * 16 - intScreenPosition.Y - 8) + drawOffSet, value, color2, Vector2.Zero, 1f, SpriteEffects.None);
+-                    Main.tileBatch.Draw(wallDrawTexture, new Vector2(j * 16 - (int)screenPosition.X - 8, i * 16 - (int)screenPosition.Y - 8) + drawOffSet, sourceRectangle, color2, Vector2.Zero);
++                    Main.tileBatch.Draw(wallDrawTexture, new Vector2(j * 16 - intScreenPosition.X - 8, i * 16 - intScreenPosition.Y - 8) + drawOffSet, sourceRectangle, color2, Vector2.Zero);
                      if (tile.wall == 347)
                      {
-                         Texture2D value3 = TextureAssets.GlowMask[361].Value;
+                         Texture2D value2 = TextureAssets.GlowMask[361].Value;
                          Color color3 = LiquidRenderer.GetShimmerGlitterColor(top: true, j, i) * 0.7f;
--                        Main.tileBatch.Draw(value3, new Vector2(j * 16 - (int)screenPosition.X - 8, i * 16 - (int)screenPosition.Y - 8) + drawOffSet, value, color3, Vector2.Zero, 1f, SpriteEffects.None);
-+                        Main.tileBatch.Draw(value3, new Vector2(j * 16 - intScreenPosition.X - 8, i * 16 - intScreenPosition.Y - 8) + drawOffSet, value, color3, Vector2.Zero, 1f, SpriteEffects.None);
+-                        Main.tileBatch.Draw(value2, new Vector2(j * 16 - (int)screenPosition.X - 8, i * 16 - (int)screenPosition.Y - 8) + drawOffSet, sourceRectangle, color3, Vector2.Zero);
++                        Main.tileBatch.Draw(value2, new Vector2(j * 16 - intScreenPosition.X - 8, i * 16 - intScreenPosition.Y - 8) + drawOffSet, sourceRectangle, color3, Vector2.Zero);
                      }
                  }
  

@@ -1,12 +1,12 @@
 --- src/Terraria/Terraria/WorldItem.cs
 +++ src/TerraAngel/Terraria/WorldItem.cs
-@@ -176,6 +_,9 @@
+@@ -129,6 +_,9 @@
  
-     public void SetDefaults(int type)
+     public void Prefix(int prefix)
      {
 +        if (type < 0 || type >= ItemID.Count)
 +            type = 0;
 +        
-         ResetStats(type);
-         inner.SetDefaults(type);
-         UpdateEntityFields();
+         inner.Prefix(prefix);
+     }
+ 

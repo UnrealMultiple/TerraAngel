@@ -1,7 +1,7 @@
 --- src/Terraria/Terraria/FocusHelper.cs
 +++ src/TerraAngel/Terraria/FocusHelper.cs
-@@ -128,10 +_,7 @@
-         IsSelectedApplication = Main.instance.IsActive;
+@@ -132,10 +_,7 @@
+         wantsToPause = !IsSelectedApplication && Main.netMode == 0 && flag;
          if (Platform.IsWindows)
          {
 -            Form form = Control.FromHandle(Main.instance.Window.Handle) as Form;
@@ -12,7 +12,7 @@
              if (num)
              {
                  IsSelectedApplication = false;
-@@ -142,7 +_,7 @@
+@@ -146,7 +_,7 @@
          {
              if (!Platform.IsOSX)
              {
@@ -20,8 +20,8 @@
 +                Main.instance.IsMouseVisible = TerraAngel.Hooks.MiscHooks.ShouldMouseBeVisible(true);
              }
  
-             wantsToPause = true;
-@@ -151,12 +_,12 @@
+             return;
+@@ -154,12 +_,12 @@
  
          if (!Platform.IsOSX)
          {
