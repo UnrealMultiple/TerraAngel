@@ -1087,10 +1087,6 @@ msgstr "最小目标范围"
 msgid "Misc"
 msgstr "杂项"
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:219
-msgid "Broken"
-msgstr "失效"
-
 #: ../../../TerraAngel/Tools/Exploit/TeleportNPCThroughPortalExploit.cs:30
 msgid "Mock Syncing"
 msgstr "模拟同步"

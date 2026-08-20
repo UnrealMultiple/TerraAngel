@@ -1078,10 +1078,6 @@ msgstr ""
 msgid "Misc"
 msgstr ""
 
-#: ../../../TerraAngel/UI/ClientWindows/MainWindow.cs:219
-msgid "Broken"
-msgstr ""
-
 #: ../../../TerraAngel/Tools/Exploit/TeleportNPCThroughPortalExploit.cs:30
 msgid "Mock Syncing"
 msgstr ""

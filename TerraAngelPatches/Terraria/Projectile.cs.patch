@@ -14,8 +14,7 @@
              localAI[1] = MathHelper.Lerp(localAI[1], num704, amount);
 +
 +            // TerraAngel: Break tiles when laser touches them (if enabled in TerrariaPrismTool)
-+            // Only break tiles for our own prism so other players' LastPrism doesn't wreck the map
-+            if (owner == Main.myPlayer && type == 632 && Main.projectile[(int)this.ai[1]].active && Main.projectile[(int)this.ai[1]].type == 633)
++            if (type == 632 && Main.projectile[(int)this.ai[1]].active && Main.projectile[(int)this.ai[1]].type == 633)
 +            {
 +                var prismTool = ToolManager.GetTool<TerraAngel.Tools.Exploit.TerrariaPrismTool>();
 +                if (prismTool.ShouldBreakTiles())
