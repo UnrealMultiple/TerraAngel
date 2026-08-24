@@ -1,0 +1,70 @@
+--- src/Terraria/Terraria/Rain.cs
++++ src/TerraAngel/Terraria/Rain.cs
+@@ -26,7 +_,15 @@
+             return;
+         }
+ 
++        // TerraAngel: spawn rain across the currently scaled (zoomed) view so it covers the whole screen when zoomed out,
++        // not just the center. Main.Camera.ScaledSize is the world size of the visible region (screenWidth / zoom).
++        Vector2 scaledView = Main.Camera.ScaledSize;
++        if (scaledView.X <= 0f || scaledView.Y <= 0f)
++        {
++            scaledView = new Vector2(Main.screenWidth, Main.screenHeight);
++        }
++
+-        float num = (float)Main.screenWidth / (float)Main.MaxWorldViewSize.X;
++        float num = scaledView.X / (float)Main.MaxWorldViewSize.X;
+         num *= 25f;
+         num *= 0.25f + 1f * Main.cloudAlpha;
+         if (NPC.AnyDanger(quickBossNPCCheck: true))
+@@ -40,6 +_,7 @@
+         }
+ 
+         Vector2 vector = default(Vector2);
++        float centerX = Main.screenPosition.X + (float)Main.screenWidth * 0.5f;
+         for (int i = 0; (float)i < num; i++)
+         {
+             int num3 = 600;
+@@ -48,8 +_,8 @@
+                 num3 += (int)(Math.Abs(Main.player[Main.myPlayer].velocity.Y) * 30f);
+             }
+ 
+-            vector.X = Main.rand.Next((int)Main.screenPosition.X - num3, (int)Main.screenPosition.X + Main.screenWidth + num3);
++            vector.X = Main.rand.Next((int)(centerX - scaledView.X * 0.5f - num3), (int)(centerX + scaledView.X * 0.5f + num3));
+-            vector.Y = Main.screenPosition.Y - (float)Main.rand.Next(20, 100);
++            vector.Y = Main.Camera.ScaledPosition.Y - (float)Main.rand.Next(20, 100);
+             vector.X -= Main.windSpeedCurrent * 15f * 40f;
+             vector.X += Main.player[Main.myPlayer].velocity.X * 40f;
+             if (vector.X < 0f)
+@@ -105,21 +_,28 @@
+         }
+ 
+         position += velocity;
++        // TerraAngel: use the scaled (zoomed) view height so rain falls through the whole visible area when zoomed out.
++        float viewHeight = Main.Camera.ScaledSize.Y;
++        if (viewHeight <= 0f)
++        {
++            viewHeight = Main.screenHeight;
++        }
++
+         if (Main.gameMenu)
+         {
+-            if (position.Y > Main.screenPosition.Y + (float)Main.screenHeight + 2000f)
++            if (position.Y > Main.screenPosition.Y + viewHeight + 2000f)
+             {
+                 active = false;
+             }
+         }
+         else if (Main.remixWorld)
+         {
+-            if (position.Y > Main.screenPosition.Y + (float)Main.screenHeight + 100f)
++            if (position.Y > Main.screenPosition.Y + viewHeight + 100f)
+             {
+                 active = false;
+             }
+         }
+-        else if (Collision.SolidCollision(position, 2, 2) || position.Y > Main.screenPosition.Y + (float)Main.screenHeight + 100f || Collision.WetCollision(position, 2, 2))
++        else if (Collision.SolidCollision(position, 2, 2) || position.Y > Main.screenPosition.Y + viewHeight + 100f || Collision.WetCollision(position, 2, 2))
+         {
+             active = false;
+             if ((float)Main.rand.Next(100) < Main.gfxQuality * 100f)
