@@ -8,11 +8,12 @@
  using ReLogic.Threading;
  using ReLogic.Utilities;
  using Terraria.Achievements;
-@@ -206,6 +_,7 @@
+@@ -206,6 +_,8 @@
      private static float _uiScaleWanted = 1f;
      private static float _uiScaleUsed = 1f;
      public static float GameZoomTarget = 1f;
 +    private const float MinGameZoomTarget = 1f / 3f;
++    private const float MaxGameZoomTarget = 3f;
      public static bool SettingsUnlock_WorldEvil;
      public static bool SettingsEnabled_MinersWobble = true;
      public static bool SettingsEnabled_AutoReuseAllItems = false;
@@ -508,7 +509,7 @@
              if (PlayerInput.Triggers.Current.ViewZoomIn)
              {
 -                GameZoomTarget = Utils.Clamp(GameZoomTarget + num, 1f, 2f);
-+                GameZoomTarget += num;
++                GameZoomTarget = Math.Min(GameZoomTarget + num, MaxGameZoomTarget);
              }
  
              if (PlayerInput.Triggers.Current.ViewZoomOut)
@@ -1345,7 +1346,7 @@
          try
          {
              if (!dedServ)
-@@ -62344,6 +_,76 @@
+@@ -62344,6 +_,68 @@
          }
      }
  
@@ -1371,17 +1372,9 @@
 +                zoom = 1f;
 +            }
 +
-+            contentWidth = Math.Max((int)Math.Ceiling(backBufferWidth / zoom), backBufferWidth);
-+            contentHeight = Math.Max((int)Math.Ceiling(backBufferHeight / zoom), backBufferHeight);
++            contentWidth = (int)Math.Ceiling(backBufferWidth / zoom);
++            contentHeight = (int)Math.Ceiling(backBufferHeight / zoom);
 +        }
-+
-+        // Round the content up to a coarse step so the scene targets are only rebuilt a few times across the whole
-+        // zoom range (instead of on every small change). This removes the rebuild frame spikes while the target still
-+        // always covers the view (never smaller, so no center clipping), with only modest extra render size.
-+        int stepWidth = Math.Max(256, backBufferWidth / 4);
-+        int stepHeight = Math.Max(256, backBufferHeight / 2);
-+        contentWidth = (int)(Math.Ceiling(contentWidth / (float)stepWidth) * stepWidth);
-+        contentHeight = (int)(Math.Ceiling(contentHeight / (float)stepHeight) * stepHeight);
 +
 +        if (contentWidth <= 0 || contentHeight <= 0)
 +        {
