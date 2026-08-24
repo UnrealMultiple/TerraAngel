@@ -1345,7 +1345,7 @@
          try
          {
              if (!dedServ)
-@@ -62344,6 +_,66 @@
+@@ -62344,6 +_,68 @@
          }
      }
  
@@ -1396,8 +1396,9 @@
 +        height = Math.Min(contentHeight + offRange * 2, _renderTargetMaxSize);
 +    }
 +
-+    // TerraAngel: true when the existing scene targets are too small to cover the current scaled (zoomed) view.
-+    // Used to grow the targets on demand when the player zooms out.
++    // TerraAngel: true when the scene targets no longer match the current scaled (zoomed) view — either too small to
++    // cover it (zoom out) or much larger than it (zoom in). Keeping them proportional to the view avoids wasted per-tile
++    // drawing over a stale huge target (e.g. full-bright / map-highlight), with a 5% tolerance to avoid rebuild churn.
 +    private bool SceneTargetsNeedResize()
 +    {
 +        if (dedServ || !targetSet || tileTarget == null)
@@ -1406,7 +1407,8 @@
 +        }
 +
 +        GetSceneTargetSize(out var wantWidth, out var wantHeight, out _);
-+        return tileTarget.Texture.Width < wantWidth || tileTarget.Texture.Height < wantHeight;
++        return tileTarget.Texture.Width > wantWidth * 1.05f || tileTarget.Texture.Height > wantHeight * 1.05f
++            || tileTarget.Texture.Width < wantWidth * 0.95f || tileTarget.Texture.Height < wantHeight * 0.95f;
 +    }
 +
      protected void DrawWires()
@@ -1488,11 +1490,12 @@
          TimeLogger.PrepareRequests.AddTime(fromTimestamp3);
          if (loadMap)
          {
-@@ -66260,6 +_,12 @@
+@@ -66260,6 +_,13 @@
              ReleaseTargets();
          }
  
-+        // TerraAngel: grow the scene targets on demand when the zoomed-out view no longer fits in them.
++        // TerraAngel: resize the scene targets to match the current scaled view (grow when zooming out, shrink back
++        // when zooming in) so per-tile drawing stays proportional to the visible area.
 +        if (!drawToScreen && targetSet && SceneTargetsNeedResize())
 +        {
 +            ReleaseTargets();
