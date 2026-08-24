@@ -1345,7 +1345,7 @@
          try
          {
              if (!dedServ)
-@@ -62344,6 +_,68 @@
+@@ -62344,6 +_,76 @@
          }
      }
  
@@ -1374,6 +1374,14 @@
 +            contentWidth = Math.Max((int)Math.Ceiling(backBufferWidth / zoom), backBufferWidth);
 +            contentHeight = Math.Max((int)Math.Ceiling(backBufferHeight / zoom), backBufferHeight);
 +        }
++
++        // Round the content up to a coarse step so the scene targets are only rebuilt a few times across the whole
++        // zoom range (instead of on every small change). This removes the rebuild frame spikes while the target still
++        // always covers the view (never smaller, so no center clipping), with only modest extra render size.
++        int stepWidth = Math.Max(256, backBufferWidth / 4);
++        int stepHeight = Math.Max(256, backBufferHeight / 2);
++        contentWidth = (int)(Math.Ceiling(contentWidth / (float)stepWidth) * stepWidth);
++        contentHeight = (int)(Math.Ceiling(contentHeight / (float)stepHeight) * stepHeight);
 +
 +        if (contentWidth <= 0 || contentHeight <= 0)
 +        {
