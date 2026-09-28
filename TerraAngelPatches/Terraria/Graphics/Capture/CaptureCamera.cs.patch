@@ -1,0 +1,133 @@
+--- src/Terraria/Terraria/Graphics/Capture/CaptureCamera.cs
++++ src/TerraAngel/Terraria/Graphics/Capture/CaptureCamera.cs
+@@ -7,6 +_,7 @@
+ using System.Threading;
+ using Microsoft.Xna.Framework;
+ using Microsoft.Xna.Framework.Graphics;
++using ReLogic.OS;
+ using Terraria.Graphics.Effects;
+ using Terraria.Localization;
+ using Terraria.Testing;
+@@ -32,6 +_,13 @@
+     public const int INNER_CHUNK_SIZE = 126;
+     public const int MAX_IMAGE_SIZE = 4096;
+     public const string CAPTURE_DIRECTORY = "Captures";
++
++    // TerraAngel: PlatformUtilities.SavePng is not usable on Windows, so captures always go
++    // through System.Drawing.Bitmap there. Bitmap also needs the pixel data in BGRA order, so
++    // the R/B swap has to key off this same flag - otherwise the swap and the save path
++    // disagree and the saved colors come out inverted.
++    private static bool UseBitmapSave => Platform.IsWindows;
++
+     private RenderTarget2D _frameBuffer;
+     private RenderTarget2D _scaledFrameBuffer;
+     private RenderTarget2D _filterFrameBuffer1;
+@@ -231,7 +_,7 @@
+                 {
+                     for (int j = 0; j < area.Width; j++)
+                     {
+-                        if (Program.IsXna)
++                        if (UseBitmapSave)
+                         {
+                             ptr4[2] = *ptr2;
+                             ptr4[1] = ptr2[1];
+@@ -276,11 +_,7 @@
+ 
+         try
+         {
+-            if (Program.IsFna)
+-            {
+-                PlatformUtilities.SavePng(filename, width, height, data);
+-            }
+-            else
++            if (UseBitmapSave)
+             {
+                 using Bitmap bitmap = new Bitmap(width, height);
+                 System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, width, height);
+@@ -291,6 +_,10 @@
+                 bitmap.Save(filename, imageFormat);
+                 bitmap.Dispose();
+             }
++            else
++            {
++                PlatformUtilities.SavePng(filename, width, height, data);
++            }
+ 
+             return true;
+         }
+@@ -310,7 +_,37 @@
+             return;
+         }
+ 
+-        if (Program.IsFna)
++        if (UseBitmapSave)
++        {
++            using Bitmap bitmap = new Bitmap(width, height);
++            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, width, height);
++            int elementCount2 = texture.Width * texture.Height * 4;
++            texture.GetData(_outputData, 0, elementCount2);
++            int num3 = 0;
++            int num4 = 0;
++            for (int k = 0; k < height; k++)
++            {
++                for (int l = 0; l < width; l++)
++                {
++                    byte b = _outputData[num3 + 2];
++                    _outputData[num4 + 2] = _outputData[num3];
++                    _outputData[num4] = b;
++                    _outputData[num4 + 1] = _outputData[num3 + 1];
++                    _outputData[num4 + 3] = _outputData[num3 + 3];
++                    num3 += 4;
++                    num4 += 4;
++                }
++
++                num3 += texture.Width - width << 2;
++            }
++
++            BitmapData bitmapData = bitmap.LockBits(rect, ImageLockMode.WriteOnly, PixelFormat.Format32bppPArgb);
++            IntPtr scan = bitmapData.Scan0;
++            Marshal.Copy(_outputData, 0, scan, width * height * 4);
++            bitmap.UnlockBits(bitmapData);
++            bitmap.Save(text2, imageFormat);
++        }
++        else
+         {
+             int elementCount = texture.Width * texture.Height * 4;
+             texture.GetData(_outputData, 0, elementCount);
+@@ -332,36 +_,7 @@
+             }
+ 
+             PlatformUtilities.SavePng(text2, width, height, _outputData);
+-            return;
+         }
+-
+-        using Bitmap bitmap = new Bitmap(width, height);
+-        System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, width, height);
+-        int elementCount2 = texture.Width * texture.Height * 4;
+-        texture.GetData(_outputData, 0, elementCount2);
+-        int num3 = 0;
+-        int num4 = 0;
+-        for (int k = 0; k < height; k++)
+-        {
+-            for (int l = 0; l < width; l++)
+-            {
+-                byte b = _outputData[num3 + 2];
+-                _outputData[num4 + 2] = _outputData[num3];
+-                _outputData[num4] = b;
+-                _outputData[num4 + 1] = _outputData[num3 + 1];
+-                _outputData[num4 + 3] = _outputData[num3 + 3];
+-                num3 += 4;
+-                num4 += 4;
+-            }
+-
+-            num3 += texture.Width - width << 2;
+-        }
+-
+-        BitmapData bitmapData = bitmap.LockBits(rect, ImageLockMode.WriteOnly, PixelFormat.Format32bppPArgb);
+-        IntPtr scan = bitmapData.Scan0;
+-        Marshal.Copy(_outputData, 0, scan, width * height * 4);
+-        bitmap.UnlockBits(bitmapData);
+-        bitmap.Save(text2, imageFormat);
+     }
+ 
+     private void FinishCapture()
