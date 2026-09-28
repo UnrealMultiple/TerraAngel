@@ -26,15 +26,57 @@
      public static Camera Camera = new Camera();
      public static IPlayerRenderer PlayerRenderer = new LegacyPlayerRenderer();
      public static IPlayerRenderer PotionOfReturnRenderer = new ReturnGatePlayerRenderer();
-@@ -418,7 +_,7 @@
+@@ -416,13 +_,45 @@
+     public static string defaultIP = "";
+     public static int dayRate = 1;
      public static int desiredWorldTilesUpdateRate = 1;
-     public const int MaxWorldViewSizeWidth = 1920;
-     public const int MaxWorldViewSizeHeight = 1200;
++    // TerraAngel: vanilla caps MaxWorldViewSize at 1920x1200, which is what bounds the reachable-area
++    // clamp in LimitPointToPlayerReachableArea (and therefore the Rod of Discord and Zenith target
++    // range), the lock-on target list, WorldGen hitbox inflates and audio panning. These are mutable
++    // fields rather than consts so ApplyViewRangeLimits() can switch between vanilla and the enlarged
++    // values at runtime.
+-    public const int MaxWorldViewSizeWidth = 1920;
++    public static int MaxWorldViewSizeWidth = 6480;
+-    public const int MaxWorldViewSizeHeight = 1200;
++    public static int MaxWorldViewSizeHeight = 4320;
 -    public static readonly Microsoft.Xna.Framework.Point MaxWorldViewSize = new Microsoft.Xna.Framework.Point(1920, 1200);
-+    public static readonly Microsoft.Xna.Framework.Point MaxWorldViewSize = new Microsoft.Xna.Framework.Point(MaxWorldViewSizeWidth, MaxWorldViewSizeHeight);
-     public static int maxScreenW = 1920;
-     public static int maxScreenH = 1200;
++    public static Microsoft.Xna.Framework.Point MaxWorldViewSize = new Microsoft.Xna.Framework.Point(MaxWorldViewSizeWidth, MaxWorldViewSizeHeight);
+-    public static int maxScreenW = 1920;
++    public static int maxScreenW = 6480;
+-    public static int maxScreenH = 1200;
++    public static int maxScreenH = 4320;
++
++    // TerraAngel: kept at the vanilla window minimums on purpose. These are a *lower* bound, so
++    // raising them shrinks how small the window may get, and DrawCapture's non-camera-space branch
++    // feeds them into worldRect.Inflate, where a large value inflates the captured background off
++    // the selection area. Use ApplyViewRangeLimits() rather than editing these directly.
      public static int minScreenW = 800;
+     public static int minScreenH = 600;
++
++    // TerraAngel: the background parallax math in DrawCapture's non-camera-space branch is
++    // calibrated against vanilla's 1200px reference viewport. MaxWorldViewSize is now a
++    // user-toggleable range limit, so reusing it here would make Utils.Remap clamp scAdj to
++    // toMin for any capture taller than that value and collapse val5 to 0, throwing the
++    // captured background off the selection area. Keep the capture calibration independent of
++    // the range limit.
++    private const int CaptureBackgroundReferenceHeight = 1200;
++    // TerraAngel: switch the view/range limits between the vanilla values and the enlarged ones.
++    // The enlarged MaxWorldViewSize is what lifts the distance caps on the Rod of Discord, the
++    // Zenith target range, the lock-on target list, WorldGen hitbox inflates and audio panning;
++    // maxScreenW/H additionally allow larger windows. minScreenW/H are intentionally left at the
++    // vanilla window minimums regardless of this setting - see the field comments.
++    public static void ApplyViewRangeLimits(bool enabled)
++    {
++        MaxWorldViewSizeWidth = enabled ? 6480 : 1920;
++        MaxWorldViewSizeHeight = enabled ? 4320 : 1200;
++        MaxWorldViewSize = new Microsoft.Xna.Framework.Point(MaxWorldViewSizeWidth, MaxWorldViewSizeHeight);
++        maxScreenW = enabled ? 6480 : 1920;
++        maxScreenH = enabled ? 4320 : 1200;
++    }
++
+     public static float iS = 1f;
+     public static bool render;
+     public static int qaStyle;
 @@ -885,7 +_,7 @@
      public static HairstyleUnlocksHelper Hairstyles = new HairstyleUnlocksHelper();
      public static bool tilesLoaded = false;
@@ -1255,6 +1297,22 @@
 +                Vector2 vector5 = BackgroundViewMatrix.RenderZoom / new Vector2(referenceZoom);
                  Vector2 vector6 = screenPosition + new Vector2(screenWidth, screenHeight) / 2f * (Vector2.One - vector5) - vector4;
                  transform = Matrix.CreateScale(vector5.X, vector5.Y, 1f) * Matrix.CreateTranslation(vector6.X, vector6.Y, 0f) * transform;
+             }
+@@ -60760,13 +_,13 @@
+                 float num13 = (float)maxTilesY * 0.15f;
+                 verticalParallaxOverride = (float)Utils.Remap(screenPosition.Y, worldSurface * 16.0, num13 * 16f, -1.0, -0.5);
+                 int num14 = -120;
+-                int y = MaxWorldViewSize.Y;
++                int y = CaptureBackgroundReferenceHeight;
+                 float val5 = Math.Max(0f, (float)screenHeight - ((float)y * (2f + verticalParallaxOverride.Value) + (float)num14));
+                 float num15 = Math.Min(num13 * 16f * 0.75f - screenPosition.Y, rectangle.Height * 16);
+                 float val6 = (float)Math.Pow(Utils.Remap(screenPosition.Y, num13 * 16f, 0f, 0f, 1f), 2.0) * num15 / num12;
+                 float toMax = Math.Max(val5, val6);
+                 float toMin = ComputeScAdj(screenPosition.Y, num8);
+-                scAdj = Utils.Remap(settings.Area.Height * 16, MaxWorldViewSize.Y, num11, toMin, toMax);
++                scAdj = Utils.Remap(settings.Area.Height * 16, CaptureBackgroundReferenceHeight, num11, toMin, toMax);
+                 transform = Matrix.CreateScale(num12) * Matrix.CreateTranslation((screenPosition - vector4).ToVector3()) * transform;
+                 screenPosition.Y += (rectangle.Height * 16 - screenHeight) / 2;
              }
 @@ -61350,6 +_,7 @@
  

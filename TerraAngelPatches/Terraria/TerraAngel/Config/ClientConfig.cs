@@ -32,6 +32,10 @@ public class ClientConfig
 
     public class Config
     {
+        [UIConfigElement("zh-CN", "默认解除部分距离限制")]
+        [UIConfigElement("en-US", "Default Remove Some Range Limits")]
+        public bool DefaultRemoveViewRangeLimits = true;
+
         [UIConfigElement("zh-CN", "显示主窗口")]
         [UIConfigElement("en-US", "Show Stats Window")]
         public bool ShowStatsWindow = true;
