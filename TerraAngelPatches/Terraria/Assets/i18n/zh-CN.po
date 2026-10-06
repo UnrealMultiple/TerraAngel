@@ -1137,6 +1137,14 @@ msgstr "幽灵模式"
 msgid "No-Clip Settings"
 msgstr "幽灵模式设置"
 
+#: ../../../TerraAngel/Tools/Developer/RangeLimitTool.cs:7
+msgid "Remove some range limits"
+msgstr "解除部分距离限制"
+
+#: ../../../TerraAngel/Tools/Developer/RangeLimitTool.cs:18
+msgid "Removes the distance caps on the Rod of Discord, the Zenith target range and lock-on targets, and allows larger windows."
+msgstr "解除混沌传送杖、天顶剑锁定范围与锁敌目标列表的距离上限，并允许更大的窗口尺寸。"
+
 #: ../../../TerraAngel/Tools/Developer/ItemEditorTool.cs:122
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:290
 #: ../../../TerraAngel/UI/TerrariaUI/GraphicsUI.cs:295
