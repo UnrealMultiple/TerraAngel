@@ -119,10 +119,14 @@ if ($Download) {
     }
 }
 
-if (!(Test-Path ('./TerraAngelSetup/TerraAngelSetup/bin/Release/net10.0/TerraAngelSetup' | Join-ExecutableExtension) -PathType Leaf)) {
-    Write-Output 'Building TerraAngelSetup'
-    dotnet build ./TerraAngelSetup/TerraAngelSetup/TerraAngelSetup.csproj -c=Release
-}
+# if (!(Test-Path ('./TerraAngelSetup/TerraAngelSetup/bin/Release/net10.0/TerraAngelSetup' | Join-ExecutableExtension) -PathType Leaf)) {
+#     Write-Output 'Building TerraAngelSetup'
+#     dotnet build ./TerraAngelSetup/TerraAngelSetup/TerraAngelSetup.csproj -c=Release --property:WarningLevel=0
+# }
+
+# Lets make a fresh build no matter how
+Write-Output 'Building TerraAngelSetup'
+dotnet build ./TerraAngelSetup/TerraAngelSetup/TerraAngelSetup.csproj -c=Release --property:WarningLevel=0
 
 if ($Decompile -or $Start) {
     Write-Output 'Running TerraAngelSetup -decompile'
@@ -136,7 +140,7 @@ if ($Patch -or $Update -or $Start) {
 
 if ($Compile -or $Start) {
     Write-Output 'Building TerraAngel'
-    dotnet build ./src/TerraAngel/Terraria/Terraria.csproj -p:Configuration=Release -p:RunAnalyzers=false
+    dotnet build ./src/TerraAngel/Terraria/Terraria.csproj -p:Configuration=Release -p:RunAnalyzers=false --property:WarningLevel=0
 }
 
 if ($Diff) {

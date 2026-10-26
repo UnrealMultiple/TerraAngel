@@ -263,7 +263,7 @@ public class Program
     }
     public static void FormatDir(string dir)
     {
-        Console.Write($"Formatting {dir}");
+        Console.WriteLine($"Formatting {dir}");
 
         AdhocWorkspace cw = new AdhocWorkspace();
         OptionSet options = cw.Options;
