@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Social/SocialMode.cs
 +++ src/TerraAngel/Terraria/Social/SocialMode.cs
-@@ -2,6 +_,5 @@
+@@ -3,6 +_,5 @@
  public enum SocialMode
  {
      None,

@@ -7,4 +7,4 @@
 +using MP3Sharp;
  
  namespace Terraria.Audio;
- public class MP3AudioTrack : ASoundEffectBasedAudioTrack
+ 

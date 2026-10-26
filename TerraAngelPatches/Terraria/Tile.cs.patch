@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Tile.cs
 +++ src/TerraAngel/Terraria/Tile.cs
-@@ -1,18 +_,86 @@
+@@ -1,19 +_,87 @@
 -using Microsoft.Xna.Framework;
 +using System;
 +using System.ComponentModel;
@@ -12,6 +12,7 @@
 +// ReSharper disable RedundantCast
  
  namespace Terraria;
+ 
 -public class Tile
 +public unsafe struct Tile
  {
@@ -98,7 +99,7 @@
      private const int Bit0 = 1;
      private const int Bit1 = 2;
      private const int Bit2 = 4;
-@@ -62,43 +_,9 @@
+@@ -63,43 +_,9 @@
          }
      }
  
@@ -145,7 +146,7 @@
  
      public void ClearSlope()
      {
-@@ -114,71 +_,10 @@
+@@ -115,71 +_,10 @@
  
      public void CopyFrom(Tile from)
      {
@@ -219,7 +220,7 @@
  
      public int blockType()
      {
-@@ -230,28 +_,9 @@
+@@ -231,28 +_,9 @@
          return false;
      }
  
@@ -250,7 +251,7 @@
  
      public Color actColor(Color oldColor)
      {
-@@ -735,60 +_,7 @@
+@@ -736,60 +_,7 @@
          return true;
      }
  
@@ -312,7 +313,7 @@
  
      public static void SmoothSlope(int x, int y, bool applyToNeighbors = true, bool sync = false)
      {
-@@ -800,7 +_,7 @@
+@@ -801,7 +_,7 @@
              SmoothSlope(x, y - 1, applyToNeighbors: false, sync);
          }
  
@@ -321,7 +322,7 @@
          if (!WorldGen.CanPoundTile(x, y) || !WorldGen.SolidOrSlopedTile(x, y))
          {
              return;
-@@ -870,12 +_,7 @@
+@@ -871,12 +_,7 @@
          }
      }
  
@@ -335,7 +336,7 @@
  
      public TileColorCache BlockColorAndCoating()
      {
-@@ -921,6 +_,9 @@
+@@ -922,6 +_,9 @@
  
      public override string ToString()
      {

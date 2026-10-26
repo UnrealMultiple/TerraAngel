@@ -1,12 +1,13 @@
 --- src/Terraria/Terraria/DataStructures/TileDrawInfo.cs
 +++ src/TerraAngel/Terraria/DataStructures/TileDrawInfo.cs
-@@ -1,10 +_,37 @@
+@@ -1,11 +_,38 @@
 +using System;
 +using System.Runtime.CompilerServices;
  using Microsoft.Xna.Framework;
  using Microsoft.Xna.Framework.Graphics;
  
  namespace Terraria.DataStructures;
+ 
 -public class TileDrawInfo
 +public unsafe ref struct TileDrawInfo
  {
@@ -39,7 +40,7 @@
      public ushort typeCache;
      public short tileFrameX;
      public short tileFrameY;
-@@ -20,7 +_,7 @@
+@@ -21,7 +_,7 @@
      public Texture2D glowTexture;
      public Rectangle glowSourceRect;
      public Color glowColor;

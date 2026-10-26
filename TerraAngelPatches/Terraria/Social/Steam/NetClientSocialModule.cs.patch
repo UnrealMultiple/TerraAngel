@@ -7,8 +7,8 @@
 -using Terraria.Social.WeGame;
  
  namespace Terraria.Social.Steam;
- public class NetClientSocialModule : NetSocialModule
-@@ -52,7 +_,6 @@
+ 
+@@ -53,7 +_,6 @@
  
      public override void LaunchLocalServer(Process process, ServerMode mode)
      {
@@ -16,7 +16,7 @@
          if (_lobby.State != 0)
          {
              _lobby.Leave();
-@@ -145,7 +_,6 @@
+@@ -146,7 +_,6 @@
  
      private void OnLobbyJoinRequest(GameLobbyJoinRequested_t result)
      {
@@ -24,7 +24,7 @@
          if (_lobby.State != 0)
          {
              _lobby.Leave();
-@@ -162,7 +_,6 @@
+@@ -163,7 +_,6 @@
  
      private void OnLobbyEntered(LobbyEnter_t result, bool failure)
      {
@@ -32,7 +32,7 @@
          SteamNetworking.AllowP2PPacketRelay(bAllow: true);
          SendAuthTicket(_lobby.Owner);
          int num = 0;
-@@ -208,12 +_,11 @@
+@@ -209,12 +_,11 @@
  
      private void SendAuthTicket(CSteamID address)
      {
@@ -46,7 +46,7 @@
          }
  
          int num = (int)(_authDataLength + 3);
-@@ -254,13 +_,11 @@
+@@ -255,13 +_,11 @@
  
      private void OnSessionConnectFail(P2PSessionConnectFail_t result)
      {

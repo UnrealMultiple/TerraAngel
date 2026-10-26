@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/WorldItem.cs
 +++ src/TerraAngel/Terraria/WorldItem.cs
-@@ -129,6 +_,9 @@
+@@ -131,6 +_,9 @@
  
      public void Prefix(int prefix)
      {

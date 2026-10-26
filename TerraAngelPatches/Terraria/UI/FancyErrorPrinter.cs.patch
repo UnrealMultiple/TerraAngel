@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/UI/FancyErrorPrinter.cs
 +++ src/TerraAngel/Terraria/UI/FancyErrorPrinter.cs
-@@ -141,7 +_,7 @@
+@@ -156,7 +_,7 @@
      {
          if (!Main.dedServ)
          {

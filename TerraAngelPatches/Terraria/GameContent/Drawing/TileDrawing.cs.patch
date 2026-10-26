@@ -8,7 +8,7 @@
  using Terraria.DataStructures;
  using Terraria.GameContent.Events;
  using Terraria.GameContent.Liquid;
-@@ -137,11 +_,6 @@
+@@ -150,11 +_,6 @@
              for (int j = firstTileX - 2; j < lastTileX + 2; j++)
              {
                  Tile tile = Main.tile[j, i];
@@ -20,7 +20,7 @@
                  if (tile.active())
                  {
                      Main.instance.LoadTiles(tile.type);
-@@ -389,11 +_,8 @@
+@@ -402,11 +_,8 @@
              for (int j = firstTileX - 2; j < lastTileX + 2; j++)
              {
                  Tile tile = Main.tile[j, i];
@@ -32,7 +32,7 @@
              }
          }
  
-@@ -443,15 +_,7 @@
+@@ -459,15 +_,7 @@
          {
              for (int j = firstTileX - 2; j < lastTileX + 2; j++)
              {
@@ -49,7 +49,7 @@
                      if (!tile.active() || IsTileDrawLayerSolid(tile.type) != solidLayer || (DebugOptions.ShowUnbreakableWall && tile.wall == 350))
                      {
                          continue;
-@@ -460,7 +_,7 @@
+@@ -476,7 +_,7 @@
                      if (solidLayer)
                      {
                          Main.tileBatch.SetLayer(Layer_LiquidBehindTiles, 0);
@@ -58,7 +58,7 @@
                      }
  
                      Main.tileBatch.SetLayer(Layer_Tiles, 0);
-@@ -652,7 +_,7 @@
+@@ -668,7 +_,7 @@
                          case 375:
                          case 461:
                          case 709:
@@ -67,7 +67,7 @@
                              continue;
                          case 491:
                              if (frameX == 18 && frameY == 18)
-@@ -679,7 +_,7 @@
+@@ -695,7 +_,7 @@
                              AddSpecialPoint(j, i, TileCounterType.AnyDirectionalGrass);
                              continue;
                          default:
@@ -76,7 +76,7 @@
                              {
                                  AddSpecialPoint(j, i, TileCounterType.WindyGrass);
                                  continue;
-@@ -688,8 +_,103 @@
+@@ -704,8 +_,103 @@
                              break;
                      }
  
@@ -181,7 +181,7 @@
              }
          }
  
-@@ -1203,7 +_,7 @@
+@@ -1219,7 +_,7 @@
          }
          else
          {
@@ -190,7 +190,7 @@
          }
  
          if (Main.tileGlowMask[tileDrawInfo.tileCache.type] != -1)
-@@ -1481,7 +_,9 @@
+@@ -1497,7 +_,9 @@
          return true;
      }
  
@@ -201,7 +201,7 @@
      {
          TilePaintSystemV2.TileVariationkey tileVariationkey = default(TilePaintSystemV2.TileVariationkey);
          tileVariationkey.TileType = tile.type;
-@@ -1554,7 +_,7 @@
+@@ -1570,7 +_,7 @@
          return TextureAssets.CageTop[key.CageStyle].Value;
      }
  
@@ -210,7 +210,7 @@
      {
          bool flag = !TileID.Sets.DontDrawTileSliced[drawData.tileCache.type];
          bool flag2 = !TileID.Sets.DontDrawTileSlopes[drawData.tileCache.type];
-@@ -1848,7 +_,7 @@
+@@ -1864,7 +_,7 @@
  
      public static int GetTreeVariant(int x, int y)
      {
@@ -219,7 +219,7 @@
          {
              return -1;
          }
-@@ -3903,7 +_,7 @@
+@@ -3919,7 +_,7 @@
      private void DrawXmasTree(Vector2 screenPosition, Vector2 screenOffset, int tileX, int tileY, TileDrawInfo drawData)
      {
          int num = 2;
@@ -228,7 +228,7 @@
          {
              drawData.tileTop -= 16 * drawData.tileFrameY;
              drawData.tileFrameX = Main.tile[tileX, tileY - drawData.tileFrameY].frameX;
-@@ -4034,12 +_,9 @@
+@@ -4050,12 +_,9 @@
          if (WorldGen.IsRope(tileX, tileY, out topRopeY, out bottomRopeY))
          {
              Tile tile = Main.tile[tileX, topRopeY];
@@ -241,7 +241,7 @@
          }
      }
  
-@@ -4086,6 +_,8 @@
+@@ -4102,6 +_,8 @@
          }
      }
  
@@ -250,7 +250,7 @@
      private void DrawTile_LiquidBehindTile(bool solidLayer, int waterStyleOverride, Vector2 screenPosition, Vector2 screenOffset, int tileX, int tileY, Tile tileCache)
      {
          int num = 0;
-@@ -4869,6 +_,8 @@
+@@ -4885,6 +_,8 @@
          return WorldGen.InAPlaceWithWind(x, y, width, height);
      }
  
@@ -259,7 +259,7 @@
      private void GetTileDrawData(int x, int y, Tile tileCache, ushort typeCache, ref short tileFrameX, ref short tileFrameY, out int tileWidth, out int tileHeight, out int tileTop, out int halfBrickHeight, out int addFrX, out int addFrY, out SpriteEffects tileSpriteEffect, out Texture2D glowTexture, out Rectangle glowSourceRect, out Color glowColor)
      {
          tileTop = 0;
-@@ -7124,11 +_,6 @@
+@@ -7140,11 +_,6 @@
      private bool IsWindBlocked(int x, int y)
      {
          Tile tile = Main.tile[x, y];
@@ -271,7 +271,7 @@
          if (tile.wall > 0 && !WallID.Sets.AllowsWind[tile.wall])
          {
              return true;
-@@ -7541,7 +_,7 @@
+@@ -7557,7 +_,7 @@
                  bool flag2 = _rand.Next(600) == 0;
                  if (!flag2)
                  {
@@ -280,7 +280,7 @@
                      flag2 = windTimeLeft > 0 && _rand.Next(48) == 0;
                  }
  
-@@ -8314,7 +_,7 @@
+@@ -8330,7 +_,7 @@
          }
      }
  
@@ -289,7 +289,7 @@
      {
          int num = 60;
          switch (typeCache)
-@@ -8442,7 +_,7 @@
+@@ -8458,7 +_,7 @@
          return num2 * lerpValue;
      }
  
@@ -298,7 +298,7 @@
      {
          if (!Main.SettingsEnabled_TilesSwayInWind)
          {
-@@ -8531,13 +_,13 @@
+@@ -8547,13 +_,13 @@
          }
  
          int treeHeight = grassPosY - tilePosY;
@@ -314,7 +314,7 @@
          int num;
          switch (passStyle)
          {
-@@ -9933,11 +_,6 @@
+@@ -9949,11 +_,6 @@
          for (int i = startY; i < Main.maxTilesY - 10; i++)
          {
              Tile tile = Main.tile[x, i];
@@ -326,7 +326,7 @@
              ushort type = tile.type;
              if (!tile.active() || !TileID.Sets.VineThreads[type])
              {
-@@ -10048,8 +_,6 @@
+@@ -10064,8 +_,6 @@
          for (int num6 = startY; num6 > 10; num6--)
          {
              Tile tile = Main.tile[x, num6];
@@ -335,7 +335,7 @@
                  ushort type = tile.type;
                  if (!tile.active() || !TileID.Sets.ReverseVineThreads[type])
                  {
-@@ -10100,7 +_,6 @@
+@@ -10116,7 +_,6 @@
                  }
  
                  vector += (num7 - (float)Math.PI / 2f).ToRotationVector2() * 16f;

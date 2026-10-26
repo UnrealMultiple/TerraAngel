@@ -8,7 +8,7 @@
  using Terraria.Audio;
  using Terraria.Chat;
  using Terraria.DataStructures;
-@@ -244,6 +_,7 @@
+@@ -246,6 +_,7 @@
                      Main.myPlayer = num134;
                      Player player17 = Main.player[num134];
                      NetMessage.TrySendData(4, -1, -1, null, num134);
@@ -16,7 +16,7 @@
                      NetMessage.TrySendData(68, -1, -1, null, num134);
                      NetMessage.TrySendData(16, -1, -1, null, num134);
                      NetMessage.TrySendData(42, -1, -1, null, num134);
-@@ -1133,6 +_,12 @@
+@@ -1135,6 +_,12 @@
                      }
  
                      Utils.Swap(ref t, ref player13.position);
@@ -29,7 +29,7 @@
                      break;
                  }
  
-@@ -1216,11 +_,6 @@
+@@ -1218,11 +_,6 @@
                          break;
                      }
  
@@ -41,7 +41,7 @@
                      if (Main.netMode == 2)
                      {
                          if (!flag13)
-@@ -1484,11 +_,6 @@
+@@ -1486,11 +_,6 @@
                      {
                          for (int num96 = num92; num96 < num92 + num94; num96++)
                          {
@@ -53,7 +53,7 @@
                              tile4 = Main.tile[num95, num96];
                              bool flag8 = tile4.active();
                              bitsByte19 = reader.ReadByte();
-@@ -2662,42 +_,9 @@
+@@ -2666,42 +_,9 @@
                      int num4 = reader.ReadInt16();
                      byte b2 = reader.ReadByte();
                      byte liquidType = reader.ReadByte();
@@ -96,7 +96,7 @@
                  }
  
              case 49:
-@@ -4106,6 +_,8 @@
+@@ -4110,6 +_,8 @@
                          Vector2 vector4 = Vector2.Normalize(value2);
                          if (!vector4.HasNaNs())
                          {
@@ -105,7 +105,7 @@
                              int type11 = 90;
                              float num110 = 0f;
                              float num111 = (float)Math.PI / 15f;
-@@ -4136,6 +_,7 @@
+@@ -4140,6 +_,7 @@
                                  num112 = (Main.dust[num115].fadeIn = num112 + num113);
                                  Main.dust[num115].velocity += vector4 * 1.5f;
                              }
@@ -113,7 +113,7 @@
                          }
  
                          player12.NebulaLevelup(num108);
-@@ -4344,6 +_,11 @@
+@@ -4348,6 +_,11 @@
                          if (Main.netMode == 2)
                          {
                              NetMessage.SendPlayerHurt(num27, playerDeathReason2, damage, num28, flag2, pvp2, num29, -1, whoAmI);

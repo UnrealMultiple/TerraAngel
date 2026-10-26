@@ -1,6 +1,6 @@
 --- src/Terraria/ReLogic/Threading/FastParallel.cs
 +++ src/TerraAngel/ReLogic/Threading/FastParallel.cs
-@@ -52,8 +_,6 @@
+@@ -53,8 +_,6 @@
              num2 = 1;
          }
  
@@ -9,7 +9,7 @@
          int num3 = num / num2;
          int num4 = num % num2;
          CountdownEvent countdownEvent = new CountdownEvent(num2);
-@@ -80,11 +_,7 @@
+@@ -81,11 +_,7 @@
              }
          }
  

@@ -1,12 +1,13 @@
 --- src/Terraria/ReLogic/OS/Windows/WindowsPlatform.cs
 +++ src/TerraAngel/ReLogic/OS/Windows/WindowsPlatform.cs
-@@ -1,30 +_,32 @@
+@@ -1,31 +_,33 @@
  using System;
  using ReLogic.Localization.IME;
 +using ReLogic.OS.FNA;
 +using SDL3;
  
  namespace ReLogic.OS.Windows;
+ 
  internal class WindowsPlatform : Platform
  {
 -    private WindowsMessageHook _wndProcHook;
@@ -43,7 +44,7 @@
      protected override void Dispose(bool disposing)
      {
          if (!_disposedValue)
-@@ -34,7 +_,6 @@
+@@ -35,7 +_,6 @@
                  _wndProcHook.Dispose();
                  _wndProcHook = null;
              }

@@ -1,12 +1,13 @@
 --- src/Terraria/Terraria/Utilities/MessageBox.cs
 +++ src/TerraAngel/Terraria/Utilities/MessageBox.cs
-@@ -1,10 +_,35 @@
+@@ -1,4 +_,5 @@
 -using System.Windows.Forms;
 +using System;
 +using SDL3;
  
  namespace Terraria.Utilities;
- public static class MessageBox
+ 
+@@ -6,6 +_,30 @@
  {
      public static DialogResult Show(string message, string title, MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None)
      {

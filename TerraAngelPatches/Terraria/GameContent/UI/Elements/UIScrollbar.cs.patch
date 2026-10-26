@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/GameContent/UI/Elements/UIScrollbar.cs
 +++ src/TerraAngel/Terraria/GameContent/UI/Elements/UIScrollbar.cs
-@@ -23,6 +_,7 @@
+@@ -24,6 +_,7 @@
      private Asset<Texture2D> _texture;
      private Asset<Texture2D> _innerTexture;
      private ColorTheme _theme;
@@ -8,7 +8,7 @@
      public float ViewPosition
      {
          get
-@@ -112,8 +_,8 @@
+@@ -114,8 +_,8 @@
                  SoundEngine.PlaySound(12);
              }
  

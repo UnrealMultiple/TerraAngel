@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Projectile.cs
 +++ src/TerraAngel/Terraria/Projectile.cs
-@@ -21739,6 +_,7 @@
+@@ -21743,6 +_,7 @@
              flag = true;
          }
  
@@ -8,7 +8,7 @@
          if (!flag && fisher.inLava)
          {
              int num3 = 0;
-@@ -34010,6 +_,32 @@
+@@ -34014,6 +_,32 @@
              }
  
              localAI[1] = MathHelper.Lerp(localAI[1], num704, amount);
@@ -41,7 +41,7 @@
              if (type == 455)
              {
                  Vector2 vector64 = base.Center + velocity * (localAI[1] - 14f);
-@@ -42052,8 +_,8 @@
+@@ -42059,8 +_,8 @@
          Vector2 value = master.MountedCenter + new Vector2(master.direction * 10, 0f);
          Vector2 tangent = new Vector2(0f, -100f);
          Vector2 tangent2 = new Vector2(0f, -100f);
@@ -52,7 +52,7 @@
          for (float num4 = 0f; num4 <= 1f; num4 += 0.1f)
          {
              Dust dust = Dust.NewDustPerfect(Vector2.Lerp(vector, vector2, num4), 306, (vector2 - vector) * 0.1f, 0, new Color(100, 227, 255, 127), 1f + num3);
-@@ -49482,7 +_,7 @@
+@@ -49489,7 +_,7 @@
              }
  
              float amount = MathHelper.Lerp(value, value2, Utils.GetLerpValue(num, 30f, timeLeft, clamped: true));
@@ -61,7 +61,7 @@
              if (type == 931 || type == 1039)
              {
                  velocity *= MathHelper.Lerp(0.85f, 1f, Utils.GetLerpValue(0f, 90f, timeLeft, clamped: true));
-@@ -50614,7 +_,7 @@
+@@ -50621,7 +_,7 @@
          Vector2 vector2 = -velocity;
          Vector2 value = center + vector2 * 2f;
          Vector2 value2 = vector + vector2 * (1f - num2 * 3f);
@@ -70,7 +70,7 @@
          int num3 = type;
          if (num3 == 856)
          {
-@@ -50784,7 +_,7 @@
+@@ -50791,7 +_,7 @@
          }
  
          ai[0] += 1f / ai[1];
@@ -79,7 +79,7 @@
          if (flag)
          {
              for (float num3 = 0f; num3 < 1f; num3 += 0.5f)
-@@ -56232,7 +_,7 @@
+@@ -56239,7 +_,7 @@
                  AI_GetMyGroupIndexAndFillBlackList(blacklist, out var index2, out var totalIndexesInGroup2);
                  AI_156_GetIdlePosition(index2, totalIndexesInGroup2, out var idleSpot2, out var _);
                  velocity = Vector2.Zero;
@@ -88,7 +88,7 @@
                  if (Main.rand.Next(20) == 0)
                  {
                      int num6 = AI_156_TryAttackingNPCs(blacklist);
-@@ -56255,7 +_,7 @@
+@@ -56262,7 +_,7 @@
              AI_GetMyGroupIndexAndFillBlackList(blacklist, out var index3, out var totalIndexesInGroup3);
              AI_156_GetIdlePosition(index3, totalIndexesInGroup3, out var idleSpot3, out var idleRotation3);
              velocity = Vector2.Zero;
@@ -97,7 +97,7 @@
              rotation = rotation.AngleLerp(idleRotation3, 0.45f);
              if (Main.rand.Next(20) == 0)
              {
-@@ -57411,11 +_,6 @@
+@@ -57418,11 +_,6 @@
              {
                  for (int j = num12; j < num13; j++)
                  {
@@ -109,7 +109,7 @@
                      vector5.X = i * 16;
                      vector5.Y = j * 16;
                      if (!(vector3.X + 10f > vector5.X) || !(vector3.X < vector5.X + 16f) || !(vector3.Y + 10f > vector5.Y) || !(vector3.Y < vector5.Y + 16f))
-@@ -57600,11 +_,6 @@
+@@ -57607,11 +_,6 @@
          else if (ai[0] == 2f)
          {
              Point point3 = base.Center.ToTileCoordinates();
@@ -121,7 +121,7 @@
              bool flag = true;
              if (AI_007_GrapplingHooks_CanTileBeLatchedOnTo(Main.tile[point3.X, point3.Y]))
              {
-@@ -58350,16 +_,6 @@
+@@ -58357,16 +_,6 @@
              int num4 = (int)(base.Center.Y / 16f);
              _ = position.Y / 16f;
              int num5 = (int)((position.Y + (float)height) / 16f);
@@ -138,7 +138,7 @@
              if (velocity.Y > 0f)
              {
                  velocity.Y *= 0.5f;
-@@ -58638,16 +_,6 @@
+@@ -58645,16 +_,6 @@
              int num8 = (int)(base.Center.Y / 16f);
              _ = position.Y / 16f;
              int num9 = (int)((position.Y + (float)height) / 16f);
@@ -155,7 +155,7 @@
              if (velocity.Y > 0f)
              {
                  velocity.Y *= 0.5f;
-@@ -58754,21 +_,6 @@
+@@ -58761,21 +_,6 @@
      private float AI_061_FishingBobber_GetWaterLine(int X, int Y)
      {
          float result = position.Y + (float)height;
@@ -177,7 +177,7 @@
          if (Main.tile[X, Y - 1].liquid > 0)
          {
              result = Y * 16;
-@@ -72827,7 +_,17 @@
+@@ -72834,7 +_,17 @@
                  num37 = 5f;
              }
  
@@ -195,7 +195,7 @@
              ai[0] += 1f;
              ai[1] += 1f;
              bool flag8 = false;
-@@ -72847,7 +_,7 @@
+@@ -72854,7 +_,7 @@
              {
                  ai[1] = 0f;
                  flag9 = true;
@@ -204,7 +204,7 @@
                  {
                      float num39 = player.inventory[player.selectedItem].shootSpeed * scale;
                      Vector2 vector18 = vector;
-@@ -72899,7 +_,21 @@
+@@ -72906,7 +_,21 @@
              {
                  bool flag10 = false;
                  flag10 = !flag8 || player.CheckMana(player.inventory[player.selectedItem].mana, pay: true);
@@ -227,7 +227,7 @@
                  {
                      if (ai[0] == 1f)
                      {
-@@ -83108,11 +_,6 @@
+@@ -83115,11 +_,6 @@
  
                  int num726 = (int)position.X / 16;
                  int num727 = (int)position.Y / 16;
@@ -239,7 +239,7 @@
                  if (Main.tile[num726, num727].type == 127 && Main.tile[num726, num727].active())
                  {
                      WorldGen.KillTile(num726, num727);
-@@ -84569,7 +_,7 @@
+@@ -84576,7 +_,7 @@
                                  Vector2 value14 = vector79.RotatedBy(((num939 == 0) ? 1f : (-1f)) * ((float)Math.PI * 2f) / (num934 * 2f));
                                  for (float num940 = 0f; num940 < num937; num940++)
                                  {

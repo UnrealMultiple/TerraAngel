@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Audio/LegacyAudioSystem.cs
 +++ src/TerraAngel/Terraria/Audio/LegacyAudioSystem.cs
-@@ -119,7 +_,7 @@
+@@ -120,7 +_,7 @@
  
      public ReadOnlyCollection<RendererDetail> VeryExpensiveWayToGetAllAudioRenderers()
      {
@@ -9,7 +9,7 @@
          ReadOnlyCollection<RendererDetail> rendererDetails = audioEngine.RendererDetails;
          audioEngine.Dispose();
          return rendererDetails;
-@@ -132,10 +_,11 @@
+@@ -133,10 +_,11 @@
  
      public void Init(string renderer = "")
      {

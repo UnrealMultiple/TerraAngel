@@ -7,8 +7,8 @@
 -using ReLogic.OS.Base;
  
  namespace ReLogic.OS.Windows;
- internal class PathService : ReLogic.OS.Base.PathService
-@@ -18,6 +_,6 @@
+ 
+@@ -19,6 +_,6 @@
  
      public override void MoveToRecycleBin(string path)
      {

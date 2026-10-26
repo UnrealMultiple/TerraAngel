@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Social/Steam/PlatformSocialModule.cs
 +++ src/TerraAngel/Terraria/Social/Steam/PlatformSocialModule.cs
-@@ -21,12 +_,6 @@
+@@ -22,12 +_,6 @@
  
              if (num)
              {

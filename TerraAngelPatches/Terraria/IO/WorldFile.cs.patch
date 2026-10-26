@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/IO/WorldFile.cs
 +++ src/TerraAngel/Terraria/IO/WorldFile.cs
-@@ -134,7 +_,7 @@
+@@ -135,7 +_,7 @@
              int num = binaryReader.ReadInt32();
              if (num > 326)
              {

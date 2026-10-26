@@ -1,12 +1,13 @@
 --- src/Terraria/ReLogic/OS/Linux/LinuxPlatform.cs
 +++ src/TerraAngel/ReLogic/OS/Linux/LinuxPlatform.cs
-@@ -1,19 +_,20 @@
+@@ -1,5 +_,6 @@
  using System;
  using ReLogic.Localization.IME;
 +using ReLogic.OS.FNA;
  
  namespace ReLogic.OS.Linux;
- internal class LinuxPlatform : Platform
+ 
+@@ -7,14 +_,14 @@
  {
      public LinuxPlatform() : base(PlatformType.Linux)
      {

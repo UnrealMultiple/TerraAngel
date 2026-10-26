@@ -8,7 +8,7 @@
  using Terraria.Graphics.Effects;
  using Terraria.Localization;
  using Terraria.Testing;
-@@ -32,6 +_,13 @@
+@@ -33,6 +_,13 @@
      public const int INNER_CHUNK_SIZE = 126;
      public const int MAX_IMAGE_SIZE = 4096;
      public const string CAPTURE_DIRECTORY = "Captures";
@@ -22,7 +22,7 @@
      private RenderTarget2D _frameBuffer;
      private RenderTarget2D _scaledFrameBuffer;
      private RenderTarget2D _filterFrameBuffer1;
-@@ -231,7 +_,7 @@
+@@ -232,7 +_,7 @@
                  {
                      for (int j = 0; j < area.Width; j++)
                      {
@@ -31,7 +31,7 @@
                          {
                              ptr4[2] = *ptr2;
                              ptr4[1] = ptr2[1];
-@@ -276,11 +_,7 @@
+@@ -277,11 +_,7 @@
  
          try
          {
@@ -44,7 +44,7 @@
              {
                  using Bitmap bitmap = new Bitmap(width, height);
                  System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, width, height);
-@@ -291,6 +_,10 @@
+@@ -292,6 +_,10 @@
                  bitmap.Save(filename, imageFormat);
                  bitmap.Dispose();
              }
@@ -55,7 +55,7 @@
  
              return true;
          }
-@@ -310,7 +_,37 @@
+@@ -311,7 +_,37 @@
              return;
          }
  
@@ -94,7 +94,7 @@
          {
              int elementCount = texture.Width * texture.Height * 4;
              texture.GetData(_outputData, 0, elementCount);
-@@ -332,36 +_,7 @@
+@@ -333,36 +_,7 @@
              }
  
              PlatformUtilities.SavePng(text2, width, height, _outputData);

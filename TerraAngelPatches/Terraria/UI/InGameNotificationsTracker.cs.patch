@@ -8,7 +8,7 @@
  using Terraria.Social.Base;
  
  namespace Terraria.UI;
-@@ -12,9 +_,9 @@
+@@ -13,9 +_,9 @@
      private static List<IInGameNotification> _notifications = new List<IInGameNotification>();
      public static void Initialize()
      {

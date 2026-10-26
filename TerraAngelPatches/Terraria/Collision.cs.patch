@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Collision.cs
 +++ src/TerraAngel/Terraria/Collision.cs
-@@ -1665,25 +_,6 @@
+@@ -1691,25 +_,6 @@
              return false;
          }
  
@@ -26,7 +26,7 @@
  
          if (Main.tile[X, Y - 2].liquid > 0)
          {
-@@ -1728,11 +_,6 @@
+@@ -1754,11 +_,6 @@
          }
  
          Y++;
@@ -38,7 +38,7 @@
          if (Main.tile[X, Y].liquid > 0)
          {
              waterLineHeight = Y * 16;
-@@ -1895,11 +_,6 @@
+@@ -1921,11 +_,6 @@
          {
              for (int j = value3; j <= value3 + 1; j++)
              {
@@ -50,7 +50,7 @@
                  if (!Main.tile[i, j].nactive() || (!Main.tileSolid[Main.tile[i, j].type] && !Main.tileSolidTop[Main.tile[i, j].type]))
                  {
                      continue;
-@@ -2675,11 +_,6 @@
+@@ -2701,11 +_,6 @@
                  }
                  else if (vector3.X + (float)Width <= vector4.X && !Main.tileSolidTop[Main.tile[i, j].type])
                  {
@@ -62,7 +62,7 @@
                      if (!hoik || i < 1 || (Main.tile[i - 1, j].slope() != 2 && Main.tile[i - 1, j].slope() != 4))
                      {
                          num = i;
-@@ -2697,11 +_,6 @@
+@@ -2723,11 +_,6 @@
                  }
                  else if (vector3.X >= vector4.X + 16f && !Main.tileSolidTop[Main.tile[i, j].type])
                  {
@@ -74,7 +74,7 @@
                      if (!hoik || (Main.tile[i + 1, j].slope() != 1 && Main.tile[i + 1, j].slope() != 3))
                      {
                          num = i;
-@@ -3993,16 +_,6 @@
+@@ -4019,16 +_,6 @@
                      continue;
                  }
  
@@ -91,7 +91,7 @@
                  if (waterWalk && Main.tile[i, j].liquid > 0 && Main.tile[i, j - 1].liquid == 0)
                  {
                      int num7 = Main.tile[i, j].liquid / 32 * 2 + 2;
-@@ -5038,11 +_,6 @@
+@@ -5064,11 +_,6 @@
                  }
                  else if (vector3.X + (float)Width <= vector4.X && !Main.tileSolidTop[tile.type])
                  {
@@ -103,7 +103,7 @@
                      if (Main.tile[i - 1, j].slope() != 2 && Main.tile[i - 1, j].slope() != 4)
                      {
                          num = i;
-@@ -5060,11 +_,6 @@
+@@ -5086,11 +_,6 @@
                  }
                  else if (vector3.X >= vector4.X + 16f && !Main.tileSolidTop[tile.type])
                  {

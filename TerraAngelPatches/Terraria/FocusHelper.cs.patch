@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/FocusHelper.cs
 +++ src/TerraAngel/Terraria/FocusHelper.cs
-@@ -132,10 +_,7 @@
+@@ -137,10 +_,7 @@
          wantsToPause = !IsSelectedApplication && Main.netMode == 0 && flag;
          if (Platform.IsWindows)
          {
@@ -12,7 +12,7 @@
              if (num)
              {
                  IsSelectedApplication = false;
-@@ -146,7 +_,7 @@
+@@ -151,7 +_,7 @@
          {
              if (!Platform.IsOSX)
              {
@@ -21,7 +21,7 @@
              }
  
              return;
-@@ -154,12 +_,12 @@
+@@ -159,12 +_,12 @@
  
          if (!Platform.IsOSX)
          {

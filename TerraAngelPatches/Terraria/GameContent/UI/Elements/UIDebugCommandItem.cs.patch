@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/GameContent/UI/Elements/UIDebugCommandItem.cs
 +++ src/TerraAngel/Terraria/GameContent/UI/Elements/UIDebugCommandItem.cs
-@@ -104,9 +_,9 @@
+@@ -108,9 +_,9 @@
      public override void LeftClick(UIMouseEvent evt)
      {
          IngameFancyUI.Close();

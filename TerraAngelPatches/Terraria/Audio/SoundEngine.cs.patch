@@ -7,15 +7,15 @@
  using Microsoft.Xna.Framework;
  using Microsoft.Xna.Framework.Audio;
  using ReLogic.Utilities;
-@@ -7,6 +_,7 @@
- namespace Terraria.Audio;
+@@ -8,6 +_,7 @@
+ 
  public static class SoundEngine
  {
 +    public static readonly object AudioLock = new object();
      public static LegacySoundPlayer LegacySoundPlayer;
      public static SoundPlayer SoundPlayer;
      public static bool AreSoundsPaused;
-@@ -106,8 +_,10 @@
+@@ -107,8 +_,10 @@
          {
              return null;
          }

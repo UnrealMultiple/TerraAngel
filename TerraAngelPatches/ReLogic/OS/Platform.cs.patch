@@ -1,6 +1,6 @@
 --- src/Terraria/ReLogic/OS/Platform.cs
 +++ src/TerraAngel/ReLogic/OS/Platform.cs
-@@ -1,17 +_,26 @@
+@@ -1,12 +_,20 @@
  using System;
 +using ReLogic.OS.Linux;
 +using ReLogic.OS.OSX;
@@ -8,6 +8,7 @@
  using ReLogic.Utilities;
  
  namespace ReLogic.OS;
+ 
 +
  public abstract class Platform : IDisposable
  {
@@ -21,14 +22,15 @@
      public readonly PlatformType Type;
      private TypeInstanceCollection<object> _services = new TypeInstanceCollection<object>();
      private bool _disposedValue;
-     public static bool IsWindows => Current.Type == PlatformType.Windows;
+@@ -14,6 +_,7 @@
      public static bool IsOSX => Current.Type == PlatformType.OSX;
      public static bool IsLinux => Current.Type == PlatformType.Linux;
+ 
 +
      protected Platform(PlatformType type)
      {
          Type = type;
-@@ -29,6 +_,7 @@
+@@ -31,6 +_,7 @@
      }
  
      public abstract void InitializeClientServices(IntPtr windowHandle);

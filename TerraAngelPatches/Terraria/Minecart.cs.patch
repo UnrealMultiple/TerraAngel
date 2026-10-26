@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Minecart.cs
 +++ src/TerraAngel/Terraria/Minecart.cs
-@@ -551,13 +_,10 @@
+@@ -552,13 +_,10 @@
          }
      }
  
@@ -17,7 +17,7 @@
          if (tile.active() && tile.type == 314 && (tile.frameX == 20 || tile.frameX == 21))
          {
              return true;
-@@ -636,12 +_,6 @@
+@@ -637,12 +_,6 @@
                  }
  
                  tile = Main.tile[num5, num6];
@@ -30,7 +30,7 @@
                  flag = ((tile.nactive() && tile.type == 314) ? true : false);
              }
  
-@@ -996,12 +_,6 @@
+@@ -997,12 +_,6 @@
          }
  
          Tile tile = Main.tile[i, j];

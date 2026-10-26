@@ -8,17 +8,17 @@
 -using Terraria.Social.WeGame;
  
  namespace Terraria.Social;
- public static class SocialAPI
-@@ -18,7 +_,7 @@
+ 
+@@ -19,7 +_,7 @@
      public static ServerJoinRequestsManager JoinRequests;
      public static Terraria.Social.Base.PlatformSocialModule Platform;
      public static Terraria.Social.Steam.DLCSocialModule DLCs;
 -    private static List<ISocialModule> _modules;
 +    private static List<ISocialModule> _modules = new List<ISocialModule>();
      public static SocialMode Mode => _mode;
+ 
      public static void Initialize(SocialMode? mode = null)
-     {
-@@ -47,9 +_,6 @@
+@@ -49,9 +_,6 @@
              case SocialMode.Steam:
                  LoadSteam();
                  break;
@@ -28,7 +28,7 @@
          }
  
          foreach (ISocialModule module in _modules)
-@@ -108,25 +_,5 @@
+@@ -110,25 +_,5 @@
          {
              Network = LoadModule<Terraria.Social.Steam.NetClientSocialModule>();
          }

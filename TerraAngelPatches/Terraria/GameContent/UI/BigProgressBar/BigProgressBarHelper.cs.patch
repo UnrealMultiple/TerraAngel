@@ -5,7 +5,7 @@
  using Microsoft.Xna.Framework;
  using Microsoft.Xna.Framework.Graphics;
  using ReLogic.Graphics;
-@@ -28,7 +_,7 @@
+@@ -29,7 +_,7 @@
          int verticalFrames = 6;
          Rectangle value2 = value.Frame(1, verticalFrames, 0, 3);
          Color color = Color.White * 0.2f;

@@ -1,12 +1,13 @@
 --- src/Terraria/ReLogic/OS/OSX/OsxPlatform.cs
 +++ src/TerraAngel/ReLogic/OS/OSX/OsxPlatform.cs
-@@ -1,19 +_,20 @@
+@@ -1,5 +_,6 @@
  using System;
  using ReLogic.Localization.IME;
 +using ReLogic.OS.FNA;
  
  namespace ReLogic.OS.OSX;
- internal class OsxPlatform : Platform
+ 
+@@ -7,14 +_,14 @@
  {
      public OsxPlatform() : base(PlatformType.OSX)
      {

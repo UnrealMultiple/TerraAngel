@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/ID/MessageID.cs
 +++ src/TerraAngel/Terraria/ID/MessageID.cs
-@@ -21,15 +_,15 @@
+@@ -22,15 +_,15 @@
      public const byte PlayerActive = 14;
      [Old("Deprecated.")]
      public const byte Unknown15 = 15;
@@ -19,7 +19,7 @@
      [Old("Deprecated. Use NetTextModule instead.")]
      public const byte Unused25 = 25;
      [Old("Deprecated.")]
-@@ -49,13 +_,13 @@
+@@ -50,13 +_,13 @@
      public const byte ReleaseItemOwnership = 39;
      public const byte SyncTalkNPC = 40;
      public const byte ItemRotationAndAnimation = 41;
@@ -37,7 +37,7 @@
      [Old("Deprecated. Use NetLiquidModule instead.")]
      public const byte LiquidUpdate = 48;
      public const byte InitialSpawn = 49;
-@@ -66,18 +_,18 @@
+@@ -67,18 +_,18 @@
      public const byte NPCBuffs = 54;
      public const byte AddPlayerBuffPvP = 55;
      public const byte UniqueTownNPCInfoSyncRequest = 56;

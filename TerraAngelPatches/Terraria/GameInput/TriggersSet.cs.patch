@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/GameInput/TriggersSet.cs
 +++ src/TerraAngel/Terraria/GameInput/TriggersSet.cs
-@@ -209,6 +_,8 @@
+@@ -210,6 +_,8 @@
      {
          get
          {

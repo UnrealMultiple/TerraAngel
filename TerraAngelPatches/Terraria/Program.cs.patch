@@ -13,8 +13,8 @@
  using Terraria.Initializers;
  using Terraria.Localization;
  using Terraria.Social;
-@@ -16,8 +_,8 @@
- namespace Terraria;
+@@ -17,8 +_,8 @@
+ 
  public static class Program
  {
 -    public static bool IsXna = true;
@@ -24,7 +24,7 @@
      public static bool IsMono = Type.GetType("Mono.Runtime") != null;
      public static Dictionary<string, string> LaunchParameters = new Dictionary<string, string>();
      public static string SavePath;
-@@ -55,7 +_,7 @@
+@@ -56,7 +_,7 @@
  
      public static void ForceLoadThread(object threadContext)
      {
@@ -33,7 +33,7 @@
          LoadedEverything = true;
      }
  
-@@ -178,9 +_,22 @@
+@@ -179,9 +_,22 @@
              args = Utils.ConvertMonoArgsToDotNet(args);
          }
  
@@ -56,7 +56,7 @@
          ThreadPool.SetMinThreads(8, 8);
          InitializeConsoleOutput();
          SetupLogging();
-@@ -195,7 +_,7 @@
+@@ -196,7 +_,7 @@
          {
              Main.OnEngineLoad += delegate
              {
@@ -65,7 +65,7 @@
              };
          }
          else if (Platform.IsWindows)
-@@ -206,7 +_,7 @@
+@@ -207,7 +_,7 @@
                  {
                      if (connected)
                      {
@@ -74,7 +74,7 @@
                          Main.instance.ReHideCursor = true;
                      }
                  });
-@@ -214,10 +_,15 @@
+@@ -215,10 +_,15 @@
          }
  
          using Main main = new Main();
@@ -91,7 +91,7 @@
              LaunchInitializer.LoadParameters(main);
              Main.OnEnginePreload += StartForceLoad;
              if (Main.dedServ)
-@@ -226,18 +_,20 @@
+@@ -227,18 +_,20 @@
              }
  
              main.Run();

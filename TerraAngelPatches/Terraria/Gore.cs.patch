@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Gore.cs
 +++ src/TerraAngel/Terraria/Gore.cs
-@@ -272,21 +_,6 @@
+@@ -273,21 +_,6 @@
      private float ChumFloatingChunk_GetWaterLine(int X, int Y)
      {
          float result = position.Y + Height;
@@ -22,7 +22,7 @@
          if (Main.tile[X, Y - 1].liquid > 0)
          {
              result = Y * 16;
-@@ -661,16 +_,6 @@
+@@ -662,16 +_,6 @@
                  int num12 = (int)(vector.Y / 16f);
                  _ = position.Y / 16f;
                  int num13 = (int)((position.Y + Height) / 16f);
@@ -39,7 +39,7 @@
                  if (velocity.Y > 0f)
                  {
                      velocity.Y *= 0.5f;
-@@ -1413,6 +_,7 @@
+@@ -1414,6 +_,7 @@
  
      public static int NewGore(Vector2 Position, Vector2 Velocity, int Type, float Scale = 1f)
      {

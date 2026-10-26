@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Map/WorldMap.cs
 +++ src/TerraAngel/Terraria/Map/WorldMap.cs
-@@ -12,7 +_,7 @@
+@@ -13,7 +_,7 @@
      public readonly int MaxHeight;
      public const int BlackEdgeWidth = 40;
      private MapTile[,] _tiles;

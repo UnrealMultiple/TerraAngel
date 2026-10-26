@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/WorldBuilding/GenBase.cs
 +++ src/TerraAngel/Terraria/WorldBuilding/GenBase.cs
-@@ -5,7 +_,7 @@
+@@ -6,7 +_,7 @@
  {
      public delegate bool CustomPerUnitAction(int x, int y, params object[] args);
      protected static UnifiedRandom _random => WorldGen.genRand;

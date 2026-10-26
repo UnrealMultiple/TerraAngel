@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Utilities/TileSnapshot.cs
 +++ src/TerraAngel/Terraria/Utilities/TileSnapshot.cs
-@@ -237,14 +_,13 @@
+@@ -244,14 +_,13 @@
          Array.Resize(ref _tiles, Main.maxTilesX * Main.maxTilesY);
          FastParallel.For(0, Main.maxTilesX, delegate (int x0, int x1, object _)
          {
@@ -16,7 +16,7 @@
                  }
              }
          });
-@@ -336,13 +_,12 @@
+@@ -343,13 +_,12 @@
          FastParallel.For(0, Main.maxTilesX, delegate (int x0, int x1, object _)
          {
              TileStruct[] tiles = _tiles;
@@ -31,7 +31,7 @@
                  }
              }
  
-@@ -407,14 +_,13 @@
+@@ -414,14 +_,13 @@
          Array.Resize(ref _tiles, Main.maxTilesX * Main.maxTilesY);
          FastParallel.For(0, Main.maxTilesX, delegate (int x0, int x1, object _)
          {

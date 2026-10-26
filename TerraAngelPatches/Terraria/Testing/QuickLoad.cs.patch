@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Testing/QuickLoad.cs
 +++ src/TerraAngel/Terraria/Testing/QuickLoad.cs
-@@ -57,7 +_,6 @@
+@@ -58,7 +_,6 @@
                  Rectangle value = WindowedBounds.Value;
                  if (Platform.Get<IWindowService>().IsSizeable(Main.instance.Window))
                  {

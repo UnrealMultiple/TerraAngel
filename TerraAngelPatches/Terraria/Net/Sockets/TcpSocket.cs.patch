@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Net/Sockets/TcpSocket.cs
 +++ src/TerraAngel/Terraria/Net/Sockets/TcpSocket.cs
-@@ -13,16 +_,18 @@
+@@ -14,16 +_,18 @@
      private SocketConnectionAccepted _listenerCallback;
      private RemoteAddress _remoteAddress;
      private bool _isListening;
@@ -29,7 +29,7 @@
  
      public TcpSocket()
      {
-@@ -41,10 +_,10 @@
+@@ -45,10 +_,10 @@
      {
          _remoteAddress = null;
          _connection.Close();
@@ -44,7 +44,7 @@
      }
  
      bool ISocket.IsConnected()
-@@ -59,7 +_,7 @@
+@@ -63,7 +_,7 @@
              return false;
          }
  
@@ -53,7 +53,7 @@
          {
              return true;
          }
-@@ -73,6 +_,7 @@
+@@ -77,6 +_,7 @@
          TcpAddress tcpAddress = (TcpAddress)address;
          _connection.Connect(tcpAddress.Address, tcpAddress.Port);
          _remoteAddress = address;
@@ -61,7 +61,7 @@
      }
  
      private void ReadCallback(IAsyncResult result)
-@@ -80,7 +_,8 @@
+@@ -84,7 +_,8 @@
          Tuple<SocketReceiveCallback, object> tuple = (Tuple<SocketReceiveCallback, object>)result.AsyncState;
          try
          {
@@ -71,7 +71,7 @@
          }
          catch (Exception)
          {
-@@ -92,9 +_,12 @@
+@@ -96,9 +_,12 @@
      private void SendCallback(IAsyncResult result)
      {
          Tuple<SocketSendCallback, object> tuple;
@@ -85,7 +85,7 @@
          }
          else
          {
-@@ -105,7 +_,7 @@
+@@ -109,7 +_,7 @@
  
          try
          {
@@ -94,7 +94,7 @@
              tuple.Item1(tuple.Item2);
          }
          catch (Exception)
-@@ -119,17 +_,17 @@
+@@ -123,17 +_,17 @@
          if (!Platform.IsWindows)
          {
              byte[] array = LegacyNetBufferPool.RequestBuffer(data, offset, size);
@@ -115,7 +115,7 @@
      }
  
      bool ISocket.IsDataAvailable()
-@@ -139,7 +_,7 @@
+@@ -143,7 +_,7 @@
              return false;
          }
  

@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/WaterfallManager.cs
 +++ src/TerraAngel/Terraria/WaterfallManager.cs
-@@ -121,12 +_,6 @@
+@@ -122,12 +_,6 @@
              for (int j = num3; j < num4; j++)
              {
                  Tile tile = Main.tile[i, j];
@@ -13,7 +13,7 @@
                  if (!tile.active())
                  {
                      continue;
-@@ -135,28 +_,10 @@
+@@ -136,28 +_,10 @@
                  if (tile.halfBrick())
                  {
                      Tile tile2 = Main.tile[i, j - 1];
@@ -42,7 +42,7 @@
                          if ((tile3.liquid > 160 || tile4.liquid > 160) && ((tile3.liquid == 0 && !WorldGen.SolidTile(tile3) && tile3.slope() == 0) || (tile4.liquid == 0 && !WorldGen.SolidTile(tile4) && tile4.slope() == 0)) && currentMax < qualityMax)
                          {
                              waterfalls[currentMax].type = 0;
-@@ -187,12 +_,6 @@
+@@ -188,12 +_,6 @@
                  if (tile.type == 196)
                  {
                      Tile tile5 = Main.tile[i, j + 1];
@@ -55,7 +55,7 @@
                      if (!WorldGen.SolidTile(tile5) && tile5.liquid == 0 && tile5.slope() == 0 && currentMax < qualityMax)
                      {
                          waterfalls[currentMax].type = 11;
-@@ -205,12 +_,6 @@
+@@ -206,12 +_,6 @@
                  if (tile.type == 460)
                  {
                      Tile tile6 = Main.tile[i, j + 1];
@@ -68,7 +68,7 @@
                      if (!WorldGen.SolidTile(tile6) && tile6.liquid == 0 && tile6.slope() == 0 && currentMax < qualityMax)
                      {
                          waterfalls[currentMax].type = 22;
-@@ -223,12 +_,6 @@
+@@ -224,12 +_,6 @@
                  if (tile.type == 717)
                  {
                      Tile tile7 = Main.tile[i, j + 1];
@@ -81,7 +81,7 @@
                      if (!WorldGen.SolidTile(tile7) && tile7.liquid == 0 && tile7.slope() == 0 && currentMax < qualityMax)
                      {
                          waterfalls[currentMax].type = 26;
-@@ -569,38 +_,14 @@
+@@ -570,38 +_,14 @@
  
                  AddLight(num12, num13, num14);
                  Tile tile3 = Main.tile[num13, num14];

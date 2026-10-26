@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Netplay.cs
 +++ src/TerraAngel/Terraria/Netplay.cs
-@@ -449,6 +_,7 @@
+@@ -456,6 +_,7 @@
              int num = -1;
              while (!Disconnect)
              {
@@ -8,7 +8,7 @@
                  if (Connection.IsConnected())
                  {
                      Connection.IsActive = true;
-@@ -537,6 +_,7 @@
+@@ -544,6 +_,7 @@
                  }
  
                  num = Connection.State;

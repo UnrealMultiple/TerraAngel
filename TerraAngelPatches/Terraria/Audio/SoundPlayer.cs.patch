@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Audio/SoundPlayer.cs
 +++ src/TerraAngel/Terraria/Audio/SoundPlayer.cs
-@@ -92,19 +_,22 @@
+@@ -93,19 +_,22 @@
  
      public void Update()
      {

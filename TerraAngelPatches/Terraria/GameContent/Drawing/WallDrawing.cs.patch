@@ -7,7 +7,7 @@
  using Terraria.GameContent.Liquid;
  using Terraria.Graphics;
  using Terraria.ID;
-@@ -10,7 +_,7 @@
+@@ -11,7 +_,7 @@
  {
      public static bool QuickPaintLookup = true;
      private static VertexColors _glowPaintColors = new VertexColors(Color.White);
@@ -16,7 +16,7 @@
      private TilePaintSystemV2 _paintSystem;
      private bool _shouldShowInvisibleWalls;
      private DrawBlackHelper drawBlackHelper;
-@@ -53,6 +_,7 @@
+@@ -54,6 +_,7 @@
  
          float gfxQuality = Main.gfxQuality;
          Vector2 screenPosition = Main.screenPosition;
@@ -24,7 +24,7 @@
          int[] wallBlend = Main.wallBlend;
          _tileArray = Main.tile;
          int num = (int)(120f * (1f - gfxQuality) + 40f * gfxQuality);
-@@ -75,12 +_,6 @@
+@@ -76,12 +_,6 @@
              for (int j = firstTileX; j < lastTileX; j++)
              {
                  Tile tile = _tileArray[j, i];
@@ -37,7 +37,7 @@
                  ushort wall = tile.wall;
                  if (wall <= 0 || FullTile(j, i) || (wall == 318 && !_shouldShowInvisibleWalls) || (tile.invisibleWall() && !_shouldShowInvisibleWalls))
                  {
-@@ -149,12 +_,12 @@
+@@ -150,12 +_,12 @@
                          }
                      }
  
@@ -52,7 +52,7 @@
                      }
                  }
                  else
-@@ -170,12 +_,12 @@
+@@ -171,12 +_,12 @@
                          color2 = Color.Lerp(color2, Color.White, 0.5f);
                      }
  
@@ -67,7 +67,7 @@
                      }
                  }
  
-@@ -187,22 +_,22 @@
+@@ -188,22 +_,22 @@
                      bool flag3 = _tileArray[j, i + 1].wall > 0 && wallBlend[_tileArray[j, i + 1].wall] != wallBlend[tile.wall];
                      if (num7)
                      {

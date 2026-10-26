@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/GameContent/Drawing/NextNatureRenderer.cs
 +++ src/TerraAngel/Terraria/GameContent/Drawing/NextNatureRenderer.cs
-@@ -131,7 +_,8 @@
+@@ -132,7 +_,8 @@
          }
  
          MiscShaderData miscShaderData = GameShaders.Misc["LitNature"];

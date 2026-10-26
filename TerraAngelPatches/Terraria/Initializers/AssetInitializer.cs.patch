@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Initializers/AssetInitializer.cs
 +++ src/TerraAngel/Terraria/Initializers/AssetInitializer.cs
-@@ -22,7 +_,6 @@
+@@ -23,7 +_,6 @@
          AssetReaderCollection assetReaderCollection = new AssetReaderCollection();
          assetReaderCollection.RegisterReader(new PngReader(services.Get<IGraphicsDeviceService>().GraphicsDevice), ".png");
          assetReaderCollection.RegisterReader(new XnbReader(services), ".xnb");

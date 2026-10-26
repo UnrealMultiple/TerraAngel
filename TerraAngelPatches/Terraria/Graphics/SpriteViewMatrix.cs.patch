@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Graphics/SpriteViewMatrix.cs
 +++ src/TerraAngel/Terraria/Graphics/SpriteViewMatrix.cs
-@@ -7,6 +_,7 @@
+@@ -8,6 +_,7 @@
      private Vector2 _zoom = Vector2.One;
      private Vector2 _translation = Vector2.Zero;
      private Matrix _zoomMatrix = Matrix.Identity;
@@ -8,7 +8,7 @@
      private Matrix _transformationMatrix = Matrix.Identity;
      private Matrix _normalizedTransformationMatrix = Matrix.Identity;
      private SpriteEffects _effects;
-@@ -60,6 +_,19 @@
+@@ -61,6 +_,19 @@
          }
      }
  
@@ -28,7 +28,7 @@
      public Matrix TransformationMatrix
      {
          get
-@@ -147,12 +_,14 @@
+@@ -149,12 +_,14 @@
          Matrix matrix = Matrix.CreateOrthographicOffCenter(0f, vector.X, vector.Y, 0f, 0f, 1f);
          _translation = translation;
          _zoomMatrix = Matrix.CreateTranslation(0f - translation.X, 0f - translation.Y, 0f) * Matrix.CreateScale(vector2.X, vector2.Y, 1f);
