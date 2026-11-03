@@ -7,13 +7,11 @@ TerraAngel is a modern and feature-rich utility client for Terraria.
 </p>
 <br>
 
-<h2>
-Installation
-</h2>
+## Installation
 
 Please note that this client is currently only available for Windows and Linux
 
-In order to use it, you will need to have [git](https://git-scm.com/download/win), [powershell7](https://learn.microsoft.com/en-us/powershell/scripting/install/install-powershell) and the [dotnet 10 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) installed on your machine
+In order to use it, you will need to have [git](https://git-scm.com), [powershell7](https://learn.microsoft.com/en-us/powershell/scripting/install/install-powershell) and the [dotnet 10 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) installed on your machine
 
 Be sure to restart your computer after you install these
 
@@ -27,9 +25,9 @@ To install the client, follow these steps:
 
   3. Run `cd TerraAngel` and `./fast.ps1 -Download -Start` and wait for it to finish. This may take a few minutes</br>
   
-     PS: During this step the console may ask you for your steam username and password if you are on Linux platform</br>
-     If you dont want to provide your steam account, or you want to use exist Terraria binaries, you can put the binaries under `./steam/Terraria` with `Terraria.exe` located right under this folder</br>
-     Then run `./fast.ps1 -Download -Start` again
+     PS: If you're running on Linux, you may be prompted to enter your Steam username and password.<br>
+     If you prefer not to provide your Steam credentials or want to use existing Terraria binaries, you can manually place the game files in `./steam/Terraria`, ensuring that `Terraria.exe` is located directly inside this directory.<br>
+     Then run `./fast.ps1 -Download -Start` again.
 
   ![image](https://user-images.githubusercontent.com/87276335/182042235-9ce87d19-61ee-4636-b3ab-eee0ccb0e428.png)
 
@@ -39,11 +37,9 @@ To install the client, follow these steps:
 
   ![image](https://user-images.githubusercontent.com/87276335/182298616-e9e2299e-611c-4b7d-823e-b4d6ff828c42.png)
 
-<h2>
-Updating
-</h2>
+## Updating
 
-Whenether there is a Terraria update, update Terraria on Steam first, then run `./fast.ps1 -Decompile`
+Whenever there is a Terraria update, update Terraria on Steam first, then run `./fast.ps1 -Decompile`
 
 (Linux user have to do `./fast.ps1 -UpdateGame -Decompile`)
 
@@ -52,21 +48,16 @@ To update TerraAngel and pull any changes, run `./fast.ps1 -Update`
 Then run `./fast.ps1 -Compile` to build the updated client
 
 (Or run `./fast.ps1 -Download -UpdateGame -Decompile -Update -Compile` to do all of these at once)
-<h2>
-Development
-</h2>
+
+## Development
 
 After installing the client, you can edit the source code of the client in `src/TerraAngel/Terraria`
 
 Run `./fast.ps1 -Diff` to create patches based on your changes
 
-<h2>
-Client features
-</h2>
+## Client features
 
-<h3>
-Features for Terraria developers
-</h3>
+### Features for Terraria developers
 
 - Inspector
     - Inspect player information
@@ -105,9 +96,7 @@ Features for Terraria developers
 - Supports any CPU (x64 and x86)
 - See [PLUGINS.md](/PLUGINS.md) for information about plugins
 
-<h3>
-Other useful features
-</h3>
+### Other useful features
 
 - Complete re-write of the chat UI
 ![Terraria_1660961693](https://user-images.githubusercontent.com/87276335/185725363-591a1d7b-a264-4a46-bfb2-96578c8ad6a3.gif)
@@ -134,25 +123,19 @@ Other useful features
 - Some minor optimizations and performance improvements
 - Ability to change FPS cap
 
-<h2>
-Planned features
-</h2>
+## Planned features
 
 - Some epic optimizations
 - UHHHHHHHH
 
-<h2>
-System Requirements
-</h2>
+## System Requirements
 
 Because TerraAngel uses FNA instead of XNA, not all devices are compatible
 
 - Windows 7+
 - OpenGL 3.0+ or D3D11
 
-<h2>
-How to Contribute
-</h2>
+## How to Contribute
 
   1. Fork the repository to your own GitHub account.
   2. Make the desired changes in your forked repository.
@@ -161,8 +144,6 @@ How to Contribute
 
 We welcome contributions of all kinds, including code improvements, bug fixes, and new features.
 
-<h2>
-Questions?
-</h2>
+## Questions?
 
 Open an issue
