@@ -1,9 +1,18 @@
 --- src/Terraria/Terraria/Framing.cs
 +++ src/TerraAngel/Terraria/Framing.cs
-@@ -491,13 +_,6 @@
-             return new Tile();
-         }
+@@ -484,20 +_,18 @@
+         return GetTileSafely(pt.X, pt.Y);
+     }
  
++    private static readonly TileData[] EmptyTileData = System.GC.AllocateArray<TileData>(1, pinned: true);
++
+     public static Tile GetTileSafely(int i, int j)
+     {
+         if (!WorldGen.InWorld(i, j))
+         {
+-            return new Tile();
+-        }
+-
 -        Tile tile = Main.tile[i, j];
 -        if (tile == null)
 -        {
@@ -12,6 +21,12 @@
 -        }
 -
 -        return tile;
++            // I am lazy
++            // TODO: better way
++            EmptyTileData[0] = default;
++            return new Tile(ref EmptyTileData[0]);
++        }
++
 +        return Main.tile[i, j];
      }
  }

@@ -1,11 +1,10 @@
 --- src/Terraria/Terraria/Tile.cs
 +++ src/TerraAngel/Terraria/Tile.cs
-@@ -1,19 +_,87 @@
+@@ -1,19 +_,54 @@
 -using Microsoft.Xna.Framework;
 +using System;
 +using System.ComponentModel;
 +using System.Runtime.CompilerServices;
-+using System.Runtime.InteropServices;
  using Terraria.DataStructures;
 +// ReSharper disable InconsistentNaming
 +// ReSharper disable UnusedMember.Local
@@ -25,28 +24,6 @@
 -    public byte bTileHeader3;
 -    public short frameX;
 -    public short frameY;
-+    // TODO: We need better way handling Tile() ctor...
-+    private sealed class TileDataBox
-+    {
-+        public readonly TileData* Data;
-+        public ref TileData RefData => ref Unsafe.AsRef<TileData>(Data);
-+    
-+        private PinnedGCHandle<object> _gcHandle;
-+
-+        public TileDataBox()
-+        {
-+            // box it, move it onto heap
-+            var boxedTileData = (object)new TileData();
-+            _gcHandle = new PinnedGCHandle<object>(boxedTileData);
-+            Data = (TileData*)_gcHandle.GetAddressOfObjectData();
-+        }
-+
-+        ~TileDataBox()
-+        {
-+            _gcHandle.Dispose();
-+        }
-+    }
-+    
 +    public readonly TileData* Data;
 +    public readonly ref TileData RefData => ref Unsafe.AsRef<TileData>(Data);
 +    public ref ushort type => ref Data->type;
@@ -58,24 +35,14 @@
 +    public ref byte bTileHeader => ref Data->bTileHeader;
 +    public ref byte bTileHeader2 => ref Data->bTileHeader2;
 +    public ref byte bTileHeader3 => ref Data->bTileHeader3;
-+    
-+    // Tile() ctor workaround
-+    // because of the managed reference now we lose some optimization :(
-+    // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
-+    private readonly TileDataBox? DataBox = null;
 +
 +    [Obsolete("NEVER USE THIS!!!!\n" +
 +              "Tile is a handle to TileData.\n" +
-+              "Constructing a Tile instance using this ctor creates a Tile pointing to a boxed and pinned TileData (inefficient).\n" +
-+              "And if its Data* is passed to another Tile, it creates a DANGLING POINTER!\n" +
 +              "If you need to temporarily store a Tile outside of NativeTileMap, use TileData and its ref.\n" +
 +              "This ctor is left here for compatibility ONLY.")]
 +    public Tile()
 +    {
-+        // Tile() ctor workaround
-+        // TODO: We need better way handling Tile() ctor...
-+        DataBox = new TileDataBox();
-+        Data = DataBox.Data;
++        Data = null;
 +    }
 +    public Tile(ref TileData data)
 +    {
@@ -336,14 +303,3 @@
  
      public TileColorCache BlockColorAndCoating()
      {
-@@ -922,6 +_,9 @@
- 
-     public override string ToString()
-     {
--        return "Tile Type:" + type + " Active:" + active().ToString() + " Wall:" + wall + " Slope:" + slope() + " fX:" + frameX + " fY:" + frameY;
-+        var boxInfo = DataBox != null
-+            ? " DataBox:nonNull"
-+            : "";
-+        return $"Tile Type:{type} Active:{active()} Wall:{wall} Slope:{slope()} fX:{frameX} fY:{frameY}{boxInfo}";
-     }
- }

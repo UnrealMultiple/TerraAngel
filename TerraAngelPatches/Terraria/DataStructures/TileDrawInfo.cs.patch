@@ -17,7 +17,7 @@
 +    /// </summary>
 +    public TileDrawInfo()
 +    {
-+        tileCache = new Tile((TileData*)IntPtr.Zero); // set it as null
++        tileCache = new Tile(null);
 +        typeCache = 0;
 +        tileFrameX = 0;
 +        tileFrameY = 0;
