@@ -31,19 +31,19 @@ public unsafe class NativeTileMap
 
     public Tile this[int x, int y]
     {
-        get => new(ref TileHeap[x + y * Width]);
-        set => TileHeap[x + y * Width] = value.RefData;
+        get => new(ref TileHeap[x * Height + y]);
+        set => TileHeap[x * Height + y] = value.RefData;
     }
 
     public Tile this[Vector2i position]
     {
-        get => new(ref TileHeap[position.X + position.Y * Width]);
-        set => TileHeap[position.X + position.Y * Width] = value.RefData;
+        get => new(ref TileHeap[position.X * Height + position.Y]);
+        set => TileHeap[position.X * Height + position.Y] = value.RefData;
     }
 
     public ref TileData GetTileRef(int x, int y)
     {
-        return ref TileHeap[x + y * Width];
+        return ref TileHeap[x * Height + y];
     }
 
     /// <summary>
