@@ -72,9 +72,8 @@ public class NPCBrowserTool : Tool
                     ImGui.PopID();
                 }
             }
-
-            ImGui.EndChild();
         }
+        ImGui.EndChild();
     }
 
     public override void Update()

@@ -248,9 +248,8 @@ public class NetMessageWindow : ClientWindow
                             ImGui.Unindent(20f);
                         }
                     }
-
-                    ImGui.EndChild();
                 }
+                ImGui.EndChild();
                 ImGui.EndTabItem();
             }
 

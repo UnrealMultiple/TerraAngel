@@ -84,8 +84,8 @@ public class ItemBrowserTool : Tool
                 }
             }
             ImGui.PopStyleVar();
-            ImGui.EndChild();
         }
+        ImGui.EndChild();
     }
 
     public override void Update()

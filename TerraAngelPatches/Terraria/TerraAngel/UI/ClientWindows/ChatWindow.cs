@@ -185,7 +185,7 @@ public class ChatWindow : ClientWindow
 
         float footerHeight = style.ItemSpacing.Y + ImGui.GetFrameHeightWithSpacing();
 
-        bool childStarted = ImGui.BeginChild("##ChatScrolling", new Vector2(0, -footerHeight), ImGuiChildFlags.None, IsChatting ? ImGuiWindowFlags.None : ImGuiWindowFlags.NoInputs);
+        ImGui.BeginChild("##ChatScrolling", new Vector2(0, -footerHeight), ImGuiChildFlags.None, IsChatting ? ImGuiWindowFlags.None : ImGuiWindowFlags.NoInputs);
 
         ImDrawListPtr drawList = ImGui.GetWindowDrawList();
         drawList.PushClipRect(drawList.GetClipRectMin(), drawList.GetClipRectMax() + new Vector2(0, 5f));
