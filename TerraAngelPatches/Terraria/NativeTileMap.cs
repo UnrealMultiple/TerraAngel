@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace Terraria;
 
-public unsafe class NativeTileMap : IDisposable
+public unsafe class NativeTileMap
 {
     public readonly uint Width;
     public readonly uint Height;
@@ -14,9 +14,7 @@ public unsafe class NativeTileMap : IDisposable
     /// </summary>
     public readonly long HeapSize;
 
-    public readonly TileData[,] TileHeap;
-    // ReSharper disable once InconsistentNaming
-    private PinnedGCHandle<TileData[,]> TileHeapGCHandle;
+    public readonly TileData[] TileHeap;
 
     public bool[,] LoadedTileSections = new bool[0, 0];
 
@@ -26,48 +24,26 @@ public unsafe class NativeTileMap : IDisposable
         Height = (uint)height;
         HeapSize = Width * Height * sizeof(TileData);
 
-        TileHeap = new TileData[Width, Height];
-        TileHeapGCHandle = new PinnedGCHandle<TileData[,]>(TileHeap);
+        TileHeap = GC.AllocateArray<TileData>((int)(Width * Height), pinned: true);
 
         LoadedTileSections = new bool[Width / Main.sectionWidth, Height / Main.sectionHeight];
     }
 
-    ~NativeTileMap() => Dispose(false);
-    
-    private void ReleaseUnmanagedResources()
-    {
-        TileHeapGCHandle.Dispose();
-    }
-
-    private void Dispose(bool disposing)
-    {
-        ReleaseUnmanagedResources();
-        if (disposing)
-        {
-        }
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
     public Tile this[int x, int y]
     {
-        get => new(ref TileHeap[x, y]);
-        set => TileHeap[x, y] = value.RefData;
+        get => new(ref TileHeap[x + y * Width]);
+        set => TileHeap[x + y * Width] = value.RefData;
     }
 
     public Tile this[Vector2i position]
     {
-        get => new(ref TileHeap[position.X, position.Y]);
-        set => TileHeap[position.X, position.Y] = value.RefData;
+        get => new(ref TileHeap[position.X + position.Y * Width]);
+        set => TileHeap[position.X + position.Y * Width] = value.RefData;
     }
 
     public ref TileData GetTileRef(int x, int y)
     {
-        return ref TileHeap[x, y];
+        return ref TileHeap[x + y * Width];
     }
 
     /// <summary>

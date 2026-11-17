@@ -181,6 +181,16 @@
              }
          }
  
+@@ -855,8 +_,7 @@
+ 
+     private void DrawSingleTile(Vector2 screenPosition, Vector2 screenOffset, int tileX, int tileY)
+     {
+-        TileDrawInfo tileDrawInfo = new TileDrawInfo();
+-        tileDrawInfo.tileCache = Main.tile[tileX, tileY];
++        TileDrawInfo tileDrawInfo = TileDrawInfo.Create(stackalloc Vector3[9], ref Main.tile.GetTileRef(tileX, tileY));
+         tileDrawInfo.typeCache = tileDrawInfo.tileCache.type;
+         tileDrawInfo.tileFrameX = tileDrawInfo.tileCache.frameX;
+         tileDrawInfo.tileFrameY = tileDrawInfo.tileCache.frameY;
 @@ -1219,7 +_,7 @@
          }
          else
@@ -219,6 +229,24 @@
          {
              return -1;
          }
+@@ -3761,7 +_,7 @@
+         Vector2 position = default(Vector2);
+         if (drawData.tileLight.R > _highQualityLightingRequirement.R || drawData.tileLight.G > _highQualityLightingRequirement.G || drawData.tileLight.B > _highQualityLightingRequirement.B)
+         {
+-            Vector3[] slices = drawData.colorSlices;
++            Span<Vector3> slices = drawData.colorSlices;
+             Lighting.GetColor9Slice(tileX, tileY, ref slices);
+             Vector3 vector = drawData.tileLight.ToVector3();
+             Vector3 tint = drawData.colorTint.ToVector3();
+@@ -3849,7 +_,7 @@
+         }
+         else if (drawData.tileLight.R > _mediumQualityLightingRequirement.R || drawData.tileLight.G > _mediumQualityLightingRequirement.G || drawData.tileLight.B > _mediumQualityLightingRequirement.B)
+         {
+-            Vector3[] slices2 = drawData.colorSlices;
++            Span<Vector3> slices2 = drawData.colorSlices;
+             Lighting.GetColor4Slice(tileX, tileY, ref slices2);
+             Vector3 vector2 = drawData.tileLight.ToVector3();
+             Vector3 tint2 = drawData.colorTint.ToVector3();
 @@ -3919,7 +_,7 @@
      private void DrawXmasTree(Vector2 screenPosition, Vector2 screenOffset, int tileX, int tileY, TileDrawInfo drawData)
      {
