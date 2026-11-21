@@ -18,14 +18,14 @@ public class ClientUIConfig
     {
         get
         {
-            if (ImGui.GetCurrentContext() == IntPtr.Zero)
+            if (ImGui.GetCurrentContext().IsNull)
                 return null;
             ImGuiStylePtr styleCache = style;
 
 
-            Dictionary<string, Vector4> colors = new Dictionary<string, Vector4>(styleCache.Colors.Count);
+            Dictionary<string, Vector4> colors = new Dictionary<string, Vector4>(styleCache.Colors.Length);
 
-            for (int i = 0; i < styleCache.Colors.Count; i++)
+            for (int i = 0; i < styleCache.Colors.Length; i++)
             {
                 colors.Add(ColorNames[i], styleCache.Colors[i]);
             }
@@ -34,14 +34,14 @@ public class ClientUIConfig
         }
         set
         {
-            if (ImGui.GetCurrentContext() == IntPtr.Zero)
+            if (ImGui.GetCurrentContext().IsNull)
                 return;
             if (value is null)
                 return;
 
             ImGuiStylePtr styleCache = style;
 
-            for (int i = 0; i < styleCache.Colors.Count; i++)
+            for (int i = 0; i < styleCache.Colors.Length; i++)
             {
                 if (value.TryGetValue(ColorNames[i], out Vector4 v))
                 {
@@ -62,7 +62,7 @@ public class ClientUIConfig
     {
         get
         {
-            if (ImGui.GetCurrentContext() == IntPtr.Zero)
+            if (ImGui.GetCurrentContext().IsNull)
                 return null;
             ImGuiStylePtr styleCache = style;
             PropertyInfo[] properties = typeof(ImGuiStylePtr).GetProperties(BindingFlags.Instance | BindingFlags.Public);
@@ -71,12 +71,7 @@ public class ClientUIConfig
             for (int i = 0; i < properties.Length; i++)
             {
                 PropertyInfo property = properties[i];
-                if (!property.CanRead)
-                    continue;
-
-                object? o = property.GetValue(styleCache);
-
-                if (o is null)
+                if (!property.CanRead || property.GetIndexParameters().Length != 0)
                     continue;
 
                 Type t = property.PropertyType;
@@ -87,6 +82,11 @@ public class ClientUIConfig
                     && t != typeof(bool).MakeByRefType())
                     continue;
 
+                object? o = property.GetValue(styleCache);
+
+                if (o is null)
+                    continue;
+
                 data.Add(property.Name, o);
             }
 
@@ -94,7 +94,7 @@ public class ClientUIConfig
         }
         set
         {
-            if (ImGui.GetCurrentContext() == IntPtr.Zero)
+            if (ImGui.GetCurrentContext().IsNull)
                 return;
             if (value is null)
                 return;

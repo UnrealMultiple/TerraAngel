@@ -19,7 +19,7 @@ public class MainWindow : ClientWindow
 
     public override void Draw(ImGuiIOPtr io)
     {
-        ImGui.PushFont(ClientAssets.GetMonospaceFont(16f));
+        ImGuiUtil.PushMonospaceFont(18f);
 
         Vector2 windowSize = io.DisplaySize / new Vector2(3f, 2f);
 

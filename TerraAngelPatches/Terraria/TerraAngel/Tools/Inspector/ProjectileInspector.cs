@@ -7,7 +7,7 @@ namespace TerraAngel.Tools.Inspector;
 
 public class ProjectileInspector : InspectorTool
 {
-    private static readonly Dictionary<int, nint> BoundProjectileTextures = new Dictionary<int, nint>();
+    private static readonly Dictionary<int, ImTextureRef> BoundProjectileTextures = new Dictionary<int, ImTextureRef>();
 
     public override string Name => GetString("Projectile Inspector");
 
@@ -129,7 +129,7 @@ public class ProjectileInspector : InspectorTool
 
             Texture2D tex = TextureAssets.Projectile[SelectedProjectile.type].Value;
 
-            if (!BoundProjectileTextures.TryGetValue(SelectedProjectile.type, out nint texId))
+            if (!BoundProjectileTextures.TryGetValue(SelectedProjectile.type, out ImTextureRef texId))
             {
                 texId = ClientLoader.MainRenderer!.BindTexture(tex);
                 BoundProjectileTextures.Add(SelectedProjectile.type, texId);

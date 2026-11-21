@@ -1,4 +1,4 @@
-﻿global using ImGuiNET;
+﻿global using Hexa.NET.ImGui;
 global using Microsoft.Xna.Framework;
 global using Microsoft.Xna.Framework.Graphics;
 global using TerraAngel;

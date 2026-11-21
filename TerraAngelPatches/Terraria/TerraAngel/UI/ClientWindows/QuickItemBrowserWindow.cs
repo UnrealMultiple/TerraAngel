@@ -35,7 +35,7 @@ public class QuickItemBrowserWindow : ClientWindow
 
         if (ShowQuickItemBrowser)
         {
-            ImGui.PushFont(ClientAssets.GetMonospaceFont(18f));
+            ImGuiUtil.PushMonospaceFont(18f);
 
             if (JustOpenedQuickBrowser)
             {

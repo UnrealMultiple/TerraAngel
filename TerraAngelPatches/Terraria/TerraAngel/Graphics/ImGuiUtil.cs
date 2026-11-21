@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using TerraAngel.Physics;
@@ -18,13 +17,25 @@ public static class ImGuiUtil
 
     public static Queue<int> NPCIdsToLoad = new Queue<int>();
 
-    public static IntPtr[] ItemImages = new IntPtr[ItemID.Count];
+    public static ImTextureRef[] ItemImages = new ImTextureRef[ItemID.Count];
 
-    public static IntPtr[] NPCImages = new IntPtr[NPCID.Count];
+    public static ImTextureRef[] NPCImages = new ImTextureRef[NPCID.Count];
 
     public static Dictionary<string, GraphData> DrawGraphData = new Dictionary<string, GraphData>();
 
     private static string? FocusedGraph = null;
+
+    public static void PushMonospaceFont(float size)
+    {
+        ImFontPtr font = ClientAssets.GetMonospaceFont();
+        ImGui.PushFont(font, size);
+    }
+
+    public static void PushTerrariaFont(float size)
+    {
+        ImFontPtr font = ClientAssets.GetTerrariaFont();
+        ImGui.PushFont(font, size);
+    }
     
     public static void TextColored(string text, Color color)
     {
@@ -57,33 +68,17 @@ public static class ImGuiUtil
             color = new Color(v4c);
         }
     }
-
+    
+    // unsafe wrapper
     public static unsafe void AddText(this ImDrawListPtr drawList, ImFontPtr font, float fontSize, Vector2 pos, string text, uint color, float wrapWidth)
     {
-        int textByteCount = Encoding.UTF8.GetByteCount(text);
-        byte* nativeTextPtr = stackalloc byte[textByteCount + 1];
-        fixed (char* textStartPtr = text)
-        {
-            int native_text_begin_offset = Encoding.UTF8.GetBytes(textStartPtr, text.Length, nativeTextPtr, textByteCount);
-            nativeTextPtr[native_text_begin_offset] = 0;
-        }
-        byte* native_text_end = null;
-
-        ImGuiNative.ImDrawList_AddText_FontPtr(drawList.NativePtr, font.NativePtr, fontSize, pos, color, nativeTextPtr, native_text_end, wrapWidth, null);
+        drawList.AddText(font, fontSize, pos, color, text, wrapWidth);
     }
 
+    // unsafe wrapper
     public static unsafe void AddText(this ImDrawListPtr drawList, Vector2 pos, string text, uint color, float wrapWidth)
     {
-        int textByteCount = Encoding.UTF8.GetByteCount(text);
-        byte* nativeTextPtr = stackalloc byte[textByteCount + 1];
-        fixed (char* textStartPtr = text)
-        {
-            int native_text_begin_offset = Encoding.UTF8.GetBytes(textStartPtr, text.Length, nativeTextPtr, textByteCount);
-            nativeTextPtr[native_text_begin_offset] = 0;
-        }
-        byte* native_text_end = null;
-
-        ImGuiNative.ImDrawList_AddText_FontPtr(drawList.NativePtr, ImGui.GetFont().NativePtr, ImGui.GetFontSize(), pos, color, nativeTextPtr, native_text_end, wrapWidth, null);
+        drawList.AddText(ImGui.GetFont(), ImGui.GetFontSize(), pos, color, text, wrapWidth);
     }
 
     public static bool WrappedSelectable(string text, float wrapWidth)
@@ -193,7 +188,7 @@ public static class ImGuiUtil
                     }
                     catch
                     {
-
+                        // ignored
                     }
                 }
             }
@@ -206,18 +201,16 @@ public static class ImGuiUtil
         DrawItem(drawList, ContentSamples.ItemsByType[id], position, size, countFontSize, alpah);
     }
 
-    public static void DrawItem(this ImDrawListPtr drawList, Item item, Vector2 position, Vector2 size, float countFontSize = 14f, float alpah = 1.0f)
+    public static unsafe void DrawItem(this ImDrawListPtr drawList, Item item, Vector2 position, Vector2 size, float countFontSize = 14f, float alpah = 1.0f)
     {
         int id = item.type;
-        if (ItemImages[id] == IntPtr.Zero)
+        if (ItemImages[id].TexID.IsNull)
         {
             Main.instance.LoadItem(id);
-            ItemImages[id] = ClientLoader.MainRenderer?.BindTexture(TextureAssets.Item[id].Value) ?? IntPtr.Zero;
+            ItemImages[id] = ClientLoader.MainRenderer?.BindTexture(TextureAssets.Item[id].Value) ?? default;
         }
 
-
-
-        if (ItemImages[id] != (IntPtr)(-1))
+        if (!ItemImages[id].TexID.IsNull)
         {
             Texture2D value = TextureAssets.Item[id].Value;
             if (TextureAssets.Item[id].IsLoaded)
@@ -263,44 +256,42 @@ public static class ImGuiUtil
                 if (item.stack > 1)
                 {
                     string s = item.stack.ToString();
-                    ImFontPtr font = ClientAssets.GetTerrariaFont(countFontSize);
-                    ImGui.PushFont(font);
+                    ImFontPtr font = ClientAssets.GetTerrariaFont();
+                    ImGui.PushFont(font, countFontSize);
                     Vector2 pos = ((position + size / 2f) - new Vector2(ImGui.CalcTextSize(s).X / 2f, 0f));
 
                     // for shadow 
                     pos.X -= 1;
-                    drawList.AddText(font, font.FontSize, pos, Color.Black.WithAlpha(alpah).PackedValue, s);
+                    drawList.AddText(font, countFontSize, pos, Color.Black.WithAlpha(alpah).PackedValue, s);
 
                     pos.X += 2;
-                    drawList.AddText(font, font.FontSize, pos, Color.Black.WithAlpha(alpah).PackedValue, s);
+                    drawList.AddText(font, countFontSize, pos, Color.Black.WithAlpha(alpah).PackedValue, s);
 
                     pos.X -= 1;
                     pos.Y -= 1;
-                    drawList.AddText(font, font.FontSize, pos, Color.Black.WithAlpha(alpah).PackedValue, s);
+                    drawList.AddText(font, countFontSize, pos, Color.Black.WithAlpha(alpah).PackedValue, s);
 
                     pos.Y += 2f;
-                    drawList.AddText(font, font.FontSize, pos, Color.Black.WithAlpha(alpah).PackedValue, s);
+                    drawList.AddText(font, countFontSize, pos, Color.Black.WithAlpha(alpah).PackedValue, s);
 
                     pos = ((position + size / 2f) - new Vector2(ImGui.CalcTextSize(s).X / 2f, 0f));
-                    drawList.AddText(font, font.FontSize, pos, Color.White.WithAlpha(alpah).PackedValue, s);
+                    drawList.AddText(font, countFontSize, pos, Color.White.WithAlpha(alpah).PackedValue, s);
                     ImGui.PopFont();
                 }
             }
         }
     }
 
-    public static void DrawItemDelayedLoad(this ImDrawListPtr drawList, Item item, Vector2 position, Vector2 size, float countFontSize = 14f, float alpah = 1.0f)
+    public static unsafe void DrawItemDelayedLoad(this ImDrawListPtr drawList, Item item, Vector2 position, Vector2 size, float countFontSize = 14f, float alpah = 1.0f)
     {
         int id = item.type;
-        if (ItemImages[id] == IntPtr.Zero && !ItemIdsToLoad.Contains(id))
+        if (ItemImages[id].TexID.IsNull && !ItemIdsToLoad.Contains(id))
         {
             ItemIdsToLoad.Enqueue(id);
             return;
         }
 
-
-
-        if (ItemImages[id] != IntPtr.Zero)
+        if (!ItemImages[id].TexID.IsNull)
         {
             Texture2D value = TextureAssets.Item[id].Value;
             if (TextureAssets.Item[id].IsLoaded)
@@ -346,26 +337,26 @@ public static class ImGuiUtil
                 if (item.stack > 1)
                 {
                     string s = item.stack.ToString();
-                    ImFontPtr font = ClientAssets.GetTerrariaFont(countFontSize);
-                    ImGui.PushFont(font);
+                    ImFontPtr font = ClientAssets.GetTerrariaFont();
+                    ImGui.PushFont(font, countFontSize);
                     Vector2 pos = ((position + size / 2f) - new Vector2(ImGui.CalcTextSize(s).X / 2f, 0f));
 
                     // for shadow 
                     pos.X -= 1;
-                    drawList.AddText(font, font.FontSize, pos, Color.Black.WithAlpha(alpah).PackedValue, s);
+                    drawList.AddText(font, countFontSize, pos, Color.Black.WithAlpha(alpah).PackedValue, s);
 
                     pos.X += 2;
-                    drawList.AddText(font, font.FontSize, pos, Color.Black.WithAlpha(alpah).PackedValue, s);
+                    drawList.AddText(font, countFontSize, pos, Color.Black.WithAlpha(alpah).PackedValue, s);
 
                     pos.X -= 1;
                     pos.Y -= 1;
-                    drawList.AddText(font, font.FontSize, pos, Color.Black.WithAlpha(alpah).PackedValue, s);
+                    drawList.AddText(font, countFontSize, pos, Color.Black.WithAlpha(alpah).PackedValue, s);
 
                     pos.Y += 2f;
-                    drawList.AddText(font, font.FontSize, pos, Color.Black.WithAlpha(alpah).PackedValue, s);
+                    drawList.AddText(font, countFontSize, pos, Color.Black.WithAlpha(alpah).PackedValue, s);
 
                     pos = ((position + size / 2f) - new Vector2(ImGui.CalcTextSize(s).X / 2f, 0f));
-                    drawList.AddText(font, font.FontSize, pos, Color.White.WithAlpha(alpah).PackedValue, s);
+                    drawList.AddText(font, countFontSize, pos, Color.White.WithAlpha(alpah).PackedValue, s);
                     ImGui.PopFont();
                 }
             }
@@ -410,13 +401,13 @@ public static class ImGuiUtil
     {
         id = NPCID.FromNetId(id);
         
-        if (NPCImages[id] == IntPtr.Zero && !NPCIdsToLoad.Contains(id))
+        if (NPCImages[id].TexID.IsNull && !NPCIdsToLoad.Contains(id))
         {
             NPCIdsToLoad.Enqueue(id);
             return;
         }
 
-        if (NPCImages[id] != IntPtr.Zero)
+        if (!NPCImages[id].TexID.IsNull)
         {
             Texture2D value = TextureAssets.Npc[id].Value;
             if (TextureAssets.Npc[id].IsLoaded)
@@ -434,10 +425,9 @@ public static class ImGuiUtil
 
     public unsafe static Vector2 CalcTextSizeWithTags(List<TextSnippet> tags, float wrapWidth)
     {
-        ImFontPtr font = ImGui.GetFont();
         float itemTagSpacingWidth = ImGui.CalcTextSize(" ").X / 2f;
 
-        Vector2 textSize = new Vector2(0f, font.FontSize);
+        Vector2 textSize = new Vector2(0f, ImGui.GetFontSize());
         Vector2 offset = textSize;
 
         bool renderedWord = false;
@@ -448,13 +438,13 @@ public static class ImGuiUtil
 
             if (tags[i] is ItemTagHandler.ItemSnippet)
             {
-                float width = itemTagSpacingWidth * 2f + font.FontSize;
+                float width = itemTagSpacingWidth * 2f + ImGui.GetFontSize();
 
                 if (renderedWord && width > spaceLeft)
                 {
                     spaceLeft = wrapWidth - width;
 
-                    offset.Y += font.FontSize;
+                    offset.Y += ImGui.GetFontSize();
                     offset.X = 0;
                     offset.X = width;
                     textSize.X = MathF.Max(textSize.X, offset.X);
@@ -487,7 +477,7 @@ public static class ImGuiUtil
                     {
                         spaceLeft = wrapWidth - wordWidth;
 
-                        offset.Y += font.FontSize;
+                        offset.Y += ImGui.GetFontSize();
                         offset.X = 0;
                         offset.X = wordWidth;
                         textSize.X = MathF.Max(textSize.X, offset.X);
@@ -501,7 +491,7 @@ public static class ImGuiUtil
                     {
                         spaceLeft = wrapWidth - wordWidth;
 
-                        offset.Y += font.FontSize;
+                        offset.Y += ImGui.GetFontSize();
                         offset.X = 0;
                         offset.X = wordWidth;
                         textSize.X = MathF.Max(textSize.X, offset.X);
@@ -537,7 +527,6 @@ public static class ImGuiUtil
 
         ImDrawListPtr windowDrawList = ImGui.GetWindowDrawList();
 
-
         windowDrawList.AddText(pos - Vector2.UnitX, text, borderColor.PackedValue, wrapWidth);
         windowDrawList.AddText(pos + Vector2.UnitX, text, borderColor.PackedValue, wrapWidth);
         windowDrawList.AddText(pos - Vector2.UnitY, text, borderColor.PackedValue, wrapWidth);
@@ -557,8 +546,6 @@ public static class ImGuiUtil
         ImGui.PopID();
 
         Vector2 min = ImGui.GetItemRectMin() + ImGui.GetStyle().ItemSpacing;
-
-        ImFontPtr font = ImGui.GetFont();
 
         ImDrawListPtr drawList = ImGui.GetWindowDrawList();
 
@@ -587,7 +574,7 @@ public static class ImGuiUtil
                 {
                     spaceLeft = wrapWidth - wordSize.X;
 
-                    offset.Y += font.FontSize;
+                    offset.Y += ImGui.GetFontSize();
                     offset.X = 0;
                     offset.X = wordSize.X;
                     textSize.X = MathF.Max(textSize.X, offset.X);
@@ -601,7 +588,7 @@ public static class ImGuiUtil
                 {
                     spaceLeft = wrapWidth - wordSize.X;
 
-                    offset.Y += font.FontSize;
+                    offset.Y += ImGui.GetFontSize();
                     offset.X = 0;
                     drawList.AddText(min + offset - Vector2.UnitX * 2f, borderColor.PackedValue, words[j]);
                     drawList.AddText(min + offset + Vector2.UnitX * 2f, borderColor.PackedValue, words[j]);
@@ -647,7 +634,6 @@ public static class ImGuiUtil
 
         Vector2 min = ImGui.GetItemRectMin() + ImGui.GetStyle().ItemSpacing;
 
-        ImFontPtr font = ImGui.GetFont();
         float itemTagSpacingWidth = ImGui.CalcTextSize(" ").X / 2f;
 
         ImDrawListPtr drawList = ImGui.GetWindowDrawList();
@@ -662,16 +648,16 @@ public static class ImGuiUtil
             if (tags[i] is ItemTagHandler.ItemSnippet)
             {
                 ItemTagHandler.ItemSnippet snippet = (ItemTagHandler.ItemSnippet)tags[i];
-                Vector2 wordSize = new Vector2(font.FontSize);
+                Vector2 wordSize = new Vector2(ImGui.GetFontSize());
 
                 if (renderedWord && (wordSize.X + itemTagSpacingWidth * 2f) > spaceLeft)
                 {
                     spaceLeft = wrapWidth - (wordSize.X + itemTagSpacingWidth * 2f);
 
-                    offset.Y += font.FontSize;
+                    offset.Y += ImGui.GetFontSize();
                     offset.X = itemTagSpacingWidth;
 
-                    DrawItemCentered(drawList, snippet._item, ((min + offset + min + offset + wordSize) / 2f), font.FontSize, 18f, alpha);
+                    DrawItemCentered(drawList, snippet._item, ((min + offset + min + offset + wordSize) / 2f), ImGui.GetFontSize(), 18f, alpha);
 
                     if (ImGui.IsMouseHoveringRect(min + offset, min + offset + wordSize))
                     {
@@ -687,7 +673,7 @@ public static class ImGuiUtil
 
                     offset.X += itemTagSpacingWidth;
 
-                    DrawItemCentered(drawList, snippet._item, ((min + offset + min + offset + wordSize) / 2f), font.FontSize, 18f, alpha);
+                    DrawItemCentered(drawList, snippet._item, ((min + offset + min + offset + wordSize) / 2f), ImGui.GetFontSize(), 18f, alpha);
 
                     if (ImGui.IsMouseHoveringRect(min + offset, min + offset + wordSize))
                     {
@@ -719,7 +705,7 @@ public static class ImGuiUtil
                     {
                         spaceLeft = wrapWidth - wordSize.X;
 
-                        offset.Y += font.FontSize;
+                        offset.Y += ImGui.GetFontSize();
                         offset.X = 0;
                         offset.X = wordSize.X;
                         textSize.X = MathF.Max(textSize.X, offset.X);
@@ -733,7 +719,7 @@ public static class ImGuiUtil
                     {
                         spaceLeft = wrapWidth - wordSize.X;
 
-                        offset.Y += font.FontSize;
+                        offset.Y += ImGui.GetFontSize();
                         offset.X = 0;
                         drawList.AddText(min + offset - Vector2.UnitX * 2f, borderColor.PackedValue, words[j]);
                         drawList.AddText(min + offset + Vector2.UnitX * 2f, borderColor.PackedValue, words[j]);
@@ -846,34 +832,6 @@ public static class ImGuiUtil
 
         ImGui.SetCursorScreenPos(cursorScreenPos);
     }
-    
-    public static unsafe bool BeginTabItem(string label, ImGuiTabItemFlags flags)
-    {
-        byte* native_label;
-        int label_byteCount = 0;
-        if (label != null)
-        {
-            label_byteCount = Encoding.UTF8.GetByteCount(label);
-            if (label_byteCount > ImGuiInternalUtil.StackAllocationSizeLimit)
-            {
-                native_label = ImGuiInternalUtil.Allocate(label_byteCount + 1);
-            }
-            else
-            {
-                byte* native_label_stackBytes = stackalloc byte[label_byteCount + 1];
-                native_label = native_label_stackBytes;
-            }
-            int native_label_offset = ImGuiInternalUtil.GetUtf8(label, native_label, label_byteCount);
-            native_label[native_label_offset] = 0;
-        }
-        else { native_label = null; }
-        byte ret = ImGuiNative.igBeginTabItem(native_label, null, flags);
-        if (label_byteCount > ImGuiInternalUtil.StackAllocationSizeLimit)
-        {
-            ImGuiInternalUtil.Free(native_label);
-        }
-        return ret != 0;
-    }
 
     public static unsafe string GetText(this ImGuiInputTextCallbackDataPtr self) => Encoding.UTF8.GetString((byte*)self.Buf, self.BufTextLen);
 
@@ -908,72 +866,6 @@ public static class ImGuiUtil
             DragMouseOrigin = Vector2.Zero;
 
             DragOrigin = Vector2.Zero;
-        }
-    }
-    
-    internal static unsafe class ImGuiInternalUtil
-    {
-        internal const int StackAllocationSizeLimit = 2048;
-
-        public static string StringFromPtr(byte* ptr)
-        {
-            int characters = 0;
-            while (ptr[characters] != 0)
-            {
-                characters++;
-            }
-
-            return Encoding.UTF8.GetString(ptr, characters);
-        }
-
-        internal static bool AreStringsEqual(byte* a, int aLength, byte* b)
-        {
-            for (int i = 0; i < aLength; i++)
-            {
-                if (a[i] != b[i]) { return false; }
-            }
-
-            if (b[aLength] != 0) { return false; }
-
-            return true;
-        }
-
-        internal static byte* Allocate(int byteCount) => (byte*)Marshal.AllocHGlobal(byteCount);
-
-        internal static void Free(byte* ptr) => Marshal.FreeHGlobal((IntPtr)ptr);
-
-        internal static int CalcSizeInUtf8(string s, int start, int length)
-        {
-            if (start < 0 || length < 0 || start + length > s.Length)
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-
-            fixed (char* utf16Ptr = s)
-            {
-                return Encoding.UTF8.GetByteCount(utf16Ptr + start, length);
-            }
-        }
-
-        internal static int GetUtf8(string s, byte* utf8Bytes, int utf8ByteCount)
-        {
-            fixed (char* utf16Ptr = s)
-            {
-                return Encoding.UTF8.GetBytes(utf16Ptr, s.Length, utf8Bytes, utf8ByteCount);
-            }
-        }
-
-        internal static int GetUtf8(string s, int start, int length, byte* utf8Bytes, int utf8ByteCount)
-        {
-            if (start < 0 || length < 0 || start + length > s.Length)
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-
-            fixed (char* utf16Ptr = s)
-            {
-                return Encoding.UTF8.GetBytes(utf16Ptr + start, length, utf8Bytes, utf8ByteCount);
-            }
         }
     }
 }

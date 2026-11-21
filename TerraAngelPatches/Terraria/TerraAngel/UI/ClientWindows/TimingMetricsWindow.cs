@@ -20,7 +20,7 @@ public class TimingMetricsWindow : ClientWindow
 
     public override void Draw(ImGuiIOPtr io)
     {
-        ImGui.PushFont(ClientAssets.GetMonospaceFont(16f));
+        ImGuiUtil.PushMonospaceFont(18f);
 
         bool _enabled = true;
         ImGui.Begin(Title, ref _enabled);

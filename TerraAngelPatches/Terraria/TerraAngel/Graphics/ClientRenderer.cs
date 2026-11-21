@@ -47,6 +47,29 @@ public class ClientRenderer : ImGuiRenderer
 
     private bool OpenUpdatePopup = false;
 
+    private static GetClipboardTextFn? GetClipboardTextCallback;
+    private static SetClipboardTextFn? SetClipboardTextCallback;
+    private static IntPtr ClipboardTextPtr;
+
+    private static unsafe byte* GetClipboardText(void* userData)
+    {
+        byte[] bytes = Encoding.UTF8.GetBytes(SDL3.SDL.SDL_GetClipboardText() ?? string.Empty);
+
+        if (ClipboardTextPtr != IntPtr.Zero)
+            Marshal.FreeHGlobal(ClipboardTextPtr);
+
+        ClipboardTextPtr = Marshal.AllocHGlobal(bytes.Length + 1);
+        Marshal.Copy(bytes, 0, ClipboardTextPtr, bytes.Length);
+        Marshal.WriteByte(ClipboardTextPtr, bytes.Length, 0);
+
+        return (byte*)ClipboardTextPtr;
+    }
+
+    private static unsafe void SetClipboardText(void* userData, byte* text)
+    {
+        SDL3.SDL.SDL_SetClipboardText(Marshal.PtrToStringUTF8((IntPtr)text) ?? string.Empty);
+    }
+
     public ClientRenderer(Game game)
         : base(game)
     {
@@ -56,7 +79,6 @@ public class ClientRenderer : ImGuiRenderer
     public void Init()
     {
         TileUtil.Init();
-        RebuildFontAtlas();
         AddWindow(ClientLoader.ChatWindow = new ChatWindow());
         ClientLoader.ConsoleWindow = (ConsoleWindow)AddWindow(new ConsoleWindow());
 
@@ -71,7 +93,7 @@ public class ClientRenderer : ImGuiRenderer
             TextInputEXT.TextInput += (c) =>
             {
                 ImGuiIOPtr io = ImGui.GetIO();
-                if (io.NativePtr != null)
+                if (io.Handle != null)
                 {
                     io.AddInputCharacter(c);
                 }
@@ -79,15 +101,12 @@ public class ClientRenderer : ImGuiRenderer
 
             if (!OperatingSystem.IsWindows())
             {
+                GetClipboardTextCallback = GetClipboardText;
+                SetClipboardTextCallback = SetClipboardText;
+
                 var pio = ImGui.GetPlatformIO();
-                pio.Platform_GetClipboardTextFn = Marshal.GetFunctionPointerForDelegate(new GetClipboardTextFn(static _ =>
-                {
-                    return new StringBuilder(SDL3.SDL.SDL_GetClipboardText());
-                }));
-                pio.Platform_SetClipboardTextFn = Marshal.GetFunctionPointerForDelegate(new SetClipboardTextFn(static (_, text) =>
-                {
-                    SDL3.SDL.SDL_SetClipboardText(text.ToString());
-                }));
+                pio.PlatformGetClipboardTextFn = (void*)Marshal.GetFunctionPointerForDelegate(GetClipboardTextCallback);
+                pio.PlatformSetClipboardTextFn = (void*)Marshal.GetFunctionPointerForDelegate(SetClipboardTextCallback);
             }
         }
 
@@ -106,7 +125,7 @@ public class ClientRenderer : ImGuiRenderer
         base.SetupInput();
 
         ImGuiStylePtr style = ImGui.GetStyle();
-        RangeAccessor<Vector4> colors = style.Colors;
+        Span<Vector4> colors = style.Colors;
 
         colors[(int)ImGuiCol.Text] = new Vector4(1.00f, 1.00f, 1.00f, 1.00f);
         colors[(int)ImGuiCol.TextDisabled] = new Vector4(0.50f, 0.50f, 0.50f, 1.00f);
@@ -327,7 +346,7 @@ public class ClientRenderer : ImGuiRenderer
 
         bool dontClosePopup = true;
 
-        ImGui.PushFont(ClientAssets.GetMonospaceFont(16f));
+        ImGuiUtil.PushMonospaceFont(18f);
         if (ImGui.BeginPopupModal(GetString("Update Available"), ref dontClosePopup))
         {
             ImGui.Text(GetString("There is an update for TerraAngel available on GitHub"));

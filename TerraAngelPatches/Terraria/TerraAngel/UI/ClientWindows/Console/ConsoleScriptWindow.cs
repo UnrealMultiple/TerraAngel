@@ -34,7 +34,7 @@ public class ConsoleScriptWindow
     {
         string[] usings = new string[]
         {
-            "ImGuiNET",
+            "Hexa.NET.ImGui",
             "Microsoft.Xna.Framework",
             "Microsoft.Xna.Framework.Graphics",
             "Microsoft.Xna.Framework.Input",

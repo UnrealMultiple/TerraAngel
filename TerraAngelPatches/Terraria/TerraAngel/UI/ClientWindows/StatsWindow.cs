@@ -21,7 +21,7 @@ public class StatsWindow : ClientWindow
         ImGuiStylePtr style = ImGui.GetStyle();
         ImDrawListPtr drawList = ImGui.GetForegroundDrawList();
 
-        ImGui.PushFont(ClientAssets.GetMonospaceFont(16f));
+        ImGuiUtil.PushMonospaceFont(16f);
 
         drawList.AddRectFilled(Vector2.Zero, new Vector2(io.DisplaySize.X, 16f + style.ItemSpacing.Y * 2f), ImGui.GetColorU32(ImGuiCol.WindowBg, 0.5f));
         drawList.AddRect(Vector2.Zero, new Vector2(io.DisplaySize.X, 16f + style.ItemSpacing.Y * 2f), ImGui.GetColorU32(ImGuiCol.WindowBg, 0.9f));
