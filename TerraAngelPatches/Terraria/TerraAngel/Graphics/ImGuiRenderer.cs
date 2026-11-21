@@ -70,9 +70,19 @@ public class ImGuiRenderer
         ImGuiIOPtr io = ImGui.GetIO();
         io.BackendFlags |= ImGuiBackendFlags.RendererHasTextures;
 
+        // Set up platform IO for texture management
         ImGuiPlatformIOPtr platformIO = ImGui.GetPlatformIO();
-        platformIO.RendererTextureMaxWidth = 4096;
-        platformIO.RendererTextureMaxHeight = 4096;
+
+        if (GraphicsDevice.GraphicsProfile == GraphicsProfile.Reach)
+        {
+            platformIO.RendererTextureMaxWidth = 2048;
+            platformIO.RendererTextureMaxHeight = 2048;
+        }
+        else
+        {
+            platformIO.RendererTextureMaxWidth = 4096;
+            platformIO.RendererTextureMaxHeight = 4096;
+        }
     }
 
     protected virtual void SetupGraphics()
@@ -168,10 +178,10 @@ public class ImGuiRenderer
 
         ScrollWheelValue = mouse.ScrollWheelValue;
 
-        io.KeyShift = keyboard.IsKeyDown(Keys.LeftShift) || keyboard.IsKeyDown(Keys.RightShift);
-        io.KeyCtrl = keyboard.IsKeyDown(Keys.LeftControl) || keyboard.IsKeyDown(Keys.RightControl);
-        io.KeyAlt = keyboard.IsKeyDown(Keys.LeftAlt) || keyboard.IsKeyDown(Keys.RightAlt);
-        io.KeySuper = keyboard.IsKeyDown(Keys.LeftWindows) || keyboard.IsKeyDown(Keys.RightWindows);
+        io.AddKeyEvent(ImGuiKey.ModShift, keyboard.IsKeyDown(Keys.LeftShift) || keyboard.IsKeyDown(Keys.RightShift));
+        io.AddKeyEvent(ImGuiKey.ModCtrl, keyboard.IsKeyDown(Keys.LeftControl) || keyboard.IsKeyDown(Keys.RightControl));
+        io.AddKeyEvent(ImGuiKey.ModAlt, keyboard.IsKeyDown(Keys.LeftAlt) || keyboard.IsKeyDown(Keys.RightAlt));
+        io.AddKeyEvent(ImGuiKey.ModSuper, keyboard.IsKeyDown(Keys.LeftWindows) || keyboard.IsKeyDown(Keys.RightWindows));
 
         foreach (var key in AllKeys)
         {
@@ -184,6 +194,9 @@ public class ImGuiRenderer
 
     private bool TryMapKeys(Keys key, out ImGuiKey imguikey)
     {
+        // Special case not handed in the switch...
+        // If the actual key we put in is "None", return none and true.
+        // otherwise, return none and false.
         if (key == Keys.None)
         {
             imguikey = ImGuiKey.None;
@@ -220,9 +233,12 @@ public class ImGuiRenderer
             >= Keys.F1 and <= Keys.F24 => ImGuiKey.F1 + (key - Keys.F1),
             Keys.NumLock => ImGuiKey.NumLock,
             Keys.Scroll => ImGuiKey.ScrollLock,
-            Keys.LeftShift => ImGuiKey.ModShift,
-            Keys.LeftControl => ImGuiKey.ModCtrl,
-            Keys.LeftAlt => ImGuiKey.ModAlt,
+            Keys.LeftShift => ImGuiKey.LeftShift,
+            Keys.LeftControl => ImGuiKey.LeftCtrl,
+            Keys.LeftAlt => ImGuiKey.LeftAlt,
+            Keys.RightShift => ImGuiKey.RightShift,
+            Keys.RightControl => ImGuiKey.RightCtrl,
+            Keys.RightAlt => ImGuiKey.RightAlt,
             Keys.OemSemicolon => ImGuiKey.Semicolon,
             Keys.OemPlus => ImGuiKey.Equal,
             Keys.OemComma => ImGuiKey.Comma,
