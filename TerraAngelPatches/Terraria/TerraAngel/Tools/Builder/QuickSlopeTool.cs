@@ -55,7 +55,7 @@ public class QuickSlopeTool : BuilderModeTool
 
                     SyncPoundTile(EndSlopeTile.X, EndSlopeTile.Y);
                 }
-                else if (hoveredTile.Value.slope() == 3)
+                else if (hoveredTile.Value.slope() == 4)
                 {
                     hoveredTile.Value.halfBrick(true);
                     hoveredTile.Value.slope(0);
@@ -88,7 +88,7 @@ public class QuickSlopeTool : BuilderModeTool
 
                             SyncPoundTile(x, y);
                         }
-                        else if (tile.slope() == 3)
+                        else if (tile.slope() == 4)
                         {
                             tile.halfBrick(true);
                             tile.slope(0);
