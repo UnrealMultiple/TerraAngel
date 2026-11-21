@@ -20,7 +20,7 @@ public class InspectorWindow : ClientWindow
 
     public override void Draw(ImGuiIOPtr io)
     {
-        ImGui.PushFont(ClientAssets.GetMonospaceFont(16));
+        ImGuiUtil.PushMonospaceFont(18);
         bool closeWindow = true;
         if (TypeOfTabToOpen is not null)
         {
@@ -51,7 +51,7 @@ public class InspectorWindow : ClientWindow
                         TypeOfTabToOpen = null;
                     }
                     
-                    if (ImGuiUtil.BeginTabItem(tool.Name, flags))
+                    if (ImGui.BeginTabItem(tool.Name, flags))
                     {
                         tool.DrawUI(io);
                         ImGui.EndTabItem();

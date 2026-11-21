@@ -19,7 +19,7 @@ public class ImeWindow : ClientWindow
         if (!imeService.IsCandidateListVisible)
             return;
         
-        ImGui.PushFont(ClientAssets.GetMonospaceFont(22.0f));
+        ImGuiUtil.PushMonospaceFont(22.0f);
             
         var sb = new StringBuilder();
         for (uint i = 0; i < imeService.CandidateCount; i++)

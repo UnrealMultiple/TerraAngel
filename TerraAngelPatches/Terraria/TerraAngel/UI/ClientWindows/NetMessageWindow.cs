@@ -67,7 +67,7 @@ public class NetMessageWindow : ClientWindow
 
     public override void Draw(ImGuiIOPtr io)
     {
-        ImGui.PushFont(ClientAssets.GetMonospaceFont(16f));
+        ImGuiUtil.PushMonospaceFont(18f);
         bool open = IsEnabled;
         ImGui.Begin(GetString("Net Debugger"), ref open, ImGuiWindowFlags.MenuBar);
         IsEnabled = open;

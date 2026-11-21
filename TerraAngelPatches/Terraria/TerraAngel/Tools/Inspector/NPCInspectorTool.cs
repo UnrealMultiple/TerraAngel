@@ -12,7 +12,7 @@ public class NPCInspectorTool : InspectorTool
 
     public NPC? SelectedNPC => SelectedNPCIndex > -1 ? Main.npc[SelectedNPCIndex] : null;
 
-    private nint BoundNPCDrawTexture = 0;
+    private ImTextureRef BoundNPCDrawTexture;
     private RenderTarget2D? NPCDrawRenderTarget;
 
     public override void DrawMenuBar(ImGuiIOPtr io)
@@ -115,7 +115,7 @@ public class NPCInspectorTool : InspectorTool
             ImGui.Text(GetString($"AI[{i}]:    {SelectedNPC.ai[i]}"));
         }
 
-        if (NPCDrawRenderTarget is not null && BoundNPCDrawTexture > 0 && !Main.gameMenu)
+        if (NPCDrawRenderTarget is not null && !BoundNPCDrawTexture.TexID.IsNull && !Main.gameMenu)
         {
             ImGui.Image(BoundNPCDrawTexture, NPCDrawRenderTarget.Size());
         }

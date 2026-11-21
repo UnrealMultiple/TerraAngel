@@ -8,7 +8,7 @@ public abstract class InspectorTool : Tool
 
     public override void DrawUI(ImGuiIOPtr io)
     {
-        ImGui.PushFont(ClientAssets.GetMonospaceFont(16));
+        ImGuiUtil.PushMonospaceFont(18);
 
         if (ImGui.BeginMenuBar())
         {

@@ -1,238 +1,77 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 namespace TerraAngel.Assets;
 
 public class ClientAssets
 {
-    private static Dictionary<float, ImFontPtr> TerrariaFonts = new();
-    private static Dictionary<float, ImFontPtr> MonospaceFonts = new();
+    private static ImFontPtr TerrariaFont;
+    private static ImFontPtr MonospaceFont;
 
-    public static readonly float[] DefaultSizes = [14f, 16f, 18f, 22f];
+    private const float BaseFontSize = 18f;
 
     public static string TerrariaFontName => $"{ClientLoader.AssetPath}/AndyBold.ttf";
     public static string MonoFontName => $"{ClientLoader.AssetPath}/FiraCode.ttf";
     public static string IconFontName => $"{ClientLoader.AssetPath}/IconFont.ttf";
     public static string FallbackFontName => $"{ClientLoader.AssetPath}/SourceHanSansSC-VF.ttf";
 
-    // FIXME: sharing ttf file data may cause it to be freed multiple times
-    public static Dictionary<string, (IntPtr, int)> FontTTFDataPtrsCache = [];
-
-    public static void LoadFonts(ImGuiIOPtr io)
+    public static void LoadFonts()
     {
-        for (int i = 0; i < DefaultSizes.Length; i++)
-        {
-            LoadMonospaceFont(DefaultSizes[i]);
-            LoadTerrariaFont(DefaultSizes[i]);
-        }
+        LoadMonospaceFont();
+        LoadTerrariaFont();
     }
 
-    public static void LoadTerrariaFont(float size, bool withoutSymbols = false)
+    public static void LoadTerrariaFont(bool withoutSymbols = false)
     {
-        if (TerrariaFonts.ContainsKey(size))
+        if (!TerrariaFont.IsNull)
             return;
-        TerrariaFonts.Add(size, LoadFont(TerrariaFontName, size,
-            0x0020, 0x007F,
-            0x0400, 0x052F, // Cyrillic + Cyrillic Supplement
-            0x2DE0, 0x2DFF, // Cyrillic Extended-A
-            0xA640, 0xA69F)); // Cyrillic Extended-B
-        LoadFont(FallbackFontName, size, true, Vector2.Zero, Vector2.Zero, 0f, float.MaxValue, 1, 1, true, 2f, 
-            0x00A0, 0x00FF, // Latin Supplement
-            0x2000, 0x206F, // General Punctuation
-            0x3000, 0x30FF, // CJK Symbols and Punctuations, Hiragana, Katakana
-            0x31F0, 0x31FF, // Katakana Phonetic Extensions
-            0xFF00, 0xFFEF, // Half-width characters
-            0x4E00, 0x9FAF); // CJK Ideograms
+        TerrariaFont = AddFont(TerrariaFontName, BaseFontSize);
+        AddFont(FallbackFontName, BaseFontSize, merge: true, rasterizerMultiply: 2f);
 
         if (!withoutSymbols)
         {
-            LoadFont(IconFontName, size, true, new Vector2(0f, 4f), Icon.IconMin, Icon.IconMax);
+            AddFont(IconFontName, BaseFontSize, merge: true, glyphOffset: new Vector2(0f, 4f));
         }
     }
-    public static void LoadMonospaceFont(float size, bool withoutSymbols = false)
+    public static void LoadMonospaceFont(bool withoutSymbols = false)
     {
-        if (MonospaceFonts.ContainsKey(size))
+        if (!MonospaceFont.IsNull)
             return;
-        MonospaceFonts.Add(size, LoadFont(MonoFontName, size,
-            0x0020, 0x00FF,
-            0x0400, 0x04FF, // Cyrillic includes this?? idk i dont really care
-            0x2020, 0x22FF,
-            0x0400, 0x052F, // Cyrillic + Cyrillic Supplement
-            0x2DE0, 0x2DFF, // Cyrillic Extended-A
-            0xA640, 0xA69F)); // Cyrillic Extended-B
-        LoadFont(FallbackFontName, size, true, Vector2.Zero, Vector2.Zero, 0f, float.MaxValue, 1, 1, true, 2f, 
-            0x2000, 0x206F, // General Punctuation
-            0x3000, 0x30FF, // CJK Symbols and Punctuations, Hiragana, Katakana
-            0x31F0, 0x31FF, // Katakana Phonetic Extensions
-            0xFF00, 0xFFEF, // Half-width characters
-            0x4E00, 0x9FAF); // CJK Ideograms
+        MonospaceFont = AddFont(MonoFontName, BaseFontSize);
+        AddFont(FallbackFontName, BaseFontSize, merge: true, rasterizerMultiply: 2f);
 
         if (!withoutSymbols)
         {
-            LoadFont(IconFontName, size, true, new Vector2(0f, 4f), Icon.IconMin, Icon.IconMax);
+            AddFont(IconFontName, BaseFontSize, merge: true, glyphOffset: new Vector2(0f, 4f));
         }
     }
 
-    public unsafe static ImFontPtr LoadFont(string path, float size)
+    // With ImGui 1.92's dynamic font atlas, glyphs are rasterized on demand and there is
+    // no need to preload explicit glyph ranges. Merged fonts act as fallbacks for glyphs
+    // missing from the primary font.
+    private static unsafe ImFontPtr AddFont(string path, float size, bool merge = false, Vector2 glyphOffset = default, float rasterizerMultiply = 1f)
     {
-        ImFontConfigPtr config = ImGuiNative.ImFontConfig_ImFontConfig();
-        ImFontPtr font = LoadFont(path, size, false, config.GlyphOffset, config.GlyphExtraSpacing, config.GlyphMinAdvanceX, config.GlyphMaxAdvanceX, config.OversampleH, config.OversampleV, config.PixelSnapH, config.RasterizerMultiply, 0);
-        config.Destroy();
-        return font;
-    }
-    public unsafe static ImFontPtr LoadFont(string path, float size, params ushort[] glpyhRanges)
-    {
-        ImFontConfigPtr config = ImGuiNative.ImFontConfig_ImFontConfig();
-        ImFontPtr font = LoadFont(path, size, false, config.GlyphOffset, config.GlyphExtraSpacing, config.GlyphMinAdvanceX, config.GlyphMaxAdvanceX, config.OversampleH, config.OversampleV, config.PixelSnapH, config.RasterizerMultiply, glpyhRanges);
-        config.Destroy();
-        return font;
-    }
-    public unsafe static ImFontPtr LoadFont(string path, float size, bool merge, params ushort[] glpyhRanges)
-    {
-        ImFontConfigPtr config = ImGuiNative.ImFontConfig_ImFontConfig();
-        ImFontPtr font = LoadFont(path, size, merge, config.GlyphOffset, config.GlyphExtraSpacing, config.GlyphMinAdvanceX, config.GlyphMaxAdvanceX, config.OversampleH, config.OversampleV, config.PixelSnapH, config.RasterizerMultiply, glpyhRanges);
-        config.Destroy();
-        return font;
-    }
-    public unsafe static ImFontPtr LoadFont(string path, float size, bool merge, Vector2 glyphOffset, params ushort[] glpyhRanges)
-    {
-        ImFontConfigPtr config = ImGuiNative.ImFontConfig_ImFontConfig();
-        ImFontPtr font = LoadFont(path, size, merge, glyphOffset, config.GlyphExtraSpacing, config.GlyphMinAdvanceX, config.GlyphMaxAdvanceX, config.OversampleH, config.OversampleV, config.PixelSnapH, config.RasterizerMultiply, glpyhRanges);
-        config.Destroy();
-        return font;
-    }
-    public unsafe static ImFontPtr LoadFont(string path, float size, bool merge, Vector2 glyphOffset, Vector2 glyphExtraSpacing, params ushort[] glpyhRanges)
-    {
-        ImFontConfigPtr config = ImGuiNative.ImFontConfig_ImFontConfig();
-        ImFontPtr font = LoadFont(path, size, merge, glyphOffset, glyphExtraSpacing, config.GlyphMinAdvanceX, config.GlyphMaxAdvanceX, config.OversampleH, config.OversampleV, config.PixelSnapH, config.RasterizerMultiply, glpyhRanges);
-        config.Destroy();
-        return font;
-    }
-    public unsafe static ImFontPtr LoadFont(string path, float size, bool merge, Vector2 glyphOffset, Vector2 glyphExtraSpacing, float minAdvanceX, float maxAdvanceX, params ushort[] glpyhRanges)
-    {
-        ImFontConfigPtr config = ImGuiNative.ImFontConfig_ImFontConfig();
-        ImFontPtr font = LoadFont(path, size, merge, glyphOffset, glyphExtraSpacing, minAdvanceX, maxAdvanceX, config.OversampleH, config.OversampleV, config.PixelSnapH, config.RasterizerMultiply, glpyhRanges);
-        config.Destroy();
-        return font;
-    }
-    public unsafe static ImFontPtr LoadFont(string path, float size, bool merge, Vector2 glyphOffset, Vector2 glyphExtraSpacing, float minAdvanceX, float maxAdvanceX, float rasterizerMultiply, params ushort[] glpyhRanges)
-    {
-        ImFontConfigPtr config = ImGuiNative.ImFontConfig_ImFontConfig();
-        ImFontPtr font = LoadFont(path, size, merge, glyphOffset, glyphExtraSpacing, minAdvanceX, maxAdvanceX, config.OversampleH, config.OversampleV, config.PixelSnapH, rasterizerMultiply, glpyhRanges);
-        config.Destroy();
-        return font;
-    }
-    public unsafe static ImFontPtr LoadFont(string path, float size, bool merge, Vector2 glyphOffset, Vector2 glyphExtraSpacing, float minAdvanceX, float maxAdvanceX, int overSampleH, int overSampleV, bool pixelSnapH, float rasterizerMultiply, params ushort[] glyphRanges)
-    {
-        var fullPath = Path.GetFullPath(path);
-        IntPtr ttfDataPtr;
-        int ttfDataSize;
-        if (FontTTFDataPtrsCache.TryGetValue(fullPath, out var ttfDataCache))
-            (ttfDataPtr, ttfDataSize) = ttfDataCache;
-        else
+        ImFontConfigPtr config = ImGui.ImFontConfig();
+        try
         {
-            var ttf = File.ReadAllBytes(fullPath);
-            ttfDataPtr = Marshal.AllocHGlobal(ttf.Length);
-            ttfDataSize = ttf.Length;
-            Marshal.Copy(ttf, 0, ttfDataPtr, ttf.Length);
-            FontTTFDataPtrsCache.Add(fullPath, (ttfDataPtr, ttfDataSize));
-        }
-
-        ImGuiIOPtr io = ImGui.GetIO();
-
-        if (glyphRanges.Length > 0)
-        {
-            glyphRanges = glyphRanges.Append((ushort)0).ToArray();
-            // FIXME: `glyphRangesPtr` memory leak
-            var glyphRangesPtr = Marshal.AllocHGlobal(glyphRanges.Length * sizeof(ushort));
-            Marshal.Copy((short[])(object)glyphRanges, 0, glyphRangesPtr, glyphRanges.Length);
-
-            ImFontConfigPtr config = ImGuiNative.ImFontConfig_ImFontConfig();
-
             config.MergeMode = merge;
             config.GlyphOffset = glyphOffset;
-            config.GlyphExtraSpacing = glyphExtraSpacing;
-            config.GlyphMinAdvanceX = minAdvanceX;
-            config.GlyphMaxAdvanceX = maxAdvanceX;
-            config.OversampleH = overSampleH;
-            config.OversampleV = overSampleV;
-            config.PixelSnapH = pixelSnapH;
             config.RasterizerMultiply = rasterizerMultiply;
-            config.FontDataOwnedByAtlas = true;
 
-            ImFontPtr font = io.Fonts.AddFontFromMemoryTTF(ttfDataPtr, ttfDataSize, size, config, glyphRangesPtr);
-            config.Destroy();
-            return font;
+            return ImGui.GetIO().Fonts.AddFontFromFileTTF(path, size, config);
         }
-        else
+        finally
         {
-            ImFontConfigPtr config = ImGuiNative.ImFontConfig_ImFontConfig();
-
-            config.MergeMode = merge;
-            config.GlyphOffset = glyphOffset;
-            config.GlyphExtraSpacing = glyphExtraSpacing;
-            config.GlyphMinAdvanceX = minAdvanceX;
-            config.GlyphMaxAdvanceX = maxAdvanceX;
-            config.OversampleH = overSampleH;
-            config.OversampleV = overSampleV;
-            config.PixelSnapH = pixelSnapH;
-            config.RasterizerMultiply = rasterizerMultiply;
-            config.FontDataOwnedByAtlas = true;
-
-            ImFontPtr font = io.Fonts.AddFontFromMemoryTTF(ttfDataPtr, ttfDataSize, size, config);
             config.Destroy();
-            return font;
         }
     }
 
-
-    public static ImFontPtr GetMonospaceFont(float size)
+    public static ImFontPtr GetMonospaceFont()
     {
-        if (MonospaceFonts.ContainsKey(size))
-            return MonospaceFonts[size];
-
-        float closestFontSize = 16f;
-        float closestDistance = float.MaxValue;
-        foreach (float loadedFontSize in MonospaceFonts.Keys)
-        {
-            float dist = MathHelper.Distance(size, loadedFontSize);
-
-            if (dist < closestDistance)
-            {
-                closestFontSize = loadedFontSize;
-                closestDistance = dist;
-            }
-        }
-
-        ClientLoader.MainRenderer?.EnqueuePreDrawAction(() => { LoadMonospaceFont(size); ClientLoader.MainRenderer?.RebuildFontAtlas(); });
-
-        return MonospaceFonts[closestFontSize];
+        return MonospaceFont;
     }
-    public static ImFontPtr GetTerrariaFont(float size)
+    public static ImFontPtr GetTerrariaFont()
     {
-        if (TerrariaFonts.ContainsKey(size))
-            return TerrariaFonts[size];
-
-        float closestFontSize = 16f;
-        float closestDistance = float.MaxValue;
-        foreach (float loadedFontSize in TerrariaFonts.Keys)
-        {
-            float dist = MathHelper.Distance(size, loadedFontSize);
-
-            if (dist < closestDistance)
-            {
-                closestFontSize = loadedFontSize;
-                closestDistance = dist;
-            }
-        }
-
-        ClientLoader.MainRenderer?.EnqueuePreDrawAction(() => { LoadTerrariaFont(size); ClientLoader.MainRenderer?.RebuildFontAtlas(); });
-
-        return TerrariaFonts[closestFontSize];
+        return TerrariaFont;
     }
 
 }

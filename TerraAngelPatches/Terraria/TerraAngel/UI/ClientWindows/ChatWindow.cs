@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 using Terraria.Audio;
 using Terraria.Chat;
@@ -101,15 +102,14 @@ public class ChatWindow : ClientWindow
             }
         }
 
-        ImGui.PushFont(ClientAssets.GetTerrariaFont(22f));
+        ImGuiUtil.PushTerrariaFont(22f);
 
         ImGuiStylePtr style = ImGui.GetStyle();
 
-        RangeAccessor<Vector4> colors = style.Colors;
-
         Color colorWithAlpha(ImGuiCol col, float a)
         {
-            return new Color(colors[(int)col].X, colors[(int)col].Y, colors[(int)col].X, a);
+            Vector4 color = style.Colors[(int)col];
+            return new Color(color.X, color.Y, color.X, a);
         }
 
         float transperency = IsChatting ? ClientConfig.Settings.ChatWindowTransperencyActive : ClientConfig.Settings.ChatWindowTransperencyInactive;
@@ -188,7 +188,7 @@ public class ChatWindow : ClientWindow
         ImGui.BeginChild("##ChatScrolling", new Vector2(0, -footerHeight), ImGuiChildFlags.None, IsChatting ? ImGuiWindowFlags.None : ImGuiWindowFlags.NoInputs);
 
         ImDrawListPtr drawList = ImGui.GetWindowDrawList();
-        drawList.PushClipRect(drawList.GetClipRectMin(), drawList.GetClipRectMax() + new Vector2(0, 5f));
+        drawList.PushClipRect(new Vector2(drawList.CmdHeader.ClipRect.X, drawList.CmdHeader.ClipRect.Y), new Vector2(drawList.CmdHeader.ClipRect.Z, drawList.CmdHeader.ClipRect.W) + new Vector2(0, 5f));
         Vector2 tip = style.ItemSpacing;
         float wrapWidth = ImGui.GetContentRegionAvail().X;
 

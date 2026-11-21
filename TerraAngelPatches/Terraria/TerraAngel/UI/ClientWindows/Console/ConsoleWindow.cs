@@ -85,7 +85,7 @@ public class ConsoleWindow : ClientWindow
 
     public override void Draw(ImGuiIOPtr io)
     {
-        ImGui.PushFont(ClientAssets.GetMonospaceFont(16f));
+        ImGuiUtil.PushMonospaceFont(18f);
 
         ImGuiStylePtr style = ImGui.GetStyle();
 

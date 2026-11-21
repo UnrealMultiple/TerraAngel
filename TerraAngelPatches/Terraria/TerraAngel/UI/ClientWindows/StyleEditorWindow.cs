@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿﻿using System;
+
+using Microsoft.Xna.Framework.Input;
 
 namespace TerraAngel.UI.ClientWindows;
 
@@ -77,9 +79,9 @@ public class StyleEditorWindow : ClientWindow
     public override void Draw(ImGuiIOPtr io)
     {
         ImGuiStylePtr style = ImGui.GetStyle();
-        RangeAccessor<Vector4> colors = style.Colors;
+        Span<Vector4> colors = style.Colors;
 
-        ImGui.PushFont(ClientAssets.GetMonospaceFont(16f));
+        ImGuiUtil.PushMonospaceFont(18f);
 
         bool open = IsEnabled;
         ImGui.Begin(GetString("Style Editor"), ref open);
@@ -87,7 +89,7 @@ public class StyleEditorWindow : ClientWindow
         
         if (ImGui.CollapsingHeader(GetString("Colors")))
         {
-            for (int i = 0; i < colors.Count; i++)
+            for (int i = 0; i < colors.Length; i++)
             {
                 ImGui.ColorEdit4(ColorNames[i], ref colors[i]);
             }

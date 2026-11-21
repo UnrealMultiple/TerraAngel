@@ -8,10 +8,10 @@ namespace TerraAngel.Utility;
 
 public struct Texture2DContainer : IDisposable
 {
-    public IntPtr TextureBindId { get; private set; } = IntPtr.Zero;
+    public ImTextureRef TextureBindId { get; private set; }
     public Texture2D? Texture { get; private set; } = null;
 
-    public bool IsActive => TextureBindId != IntPtr.Zero && Texture != null;
+    public bool IsActive => !TextureBindId.TexID.IsNull && Texture != null;
 
     public Texture2DContainer()
     {
@@ -71,7 +71,7 @@ public struct Texture2DContainer : IDisposable
 
         // place into variables first to avoid partial bind
         var texture = new Texture2D(Main.graphics.GraphicsDevice, width, height);
-        var textureBindId = IntPtr.Zero;
+        var textureBindId = default(ImTextureRef);
 
         try
         {
@@ -91,7 +91,7 @@ public struct Texture2DContainer : IDisposable
         {
             // we are fucked up...
             texture.Dispose();
-            if (textureBindId != IntPtr.Zero)
+            if (!textureBindId.TexID.IsNull)
                 ClientLoader.MainRenderer?.UnbindTexture(textureBindId);
             throw;
         }
@@ -106,9 +106,9 @@ public struct Texture2DContainer : IDisposable
 
     public void Unload()
     {
-        if (TextureBindId != IntPtr.Zero)
+        if (!TextureBindId.TexID.IsNull)
             ClientLoader.MainRenderer?.UnbindTexture(TextureBindId);
-        TextureBindId = IntPtr.Zero;
+        TextureBindId = default;
 
         Texture?.Dispose();
         Texture = null;

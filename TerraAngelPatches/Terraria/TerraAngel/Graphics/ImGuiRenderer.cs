@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 using Microsoft.Xna.Framework.Input;
 
 namespace TerraAngel.Graphics;
@@ -14,12 +13,11 @@ public class ImGuiRenderer
     // Graphics
     public GraphicsDevice GraphicsDevice;
 
-    public Stack<ImGuiEffect> ImGuiEffectStack = new Stack<ImGuiEffect>();
+    public Stack<ImGuiEffect> ImGuiEffectStack = new();
 
     // Textures
-    public Dictionary<nint, Texture2D> LoadedTextures;
-    private nint TextureId = 0;
-    public nint? FontTextureId;
+    public Dictionary<ImTextureID, Texture2D> LoadedTextures;
+    private int NextTextureId = 1;
 
     private RasterizerState RasterizerState;
 
@@ -31,25 +29,23 @@ public class ImGuiRenderer
     private byte[]? IndexData;
     private int IndexBufferSize;
 
+    private byte[]? TextureUpdateBuffer;
+
     // Input
     private int ScrollWheelValue;
-    private List<int> KeyRemappings = new List<int>();
     private Keys[] AllKeys = Enum.GetValues<Keys>();
 
-    private Queue<Action> PreDrawActionQueue = new Queue<Action>(5);
+    private Queue<Action> PreDrawActionQueue = new(5);
 
     public ImGuiRenderer(Game game)
     {
-        ImGui.CreateContext();
-
         TargetGame = game ?? throw new ArgumentNullException(nameof(game));
         GraphicsDevice = game.GraphicsDevice;
 
-        LoadedTextures = new Dictionary<IntPtr, Texture2D>
-        {
-            { IntPtr.Zero, null } // bind null texture to id 0
-        };
-        TextureId = 1;
+        ImGuiContextPtr context = ImGui.CreateContext();
+        ImGui.SetCurrentContext(context);
+
+        LoadedTextures = new Dictionary<ImTextureID, Texture2D>();
 
         RasterizerState = new RasterizerState()
         {
@@ -63,11 +59,30 @@ public class ImGuiRenderer
 
         ImGuiEffectStack.Push(new ImGuiEffect(GraphicsDevice, Path.Combine(ClientLoader.AssetPath, "ImGuiShader.xnb")));
 
+        SetupBackendCapabilities();
         SetupGraphics();
-
         SetupInput();
-
         SetupFonts();
+    }
+
+    protected virtual void SetupBackendCapabilities()
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+        io.BackendFlags |= ImGuiBackendFlags.RendererHasTextures;
+
+        // Set up platform IO for texture management
+        ImGuiPlatformIOPtr platformIO = ImGui.GetPlatformIO();
+
+        if (GraphicsDevice.GraphicsProfile == GraphicsProfile.Reach)
+        {
+            platformIO.RendererTextureMaxWidth = 2048;
+            platformIO.RendererTextureMaxHeight = 2048;
+        }
+        else
+        {
+            platformIO.RendererTextureMaxWidth = 4096;
+            platformIO.RendererTextureMaxHeight = 4096;
+        }
     }
 
     protected virtual void SetupGraphics()
@@ -77,27 +92,29 @@ public class ImGuiRenderer
 
     protected virtual void SetupInput()
     {
-        ImGuiIOPtr io = ImGui.GetIO();
     }
 
-    protected virtual void SetupFonts()
+    protected virtual unsafe void SetupFonts()
     {
         ImGui.GetIO().Fonts.AddFontDefault();
-        ClientAssets.LoadFonts(ImGui.GetIO());
+        ClientAssets.LoadFonts();
     }
 
-    public nint BindTexture(Texture2D texture)
+    public unsafe ImTextureRef BindTexture(Texture2D texture)
     {
-        nint id = TextureId++;
+        ImTextureID id = new ImTextureID((ulong)NextTextureId++);
 
         LoadedTextures.Add(id, texture);
 
-        return id;
+        return new ImTextureRef(null, id);
     }
 
-    public void UnbindTexture(nint textureId)
+    public void UnbindTexture(ImTextureRef textureRef)
     {
-        LoadedTextures.Remove(textureId);
+        if (textureRef.TexID.IsNull)
+            return;
+
+        LoadedTextures.Remove(textureRef.TexID);
     }
 
     public void PreRender()
@@ -118,30 +135,9 @@ public class ImGuiRenderer
     public void PostRender()
     {
         ImGui.Render();
-        RenderDrawData(ImGui.GetDrawData());
-    }
-
-    public unsafe void RebuildFontAtlas()
-    {
-        ImGuiIOPtr io = ImGui.GetIO();
-
-        if (!io.Fonts.Build()) throw new InvalidOperationException(GetString("Failed to build font"));
-
-        io.Fonts.GetTexDataAsRGBA32(out byte* pixelData, out int width, out int height, out int bytesPerPixel);
-
-        if (pixelData == null) throw new NullReferenceException(GetString($"Failed to get font data '{nameof(pixelData)}' was null"));
-
-        Texture2D tex2d = new Texture2D(GraphicsDevice, width, height, false, SurfaceFormat.Color);
-
-        tex2d.SetDataPointerEXT(0, null, (IntPtr)pixelData, width * height * bytesPerPixel);
-
-        if (FontTextureId.HasValue) UnbindTexture(FontTextureId.Value);
-
-        FontTextureId = BindTexture(tex2d);
-
-        io.Fonts.SetTexID(FontTextureId.Value);
-
-        io.Fonts.ClearTexData();
+        ImDrawDataPtr drawData = ImGui.GetDrawData();
+        ProcessTextureUpdates(drawData);
+        RenderDrawData(drawData);
     }
 
     public void PushEffect(ImGuiEffect newEffect)
@@ -163,12 +159,30 @@ public class ImGuiRenderer
     {
         if (!TargetGame.IsActive)
             return;
-        
+
         ImGuiIOPtr io = ImGui.GetIO();
 
         MouseState mouse = Mouse.GetState();
         KeyboardState keyboard = Keyboard.GetState();
-        
+
+        io.AddMousePosEvent(mouse.X, mouse.Y);
+
+        io.AddMouseButtonEvent(0, mouse.LeftButton == ButtonState.Pressed && TargetGame.IsActive);
+        io.AddMouseButtonEvent(1, mouse.RightButton == ButtonState.Pressed && TargetGame.IsActive);
+        io.AddMouseButtonEvent(2, mouse.MiddleButton == ButtonState.Pressed && TargetGame.IsActive);
+        io.AddMouseButtonEvent(3, mouse.XButton1 == ButtonState.Pressed && TargetGame.IsActive);
+        io.AddMouseButtonEvent(4, mouse.XButton2 == ButtonState.Pressed && TargetGame.IsActive);
+
+        int scrollDelta = mouse.ScrollWheelValue - ScrollWheelValue;
+        io.AddMouseWheelEvent(0f, scrollDelta > 0 ? 1f : scrollDelta < 0 ? -1f : 0f);
+
+        ScrollWheelValue = mouse.ScrollWheelValue;
+
+        io.AddKeyEvent(ImGuiKey.ModShift, keyboard.IsKeyDown(Keys.LeftShift) || keyboard.IsKeyDown(Keys.RightShift));
+        io.AddKeyEvent(ImGuiKey.ModCtrl, keyboard.IsKeyDown(Keys.LeftControl) || keyboard.IsKeyDown(Keys.RightControl));
+        io.AddKeyEvent(ImGuiKey.ModAlt, keyboard.IsKeyDown(Keys.LeftAlt) || keyboard.IsKeyDown(Keys.RightAlt));
+        io.AddKeyEvent(ImGuiKey.ModSuper, keyboard.IsKeyDown(Keys.LeftWindows) || keyboard.IsKeyDown(Keys.RightWindows));
+
         foreach (var key in AllKeys)
         {
             if (TryMapKeys(key, out ImGuiKey imguikey))
@@ -176,91 +190,202 @@ public class ImGuiRenderer
                 io.AddKeyEvent(imguikey, keyboard.IsKeyDown(key));
             }
         }
-
-        io.KeyShift = (keyboard.IsKeyDown(Keys.LeftShift) || keyboard.IsKeyDown(Keys.RightShift)) && TargetGame.IsActive;
-        io.KeyCtrl = (keyboard.IsKeyDown(Keys.LeftControl) || keyboard.IsKeyDown(Keys.RightControl)) && TargetGame.IsActive;
-        io.KeyAlt = (keyboard.IsKeyDown(Keys.LeftAlt) || keyboard.IsKeyDown(Keys.RightAlt)) && TargetGame.IsActive;
-        io.KeySuper = (keyboard.IsKeyDown(Keys.LeftWindows) || keyboard.IsKeyDown(Keys.RightWindows)) && TargetGame.IsActive;
-
-        io.MousePos = new Vector2(mouse.X, mouse.Y);
-
-        io.MouseDown[0] = mouse.LeftButton == ButtonState.Pressed && TargetGame.IsActive;
-        io.MouseDown[1] = mouse.RightButton == ButtonState.Pressed && TargetGame.IsActive;
-        io.MouseDown[2] = mouse.MiddleButton == ButtonState.Pressed && TargetGame.IsActive;
-
-        int scrollDelta = mouse.ScrollWheelValue - ScrollWheelValue;
-        io.MouseWheel = scrollDelta > 0 ? 1 : scrollDelta < 0 ? -1 : 0;
-
-        ScrollWheelValue = mouse.ScrollWheelValue;
     }
-    
+
     private bool TryMapKeys(Keys key, out ImGuiKey imguikey)
+    {
+        // Special case not handed in the switch...
+        // If the actual key we put in is "None", return none and true.
+        // otherwise, return none and false.
+        if (key == Keys.None)
         {
-            if (key == Keys.None)
+            imguikey = ImGuiKey.None;
+            return true;
+        }
+
+        imguikey = key switch
+        {
+            Keys.Back => ImGuiKey.Backspace,
+            Keys.Tab => ImGuiKey.Tab,
+            Keys.Enter => ImGuiKey.Enter,
+            Keys.CapsLock => ImGuiKey.CapsLock,
+            Keys.Escape => ImGuiKey.Escape,
+            Keys.Space => ImGuiKey.Space,
+            Keys.PageUp => ImGuiKey.PageUp,
+            Keys.PageDown => ImGuiKey.PageDown,
+            Keys.End => ImGuiKey.End,
+            Keys.Home => ImGuiKey.Home,
+            Keys.Left => ImGuiKey.LeftArrow,
+            Keys.Right => ImGuiKey.RightArrow,
+            Keys.Up => ImGuiKey.UpArrow,
+            Keys.Down => ImGuiKey.DownArrow,
+            Keys.PrintScreen => ImGuiKey.PrintScreen,
+            Keys.Insert => ImGuiKey.Insert,
+            Keys.Delete => ImGuiKey.Delete,
+            >= Keys.D0 and <= Keys.D9 => ImGuiKey.Key0 + (key - Keys.D0),
+            >= Keys.A and <= Keys.Z => ImGuiKey.A + (key - Keys.A),
+            >= Keys.NumPad0 and <= Keys.NumPad9 => ImGuiKey.Keypad0 + (key - Keys.NumPad0),
+            Keys.Multiply => ImGuiKey.KeypadMultiply,
+            Keys.Add => ImGuiKey.KeypadAdd,
+            Keys.Subtract => ImGuiKey.KeypadSubtract,
+            Keys.Decimal => ImGuiKey.KeypadDecimal,
+            Keys.Divide => ImGuiKey.KeypadDivide,
+            >= Keys.F1 and <= Keys.F24 => ImGuiKey.F1 + (key - Keys.F1),
+            Keys.NumLock => ImGuiKey.NumLock,
+            Keys.Scroll => ImGuiKey.ScrollLock,
+            Keys.LeftShift => ImGuiKey.LeftShift,
+            Keys.LeftControl => ImGuiKey.LeftCtrl,
+            Keys.LeftAlt => ImGuiKey.LeftAlt,
+            Keys.RightShift => ImGuiKey.RightShift,
+            Keys.RightControl => ImGuiKey.RightCtrl,
+            Keys.RightAlt => ImGuiKey.RightAlt,
+            Keys.OemSemicolon => ImGuiKey.Semicolon,
+            Keys.OemPlus => ImGuiKey.Equal,
+            Keys.OemComma => ImGuiKey.Comma,
+            Keys.OemMinus => ImGuiKey.Minus,
+            Keys.OemPeriod => ImGuiKey.Period,
+            Keys.OemQuestion => ImGuiKey.Slash,
+            Keys.OemTilde => ImGuiKey.GraveAccent,
+            Keys.OemOpenBrackets => ImGuiKey.LeftBracket,
+            Keys.OemCloseBrackets => ImGuiKey.RightBracket,
+            Keys.OemPipe => ImGuiKey.Backslash,
+            Keys.OemQuotes => ImGuiKey.Apostrophe,
+            Keys.BrowserBack => ImGuiKey.AppBack,
+            Keys.BrowserForward => ImGuiKey.AppForward,
+            _ => ImGuiKey.None,
+        };
+
+        return imguikey != ImGuiKey.None;
+    }
+
+    private unsafe void ProcessTextureUpdates(ImDrawDataPtr drawData)
+    {
+        ImVector<ImTextureDataPtr> textures = drawData.Textures;
+        if (textures.Data == null)
+            return;
+
+        for (int i = 0; i < textures.Size; i++)
+            UpdateTexture(textures.Data[i]);
+    }
+
+    private unsafe void UpdateTexture(ImTextureDataPtr textureData)
+    {
+        switch (textureData.Status)
+        {
+            case ImTextureStatus.WantCreate:
+                CreateTexture(textureData);
+                break;
+
+            case ImTextureStatus.WantUpdates:
+                UpdateTextureData(textureData);
+                break;
+
+            case ImTextureStatus.WantDestroy:
+                DestroyTexture(textureData);
+                break;
+        }
+    }
+
+    private unsafe void CreateTexture(ImTextureDataPtr textureData)
+    {
+        SurfaceFormat format = textureData.Format == ImTextureFormat.Rgba32 ? SurfaceFormat.Color : SurfaceFormat.Alpha8;
+        Texture2D texture = new Texture2D(GraphicsDevice, textureData.Width, textureData.Height, false, format);
+
+        UploadTexturePixels(textureData, texture);
+
+        ImTextureID id = new ImTextureID((ulong)NextTextureId++);
+        textureData.SetTexID(id);
+        LoadedTextures.Add(id, texture);
+        textureData.SetStatus(ImTextureStatus.Ok);
+    }
+
+    private unsafe void UpdateTextureData(ImTextureDataPtr textureData)
+    {
+        if (!LoadedTextures.TryGetValue(textureData.GetTexID(), out Texture2D? texture))
+        {
+            textureData.SetStatus(ImTextureStatus.Ok);
+            return;
+        }
+
+        SurfaceFormat format = textureData.Format == ImTextureFormat.Rgba32 ? SurfaceFormat.Color : SurfaceFormat.Alpha8;
+        if (texture.Width != textureData.Width || texture.Height != textureData.Height || texture.Format != format)
+        {
+            texture.Dispose();
+            texture = new Texture2D(GraphicsDevice, textureData.Width, textureData.Height, false, format);
+            LoadedTextures[textureData.GetTexID()] = texture;
+            UploadTexturePixels(textureData, texture);
+        }
+        else if (textureData.Updates.Size > 0)
+        {
+            UploadTextureUpdates(textureData, texture);
+        }
+        else
+        {
+            UploadTexturePixels(textureData, texture);
+        }
+
+        textureData.SetStatus(ImTextureStatus.Ok);
+    }
+
+    private void DestroyTexture(ImTextureDataPtr textureData)
+    {
+        if (LoadedTextures.Remove(textureData.GetTexID(), out Texture2D? texture))
+            texture?.Dispose();
+
+        textureData.SetTexID(ImTextureID.Null);
+        textureData.SetStatus(ImTextureStatus.Destroyed);
+    }
+
+    private unsafe void UploadTexturePixels(ImTextureDataPtr textureData, Texture2D texture)
+    {
+        if (textureData.Pixels == null)
+            return;
+
+        texture.SetDataPointerEXT(0, null, (IntPtr)textureData.Pixels, textureData.Width * textureData.Height * textureData.BytesPerPixel);
+    }
+
+    private unsafe void UploadTextureUpdates(ImTextureDataPtr textureData, Texture2D texture)
+    {
+        int bytesPerPixel = textureData.BytesPerPixel;
+        int pitch = textureData.GetPitch();
+
+        ImVector<ImTextureRect> updates = textureData.Updates;
+        for (int i = 0; i < updates.Size; i++)
+        {
+            ImTextureRect rect = updates[i];
+            int width = rect.W;
+            int height = rect.H;
+            int rowBytes = width * bytesPerPixel;
+            int dataSize = rowBytes * height;
+
+            if (TextureUpdateBuffer is null || TextureUpdateBuffer.Length < dataSize)
+                TextureUpdateBuffer = new byte[dataSize];
+
+            byte* src = (byte*)textureData.GetPixelsAt(rect.X, rect.Y);
+            for (int y = 0; y < height; y++)
             {
-                imguikey = ImGuiKey.None;
-                return true;
+                Marshal.Copy((IntPtr)(src + y * pitch), TextureUpdateBuffer, y * rowBytes, rowBytes);
             }
 
-            imguikey = key switch
+            fixed (byte* dst = TextureUpdateBuffer)
             {
-                Keys.Back => ImGuiKey.Backspace,
-                Keys.Tab => ImGuiKey.Tab,
-                Keys.Enter => ImGuiKey.Enter,
-                Keys.CapsLock => ImGuiKey.CapsLock,
-                Keys.Escape => ImGuiKey.Escape,
-                Keys.Space => ImGuiKey.Space,
-                Keys.PageUp => ImGuiKey.PageUp,
-                Keys.PageDown => ImGuiKey.PageDown,
-                Keys.End => ImGuiKey.End,
-                Keys.Home => ImGuiKey.Home,
-                Keys.Left => ImGuiKey.LeftArrow,
-                Keys.Right => ImGuiKey.RightArrow,
-                Keys.Up => ImGuiKey.UpArrow,
-                Keys.Down => ImGuiKey.DownArrow,
-                Keys.PrintScreen => ImGuiKey.PrintScreen,
-                Keys.Insert => ImGuiKey.Insert,
-                Keys.Delete => ImGuiKey.Delete,
-                >= Keys.D0 and <= Keys.D9 => ImGuiKey._0 + (key - Keys.D0),
-                >= Keys.A and <= Keys.Z => ImGuiKey.A + (key - Keys.A),
-                >= Keys.NumPad0 and <= Keys.NumPad9 => ImGuiKey.Keypad0 + (key - Keys.NumPad0),
-                Keys.Multiply => ImGuiKey.KeypadMultiply,
-                Keys.Add => ImGuiKey.KeypadAdd,
-                Keys.Subtract => ImGuiKey.KeypadSubtract,
-                Keys.Decimal => ImGuiKey.KeypadDecimal,
-                Keys.Divide => ImGuiKey.KeypadDivide,
-                >= Keys.F1 and <= Keys.F24 => ImGuiKey.F1 + (key - Keys.F1),
-                Keys.NumLock => ImGuiKey.NumLock,
-                Keys.Scroll => ImGuiKey.ScrollLock,
-                Keys.LeftShift => ImGuiKey.ModShift,
-                Keys.LeftControl => ImGuiKey.ModCtrl,
-                Keys.LeftAlt => ImGuiKey.ModAlt,
-                Keys.OemSemicolon => ImGuiKey.Semicolon,
-                Keys.OemPlus => ImGuiKey.Equal,
-                Keys.OemComma => ImGuiKey.Comma,
-                Keys.OemMinus => ImGuiKey.Minus,
-                Keys.OemPeriod => ImGuiKey.Period,
-                Keys.OemQuestion => ImGuiKey.Slash,
-                Keys.OemTilde => ImGuiKey.GraveAccent,
-                Keys.OemOpenBrackets => ImGuiKey.LeftBracket,
-                Keys.OemCloseBrackets => ImGuiKey.RightBracket,
-                Keys.OemPipe => ImGuiKey.Backslash,
-                Keys.OemQuotes => ImGuiKey.Apostrophe,
-                Keys.BrowserBack => ImGuiKey.AppBack,
-                Keys.BrowserForward => ImGuiKey.AppForward,
-                _ => ImGuiKey.None,
-            };
-
-            return imguikey != ImGuiKey.None;
+                texture.SetDataPointerEXT(0, new Rectangle(rect.X, rect.Y, width, height), (IntPtr)dst, dataSize);
+            }
         }
+    }
 
     private void RenderDrawData(ImDrawDataPtr drawData)
     {
+        if (drawData.TotalVtxCount == 0)
+            return;
+
         Viewport lastViewport = GraphicsDevice.Viewport;
         Rectangle lastScissorBox = GraphicsDevice.ScissorRectangle;
         SamplerState lastSamplerState = GraphicsDevice.SamplerStates[0];
         BlendState lastBlendState = GraphicsDevice.BlendState;
         RasterizerState lastRasterizerState = GraphicsDevice.RasterizerState;
+        DepthStencilState lastDepthStencilState = GraphicsDevice.DepthStencilState;
+        Color lastBlendFactor = GraphicsDevice.BlendFactor;
 
         GraphicsDevice.BlendFactor = Color.White;
         GraphicsDevice.BlendState = BlendState.NonPremultiplied;
@@ -281,6 +406,8 @@ public class ImGuiRenderer
         GraphicsDevice.SamplerStates[0] = lastSamplerState;
         GraphicsDevice.BlendState = lastBlendState;
         GraphicsDevice.RasterizerState = lastRasterizerState;
+        GraphicsDevice.DepthStencilState = lastDepthStencilState;
+        GraphicsDevice.BlendFactor = lastBlendFactor;
     }
 
     private unsafe void UpdateBuffers(ImDrawDataPtr drawData)
@@ -308,7 +435,6 @@ public class ImGuiRenderer
             IndexData = new byte[IndexBufferSize * sizeof(ushort)];
         }
 
-        // idk feels like it could be opimtized -chair
         int vtxOffset = 0;
         int idxOffset = 0;
 
@@ -334,8 +460,6 @@ public class ImGuiRenderer
         IndexBuffer!.SetData(IndexData, 0, drawData.TotalIdxCount * sizeof(ushort));
     }
 
-    public delegate void UserCallback(bool isPost);
-
     private unsafe void RenderCommandLists(ImDrawDataPtr drawData)
     {
         GraphicsDevice.SetVertexBuffer(VertexBuffer);
@@ -351,9 +475,12 @@ public class ImGuiRenderer
 
             for (int j = 0; j < cmdList.CmdBuffer.Size; j++)
             {
-                ImDrawCmdPtr drawCmd = cmdList.CmdBuffer[j];
+                ImDrawCmdPtr drawCmd = &cmdList.CmdBuffer.Data[j];
 
-                if (!LoadedTextures.TryGetValue(drawCmd.TextureId, out Texture2D? cmdTexture))
+                if (drawCmd.ElemCount == 0)
+                    continue;
+
+                if (!LoadedTextures.TryGetValue(drawCmd.GetTexID(), out Texture2D? cmdTexture))
                 {
                     cmdTexture = GraphicsUtility.MissingTexture;
                 }
@@ -365,36 +492,22 @@ public class ImGuiRenderer
                     (int)(drawCmd.ClipRect.W - drawCmd.ClipRect.Y)
                 );
 
-                UserCallback? userCallback = null;
-
-                if (drawCmd.UserCallback != -1 && drawCmd.UserCallback != 0)
-                {
-                    if (drawCmd.UserCallbackData == drawCmd.TextureId)
-                    {
-                        userCallback = Marshal.GetDelegateForFunctionPointer<UserCallback>(drawCmd.UserCallback);
-                        userCallback?.Invoke(false);
-                    }
-                }
-
                 SetEffectTexture(cmdTexture);
 
                 pass.Apply();
 
                 GraphicsDevice.DrawIndexedPrimitives(
                     primitiveType: PrimitiveType.TriangleList,
-                    baseVertex: vtxOffset,
+                    baseVertex: (int)(vtxOffset + drawCmd.VtxOffset),
                     minVertexIndex: 0,
                     numVertices: cmdList.VtxBuffer.Size,
-                    startIndex: idxOffset,
+                    startIndex: (int)(idxOffset + drawCmd.IdxOffset),
                     primitiveCount: (int)drawCmd.ElemCount / 3
                 );
-
-                userCallback?.Invoke(true);
-
-                idxOffset += (int)drawCmd.ElemCount;
             }
 
             vtxOffset += cmdList.VtxBuffer.Size;
+            idxOffset += cmdList.IdxBuffer.Size;
         }
     }
 
@@ -429,7 +542,7 @@ public class ImGuiRenderer
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    protected delegate StringBuilder GetClipboardTextFn(IntPtr userData);
+    protected unsafe delegate byte* GetClipboardTextFn(void* userData);
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    protected delegate void SetClipboardTextFn(IntPtr userData, StringBuilder text);
+    protected unsafe delegate void SetClipboardTextFn(void* userData, byte* text);
 }
