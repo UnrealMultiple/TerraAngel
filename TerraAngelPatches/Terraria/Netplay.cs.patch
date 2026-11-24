@@ -1,5 +1,23 @@
 --- src/Terraria/Terraria/Netplay.cs
 +++ src/TerraAngel/Terraria/Netplay.cs
+@@ -9,6 +_,7 @@
+ using System.Runtime.InteropServices;
+ using System.Text;
+ using System.Threading;
++using System.Threading.Tasks;
+ using ReLogic.OS;
+ using Terraria.Audio;
+ using Terraria.Localization;
+@@ -86,7 +_,8 @@
+     private static long swTicksLast;
+     private static UdpClient BroadcastClient = null;
+     public static string HostingName;
+-    private static Thread broadcastThread = null;
++    private static Task broadcastThread = null;
++    private static CancellationTokenSource broadcastThreadCts = null;
+     public static IPAddress ServerIP
+     {
+         get
 @@ -699,6 +_,7 @@
              int num = -1;
              while (!Disconnect)
@@ -16,3 +34,101 @@
              }
  
              try
+@@ -890,7 +_,9 @@
+         {
+             if (clientThread.IsAlive)
+             {
++                // TODO: make the quit cleaner
+-                clientThread.Abort();
++                clientThread.Interrupt();
++                clientThread.Join();
+             }
+         }
+ 
+@@ -1100,7 +_,7 @@
+         return y / 150;
+     }
+ 
+-    private static void BroadcastThread()
++    private static async Task BroadcastThread(CancellationToken token)
+     {
+         new DateTime(0L);
+         int num = 0;
+@@ -1125,7 +_,7 @@
+             array = memoryStream.ToArray();
+         }
+ 
+-        while (true)
++        while (!token.IsCancellationRequested)
+         {
+             int num2 = 0;
+             for (int i = 0; i < 255; i++)
+@@ -1151,9 +_,10 @@
+                 BroadcastClient = obj;
+                 using (obj)
+                 {
+-                    BroadcastClient.Send(array, array.Length, new IPEndPoint(IPAddress.Broadcast, ServerAutoFinder.BroadcastPort));
++                    await BroadcastClient.SendAsync(array, new IPEndPoint(IPAddress.Broadcast, ServerAutoFinder.BroadcastPort), token);
+                 }
+             }
++            catch (OperationCanceledException) { throw; }
+             catch (Exception exception)
+             {
+                 CrashWatcher.ReportNetworkException(exception);
+@@ -1162,6 +_,8 @@
+             NetworkInterface[] allNetworkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+             foreach (NetworkInterface networkInterface in allNetworkInterfaces)
+             {
++                token.ThrowIfCancellationRequested();
++
+                 if (networkInterface.OperationalStatus != OperationalStatus.Up || networkInterface.NetworkInterfaceType == NetworkInterfaceType.Loopback)
+                 {
+                     continue;
+@@ -1185,9 +_,10 @@
+                         using (obj2)
+                         {
+                             BindToInterface(BroadcastClient.Client, networkInterface);
+-                            BroadcastClient.Send(array, array.Length, new IPEndPoint(IPAddress.Broadcast, ServerAutoFinder.BroadcastPort));
++                            await BroadcastClient.SendAsync(array, new IPEndPoint(IPAddress.Broadcast, ServerAutoFinder.BroadcastPort), token);
+                         }
+                     }
++                    catch (OperationCanceledException) { throw; }
+                     catch (Exception exception2)
+                     {
+                         CrashWatcher.ReportNetworkException(exception2);
+@@ -1195,7 +_,7 @@
+                 }
+             }
+ 
+-            Thread.Sleep(1000);
++            await Task.Delay(1000, token);
+         }
+     }
+ 
+@@ -1236,16 +_,22 @@
+             StopBroadCasting();
+         }
+ 
+-        broadcastThread = new Thread(BroadcastThread);
+-        broadcastThread.IsBackground = true;
+-        broadcastThread.Start();
++        broadcastThreadCts = new CancellationTokenSource();
++        broadcastThread = Task.Run(() => BroadcastThread(broadcastThreadCts.Token), broadcastThreadCts.Token);
+     }
+ 
+     public static void StopBroadCasting()
+     {
+         if (broadcastThread != null)
+         {
+-            broadcastThread.Abort();
++            broadcastThreadCts.Cancel();
++            try
++            {
++                broadcastThread.GetAwaiter().GetResult();
++            }
++            catch (OperationCanceledException) { }
++            broadcastThreadCts.Dispose();
++            broadcastThreadCts = null;
+             broadcastThread = null;
+         }
+ 

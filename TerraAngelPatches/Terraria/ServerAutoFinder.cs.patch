@@ -1,0 +1,150 @@
+--- src/Terraria/Terraria/ServerAutoFinder.cs
++++ src/TerraAngel/Terraria/ServerAutoFinder.cs
+@@ -5,6 +_,7 @@
+ using System.Net;
+ using System.Net.Sockets;
+ using System.Threading;
++using System.Threading.Tasks;
+ using Microsoft.Xna.Framework.Graphics;
+ using Steamworks;
+ using Terraria;
+@@ -47,18 +_,20 @@
+     private static ConcurrentDictionary<ulong, SearchServerResult> sessions = new ConcurrentDictionary<ulong, SearchServerResult>();
+     private static AutoResetEvent opCompleteEvent = new AutoResetEvent(initialState: false);
+     private static UdpClient broadcastClient = null;
+-    private static Thread broadcastThread = null;
++    private static Task broadcastThread = null;
+-    private static Thread friendThread = null;
++    private static CancellationTokenSource broadcastThreadCts = null;
++    private static Task friendThread = null;
++    private static CancellationTokenSource friendThreadCts = null;
+     private static Callback<LobbyDataUpdate_t> m_LobbyDataUpdate;
+     private static List<SearchServerResult> TempResults = new List<SearchServerResult>();
+     private static List<SearchServerResult> FriendResults = new List<SearchServerResult>();
+     private static DateTime LastListUpdate = new DateTime(0L);
+     public static List<SearchServerResult> Results = new List<SearchServerResult>();
+     public static List<SearchServerResult> DisplayFriendResults = new List<SearchServerResult>();
+-    private static void BroadcastRecieveThread()
++    private static async Task BroadcastRecieveThread(CancellationToken token)
+     {
+         TempResults.Clear();
+-        Thread.Sleep(1000);
++        await Task.Delay(1000, token);
+         try
+         {
+             broadcastClient = new UdpClient(BroadcastPort);
+@@ -68,14 +_,17 @@
+             throw ex;
+         }
+ 
+-        while (true)
++        while (!token.IsCancellationRequested)
+         {
+             IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 0);
+             byte[] array = null;
+             try
+             {
+-                array = broadcastClient.Receive(ref remoteEP);
++                UdpReceiveResult result = await broadcastClient.ReceiveAsync(token);
++                remoteEP = result.RemoteEndPoint;
++                array = result.Buffer;
+             }
++            catch (OperationCanceledException) { throw; }
+             catch (Exception ex2)
+             {
+                 throw ex2;
+@@ -126,7 +_,8 @@
+                             break;
+                         }
+ 
+-                        if (TempResults[i].ServerPort == num && TempResults[i].HostName == text2 && TempResults[i].WorldName == text)
++                        if (TempResults[i].ServerPort == num && TempResults[i].HostName == text2 &&
++                            TempResults[i].WorldName == text)
+                         {
+                             flag2 = true;
+                             break;
+@@ -153,6 +_,7 @@
+                     }
+                 }
+             }
++            catch (OperationCanceledException) { throw; }
+             catch (Exception exception)
+             {
+                 CrashWatcher.ReportNetworkException(exception);
+@@ -354,9 +_,9 @@
+         }
+     }
+ 
+-    private static void LookForFriendPlatformGames()
++    private static async Task LookForFriendPlatformGames(CancellationToken token)
+     {
+-        while (true)
++        while (!token.IsCancellationRequested)
+         {
+             SearchServerResult[] array = FindUserSessions(GetSteamFriends());
+             lock (FriendResults)
+@@ -370,11 +_,11 @@
+ 
+             if (array.Length == 0)
+             {
+-                Thread.Sleep(5000);
++                await Task.Delay(5000, token);
+             }
+             else
+             {
+-                Thread.Sleep(7500);
++                await Task.Delay(7500, token);
+             }
+         }
+     }
+@@ -391,14 +_,12 @@
+             StopSearching();
+         }
+ 
+-        broadcastThread = new Thread(BroadcastRecieveThread);
+-        broadcastThread.IsBackground = true;
+-        broadcastThread.Start();
++        broadcastThreadCts = new CancellationTokenSource();
++        broadcastThread = Task.Run(() => BroadcastRecieveThread(broadcastThreadCts.Token), broadcastThreadCts.Token);
+         if (SocialAPI.Mode == SocialMode.Steam)
+         {
+-            friendThread = new Thread(LookForFriendPlatformGames);
+-            friendThread.IsBackground = true;
+-            friendThread.Start();
++            friendThreadCts = new CancellationTokenSource();
++            friendThread = Task.Run(() => LookForFriendPlatformGames(friendThreadCts.Token), friendThreadCts.Token);
+         }
+     }
+ 
+@@ -406,7 +_,14 @@
+     {
+         if (broadcastThread != null)
+         {
+-            broadcastThread.Abort();
++            broadcastThreadCts.Cancel();
++            try
++            {
++                broadcastThread.GetAwaiter().GetResult();
++            }
++            catch (OperationCanceledException) { }
++            broadcastThreadCts.Dispose();
++            broadcastThreadCts = null;
+             broadcastThread = null;
+             if (broadcastClient != null)
+             {
+@@ -417,7 +_,14 @@
+ 
+         if (friendThread != null)
+         {
+-            friendThread.Abort();
++            friendThreadCts.Cancel();
++            try
++            {
++                friendThread.GetAwaiter().GetResult();
++            }
++            catch (OperationCanceledException) { }
++            friendThreadCts.Dispose();
++            friendThreadCts = null;
+             friendThread = null;
+         }
+ 

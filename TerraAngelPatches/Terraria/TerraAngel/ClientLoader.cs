@@ -25,8 +25,6 @@ public unsafe class ClientLoader
 
     public static GraphicsUI? GraphicsUI;
 
-    public static MultiplayerJoinUIList? MultiplayerJoinUI;
-
     public static DiscordRpcClient? DiscordClient;
 
     public static WindowManager? WindowManager;
@@ -154,7 +152,6 @@ public unsafe class ClientLoader
         NativeLibrary.SetDllImportResolver(typeof(Steamworks.SteamAPI).Assembly, (libraryName, assembly, searchPath) =>
         {
             IntPtr handle = IntPtr.Zero;
-            
 
             if (OperatingSystem.IsWindows() &&
                 libraryName is "steam_api" or "steam_api64")
@@ -174,6 +171,30 @@ public unsafe class ClientLoader
                 }
             }
 
+            return handle;
+        });
+
+        NativeLibrary.SetDllImportResolver(typeof(Main).Assembly, (libraryName, assembly, searchPath) =>
+        {
+            IntPtr handle = IntPtr.Zero;
+
+            if (OperatingSystem.IsWindows() &&
+                libraryName is "GNS_Wrapper")
+            {
+                if (!NativeLibrary.TryLoad($"{TerrariaPath}/{NewLibraryPath}/{PlatformString}/{ArchitectureString}/GNS/{libraryName}", out handle))
+                {
+                    throw new DllNotFoundException($"Could not load {libraryName}");
+                }
+            }
+
+            if (OperatingSystem.IsLinux() &&
+                libraryName is "GNS_Wrapper")
+            {
+                if (!NativeLibrary.TryLoad($"{TerrariaPath}/{NewLibraryPath}/{PlatformString}/{ArchitectureString}/GNS/lib{libraryName}.so", out handle))
+                {
+                    throw new DllNotFoundException($"Could not load {libraryName}");
+                }
+            }
 
             return handle;
         });
@@ -243,7 +264,6 @@ public unsafe class ClientLoader
         ConfigUI = new ConfigUI();
         PluginUI = new PluginUI();
         GraphicsUI = new GraphicsUI();
-        MultiplayerJoinUI = new MultiplayerJoinUIList();
     }
 
     public static void InitDiscord()

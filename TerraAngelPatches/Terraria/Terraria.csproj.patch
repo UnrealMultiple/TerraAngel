@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Terraria.csproj
 +++ src/TerraAngel/Terraria/Terraria.csproj
-@@ -3,42 +_,205 @@
+@@ -3,42 +_,214 @@
    <PropertyGroup>
      <OutputType>WinExe</OutputType>
      <Nullable>enable</Nullable>
@@ -135,6 +135,12 @@
 +    <None Update="Libraries\lin\x64\Steamworks\libsteam_api.so">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
++    <None Update="Libraries\lin\x64\GNS\libGNS_Wrapper.so">
++      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
++    </None>
++    <None Update="Libraries\lin\x64\GNS\libprotobuf.so.3.15.3.0">
++      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
++    </None>
 +    
 +    <None Update="Libraries\lin\x86\FNA\libFAudio.so.0">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -203,6 +209,9 @@
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
 +    <None Update="Libraries\win\x64\Steamworks\steam_api64.dll">
++      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
++    </None>
++    <None Update="Libraries\win\x64\GNS\GNS_Wrapper.dll">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
 +    

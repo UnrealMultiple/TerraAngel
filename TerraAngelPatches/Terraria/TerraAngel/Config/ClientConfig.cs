@@ -339,8 +339,6 @@ public class ClientConfig
 
         public int MapScreenshotPixelsPerTile = 4;
 
-        public List<MultiplayerServerInfo> MultiplayerServers = new List<MultiplayerServerInfo>();
-
         public ClientUIConfig UIConfig = new ClientUIConfig();
 
         [JsonIgnore]

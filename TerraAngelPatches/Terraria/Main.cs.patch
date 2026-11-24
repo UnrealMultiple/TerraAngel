@@ -1678,17 +1678,6 @@
      }
  
      public static void StopRain(bool instant = false)
-@@ -72658,7 +_,9 @@
-             }
-             else
-             {
-+                SoundEngine.PlaySound(10);
--                menuMode = 13;
-+                menuMode = 888;
-+                MenuUI.SetState(ClientLoader.MultiplayerJoinUI!);
-                 clrInput();
-             }
-         }
 @@ -72670,227 +_,9 @@
          }
      }
