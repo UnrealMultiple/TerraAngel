@@ -1,13 +1,14 @@
 --- src/Terraria/Terraria/WindowsLaunch.cs
 +++ src/TerraAngel/Terraria/WindowsLaunch.cs
-@@ -1,6 +_,4 @@
+@@ -1,7 +_,6 @@
  using System;
--using System.IO;
+ using System.ComponentModel;
+ using System.IO;
 -using System.Reflection;
  using System.Runtime.InteropServices;
  using Terraria.Social;
- 
-@@ -52,7 +_,7 @@
+ using Terraria.Utilities;
+@@ -55,7 +_,7 @@
      [STAThread]
      private static void Main(string[] args)
      {
@@ -16,12 +17,19 @@
          {
              string resourceName = new AssemblyName(sargs.Name).Name + ".dll";
              string text = Array.Find(typeof(Program).Assembly.GetManifestResourceNames(), (string element) => element.EndsWith(resourceName));
-@@ -65,7 +_,7 @@
+@@ -68,11 +_,14 @@
              byte[] array = new byte[stream.Length];
              stream.Read(array, 0, array.Length);
              return Assembly.Load(array);
 -        };
 +        };*/
++        if (OperatingSystem.IsWindows())
++        {
+         Preload("msvcr100.dll");
+         Preload("msvcp100.dll");
+         Preload("d3dx9_41.dll");
+         Preload("X3DAudio1_7.dll");
++        }
          Program.LaunchGame(args);
      }
- }
+ 

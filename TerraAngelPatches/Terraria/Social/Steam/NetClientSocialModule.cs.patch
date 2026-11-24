@@ -8,7 +8,7 @@
  
  namespace Terraria.Social.Steam;
  
-@@ -53,7 +_,6 @@
+@@ -64,7 +_,6 @@
  
      public override void LaunchLocalServer(Process process, ServerMode mode)
      {
@@ -16,15 +16,15 @@
          if (_lobby.State != 0)
          {
              _lobby.Leave();
-@@ -146,7 +_,6 @@
+@@ -161,7 +_,6 @@
  
      private void OnLobbyJoinRequest(GameLobbyJoinRequested_t result)
      {
 -        WeGameHelper.WriteDebugString(" OnLobbyJoinRequest");
          if (_lobby.State != 0)
          {
-             _lobby.Leave();
-@@ -163,7 +_,6 @@
+             if (_lobby.Id == result.m_steamIDLobby)
+@@ -183,7 +_,6 @@
  
      private void OnLobbyEntered(LobbyEnter_t result, bool failure)
      {
@@ -32,7 +32,7 @@
          SteamNetworking.AllowP2PPacketRelay(bAllow: true);
          SendAuthTicket(_lobby.Owner);
          int num = 0;
-@@ -209,12 +_,11 @@
+@@ -229,12 +_,11 @@
  
      private void SendAuthTicket(CSteamID address)
      {
@@ -46,7 +46,7 @@
          }
  
          int num = (int)(_authDataLength + 3);
-@@ -255,13 +_,11 @@
+@@ -275,13 +_,11 @@
  
      private void OnSessionConnectFail(P2PSessionConnectFail_t result)
      {

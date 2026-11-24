@@ -12,3 +12,6 @@
 [submodule "TrProtocol"]
 	path = TrProtocol
 	url = https://github.com/UnrealMultiple/CedaryCat.TrProtocol.git
+[submodule "Open.NAT"]
+	path = Open.NAT
+	url = https://github.com/lontivero/Open.NAT.git

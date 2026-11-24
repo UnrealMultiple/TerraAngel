@@ -11,8 +11,8 @@
 +    }
      public void AddLight(int x, int y, Vector3 color)
      {
-         _perFrameLights.Add(new PerFrameLight(new Point(x, y), color));
-@@ -114,7 +_,11 @@
+         if (Main.GameUpdateCount - _perFrameLightSwapUpdateCount <= 8)
+@@ -117,7 +_,11 @@
          _workingProcessedArea = area;
          _workingLightMap.SetSize(area.Width, area.Height);
          _workingLightMap.NonVisiblePadding = 18;
@@ -25,7 +25,7 @@
          _tileScanner.ExportTo(area, _workingLightMap, new TileLightScannerOptions { DrawInvisibleWalls = Main.ShouldShowInvisibleBlocksAndWalls() });
      }
  
-@@ -206,7 +_,7 @@
+@@ -209,7 +_,7 @@
      private void ApplyPerFrameLights()
      {
          List<PerFrameLight> list = _perFrameLights;
@@ -34,7 +34,7 @@
          {
              list = _oldPerFrameLights;
          }
-@@ -218,15 +_,17 @@
+@@ -221,15 +_,17 @@
              {
                  Vector3 value = list[i].Color;
                  Vector3 value2 = _workingLightMap[position.X - _workingProcessedArea.X, position.Y - _workingProcessedArea.Y];

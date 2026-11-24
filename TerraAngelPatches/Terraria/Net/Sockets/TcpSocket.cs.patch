@@ -29,9 +29,9 @@
  
      public TcpSocket()
      {
-@@ -45,10 +_,10 @@
+@@ -50,10 +_,10 @@
+     private void CloseConnection()
      {
-         _remoteAddress = null;
          _connection.Close();
 -        if (_debugStream != null)
 -        {
@@ -44,16 +44,16 @@
      }
  
      bool ISocket.IsConnected()
-@@ -63,7 +_,7 @@
-             return false;
-         }
+@@ -70,7 +_,7 @@
+                 return false;
+             }
  
--        if (GetStream().HasBufferedData)
-+        if (networkStream.DataAvailable)
-         {
-             return true;
-         }
-@@ -77,6 +_,7 @@
+-            if (GetStream().HasBufferedData)
++            if (networkStream.DataAvailable)
+             {
+                 return true;
+             }
+@@ -89,6 +_,7 @@
          TcpAddress tcpAddress = (TcpAddress)address;
          _connection.Connect(tcpAddress.Address, tcpAddress.Port);
          _remoteAddress = address;
@@ -61,7 +61,7 @@
      }
  
      private void ReadCallback(IAsyncResult result)
-@@ -84,7 +_,8 @@
+@@ -96,7 +_,8 @@
          Tuple<SocketReceiveCallback, object> tuple = (Tuple<SocketReceiveCallback, object>)result.AsyncState;
          try
          {
@@ -71,7 +71,7 @@
          }
          catch (Exception)
          {
-@@ -96,9 +_,12 @@
+@@ -108,9 +_,12 @@
      private void SendCallback(IAsyncResult result)
      {
          Tuple<SocketSendCallback, object> tuple;
@@ -85,7 +85,7 @@
          }
          else
          {
-@@ -109,7 +_,7 @@
+@@ -121,7 +_,7 @@
  
          try
          {
@@ -94,7 +94,7 @@
              tuple.Item1(tuple.Item2);
          }
          catch (Exception)
-@@ -123,17 +_,17 @@
+@@ -135,17 +_,17 @@
          if (!Platform.IsWindows)
          {
              byte[] array = LegacyNetBufferPool.RequestBuffer(data, offset, size);
@@ -115,7 +115,7 @@
      }
  
      bool ISocket.IsDataAvailable()
-@@ -143,7 +_,7 @@
+@@ -155,7 +_,7 @@
              return false;
          }
  

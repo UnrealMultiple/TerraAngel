@@ -24,7 +24,7 @@
                  Tile tile2 = Main.tile[num4, num5 + num8];
                  vector = new Vector2(num4, num5 + num8) * 16f + new Vector2(-num6 / 2 + 8, -num2);
                  Collision.SlopeCollision(vector, teleporteeVelocity, num6, num2, teleporteeGravityDirection);
-@@ -1164,7 +_,8 @@
+@@ -1156,7 +_,8 @@
  
      public static Vector2 ScreenToWorldPosition(this Vector2 screenPosition)
      {
@@ -34,7 +34,7 @@
      }
  
      public static string PrettifyPercentDisplay(float percent, string originalFormat)
-@@ -1230,7 +_,7 @@
+@@ -1222,7 +_,7 @@
          {
              if (Platform.IsLinux)
              {
@@ -43,7 +43,7 @@
              }
              else
              {
-@@ -2732,7 +_,7 @@
+@@ -2724,7 +_,7 @@
  
      public static string ReadEmbeddedResource(string path)
      {

@@ -1,9 +1,10 @@
 --- src/Terraria/Terraria/NetMessage.cs
 +++ src/TerraAngel/Terraria/NetMessage.cs
-@@ -1,8 +_,13 @@
+@@ -1,9 +_,14 @@
  using System;
 +using System.Diagnostics;
  using System.IO;
+ using System.Net;
 -using Ionic.Zlib;
 +using System.IO.Compression;
 +using System.Runtime.CompilerServices;
@@ -15,7 +16,7 @@
  using Terraria.Chat;
  using Terraria.DataStructures;
  using Terraria.GameContent;
-@@ -78,13 +_,45 @@
+@@ -80,13 +_,45 @@
          return true;
      }
  
@@ -62,11 +63,11 @@
          switch (msgType)
          {
              case 21:
-@@ -139,7 +_,13 @@
+@@ -141,7 +_,13 @@
              switch (msgType)
              {
                  case 1:
--                    writer.Write("Terraria" + 326);
+-                    writer.Write("Terraria" + 329);
 +                    if (!string.IsNullOrEmpty(ClientConfig.Settings.CustomClientHello))
 +                    {
 +                        foreach (var s in ClientConfig.Settings.CustomClientHello.Split('/'))
@@ -77,7 +78,7 @@
                      break;
                  case 2:
                      text.Serialize(writer);
-@@ -1792,6 +_,8 @@
+@@ -1813,6 +_,8 @@
                      writer.Write((byte)number);
                      writer.Write((short)number2);
                      break;
@@ -86,10 +87,10 @@
                  case 155:
                      writer.Write((short)number);
                      writer.Write((short)number2);
-@@ -1830,6 +_,23 @@
+@@ -1924,6 +_,23 @@
              writer.BaseStream.Position = position;
-             writer.Write((ushort)num21);
-             writer.BaseStream.Position = num21;
+             writer.Write((ushort)num23);
+             writer.BaseStream.Position = num23;
 +            
 +            // FIXME: eliminate the frequent initialization of BinaryReader
 +            if (packetLog is not null && NetMessageWindow.Instance.MessagesTypesToLogDetails.Contains(msgType))
@@ -104,13 +105,13 @@
 +                {
 +                    ClientLoader.Console.WriteError(GetString($"[C2S] Packet deserialization failed:\n{ex}"));
 +                }
-+                writer.BaseStream.Position = num21;
++                writer.BaseStream.Position = num23;
 +            }
 +            
              if (Main.netMode == 1)
              {
                  if (Netplay.Connection.IsConnected())
-@@ -2031,6 +_,21 @@
+@@ -2125,6 +_,21 @@
              if (!Main.dedServ)
              {
                  Netplay.Connection.Socket.AsyncSend(data, 0, num, Netplay.Connection.ClientWriteCallBack);
@@ -132,7 +133,7 @@
              }
              else
              {
-@@ -2099,8 +_,6 @@
+@@ -2193,8 +_,6 @@
                      continue;
                  }
  
@@ -141,7 +142,7 @@
                      if (num4 > 0)
                      {
                          array[num5] = (byte)((uint)num4 & 0xFFu);
-@@ -2120,7 +_,6 @@
+@@ -2214,7 +_,6 @@
                      array[num6] = b;
                      writer.Write(array, num6, num5 - num6);
                      num4 = 0;
@@ -149,7 +150,7 @@
  
                  num5 = 4;
                  byte b3;
-@@ -2453,9 +_,14 @@
+@@ -2547,9 +_,14 @@
          DecompressTileBlock_Inner(binaryReader, binaryReader.ReadInt32(), binaryReader.ReadInt32(), binaryReader.ReadInt16(), binaryReader.ReadInt16());
      }
  
@@ -166,7 +167,7 @@
          int num = 0;
          for (int i = yStart; i < yStart + height; i++)
          {
-@@ -2464,28 +_,15 @@
+@@ -2558,28 +_,15 @@
                  if (num != 0)
                  {
                      num--;
@@ -198,7 +199,7 @@
  
                  byte b4 = reader.ReadByte();
                  bool flag = false;
-@@ -2707,23 +_,33 @@
+@@ -2801,23 +_,33 @@
      {
          lock (buffer[i])
          {
@@ -209,7 +210,7 @@
                  buffer[i].totalData += streamLength;
                  buffer[i].checkBytes = true;
              }
--            catch
+-            catch (Exception ex)
 +            else
              {
 -                if (Main.netMode == 1)
@@ -233,14 +234,14 @@
 +
 +                if (buffer[i].totalData + streamLength < buffer[i].readBuffer.Length)
                  {
--                    Netplay.Clients[i].PendingTermination = true;
+-                    Netplay.Clients[i].RequestTermination("Exception in ReceiveBytes " + ex.Message);
 +                    Buffer.BlockCopy(bytes, 0, buffer[i].readBuffer, buffer[i].totalData, streamLength);
 +                    buffer[i].totalData += streamLength;
 +                    buffer[i].checkBytes = true;
                  }
              }
          }
-@@ -2764,6 +_,8 @@
+@@ -2873,6 +_,8 @@
                  while (num2 >= 2)
                  {
                      int num3 = BitConverter.ToUInt16(buffer[bufferIndex].readBuffer, num);
@@ -249,7 +250,7 @@
                      if (num3 < 3)
                      {
                          throw new IndexOutOfRangeException("Invalid packet. Message size too small (" + num3 + ")");
-@@ -2771,6 +_,61 @@
+@@ -2880,6 +_,61 @@
  
                      if (num2 >= num3)
                      {

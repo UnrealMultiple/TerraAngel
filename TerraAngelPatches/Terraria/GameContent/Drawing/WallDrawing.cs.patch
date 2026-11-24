@@ -37,7 +37,7 @@
                  ushort wall = tile.wall;
                  if (wall <= 0 || FullTile(j, i) || (wall == 318 && !_shouldShowInvisibleWalls) || (tile.invisibleWall() && !_shouldShowInvisibleWalls))
                  {
-@@ -150,12 +_,12 @@
+@@ -151,12 +_,12 @@
                          }
                      }
  
@@ -52,7 +52,7 @@
                      }
                  }
                  else
-@@ -171,12 +_,12 @@
+@@ -172,12 +_,12 @@
                          color2 = Color.Lerp(color2, Color.White, 0.5f);
                      }
  
@@ -67,27 +67,27 @@
                      }
                  }
  
-@@ -188,22 +_,22 @@
-                     bool flag3 = _tileArray[j, i + 1].wall > 0 && wallBlend[_tileArray[j, i + 1].wall] != wallBlend[tile.wall];
+@@ -189,22 +_,22 @@
+                     bool flag4 = _tileArray[j, i + 1].wall > 0 && wallBlend[_tileArray[j, i + 1].wall] != wallBlend[tile.wall];
                      if (num7)
                      {
 -                        DrawOutline(TextureAssets.WallOutline.Value, new Vector2(j * 16 - (int)screenPosition.X, i * 16 - (int)screenPosition.Y) + drawOffSet, new Rectangle(0, 0, 2, 16), color);
 +                        DrawOutline(TextureAssets.WallOutline.Value, new Vector2(j * 16 - intScreenPosition.X, i * 16 - intScreenPosition.Y) + drawOffSet, new Rectangle(0, 0, 2, 16), color);
                      }
  
-                     if (flag)
+                     if (flag2)
                      {
 -                        DrawOutline(TextureAssets.WallOutline.Value, new Vector2(j * 16 - (int)screenPosition.X + 14, i * 16 - (int)screenPosition.Y) + drawOffSet, new Rectangle(14, 0, 2, 16), color);
 +                        DrawOutline(TextureAssets.WallOutline.Value, new Vector2(j * 16 - intScreenPosition.X + 14, i * 16 - intScreenPosition.Y) + drawOffSet, new Rectangle(14, 0, 2, 16), color);
                      }
  
-                     if (flag2)
+                     if (flag3)
                      {
 -                        DrawOutline(TextureAssets.WallOutline.Value, new Vector2(j * 16 - (int)screenPosition.X, i * 16 - (int)screenPosition.Y) + drawOffSet, new Rectangle(0, 0, 16, 2), color);
 +                        DrawOutline(TextureAssets.WallOutline.Value, new Vector2(j * 16 - intScreenPosition.X, i * 16 - intScreenPosition.Y) + drawOffSet, new Rectangle(0, 0, 16, 2), color);
                      }
  
-                     if (flag3)
+                     if (flag4)
                      {
 -                        DrawOutline(TextureAssets.WallOutline.Value, new Vector2(j * 16 - (int)screenPosition.X, i * 16 - (int)screenPosition.Y + 14) + drawOffSet, new Rectangle(0, 14, 16, 2), color);
 +                        DrawOutline(TextureAssets.WallOutline.Value, new Vector2(j * 16 - intScreenPosition.X, i * 16 - intScreenPosition.Y + 14) + drawOffSet, new Rectangle(0, 14, 16, 2), color);

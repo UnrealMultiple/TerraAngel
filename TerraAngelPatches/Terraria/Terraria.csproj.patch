@@ -1,11 +1,11 @@
 --- src/Terraria/Terraria/Terraria.csproj
 +++ src/TerraAngel/Terraria/Terraria.csproj
-@@ -3,41 +_,204 @@
+@@ -3,42 +_,205 @@
    <PropertyGroup>
      <OutputType>WinExe</OutputType>
      <Nullable>enable</Nullable>
 +    <Deterministic>true</Deterministic>
-     <Version>1.4.5.8</Version>
+     <Version>1.4.6.0</Version>
      <Company>Re-Logic</Company>
      <Company>Copyright © 2026 Re-Logic</Company>
      <RootNamespace>Terraria</RootNamespace>
@@ -35,6 +35,7 @@
 -    <Reference Include="MP3Sharp" />
 -    <Reference Include="Newtonsoft.Json" />
 -    <Reference Include="NVorbis" />
+-    <Reference Include="OpenNAT" />
 -    <Reference Include="RailSDK.Net" />
      <ProjectReference Include="../ReLogic/ReLogic.csproj" />
 -    <EmbeddedResource Include="../ReLogic/bin/$(Configuration)/$(TargetFramework)/ReLogic.dll" />
@@ -52,6 +53,7 @@
 +
 +  <!-- New libraries added -->
 +  <ItemGroup>
++    <ProjectReference Include="..\..\..\Open.NAT\Open.Nat\Open.Nat.csproj" />
 +    <ProjectReference Include="..\..\..\CSharpEval\CSharpEval\CSharpEval.csproj" />
 +    <ProjectReference Include="..\..\..\TNA\FNA.Core.csproj" />
 +    <ProjectReference Include="..\..\..\TrProtocol\src\TrProtocol\TrProtocol.csproj">

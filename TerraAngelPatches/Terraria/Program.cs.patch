@@ -12,8 +12,8 @@
 +using SDL3;
  using Terraria.Initializers;
  using Terraria.Localization;
- using Terraria.Social;
-@@ -17,8 +_,8 @@
+ using Terraria.Net.Sockets;
+@@ -18,8 +_,8 @@
  
  public static class Program
  {
@@ -24,7 +24,7 @@
      public static bool IsMono = Type.GetType("Mono.Runtime") != null;
      public static Dictionary<string, string> LaunchParameters = new Dictionary<string, string>();
      public static string SavePath;
-@@ -56,7 +_,7 @@
+@@ -57,7 +_,7 @@
  
      public static void ForceLoadThread(object threadContext)
      {
@@ -33,7 +33,7 @@
          LoadedEverything = true;
      }
  
-@@ -179,9 +_,22 @@
+@@ -180,9 +_,22 @@
              args = Utils.ConvertMonoArgsToDotNet(args);
          }
  
@@ -56,7 +56,7 @@
          ThreadPool.SetMinThreads(8, 8);
          InitializeConsoleOutput();
          SetupLogging();
-@@ -196,7 +_,7 @@
+@@ -197,7 +_,7 @@
          {
              Main.OnEngineLoad += delegate
              {
@@ -65,7 +65,7 @@
              };
          }
          else if (Platform.IsWindows)
-@@ -207,7 +_,7 @@
+@@ -208,7 +_,7 @@
                  {
                      if (connected)
                      {
@@ -74,7 +74,7 @@
                          Main.instance.ReHideCursor = true;
                      }
                  });
-@@ -215,10 +_,15 @@
+@@ -216,10 +_,15 @@
          }
  
          using Main main = new Main();
@@ -88,10 +88,10 @@
 +                SocialAPI.Initialize();
 +            else
 +                SocialAPI.Initialize(SocialMode.None);
+             Main.OnTickForThirdPartySoftwareOnly += GNS_Socket.Update;
              LaunchInitializer.LoadParameters(main);
              Main.OnEnginePreload += StartForceLoad;
-             if (Main.dedServ)
-@@ -227,18 +_,20 @@
+@@ -229,18 +_,20 @@
              }
  
              main.Run();

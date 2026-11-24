@@ -282,7 +282,7 @@ public class MultiplayerJoinUIList : UIState, IHaveBackButtonCommand
                 Main.autoPass = false;
                 Netplay.ListenPort = serverInfo.Port;
                 Main.getIP = serverInfo.IP;
-                Netplay.SetRemoteIPAsync(serverInfo.IP, Main.StartClientGameplay);
+                Netplay.SetRemoteIPAsync(serverInfo.IP);
                 Main.menuMode = 14;
                 Main.statusText = Language.GetTextValue("Net.ConnectingTo", serverInfo.IP);
             };

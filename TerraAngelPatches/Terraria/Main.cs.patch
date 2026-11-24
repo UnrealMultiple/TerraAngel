@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Main.cs
 +++ src/TerraAngel/Terraria/Main.cs
-@@ -25,7 +_,6 @@
+@@ -26,7 +_,6 @@
  using ReLogic.Graphics;
  using ReLogic.Localization.IME;
  using ReLogic.OS;
@@ -8,7 +8,7 @@
  using ReLogic.Threading;
  using ReLogic.Utilities;
  using Terraria.Achievements;
-@@ -210,6 +_,8 @@
+@@ -212,6 +_,8 @@
      private static float _uiScaleWanted = 1f;
      private static float _uiScaleUsed = 1f;
      public static float GameZoomTarget = 1f;
@@ -17,7 +17,7 @@
      public static bool SettingsUnlock_WorldEvil;
      public static bool SettingsEnabled_MinersWobble = true;
      public static bool SettingsEnabled_AutoReuseAllItems = false;
-@@ -231,8 +_,6 @@
+@@ -233,8 +_,6 @@
      public static bool CaptureModeDisabled = false;
      public bool unityMouseOver;
      public static Main instance;
@@ -26,7 +26,7 @@
      public static Camera Camera = new Camera();
      public static IPlayerRenderer PlayerRenderer = new LegacyPlayerRenderer();
      public static IPlayerRenderer PotionOfReturnRenderer = new ReturnGatePlayerRenderer();
-@@ -497,13 +_,45 @@
+@@ -500,13 +_,45 @@
      public static string defaultIP = "";
      public static int dayRate = 1;
      public static int desiredWorldTilesUpdateRate = 1;
@@ -77,7 +77,7 @@
      public static float iS = 1f;
      public static bool render;
      public static int qaStyle;
-@@ -966,7 +_,7 @@
+@@ -979,7 +_,7 @@
      public static HairstyleUnlocksHelper Hairstyles = new HairstyleUnlocksHelper();
      public static bool tilesLoaded = false;
      public static WorldMap Map;
@@ -86,7 +86,7 @@
      public static Dust[] dust = new Dust[6001];
      public static Star[] star = new Star[400];
      public static WorldItem[] item = new WorldItem[401];
-@@ -989,15 +_,14 @@
+@@ -1002,15 +_,14 @@
      public static int screenHeight = 864;
      public static bool screenMaximized = true;
      public static bool screenBorderless = true;
@@ -104,7 +104,7 @@
      public static bool inputTextEnter;
      public static bool inputTextEscape;
      public static float[] hotbarScale = new float[10]
-@@ -1123,9 +_,9 @@
+@@ -1136,9 +_,9 @@
      public static WorkshopPublishingIndicator WorkshopPublishingIndicator = new WorkshopPublishingIndicator();
      public static IssueReportsIndicator IssueReporterIndicator = new IssueReportsIndicator();
      public static bool Support4K = true;
@@ -116,7 +116,7 @@
      private static GraphicsProfile _currentGraphicsProfile = _selectedGraphicsProfile;
      private static WorldPreparationState _worldPreparationState = WorldPreparationState.AwaitingData;
      private static UnifiedRandom _drawRand = new UnifiedRandom();
-@@ -1141,10 +_,6 @@
+@@ -1154,10 +_,6 @@
      public static Microsoft.Xna.Framework.Color imeCompositionStringColor = ChatColors.ServerMessage;
      private static IMEPanelAnchor? imePanelAnchor = null;
      public static string motd = "";
@@ -127,7 +127,7 @@
      public static bool gameMenu = true;
      public static bool menuChat = false;
      public static bool menuBGChangedDay = false;
-@@ -1979,7 +_,6 @@
+@@ -1993,7 +_,6 @@
      public static ParticleRenderer ParticleSystem_World_BehindPlayers = new ParticleRenderer();
      public static ParticleRenderer ParticleSystem_OverInventory = new ParticleRenderer();
      public static ParticleRenderer ParticleSystem_OverCursor = new ParticleRenderer();
@@ -135,7 +135,7 @@
      public static AnchoredEntitiesCollection sittingManager;
      public static AnchoredEntitiesCollection sleepingManager;
      public static MinimapFrameManager MinimapFrameManagerInstance;
-@@ -2154,7 +_,7 @@
+@@ -2168,7 +_,7 @@
      private static bool _blockFancyUIWhileLoading;
      private bool[] menuWide = new bool[100];
      public static float GamepadCursorAlpha = 0f;
@@ -143,8 +143,8 @@
 +    public bool _needsMenuUIRecalculation;
      public static float MenuXMovement = 0f;
      public RejectionMenuInfo RejectionMenuInfo;
-     private float _splashFrameCount;
-@@ -2202,7 +_,7 @@
+     private static int RecentDeleteEntry = -1;
+@@ -2217,7 +_,7 @@
      private static TextSnippet[] _netplayStatusTextSnippets;
      public static int ladyBugRainBoost = 0;
      private static bool _canShowMeteorFall;
@@ -153,7 +153,7 @@
      public static bool CanUpdateGameplay { get; private set; }
      public static Matrix UIScaleMatrix => _uiScaleMatrix;
      public static float UIScaleWanted => _uiScaleWanted;
-@@ -2712,8 +_,10 @@
+@@ -2728,8 +_,10 @@
          }
      }
  
@@ -165,7 +165,7 @@
      public static bool IsCameraTrackingObject
      {
          get
-@@ -3410,9 +_,50 @@
+@@ -3426,9 +_,50 @@
              }
          }
  
@@ -216,15 +216,15 @@
      private static void TrySupporting8K()
      {
          if (!Platform.IsWindows)
-@@ -3822,7 +_,6 @@
-         configuration.Clear();
+@@ -3898,7 +_,6 @@
          configuration.Put("ResetDefaultUIScale", false);
+         configuration.Put("UPnPEnabled", Netplay.UseUPNP);
          configuration.Put("SmartCursorToggle", cSmartCursorModeIsToggleAndNotHold);
 -        configuration.Put("MapEnabled", mapEnabled);
          configuration.Put("InvasionBarMode", invasionProgressMode);
          configuration.Put("AutoSave", autoSave);
          configuration.Put("AutoPause", autoPause);
-@@ -3901,9 +_,6 @@
+@@ -3977,9 +_,6 @@
          configuration.Put("UIScale", _uiScaleWanted);
          configuration.Put("MapScale", MapScale);
          configuration.Put("FlashIconForEvents", Enum.GetName(typeof(GameNotificationType), _flashNotificationType));
@@ -234,7 +234,7 @@
          configuration.Put("UnpinFromCore0", UnpinFromCore0);
          configuration.Put("DoorAutoOpeningMode", DoorOpeningHelper.PreferenceSettings);
          configuration.Put("HoverControlMode", Player.Settings.HoverControl);
-@@ -3958,7 +_,7 @@
+@@ -4034,7 +_,7 @@
          return false;
      }
  
@@ -243,7 +243,7 @@
      {
          if (shouldSetDefaultUIScale)
          {
-@@ -4001,46 +_,13 @@
+@@ -4078,47 +_,14 @@
              configuration.Get("WindowBorderless", ref screenBorderless);
          }
  
@@ -285,12 +285,13 @@
 -            TryPickingDefaultUIScale(currentValue3);
 -        }
  
+         configuration.Get("UPnPEnabled", ref Netplay.UseUPNP);
          configuration.Get("SmartCursorToggle", ref cSmartCursorModeIsToggleAndNotHold);
 -        configuration.Get("MapEnabled", ref mapEnabled);
          configuration.Get("InvasionBarMode", ref invasionProgressMode);
          configuration.Get("AutoSave", ref autoSave);
          configuration.Get("AutoPause", ref autoPause);
-@@ -4088,33 +_,6 @@
+@@ -4166,33 +_,6 @@
              configuration.Get("BackgroundEnabled", ref BackgroundEnabled);
          }
  
@@ -324,7 +325,7 @@
          int currentValue6 = (int)Lighting.Mode;
          if (!flag)
          {
-@@ -4263,18 +_,6 @@
+@@ -4341,18 +_,6 @@
  
          if (!flag)
          {
@@ -343,7 +344,7 @@
              configuration.Get("Support4K", ref Support4K);
          }
  
-@@ -4510,14 +_,7 @@
+@@ -4588,14 +_,7 @@
  
                  if (num >= 91 && binaryReader.ReadBoolean() && !dedServ && Platform.IsWindows)
                  {
@@ -359,7 +360,7 @@
                  }
  
                  if (num >= 8)
-@@ -4590,8 +_,6 @@
+@@ -4668,8 +_,6 @@
                  {
                      placementPreview = binaryReader.ReadBoolean();
                  }
@@ -368,7 +369,7 @@
              }
  
              binaryReader.Close();
-@@ -6326,6 +_,8 @@
+@@ -6412,6 +_,8 @@
              graphics = new GraphicsDeviceManager(this as Game);
              base.Content.RootDirectory = "Content";
          }
@@ -377,7 +378,7 @@
      }
  
      private static void SetDisplayMonitor()
-@@ -6359,7 +_,7 @@
+@@ -6445,7 +_,7 @@
              }
              else
              {
@@ -386,7 +387,7 @@
              }
  
              Platform.Get<IWindowService>().SetUnicodeTitle(base.Window, _cachedTitle);
-@@ -6440,7 +_,6 @@
+@@ -6526,7 +_,6 @@
          SetTitle(initialSetup: true);
          lo = rand.Next(6);
          waterfallManager = new WaterfallManager();
@@ -394,7 +395,7 @@
          sittingManager = new AnchoredEntitiesCollection();
          sleepingManager = new AnchoredEntitiesCollection();
          gameTips = new GameTipsDisplay(new GameTipsProvider());
-@@ -6478,6 +_,7 @@
+@@ -6564,6 +_,7 @@
          LoadContent_TryEnteringHiDef();
          ClientInitialize();
          base.Initialize();
@@ -402,7 +403,7 @@
      }
  
      private void BindSettingsTo(Preferences preferences)
-@@ -6486,7 +_,6 @@
+@@ -6572,7 +_,6 @@
          MinimapFrameManagerInstance.BindTo(preferences);
          BigBossProgressBar.BindTo(preferences);
          ResourceSetsManager.BindTo(preferences);
@@ -410,7 +411,7 @@
          Terraria.Graphics.Effects.Filters.Scene.BindTo(preferences);
          if (SocialAPI.Cloud != null)
          {
-@@ -6664,6 +_,7 @@
+@@ -6750,6 +_,7 @@
              SoundID.FillAccessMap();
              Star.SpawnStars();
          }
@@ -418,7 +419,7 @@
      }
  
      private void Initialize_Entities()
-@@ -10661,8 +_,6 @@
+@@ -10747,8 +_,6 @@
              screenHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
          }
  
@@ -427,7 +428,7 @@
          if (Main.OnResolutionChanged != null)
          {
              Main.OnResolutionChanged(new Vector2(screenWidth, screenHeight));
-@@ -10681,9 +_,6 @@
+@@ -10767,9 +_,6 @@
          _achievementAdvisor = new AchievementAdvisor();
          OpenRecent();
          UILinksInitializer.Load();
@@ -437,7 +438,7 @@
          CacheSupportedDisplaySizes();
          if (autoJoin)
          {
-@@ -10696,57 +_,10 @@
+@@ -10782,57 +_,10 @@
  
      private static void CacheSupportedDisplaySizes()
      {
@@ -499,7 +500,7 @@
      }
  
      public static void LoadTestLog(string logname)
-@@ -10793,6 +_,7 @@
+@@ -10879,6 +_,7 @@
  
          Assets = base.Services.Get<IAssetRepository>();
          Assets.AssetLoadFailHandler = OnceFailedLoadingAnAsset;
@@ -507,7 +508,7 @@
          IAssetRepository assets = Assets;
          assets.AssetWatcherValueUpdatedHandler = (AssetWatcherValueUpdated)Delegate.Combine(assets.AssetWatcherValueUpdatedHandler, new AssetWatcherValueUpdated(AssetWatcherValueUpdated));
          IAssetRepository assets2 = Assets;
-@@ -10817,7 +_,6 @@
+@@ -10903,7 +_,6 @@
          AssetSourceController.UseResourcePacks(AssetInitializer.CreateResourcePackList(base.Services));
          LoadContent_Shaders();
          AssetInitializer.LoadSplashAssets();
@@ -515,7 +516,7 @@
          _gameContentLoadProcess = LoadContent_Deferred();
          if (Setting_AssetFileWatcherEnabled)
          {
-@@ -17256,6 +_,8 @@
+@@ -17292,6 +_,8 @@
          }
      }
  
@@ -524,7 +525,7 @@
      public static void DoUpdate_AnimateItemIcons()
      {
          for (int i = 0; i < itemAnimationsRegistered.Count; i++)
-@@ -17266,6 +_,10 @@
+@@ -17302,6 +_,10 @@
                  itemAnimations[num].Update();
              }
          }
@@ -535,7 +536,7 @@
      }
  
      public static void QueueMainThreadAction(Action action)
-@@ -17337,12 +_,12 @@
+@@ -17373,12 +_,12 @@
              float num = 0.02f;
              if (PlayerInput.Triggers.Current.ViewZoomIn)
              {
@@ -550,7 +551,7 @@
              }
          }
      }
-@@ -17367,8 +_,6 @@
+@@ -17403,8 +_,6 @@
              FocusHelper.UpdateFocus(out var _);
              UpdateAudio();
              GlobalTimeWrappedHourly = (float)(gameTime.TotalGameTime.TotalSeconds % 3600.0);
@@ -559,7 +560,7 @@
              return;
          }
  
-@@ -17495,23 +_,11 @@
+@@ -17531,23 +_,11 @@
          {
              DoUpdate_AutoSave();
          }
@@ -585,7 +586,7 @@
              updatesCountedForFPS++;
              if (fpsTimer.ElapsedMilliseconds >= 1000)
              {
-@@ -17559,42 +_,25 @@
+@@ -17595,42 +_,25 @@
                  }
              }
  
@@ -630,7 +631,7 @@
              PlayerInput.AllowExecutionOfGamepadInstructions = true;
              TryPlayingCreditsRoll();
              PlayerInput.SetZoom_UI();
-@@ -17729,7 +_,6 @@
+@@ -17765,7 +_,6 @@
              DoUpdate_F8_ToggleNetDiagnostics();
              DoUpdate_F7_ToggleGraphicsDiagnostics();
              DoUpdate_F11_ToggleUI();
@@ -638,7 +639,7 @@
              DoUpdate_HandleInput();
              DoUpdate_HandleChat();
              DoUpdate_Enter_ToggleChat();
-@@ -17842,7 +_,7 @@
+@@ -17878,7 +_,7 @@
              if ((double)screenPosition.Y < worldSurface * 16.0 + 16.0)
              {
                  Star.UpdateStars();
@@ -647,7 +648,7 @@
              }
              else if (shimmerAlpha > 0f)
              {
-@@ -17876,7 +_,6 @@
+@@ -17912,7 +_,6 @@
          chatMonitor.Update();
          if (netMode != 2)
          {
@@ -655,7 +656,7 @@
          }
  
          if (Main.OnTickForThirdPartySoftwareOnly != null)
-@@ -17885,6 +_,25 @@
+@@ -17921,6 +_,25 @@
          }
  
          TimeLogger.TotalUpdate.AddTime(fromTimestamp);
@@ -681,7 +682,7 @@
      }
  
      internal static void UpdateCreativeGameModeOverride()
-@@ -18969,6 +_,7 @@
+@@ -19005,6 +_,7 @@
  
      private static void DoUpdate_Enter_ToggleChat()
      {
@@ -689,7 +690,7 @@
          if (keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Enter) && !keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftAlt) && !keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.RightAlt))
          {
              if (chatRelease && !drawingPlayerChat && !editSign && !editChest && !CaptureManager.Instance.Active && !ingameOptionsWindow && ((!gameMenu && !inFancyUI) || menuChat) && !keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape))
-@@ -18988,6 +_,7 @@
+@@ -19024,6 +_,7 @@
  
      public static void OpenPlayerChat()
      {
@@ -697,7 +698,7 @@
          if (CurrentInputTextTakerOverride == null)
          {
              drawingPlayerChat = true;
-@@ -18997,6 +_,7 @@
+@@ -19033,6 +_,7 @@
  
      public static void ClosePlayerChat()
      {
@@ -705,7 +706,7 @@
          drawingPlayerChat = false;
          PlayerInput.WritingText = false;
          player[myPlayer].releaseHook = false;
-@@ -19005,6 +_,7 @@
+@@ -19041,6 +_,7 @@
  
      private static void DoUpdate_HandleChat()
      {
@@ -713,7 +714,7 @@
          if (CurrentInputTextTakerOverride != null)
          {
              drawingPlayerChat = false;
-@@ -19100,24 +_,6 @@
+@@ -19136,24 +_,6 @@
          keyState = (FocusHelper.AllowInputProcessing ? Keyboard.GetState() : default(KeyboardState));
      }
  
@@ -738,7 +739,7 @@
      private static void DoUpdate_F11_ToggleUI()
      {
          if (keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F11))
-@@ -21594,6 +_,9 @@
+@@ -21756,6 +_,9 @@
      }
  
      public static void MouseText_DrawItemTooltip_GetLinesInfo(Item item, ref int yoyoLogo, float oldKB, ref int numLines, string[] toolTipLine, Microsoft.Xna.Framework.Color[] lineColors)
@@ -748,7 +749,7 @@
      {
          int stack = ItemSlot.EstimateDisplayStack(item);
          toolTipLine[0] = Item.GetHoverName(item, stack);
-@@ -21726,6 +_,7 @@
+@@ -21888,6 +_,7 @@
                      toolTipLine[numLines] = Lang.tip[13].Value;
                  }
  
@@ -756,7 +757,7 @@
                  numLines++;
              }
  
-@@ -21782,6 +_,7 @@
+@@ -21944,6 +_,7 @@
                  toolTipLine[numLines] = Lang.tip[22].Value;
              }
  
@@ -764,7 +765,7 @@
              numLines++;
          }
  
-@@ -22957,6 +_,9 @@
+@@ -23119,6 +_,9 @@
  
      protected void DrawGoreBehind()
      {
@@ -774,7 +775,7 @@
          for (int i = 0; i < 600; i++)
          {
              if (!gore[i].active || gore[i].type <= 0)
-@@ -22990,6 +_,9 @@
+@@ -23152,6 +_,9 @@
  
      protected void DrawGore()
      {
@@ -784,7 +785,7 @@
          TimeLogger.StartTimestamp fromTimestamp = TimeLogger.Start();
          drawBackGore = false;
          for (int i = 0; i < 600; i++)
-@@ -28231,7 +_,7 @@
+@@ -28393,7 +_,7 @@
                      float hue = ((float)i + 5f) / 10f;
                      float num10 = 200f;
                      float num11 = (float)timeForVisualEffects / 60f;
@@ -793,7 +794,7 @@
                      num10 += Utils.GetLerpValue(-1f, 1f, vector2.Z, clamped: true) * 150f;
                      Vector2 spinningpoint = new Vector2(vector2.X, vector2.Y) * num10 * num7;
                      float lerpValue = Utils.GetLerpValue(90f, 0f, rCurrentNPC.ai[1], clamped: true);
-@@ -33891,7 +_,7 @@
+@@ -34053,7 +_,7 @@
                          float num247 = 0.9f + num245 * 0.8f;
                          num247 *= num247;
                          num247 *= 0.8f;
@@ -802,7 +803,7 @@
                          Microsoft.Xna.Framework.Rectangle rectangle8 = value52.Frame(1, 7, 0, (int)(num245 * 7f));
                          EntitySpriteDraw(value52, position8, rectangle8, transparent, proj.rotation + (float)Math.PI * 2f * (num245 + GlobalTimeWrappedHourly * 1.2f) * 0.2f + (float)num246 * ((float)Math.PI * 2f / 5f), rectangle8.Size() / 2f, num247, SpriteEffects.None);
                      }
-@@ -41648,8 +_,7 @@
+@@ -41815,8 +_,7 @@
                      {
                          int num = item.type - 71;
                          texture = TextureAssets.Coin[num].Value;
@@ -812,7 +813,7 @@
                          return;
                      }
  
-@@ -41955,6 +_,9 @@
+@@ -42122,6 +_,9 @@
  
      internal void DrawDust()
      {
@@ -822,7 +823,7 @@
          TimeLogger.StartTimestamp fromTimestamp = TimeLogger.Start();
          Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle((int)screenPosition.X - 500, (int)screenPosition.Y - 50, screenWidth + 1000, screenHeight + 100);
          rectangle = new Microsoft.Xna.Framework.Rectangle((int)screenPosition.X - 1000, (int)screenPosition.Y - 1050, screenWidth + 2000, screenHeight + 2100);
-@@ -44265,6 +_,7 @@
+@@ -44433,6 +_,7 @@
  
      public void DrawIMEPanel()
      {
@@ -830,7 +831,7 @@
          if (!imePanelAnchor.HasValue || !Platform.Get<IImeService>().IsCandidateListVisible)
          {
              return;
-@@ -44355,6 +_,7 @@
+@@ -44523,6 +_,7 @@
  
      public void DrawPlayerChat()
      {
@@ -838,7 +839,7 @@
          TimeLogger.StartTimestamp fromTimestamp = TimeLogger.Start();
          TextSnippet[] array = null;
          if (drawingPlayerChat)
-@@ -48863,6 +_,7 @@
+@@ -49066,6 +_,7 @@
  
      private static void DrawInterface_41_InterfaceLogic4()
      {
@@ -846,7 +847,7 @@
          if (mouseRight)
          {
              npcChatRelease = false;
-@@ -51027,7 +_,7 @@
+@@ -51230,7 +_,7 @@
                      Tile tileSafely = Framing.GetTileSafely(bestOrePosition);
                      if (tileSafely.active())
                      {
@@ -855,7 +856,7 @@
                          num10 = tileSafely.type;
                          if (baseOption >= 13 || TileID.Sets.BasicChest[num10] || TileID.Sets.BasicChestFake[num10])
                          {
-@@ -52067,7 +_,6 @@
+@@ -52270,7 +_,6 @@
  
      private static void TryDisposingEverything()
      {
@@ -863,7 +864,7 @@
          CaptureManager.Instance.Dispose();
          audioSystem.Dispose();
      }
-@@ -52198,6 +_,12 @@
+@@ -52401,6 +_,12 @@
  
      public static void DrawCursor(Vector2 bonus, bool smart = false)
      {
@@ -876,7 +877,7 @@
          if (gameMenu && alreadyGrabbingSunOrMoon)
          {
              return;
-@@ -52287,6 +_,12 @@
+@@ -52490,6 +_,12 @@
  
      public static Vector2 DrawThickCursor(bool smart = false)
      {
@@ -889,7 +890,7 @@
          if (ThickMouse)
          {
              bool showGamepadCursor = PlayerInput.SettingsForUI.ShowGamepadCursor;
-@@ -52467,7 +_,7 @@
+@@ -52676,7 +_,7 @@
          }
  
          screenPosition.Y = (float)(worldSurface * 16.0 - (double)screenHeight);
@@ -898,7 +899,7 @@
          if (alreadyGrabbingSunOrMoon)
          {
              playOldTile = true;
-@@ -52489,17 +_,17 @@
+@@ -52698,17 +_,17 @@
          }
  
          Star.UpdateStars();
@@ -919,7 +920,7 @@
                  if (logoRotationSpeed < 0f)
                  {
                      logoRotationSpeed = 0f;
-@@ -52524,7 +_,7 @@
+@@ -52733,7 +_,7 @@
                  logoRotationSpeed -= 1f;
              }
  
@@ -928,7 +929,7 @@
              if (logoScale > 1f)
              {
                  logoScaleDirection = -1f;
-@@ -52545,7 +_,7 @@
+@@ -52754,7 +_,7 @@
          }
          else if (WorldGen.drunkWorldGen && !WorldGen.notTheBees)
          {
@@ -937,7 +938,7 @@
              if (logoRotationSpeed > 0f)
              {
                  logoRotationSpeed += 1500f;
-@@ -52576,14 +_,14 @@
+@@ -52785,14 +_,14 @@
  
              if ((double)logoRotation > 0.09)
              {
@@ -954,7 +955,7 @@
              if ((double)logoRotation > 0.08)
              {
                  logoRotationDirection = -1f;
-@@ -52602,7 +_,7 @@
+@@ -52811,7 +_,7 @@
                  logoRotationSpeed -= 1f;
              }
  
@@ -963,7 +964,7 @@
              if ((double)logoScale > 1.35)
              {
                  logoScaleDirection = -1f;
-@@ -53240,6 +_,26 @@
+@@ -53449,6 +_,26 @@
              }
  
              num12++;
@@ -990,7 +991,7 @@
              array9[num12] = Lang.menu[14].Value;
              if (selectedMenu == num12)
              {
-@@ -54358,14 +_,6 @@
+@@ -54586,14 +_,6 @@
                  }
  
                  num25++;
@@ -1005,7 +1006,7 @@
                  array9[num25] = Language.GetTextValue("UI.LightMode_" + Lighting.Mode);
                  if (selectedMenu == num25)
                  {
-@@ -54541,86 +_,9 @@
+@@ -54769,86 +_,9 @@
              }
              else if (menuMode == 111)
              {
@@ -1095,7 +1096,7 @@
              }
              else if (menuMode == 1125)
              {
-@@ -56503,18 +_,6 @@
+@@ -56765,18 +_,6 @@
          action?.Invoke();
      }
  
@@ -1114,7 +1115,7 @@
      private static void OnSubmitServerPasswordFromRequest(string passwordCandidate)
      {
          Netplay.ServerPassword = passwordCandidate;
-@@ -56575,6 +_,12 @@
+@@ -56848,6 +_,12 @@
              tServer.StartInfo.FileName = "TerrariaServer.exe";
          }
  
@@ -1127,7 +1128,7 @@
          tServer.StartInfo.Arguments = text;
          if (libPath != "")
          {
-@@ -56918,48 +_,6 @@
+@@ -57196,48 +_,6 @@
          }
      }
  
@@ -1176,7 +1177,7 @@
      public static void OpenCharacterSelectUI()
      {
          menuMode = 888;
-@@ -57474,7 +_,9 @@
+@@ -57800,7 +_,9 @@
              return;
          }
  
@@ -1186,7 +1187,7 @@
          tileBatch.Begin();
          Array.Clear(_drawbackground_colorSlices, 0, _drawbackground_colorSlices.Length);
          double num2 = maxTilesY - 330;
-@@ -58169,11 +_,6 @@
+@@ -58495,11 +_,6 @@
                              continue;
                          }
  
@@ -1198,7 +1199,7 @@
                          if (localShimmerAlpha == 0f && (color.R > 0 || color.G > 0 || color.B > 0))
                          {
                              if (!drawToScreen)
-@@ -58403,10 +_,6 @@
+@@ -58729,10 +_,6 @@
                              if (WorldGen.InWorld(num15, num16))
                              {
                                  Microsoft.Xna.Framework.Color color9 = Lighting.GetColor(num15, num16);
@@ -1209,7 +1210,7 @@
  
                                  if (color9.R > 0 || color9.G > 0 || color9.B > 0)
                                  {
-@@ -59220,10 +_,6 @@
+@@ -59546,10 +_,6 @@
                              int num23 = (int)(((float)(bgStartX + num3 * n + num20 * 16 + 8) + screenPosition.X) / 16f);
                              int num24 = (int)((num22 + screenPosition.Y) / 16f);
                              Microsoft.Xna.Framework.Color color3 = Lighting.GetColor(num23, num24);
@@ -1220,7 +1221,7 @@
  
                              if (color3.R > 0 || color3.G > 0 || color3.B > 0)
                              {
-@@ -59436,10 +_,6 @@
+@@ -59762,10 +_,6 @@
                                  int num36 = (int)(((float)(bgStartX + num3 * num31 + num33 * 16 + 8) + screenPosition.X) / 16f);
                                  int num37 = (int)((num35 + screenPosition.Y) / 16f);
                                  Microsoft.Xna.Framework.Color color11 = Lighting.GetColor(num36, num37);
@@ -1231,7 +1232,7 @@
  
                                  if (color11.R > 0 || color11.G > 0 || color11.B > 0)
                                  {
-@@ -59964,23 +_,8 @@
+@@ -60290,23 +_,8 @@
  
      private static bool ShouldDrawBackgroundTileAt(int i, int j)
      {
@@ -1255,7 +1256,7 @@
              if (WallLightAt(i, j) || WallLightAt(i - 1, j) || WallLightAt(i + 1, j))
              {
                  return true;
-@@ -60035,6 +_,7 @@
+@@ -60361,6 +_,7 @@
  
      protected void RenderBackground()
      {
@@ -1263,7 +1264,7 @@
          TimeLogger.StartTimestamp fromTimestamp = TimeLogger.Start();
          spriteBatch.Begin();
          try
-@@ -60190,7 +_,7 @@
+@@ -60516,7 +_,7 @@
  
          if (mapFullscreen)
          {
@@ -1272,7 +1273,7 @@
              {
                  if (mouseLeftRelease)
                  {
-@@ -61325,6 +_,10 @@
+@@ -61651,6 +_,10 @@
  
      private static void DrawMapFullscreenBackground(Vector2 screenPosition, int screenWidth, int screenHeight)
      {
@@ -1283,7 +1284,7 @@
          Asset<Texture2D> asset = TextureAssets.MapBGs[0];
          int num = -1;
          Microsoft.Xna.Framework.Color color = Microsoft.Xna.Framework.Color.White;
-@@ -61792,7 +_,14 @@
+@@ -62118,7 +_,14 @@
                  screenWidth = num6;
                  screenHeight = num7;
                  screenPosition = vector3;
@@ -1299,7 +1300,7 @@
                  Vector2 vector6 = screenPosition + new Vector2(screenWidth, screenHeight) / 2f * (Vector2.One - vector5) - vector4;
                  transform = Matrix.CreateScale(vector5.X, vector5.Y, 1f) * Matrix.CreateTranslation(vector6.X, vector6.Y, 0f) * transform;
              }
-@@ -61808,13 +_,13 @@
+@@ -62134,13 +_,13 @@
                  float num13 = (float)maxTilesY * 0.15f;
                  verticalParallaxOverride = (float)Utils.Remap(screenPosition.Y, worldSurface * 16.0, num13 * 16f, -1.0, -0.5);
                  int num14 = -120;
@@ -1315,7 +1316,7 @@
                  transform = Matrix.CreateScale(num12) * Matrix.CreateTranslation((screenPosition - vector4).ToVector3()) * transform;
                  screenPosition.Y += (rectangle.Height * 16 - screenHeight) / 2;
              }
-@@ -62398,6 +_,7 @@
+@@ -62715,6 +_,7 @@
  
      protected void RenderTiles()
      {
@@ -1323,7 +1324,7 @@
          TimeLogger.StartTimestamp fromTimestamp = TimeLogger.Start();
          try
          {
-@@ -62417,6 +_,7 @@
+@@ -62734,6 +_,7 @@
          }
  
          TimeLogger.RenderSolidTiles.AddTime(fromTimestamp);
@@ -1331,7 +1332,7 @@
      }
  
      protected void RenderTiles2()
-@@ -62444,6 +_,7 @@
+@@ -62761,6 +_,7 @@
  
      protected void RenderWater()
      {
@@ -1339,7 +1340,7 @@
          TimeLogger.StartTimestamp fromTimestamp = TimeLogger.Start();
          spriteBatch.Begin();
          tileBatch.Begin();
-@@ -62692,11 +_,6 @@
+@@ -63009,11 +_,6 @@
          {
              for (int j = num7 - 2; j < num8 + 2; j++)
              {
@@ -1351,7 +1352,7 @@
                  if (tile[j, i].liquid <= 0 || (tile[j, i].nactive() && tileSolid[tile[j, i].type] && !tileSolidTop[tile[j, i].type]) || !(Lighting.Brightness(j, i) > 0f || bg))
                  {
                      continue;
-@@ -63095,6 +_,7 @@
+@@ -63412,6 +_,7 @@
  
      protected void DrawBlack(bool intoRenderTargets = false, bool force = false)
      {
@@ -1359,7 +1360,7 @@
          if (shimmerAlpha == 1f || TileDrawingBase.DrawOwnBlacks)
          {
              return;
-@@ -63155,11 +_,6 @@
+@@ -63472,11 +_,6 @@
                          return;
                      }
  
@@ -1371,7 +1372,7 @@
                      Tile tile = Main.tile[j, i];
                      float num4 = Lighting.Brightness(j, i);
                      num4 = (float)Math.Floor(num4 * 255f) / 255f;
-@@ -63334,31 +_,18 @@
+@@ -63651,31 +_,18 @@
          }
      }
  
@@ -1409,7 +1410,7 @@
          try
          {
              if (!dedServ)
-@@ -63395,6 +_,68 @@
+@@ -63712,6 +_,68 @@
          }
      }
  
@@ -1478,7 +1479,7 @@
      protected void DrawWires()
      {
          TimeLogger.StartTimestamp fromTimestamp = TimeLogger.Start();
-@@ -67181,10 +_,14 @@
+@@ -67498,10 +_,14 @@
      {
          if (!_isDrawingOrUpdating && IsGraphicsDeviceAvailable)
          {
@@ -1493,7 +1494,7 @@
              if (Main.OnPostDraw != null)
              {
                  Main.OnPostDraw(gameTime);
-@@ -67208,40 +_,10 @@
+@@ -67525,40 +_,10 @@
              NewRuntimeMethods.GC_Collect(0, GCCollectionMode.Forced, blocking: false);
          }
  
@@ -1536,7 +1537,7 @@
          base.EndDraw();
          DetailedFPS.End();
          DetailedFPS.StartNextFrame();
-@@ -67249,6 +_,8 @@
+@@ -67566,6 +_,8 @@
  
      private void DoDraw(GameTime gameTime)
      {
@@ -1545,7 +1546,7 @@
          if (showSplash)
          {
              TimeLogger.StartTimestamp fromTimestamp = TimeLogger.Start();
-@@ -67290,6 +_,8 @@
+@@ -67607,6 +_,8 @@
          }
  
          TilePaintSystem.PrepareAllRequests();
@@ -1554,7 +1555,7 @@
          TimeLogger.PrepareRequests.AddTime(fromTimestamp3);
          if (loadMap)
          {
-@@ -67311,6 +_,13 @@
+@@ -67628,6 +_,13 @@
              ReleaseTargets();
          }
  
@@ -1568,7 +1569,7 @@
          if (!drawToScreen && !targetSet)
          {
              InitTargets();
-@@ -67324,7 +_,6 @@
+@@ -67641,7 +_,6 @@
  
          if (!dedServ)
          {
@@ -1576,7 +1577,7 @@
              if (Main.OnPreDraw != null)
              {
                  Main.OnPreDraw(gameTime);
-@@ -67390,7 +_,7 @@
+@@ -67707,7 +_,7 @@
          }
  
          ClearHoverItem();
@@ -1585,7 +1586,7 @@
          Cloud.UpdateCloudParallax();
          sunCircle += 0.01f;
          if ((double)sunCircle > 6.285)
-@@ -67577,7 +_,8 @@
+@@ -67894,7 +_,8 @@
          GameViewMatrix.Effects = ((!gameMenu && player[myPlayer].gravDir != 1f) ? SpriteEffects.FlipVertically : SpriteEffects.None);
          BackgroundViewMatrix.Effects = GameViewMatrix.Effects;
          BackgroundViewMatrix.Zoom = new Vector2(ForcedMinimumZoom);
@@ -1595,7 +1596,7 @@
          if (gameMenu || player[myPlayer].gravDir == 1f)
          {
              Rasterizer = RasterizerState.CullCounterClockwise;
-@@ -68046,7 +_,23 @@
+@@ -68363,7 +_,23 @@
                  }
  
                  BlackFadeIn -= 25;
@@ -1620,7 +1621,7 @@
              }
  
              spriteBatch.End();
-@@ -68093,20 +_,7 @@
+@@ -68410,20 +_,7 @@
              mouseRightRelease = true;
          }
  
@@ -1642,7 +1643,7 @@
  
          WorldUpdateStepper.DrawnThisUpdate = true;
          if (drawDiag > 0)
-@@ -68289,6 +_,8 @@
+@@ -68606,6 +_,8 @@
          ClampScreenPositionToWorld();
      }
  
@@ -1651,7 +1652,7 @@
      public static void DebugCameraPan(bool left, bool right, bool up, bool down)
      {
          int num = 32;
-@@ -68945,7 +_,7 @@
+@@ -69262,7 +_,7 @@
                  _oldNetplayStatusText = text;
              }
  
@@ -1660,7 +1661,7 @@
              int hoveredSnippet;
              if (Netplay.Connection.StatusTextHasShadows)
              {
-@@ -70496,14 +_,12 @@
+@@ -70813,14 +_,12 @@
  
      public static void NewText(string newText, byte R = byte.MaxValue, byte G = byte.MaxValue, byte B = byte.MaxValue)
      {
@@ -1677,7 +1678,7 @@
      }
  
      public static void StopRain(bool instant = false)
-@@ -72333,7 +_,9 @@
+@@ -72658,7 +_,9 @@
              }
              else
              {
@@ -1688,7 +1689,7 @@
                  clrInput();
              }
          }
-@@ -72345,227 +_,9 @@
+@@ -72670,227 +_,9 @@
          }
      }
  

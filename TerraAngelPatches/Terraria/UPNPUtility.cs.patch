@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/UPNPUtility.cs
++++ src/TerraAngel/Terraria/UPNPUtility.cs
+@@ -73,7 +_,7 @@
+         try
+         {
+             Task<NatDevice> task = natDiscoverer.DiscoverDeviceAsync(PortMapper.Upnp, cancellationTokenSource);
+-            CancellationTokenSourceExtension.CancelAfter(cancellationTokenSource, (int)TimeSpan.FromSeconds(10.0).TotalMilliseconds);
++            cancellationTokenSource.CancelAfter((int)TimeSpan.FromSeconds(10.0).TotalMilliseconds);
+             task.Wait();
+             Device = task.Result;
+         }
