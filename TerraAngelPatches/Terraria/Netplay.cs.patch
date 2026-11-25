@@ -8,15 +8,6 @@
  using ReLogic.OS;
  using Terraria.Audio;
  using Terraria.Localization;
-@@ -68,7 +_,7 @@
-     public static int ListenPort = 7777;
-     public static bool IsListening = true;
-     public static bool UseUPNP = true;
--    public static bool UseGNS = true;
-+    public static bool UseGNS = !OperatingSystem.IsWindows();
-     public static bool SaveOnServerExit = true;
-     public static volatile bool Disconnect;
-     public static volatile bool ClientLoopThreadRunning;
 @@ -86,7 +_,8 @@
      private static long swTicksLast;
      private static UdpClient BroadcastClient = null;
