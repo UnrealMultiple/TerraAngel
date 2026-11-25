@@ -83,21 +83,16 @@
          {
              SearchServerResult[] array = FindUserSessions(GetSteamFriends());
              lock (FriendResults)
-@@ -370,11 +_,11 @@
+@@ -368,7 +_,7 @@
+                 }
+             }
  
-             if (array.Length == 0)
-             {
--                Thread.Sleep(5000);
-+                await Task.Delay(5000, token);
-             }
-             else
-             {
--                Thread.Sleep(7500);
-+                await Task.Delay(7500, token);
-             }
+-            Thread.Sleep(5000);
++            await Task.Delay(5000, token);
          }
      }
-@@ -391,14 +_,12 @@
+ 
+@@ -384,14 +_,12 @@
              StopSearching();
          }
  
@@ -116,7 +111,7 @@
          }
      }
  
-@@ -406,7 +_,14 @@
+@@ -399,7 +_,14 @@
      {
          if (broadcastThread != null)
          {
@@ -132,7 +127,7 @@
              broadcastThread = null;
              if (broadcastClient != null)
              {
-@@ -417,7 +_,14 @@
+@@ -410,7 +_,14 @@
  
          if (friendThread != null)
          {
