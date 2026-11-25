@@ -138,7 +138,7 @@
 +    <None Update="Libraries\lin\x64\GNS\libGNS_Wrapper.so">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
-+    <None Update="Libraries\lin\x64\GNS\libprotobuf.so.3.15.3.0">
++    <None Update="Libraries\lin\x64\GNS\README.md">
 +      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 +    </None>
 +    
