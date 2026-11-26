@@ -33,20 +33,16 @@
          LoadedEverything = true;
      }
  
-@@ -180,9 +_,22 @@
+@@ -180,9 +_,18 @@
              args = Utils.ConvertMonoArgsToDotNet(args);
          }
  
-+        // Disable system DPI scaling on Linux
-+        // This prevents the compositor from scaling the window and ensures 1:1 pixel rendering
++        // Render at the display's physical resolution: FNA must create a high-DPI window (Wayland
++        // is the default driver), and the 1px difference between the even-clamped backbuffer and
++        // the fractional-scaled drawable must not be linearly resampled by FNA3D.
 +        if (Platform.IsLinux)
 +        {
-+            [DllImport("libc", EntryPoint = "setenv", CallingConvention = CallingConvention.Cdecl)]
-+            static extern int setenv(string name, string value, int overwrite);
-+
 +            Environment.SetEnvironmentVariable("FNA_GRAPHICS_ENABLE_HIGHDPI", "1");
-+            // this can only be set in this way, wtf?
-+            setenv(SDL.SDL_HINT_VIDEO_DRIVER, "x11", 1);
 +        }
 +
          LogFNANativeLibVersions();

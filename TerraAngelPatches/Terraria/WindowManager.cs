@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SDL3;
@@ -46,15 +47,10 @@ public class WindowManager
     [JsonProperty("FPSCapUnfocused")]
     private int fPSCapUnfocused = 15;
 
-    private bool wantToResizeGraphics = false;
-    private bool wantToMoveGraphics = false;
     private bool wantToApplyGraphics = false;
+    private int lastScreenWidth = 0;
+    private int lastScreenHeight = 0;
     private bool centerWindow = false;
-
-    [JsonIgnore]
-    private int x;
-    [JsonIgnore]
-    private int y;
 
     [JsonIgnore]
     public GraphicsDeviceManager? Graphics = null;
@@ -77,8 +73,7 @@ public class WindowManager
             }
 
             width = value;
-            SDL.SDL_SetWindowSize(WindowHandle, width, height);
-            wantToResizeGraphics = true;
+            ApplyWindowSize();
         }
     }
 
@@ -98,22 +93,54 @@ public class WindowManager
             }
 
             height = value;
-            SDL.SDL_SetWindowSize(WindowHandle, width, height);
-            wantToResizeGraphics = true;
+            ApplyWindowSize();
         }
     }
 
     [JsonIgnore]
     public Vector2i Size
     {
-        get => new Vector2i(Width, Height);
+        get => new(Width, Height);
         set
         {
             width = value.X;
             height = value.Y;
-            SDL.SDL_SetWindowSize(WindowHandle, width, height);
-            wantToResizeGraphics = true;
+            ApplyWindowSize();
         }
+    }
+
+    // Width/Height are physical pixels: they are the backbuffer size the game renders into. SDL's
+    // window size is in logical units, so convert with the window's pixel density. On Wayland a
+    // fractional scale makes the two differ (logical 1707 <-> physical 2561).
+    private void ApplyWindowSize()
+    {
+        if (WindowHandle == IntPtr.Zero)
+        {
+            return;
+        }
+
+        float density = GetPixelDensity();
+        int logicalWidth = Math.Max(1, (int)Math.Round(width / density));
+        int logicalHeight = Math.Max(1, (int)Math.Round(height / density));
+        SDL.SDL_SetWindowSize(WindowHandle, logicalWidth, logicalHeight);
+        // Keep ApplyChanges' preferred size on the size we just asked for. Otherwise a later
+        // ApplyChanges (vsync/state) resets the window to the stale default backbuffer.
+        if (Graphics is not null)
+        {
+            Graphics.PreferredBackBufferWidth = width;
+            Graphics.PreferredBackBufferHeight = height;
+        }
+    }
+
+    private float GetPixelDensity()
+    {
+        if (WindowHandle == IntPtr.Zero)
+        {
+            return 1f;
+        }
+
+        float density = SDL.SDL_GetWindowPixelDensity(WindowHandle);
+        return density > 0f ? density : 1f;
     }
 
     [JsonIgnore]
@@ -127,14 +154,18 @@ public class WindowManager
             {
                 case WindowState.Windowed:
                     {
+                        bool wasFullscreen = Graphics!.IsFullScreen;
                         SDL.SDL_SetWindowFullscreen(WindowHandle, false);
                         SDL.SDL_SetWindowBordered(WindowHandle, true);
                         SDL.SDL_SetWindowResizable(WindowHandle, true);
-                        SDL.SDL_SetWindowSize(WindowHandle, Width, Height);
+                        Graphics.IsFullScreen = false;
+                        ApplyWindowSize();
 
                         centerWindow = true;
-                        Graphics!.IsFullScreen = false;
-                        wantToResizeGraphics = true;
+                        // A normal window needs no ApplyChanges unless we are leaving exclusive
+                        // fullscreen; on startup that would reset the backbuffer to the stale
+                        // default size and undo the restored window size.
+                        wantToApplyGraphics |= wasFullscreen;
                     }
                     break;
                 case WindowState.BorderlessFullscreen:
@@ -142,9 +173,10 @@ public class WindowManager
                         SDL.SDL_SetWindowFullscreen(WindowHandle, false);
                         SDL.SDL_SetWindowBordered(WindowHandle, false);
                         SDL.SDL_SetWindowResizable(WindowHandle, false);
-
                         Graphics!.IsFullScreen = false;
-                        wantToResizeGraphics = true;
+                        SetPreferredToDesktopMode();
+
+                        wantToApplyGraphics = true;
                     }
                     break;
                 case WindowState.Fullscreen:
@@ -152,9 +184,10 @@ public class WindowManager
                         SDL.SDL_SetWindowFullscreen(WindowHandle, true);
                         SDL.SDL_SetWindowBordered(WindowHandle, false);
                         SDL.SDL_SetWindowResizable(WindowHandle, false);
-
                         Graphics!.IsFullScreen = true;
-                        wantToResizeGraphics = true;
+                        SetPreferredToDesktopMode();
+
+                        wantToApplyGraphics = true;
                     }
                     break;
             }
@@ -191,9 +224,22 @@ public class WindowManager
         get => vsync;
         set
         {
+            if (vsync == value)
+            {
+                return;
+            }
+
             vsync = value;
             Main.graphics.SynchronizeWithVerticalRetrace = vsync;
-            wantToApplyGraphics = true;
+
+            // Apply the interval without ApplyChanges: that would convert the backbuffer size back
+            // to a logical window size and resize (or unmaximize) the window.
+            if (Graphics?.GraphicsDevice is not null)
+            {
+                PresentationParameters presentation = Graphics.GraphicsDevice.PresentationParameters;
+                presentation.PresentationInterval = vsync ? PresentInterval.One : PresentInterval.Immediate;
+                Graphics.GraphicsDevice.Reset(presentation);
+            }
         }
     }
 
@@ -223,20 +269,14 @@ public class WindowManager
     public bool CapFPSUnfocused
     {
         get => capFPSUnfocused;
-        set
-        {
-            capFPSUnfocused = value;
-        }
+        set => capFPSUnfocused = value;
     }
 
     [JsonIgnore]
     public int FPSCapUnfocused
     {
         get => fPSCapUnfocused;
-        set
-        {
-            fPSCapUnfocused = value;
-        }
+        set => fPSCapUnfocused = value;
     }
 
     public WindowManager() { }
@@ -246,29 +286,23 @@ public class WindowManager
         Graphics = Main.graphics;
 
         if (!File.Exists(ClientLoader.WindowConfigPath))
-        {
             WriteToFile();
-        }
     }
 
     public void Init()
     {
-        string s = "";
-        using (FileStream fs = new FileStream(ClientLoader.WindowConfigPath, FileMode.OpenOrCreate))
-        {
-            byte[] buffer = new byte[fs.Length];
-            fs.Read(buffer);
-            s = Encoding.UTF8.GetString(buffer);
-            fs.Close();
-        }
+        string s = File.ReadAllText(ClientLoader.WindowConfigPath);
 
         WindowManager? windowSettings = JsonConvert.DeserializeObject<WindowManager>(s);
         if (windowSettings is not null)
         {
+            width = windowSettings.width;
+            height = windowSettings.height;
+
             State = windowSettings.State;
             if (State == WindowState.Windowed)
             {
-                Size = windowSettings.Size;
+                Size = new Vector2i(width, height);
                 Maximized = windowSettings.maximized;
             }
             Vsync = windowSettings.Vsync;
@@ -278,67 +312,37 @@ public class WindowManager
             CapFPSUnfocused = windowSettings.CapFPSUnfocused;
         }
 
-        if (State == WindowState.Windowed) SDL.SDL_GetWindowPosition(WindowHandle, out x, out y);
-
-        wantToResizeGraphics = true;
         centerWindow = true;
     }
 
-    private int updateCount = 0;
     private bool wasActive = true;
     public void Update()
     {
-        updateCount++;
-
-        if (State == WindowState.Windowed && centerWindow && !maximized)
-        {
-            SDL.SDL_GetDisplayBounds(SDL.SDL_GetDisplayForWindow(WindowHandle), out SDL.SDL_Rect rect);
-            SDL.SDL_SetWindowPosition(WindowHandle, rect.x + rect.w / 2 - Width / 2, rect.y + rect.h / 2 - Height / 2);
-            centerWindow = false;
-        }
-        if (State == WindowState.Windowed)
-        {
-            SDL.SDL_WindowFlags flags = SDL.SDL_GetWindowFlags(WindowHandle);
-
-            maximized = (flags & SDL.SDL_WindowFlags.SDL_WINDOW_MAXIMIZED) != 0;
-
-            // Use pixel dimensions to match what we're actually rendering at
-            SDL.SDL_GetWindowSizeInPixels(WindowHandle, out int w, out int h);
-
-            if (width != w || height != h)
-            {
-                width = w;
-                height = h;
-                wantToResizeGraphics = true;
-            }
-
-            SDL.SDL_GetWindowPosition(WindowHandle, out int lx, out int ly);
-
-            if (x != lx || y != ly)
-            {
-                x = lx;
-                y = ly;
-                wantToMoveGraphics = true;
-            }
-        }
-
-        
-        if (wantToResizeGraphics)
-        {
-            wantToResizeGraphics = false;
-            HandleResize();
-        }
-        if (wantToMoveGraphics)
-        {
-            wantToMoveGraphics = false;
-            HandleMove();
-        }
         if (wantToApplyGraphics)
         {
             wantToApplyGraphics = false;
             ApplyGraphics();
         }
-        
+
+        // The window's drawable size is the single source of truth for the backbuffer. Syncing
+        // every frame picks up user resizes, Wayland scale changes and FNA's own ApplyChanges.
+        SyncGraphics();
+
+        if (State == WindowState.Windowed && centerWindow && !maximized)
+        {
+            SDL.SDL_GetDisplayBounds(SDL.SDL_GetDisplayForWindow(WindowHandle), out SDL.SDL_Rect rect);
+            // SDL_GetDisplayBounds and SDL_SetWindowPosition work in logical units, so center using
+            // the logical window size, not the physical Width/Height.
+            SDL.SDL_GetWindowSize(WindowHandle, out int logicalWidth, out int logicalHeight);
+            SDL.SDL_SetWindowPosition(WindowHandle, rect.x + rect.w / 2 - logicalWidth / 2, rect.y + rect.h / 2 - logicalHeight / 2);
+            centerWindow = false;
+        }
+        if (State == WindowState.Windowed)
+        {
+            SDL.SDL_WindowFlags flags = SDL.SDL_GetWindowFlags(WindowHandle);
+            maximized = (flags & SDL.SDL_WindowFlags.SDL_WINDOW_MAXIMIZED) != 0;
+        }
+
         // Handle unfocused FPS cap
         bool isActive = Main.instance.IsActive;
         if (isActive != wasActive)
@@ -370,41 +374,107 @@ public class WindowManager
         {
             Main.instance.InactiveSleepTime = TimeSpan.Zero;
         }
-
-        if (updateCount % 300 == 0) WriteToFile();
     }
 
-    public void HandleResize()
+    private void SyncGraphics()
     {
-        if (State == WindowState.Windowed)
+        if (WindowHandle == IntPtr.Zero || Graphics?.GraphicsDevice is null)
         {
-            ResizeGraphics(Width, Height);
+            return;
         }
-        if (State == WindowState.Fullscreen || State == WindowState.BorderlessFullscreen)
+
+        SDL.SDL_GetWindowSizeInPixels(WindowHandle, out int pixelWidth, out int pixelHeight);
+        if (pixelWidth <= 0 || pixelHeight <= 0)
         {
-            SDL.SDL_GetDisplayBounds(SDL.SDL_GetDisplayForWindow(WindowHandle), out SDL.SDL_Rect rect);
+            return;
+        }
+        
+        // the real BackBuffer size should match what the os reported
+        // if the os reported odd number width and height, pass it back for real BackBuffer to make it happy
+        // or else they will fk everything up and make the whole game window blurry as sh*t 
+        var presentations = Graphics.GraphicsDevice.PresentationParameters;
+        if (presentations.BackBufferWidth != pixelWidth || presentations.BackBufferHeight != pixelHeight)
+        {
+            presentations.BackBufferWidth = pixelWidth;
+            presentations.BackBufferHeight = pixelHeight;
+            Graphics.GraphicsDevice.Reset(presentations);
+        }
 
-            int w = rect.w;
-            int h = rect.h;
+        if (Graphics.PreferredBackBufferWidth != pixelWidth || Graphics.PreferredBackBufferHeight != pixelHeight)
+        {
+            Graphics.PreferredBackBufferWidth = pixelWidth;
+            Graphics.PreferredBackBufferHeight = pixelHeight;
+        }
 
-            ResizeGraphics(w, h);
+        // fk wayland for your `logical window size`. How can a protocol not providing ANY api for
+        // querying physical window size.
+        // What? U expect us to calculate by using dpi scale?
+        // THEN HOW THE FUCK CAN WE HANDLE FLOATING POINT ERRORS!
+        // LMAO my screen width is 2560, and I fking got 2561 from SDL
+        // can wayland devs explain where the 1px came from? from your brain tumors?
+        // FK WAYLAND
+
+        width = pixelWidth;
+        height = pixelHeight;
+
+        if (pixelWidth != lastScreenWidth || pixelHeight != lastScreenHeight)
+        {
+            lastScreenWidth = pixelWidth;
+            lastScreenHeight = pixelHeight;
+            UpdateScreenMetrics();
+            RebuildTargets();
         }
     }
 
-    public void HandleMove()
+    // The scene render targets are sized from PresentationParameters, so they must be recreated
+    // whenever the backbuffer size changes - including when FNA resized it on its own.
+    private void RebuildTargets()
     {
-        if (State == WindowState.Windowed)
+        Lighting.Initialize();
+        if (!Main.drawToScreen && !Main._isResizingAndRemakingTargets)
         {
-            MoveGraphics(Width, Height);
+            Main._isResizingAndRemakingTargets = true;
+            Main.instance.InitTargets();
+            Main._isResizingAndRemakingTargets = false;
         }
-        if (State == WindowState.Fullscreen || State == WindowState.BorderlessFullscreen)
+    }
+
+    private void UpdateScreenMetrics()
+    {
+        // set the Main.screenWidth and Main.screenHeight to rounded down even number
+        // to make Terraria happy
+        // so tiles, camera and player sprites won't jitter like Kobe Bryant fking his own helicopter
+        Main.screenWidth = ToEven(width);
+        Main.screenHeight = ToEven(height);
+
+        // FNA's Mouse.GetState already converts window (logical) coordinates to backbuffer
+        // (physical) coordinates using the window/backbuffer ratio, so the game's mouse position is
+        // already in screen space and must not be scaled again here.
+        PlayerInput.RawMouseScale = Vector2.One;
+
+        Main.TryPickingDefaultUIScale(Main.screenHeight);
+        PlayerInput.CacheOriginalScreenDimensions();
+        Main.FixUIScale();
+        Main.PendingResolutionWidth = Main.screenWidth;
+        Main.PendingResolutionHeight = Main.screenHeight;
+        UserInterface.ActiveInstance.Recalculate();
+        Main.instance._needsMenuUIRecalculation = true;
+    }
+
+    private void SetPreferredToDesktopMode()
+    {
+        unsafe
         {
-            SDL.SDL_GetDisplayBounds(SDL.SDL_GetDisplayForWindow(WindowHandle), out SDL.SDL_Rect rect);
-
-            int w = rect.w;
-            int h = rect.h;
-
-            MoveGraphics(w, h);
+            IntPtr modePointer = SDL.SDL_GetDesktopDisplayMode(SDL.SDL_GetDisplayForWindow(WindowHandle));
+            if (modePointer != IntPtr.Zero)
+            {
+                SDL.SDL_DisplayMode* mode = (SDL.SDL_DisplayMode*)(void*)modePointer;
+                if (mode->w > 0 && mode->h > 0)
+                {
+                    Graphics!.PreferredBackBufferWidth = (int)Math.Round(mode->w * mode->pixel_density);
+                    Graphics.PreferredBackBufferHeight = (int)Math.Round(mode->h * mode->pixel_density);
+                }
+            }
         }
     }
 
@@ -413,77 +483,23 @@ public class WindowManager
         Main.graphics.ApplyChanges();
     }
 
-    public void ResizeGraphics(int w, int h)
-    {
-        if (Graphics?.GraphicsDevice is not null)
-        {
-            Graphics!.GraphicsDevice.Viewport = new Viewport(0, 0, w, h);
-        }
-        Graphics!.PreferredBackBufferWidth = w;
-        Graphics!.PreferredBackBufferHeight = h;
-        Graphics!.ApplyChanges();
-
-        Main.screenWidth = w;
-        Main.screenHeight = h;
-
-        PlayerInput.RawMouseScale = Vector2.One;
-
-        Main.TryPickingDefaultUIScale(h);
-        PlayerInput.CacheOriginalScreenDimensions();
-        Main.FixUIScale();
-        Main.PendingResolutionWidth = w;
-        Main.PendingResolutionHeight = h;
-        PlayerInput.CacheOriginalScreenDimensions();
-        Lighting.Initialize();
-        if (!Main.drawToScreen && !Main._isResizingAndRemakingTargets)
-        {
-            Main._isResizingAndRemakingTargets = true;
-            Main.instance.InitTargets();
-            Main._isResizingAndRemakingTargets = false;
-        }
-        UserInterface.ActiveInstance.Recalculate();
-        Main.instance._needsMenuUIRecalculation = true;
-    }
-
-    public void MoveGraphics(int w, int h)
-    {
-        Main.screenWidth = w;
-        Main.screenHeight = h;
-
-        PlayerInput.RawMouseScale = Vector2.One;
-
-        Main.TryPickingDefaultUIScale(h);
-        PlayerInput.CacheOriginalScreenDimensions();
-        Main.FixUIScale();
-        Main.PendingResolutionWidth = w;
-        Main.PendingResolutionHeight = h;
-        PlayerInput.CacheOriginalScreenDimensions();
-        UserInterface.ActiveInstance.Recalculate();
-        Main.instance._needsMenuUIRecalculation = true;
-    }
-
     public void CenterWindow()
     {
         centerWindow = true;
     }
 
-    private static object FileLock = new object();
+    private static Lock FileLock = new();
 
     public Task WriteToFile()
     {
         lock (FileLock)
         {
             string s = JsonConvert.SerializeObject(this);
-
-            using (FileStream fs = new FileStream(ClientLoader.WindowConfigPath, FileMode.OpenOrCreate))
-            {
-                byte[] bytes = Encoding.UTF8.GetBytes(s);
-                fs.SetLength(bytes.Length);
-                fs.Write(bytes);
-                fs.Close();
-            }
+            File.WriteAllText(ClientLoader.WindowConfigPath, s);
         }
 
         return Task.CompletedTask;
     }
+
+    private static int ToEven(int value) => value & ~1;
 }

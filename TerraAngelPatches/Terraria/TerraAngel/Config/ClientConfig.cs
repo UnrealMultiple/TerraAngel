@@ -513,15 +513,12 @@ public class ClientConfig
         }
     }
 
-    private static float SaveTimer;
+    private static TimerSlim SaveTimer = new(5f, TimerSlim.TimeBy.DrawDeltaTime);
 
     public static void Update()
     {
-        SaveTimer -= Time.UpdateDeltaTime;
-        if (SaveTimer <= 0.0f)
+        if (SaveTimer.TickTock())
         {
-            SaveTimer = 5.0f;
-
             Task.Run(WriteToFile);
 
             if (ClientLoader.WindowManager is not null)
