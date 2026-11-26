@@ -36,7 +36,9 @@ public class TimingMetricsWindow : ClientWindow
             TimeMetrics.TimeLog time = timeLogs[i].Value;
 
             float averageTime = (float)time.Average.TotalMilliseconds;
-            string text = $"{timerName}: {averageTime:F3}ms";
+            float maxTime = (float)time.Max.TotalMilliseconds;
+            float minTime = (float)time.Min.TotalMilliseconds;
+            string text = $"{timerName}: avg {averageTime:F3}ms max {maxTime:F3}ms min {minTime:F3}ms";
 
             Vector2 cursorPosBefore = ImGui.GetCursorScreenPos();
             ImGui.SetCursorScreenPos(cursorPosBefore + new Vector2(ImGui.CalcTextSize(text).X + 30f, 0f));

@@ -76,7 +76,7 @@
                              {
                                  AddSpecialPoint(j, i, TileCounterType.WindyGrass);
                                  continue;
-@@ -704,8 +_,103 @@
+@@ -704,8 +_,105 @@
                              break;
                      }
  
@@ -88,6 +88,8 @@
 +                            continue;
 +                        }
 +                        Color tileColor = new Color(new Vector3(LightingModifierTool.LightingModifierToolCache.Brightness));
++                        if (tile.inActive())
++                            tileColor = tile.actColor(tileColor);
 +                        ushort typeCache = tile.type;
 +                        short tileFrameX = tile.frameX;
 +                        short tileFrameY = tile.frameY;

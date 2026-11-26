@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace TerraAngel.Timing;
 
@@ -38,9 +39,13 @@ public class TimeMetrics
 
     public class TimeLog
     {
-        public Queue<TimeSpan> Times = new Queue<TimeSpan>();
+        public Queue<TimeSpan> Times = new();
 
-        public int MaxTimeCount = 100;
+        private int CustomMaxTimeCount = -1;
+
+        public int MaxTimeCount => CustomMaxTimeCount >= 0
+            ? CustomMaxTimeCount
+            : ClientLoader.WindowManager!.FPSCap * 2; // set that to twice of FPSCap
 
         public bool Paused = false;
 
@@ -59,6 +64,32 @@ public class TimeMetrics
             }
         }
 
+        public TimeSpan Max
+        {
+            get
+            {
+                if (Times.Count == 0 || Sum == TimeSpan.Zero)
+                {
+                    return TimeSpan.Zero;
+                }
+
+                return Times.Max();
+            }
+        }
+
+        public TimeSpan Min
+        {
+            get
+            {
+                if (Times.Count == 0 || Sum == TimeSpan.Zero)
+                {
+                    return TimeSpan.Zero;
+                }
+
+                return Times.Min();
+            }
+        }
+
         public void Add(TimeSpan time)
         {
             if (Paused) return;
@@ -71,12 +102,11 @@ public class TimeMetrics
 
         public TimeLog()
         {
-            MaxTimeCount = 100;
         }
 
         public TimeLog(int maxTimeCount)
         {
-            MaxTimeCount = maxTimeCount;
+            CustomMaxTimeCount = maxTimeCount;
         }
     }
 }
