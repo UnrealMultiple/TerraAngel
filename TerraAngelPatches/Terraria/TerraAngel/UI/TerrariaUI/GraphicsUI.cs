@@ -72,8 +72,24 @@ public class GraphicsUI : UIState, IHaveBackButtonCommand
 
         ChangeStateButton.OnLeftClick += (x, y) =>
         {
-            ClientLoader.WindowManager!.State = GetNextState();
+            var next = GetNextState();
+            ClientLoader.WindowManager!.State = next;
             ChangeStateButton.SetText(GetString($"Go {GetNextWindowStateString()}"));
+
+            // window size work around
+            if (next == WindowManager.WindowState.Windowed)
+            {
+                var size = ClientLoader.WindowManager.Size;
+                var max = ClientLoader.WindowManager.MaximumWindowSize;
+                // if the window size is nearly the screen size, we set it to a smaller size so the title bar won't be hidden
+                if (size.X > max.X - 100 || size.Y > max.Y - 100)
+                {
+                    ClientLoader.WindowManager.Size = size * 0.8f;
+                }
+            }
+
+            // center the window no matter how
+            ClientLoader.WindowManager.CenterWindow();
         };
 
         ResolutionPanel = new UIPanel()

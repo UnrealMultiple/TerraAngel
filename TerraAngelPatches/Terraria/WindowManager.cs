@@ -214,7 +214,8 @@ public class WindowManager
         get
         {
             SDL.SDL_GetDisplayBounds(SDL.SDL_GetDisplayForWindow(WindowHandle), out SDL.SDL_Rect rect);
-            return new Vector2i(rect.w, rect.h);
+            var density = GetPixelDensity();
+            return new Vector2i(rect.w * density, rect.h * density);
         }
     }
 
