@@ -47,6 +47,7 @@ public class StyleEditorWindow : ClientWindow
         GetString("ResizeGrip"),
         GetString("ResizeGripHovered"),
         GetString("ResizeGripActive"),
+        GetString("InputTextCursor"),
         GetString("TabHovered"),
         GetString("Tab"),
         GetString("TabSelected"),
@@ -67,14 +68,14 @@ public class StyleEditorWindow : ClientWindow
         GetString("TableRowBgAlt"),
         GetString("TextLink"),
         GetString("TextSelectedBg"),
+        GetString("TreeLines"),
         GetString("DragDropTarget"),
-        GetString("NavHighlight"),
+        GetString("NavCursor"),
         GetString("NavWindowingHighlight"),
         GetString("NavWindowingDimBg"),
         GetString("ModalWindowDimBg"),
-        GetString("COUNT")
+        GetString("Count")
     };
-
 
     public override void Draw(ImGuiIOPtr io)
     {
@@ -89,9 +90,16 @@ public class StyleEditorWindow : ClientWindow
         
         if (ImGui.CollapsingHeader(GetString("Colors")))
         {
-            for (int i = 0; i < colors.Length; i++)
+            if (colors.Length != ColorNames.Length - 1)
             {
-                ImGui.ColorEdit4(ColorNames[i], ref colors[i]);
+                ImGui.Text("ImGui has updated Color List! Please report this message to the dev");
+            }
+            else
+            {
+                for (int i = 0; i < colors.Length; i++)
+                {
+                    ImGui.ColorEdit4(ColorNames[i], ref colors[i]);
+                }
             }
         }
 
