@@ -8,7 +8,16 @@ public static class ItemSpawner
         if (Main.mouseItem.type == 0 || overrideItem)
         {
             Main.mouseItem.SetDefaults(type);
-            Main.mouseItem.stack = Main.mouseItem.maxStack;
+            Main.mouseItem.stack = Utils.Clamp(stack, 1, Main.mouseItem.maxStack);
+
+            if (syncWithServer)
+            {
+                Main.LocalPlayer.inventory[58] = Main.mouseItem.Clone();
+                NetMessage.SendData(MessageID.SyncEquipment, number: Main.myPlayer, number2: 58);
+            }
+        }
+        else if (Main.mouseItem.type == type)
+        {
             Main.mouseItem.stack = Utils.Clamp(stack, 1, Main.mouseItem.maxStack);
 
             if (syncWithServer)

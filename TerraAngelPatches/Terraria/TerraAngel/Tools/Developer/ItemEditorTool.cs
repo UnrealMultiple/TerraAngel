@@ -7,12 +7,14 @@ public class ItemEditorTool : Tool
     public override string Name => GetString("Item Editor");
 
     public string[]? ItemPrefixes;
+    
+    public string[]? BuffNames;
 
     public override void DrawUI(ImGuiIOPtr io)
     {
         if (HeldItem.stack == 0)
         {
-            ImGui.Text(GetString("Hold a item to modify!!!"));
+            ImGui.Text(GetString("Hold an item to modify!!!"));
             return;
         }
         ImGuiUtil.ItemButton(HeldItem, "InspectorItem", new Vector2(32f));
@@ -24,9 +26,17 @@ public class ItemEditorTool : Tool
             ImGui.TableSetupColumn("Label", ImGuiTableColumnFlags.WidthFixed, 150.0f);
             ImGui.TableSetupColumn("Input", ImGuiTableColumnFlags.WidthStretch);
 
+            // WEAPONS --------------------------------------------------------
+
+
             ImGui.TableNextRow();
             ImGui.TableNextColumn();
-            ImGui.Text(GetString("Prefix: "));
+            ImGui.Text(GetString("WEAPONS"));
+            ImGui.TableNextColumn();
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("  Prefix: "));
             int prefixIndex = HeldItem.prefix;
             ItemPrefixes ??= GetItemPrefixes();
             ImGui.TableNextColumn();
@@ -37,62 +47,175 @@ public class ItemEditorTool : Tool
 
             ImGui.TableNextRow();
             ImGui.TableNextColumn();
-            ImGui.Text(GetString("Damage: "));
+            ImGui.Text(GetString("  Damage: "));
             ImGui.TableNextColumn();
             ImGui.InputInt("##ItemDamage", ref HeldItem.damage);
-
+            
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("  Crit Chance: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemCritChance", ref HeldItem.crit);
 
             ImGui.TableNextRow();
             ImGui.TableNextColumn();
-            ImGui.Text(GetString("Usetime: "));
+            ImGui.Text(GetString("  Armor Penetration: "));
             ImGui.TableNextColumn();
-            ImGui.InputInt("##ItemUseTime", ref HeldItem.useTime);
+            ImGui.InputInt("##ItemArmorPenetration", ref HeldItem.armorPenetration);
 
             ImGui.TableNextRow();
             ImGui.TableNextColumn();
-            ImGui.Text(GetString("Animation Speed: "));
+            ImGui.Text(GetString("  Knockback: "));
             ImGui.TableNextColumn();
-            ImGui.InputInt("##ItemAnimationSpeed", ref HeldItem.useAnimation);
+            ImGui.InputFloat("##ItemKnockback", ref HeldItem.knockBack);
 
             ImGui.TableNextRow();
             ImGui.TableNextColumn();
-            ImGui.Text(GetString("Size: "));
+            ImGui.Text(GetString("  Size: "));
             ImGui.TableNextColumn();
             ImGui.InputFloat("##ItemSize", ref HeldItem.scale);
 
             ImGui.TableNextRow();
             ImGui.TableNextColumn();
-            ImGui.Text(GetString("Projectile: "));
+            ImGui.Text(GetString("  Projectile: "));
             ImGui.TableNextColumn();
             ImGui.InputInt("##ItemProjectile", ref HeldItem.shoot);
 
             ImGui.TableNextRow();
             ImGui.TableNextColumn();
-            ImGui.Text(GetString("Projectile Speed: "));
+            ImGui.Text(GetString("  Projectile Speed: "));
             ImGui.TableNextColumn();
             ImGui.InputFloat("##ItemProjectileSpeed", ref HeldItem.shootSpeed);
 
+            // TOOLS ----------------------------------------------------------
             ImGui.TableNextRow();
             ImGui.TableNextColumn();
-            ImGui.Text(GetString("Pick Power: "));
+            ImGui.Text(GetString("TOOLS"));
+            ImGui.TableNextColumn();
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("  Usetime: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemUseTime", ref HeldItem.useTime);
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("  Animation Speed: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemAnimationSpeed", ref HeldItem.useAnimation);
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("  Pick Power: "));
             ImGui.TableNextColumn();
             ImGui.InputInt("##ItemPickPower", ref HeldItem.pick);
 
             ImGui.TableNextRow();
             ImGui.TableNextColumn();
-            ImGui.Text(GetString("Axe Power: "));
+            ImGui.Text(GetString("  Axe Power: "));
             ImGui.TableNextColumn();
             ImGui.InputInt("##ItemAxePower", ref HeldItem.axe);
 
             ImGui.TableNextRow();
             ImGui.TableNextColumn();
-            ImGui.Text(GetString("Hammer Power: "));
+            ImGui.Text(GetString("  Hammer Power: "));
             ImGui.TableNextColumn();
             ImGui.InputInt("##ItemHammerPower", ref HeldItem.hammer);
 
             ImGui.TableNextRow();
             ImGui.TableNextColumn();
-            ImGui.Text(GetString("Stack: "));
+            ImGui.Text(GetString("  Extra Tile Range: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemExtraTileRange", ref HeldItem.tileBoost);
+
+            // WEARABLES ------------------------------------------------------
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("WEARABLES"));
+            ImGui.TableNextColumn();
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("  Defense: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemDefense", ref HeldItem.defense);
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("  Life Regen: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemLifeRegen", ref HeldItem.lifeRegen);
+
+
+            // CONSUMABLES ----------------------------------------------------
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("CONSUMABLES")); 
+            ImGui.TableNextColumn();
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("  Buff: "));
+            int buffnameIndex = HeldItem.buffType;
+            BuffNames ??= GetBuffNames();
+            ImGui.TableNextColumn();
+            if (ImGui.Combo("##Buff", ref buffnameIndex, BuffNames, BuffNames.Length))
+            {
+                HeldItem.buffType = (byte)buffnameIndex;
+            }
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("  Buff Duration: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemBuffDuration", ref HeldItem.buffTime);
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("  Heal Amount: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemHealAmount", ref HeldItem.healLife);
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("  Mana Restore: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemManaRestore", ref HeldItem.healMana);
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("  Mana Consumption: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemManaConsumption", ref HeldItem.mana);
+
+            // FISHING --------------------------------------------------------
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("FISHING"));
+            ImGui.TableNextColumn();
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("  Pole Power: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemPolePower", ref HeldItem.fishingPole);
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("  Bait Power: "));
+            ImGui.TableNextColumn();
+            ImGui.InputInt("##ItemBaitPower", ref HeldItem.bait);
+
+            // GENERAL --------------------------------------------------------
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("GENERAL"));
+            ImGui.TableNextColumn();
+
+            ImGui.TableNextRow();
+            ImGui.TableNextColumn();
+            ImGui.Text(GetString("  Stack: "));
             ImGui.TableNextColumn();
             ImGui.InputInt("##ItemStack", ref HeldItem.stack);
 
@@ -117,10 +240,20 @@ public class ItemEditorTool : Tool
         string[] prefixes = new string[PrefixID.Count];
         for (var i = 0; i < PrefixID.Count; i++)
         {
-            prefixes[i] = Lang.prefix[i].Value;
+            prefixes[i] = Lang.prefix[i].Value + $" ({i})";
         }
         prefixes[0] = GetString("None");
         return prefixes;
-
+    }
+    
+    private static string[] GetBuffNames()
+    {
+        string[] buffnames = new string[BuffID.Count];
+        for (var i = 0; i < BuffID.Count; i++)
+        {
+            buffnames[i] = Lang.GetBuffName(i) + $" ({i})";
+        }
+        buffnames[0] = GetString("None");
+        return buffnames;
     }
 }

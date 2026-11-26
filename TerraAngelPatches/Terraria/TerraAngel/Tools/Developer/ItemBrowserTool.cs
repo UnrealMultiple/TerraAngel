@@ -40,6 +40,8 @@ public class ItemBrowserTool : Tool
     public override void DrawUI(ImGuiIOPtr io)
     {
         ImGuiStylePtr style = ImGui.GetStyle();
+        
+        ImGuiUtil.HelpMarkerTopRight(GetString("Press Shift to get max stack"));
 
         ImGui.TextUnformatted(GetString("Search")); 
         ImGui.SameLine();
@@ -98,10 +100,10 @@ public class ItemBrowserTool : Tool
         switch (GiveMode)
         {
             case ItemGiveMode.InMouse:
-                ItemSpawner.SpawnItemInMouse(type, 9999, SyncWithServer);
+                ItemSpawner.SpawnItemInMouse(type, ImGui.IsKeyDown(ImGuiKey.ModShift) ? 9999 : 1, SyncWithServer);
                 break;
             case ItemGiveMode.DropInWorld:
-                ItemSpawner.SpawnItemInWorld(Main.LocalPlayer.Center, type, Vector2.Zero, 9999, SyncWithServer);
+                ItemSpawner.SpawnItemInWorld(Main.LocalPlayer.Center, type, Vector2.Zero, ImGui.IsKeyDown(ImGuiKey.ModShift) ? 9999 : 1, SyncWithServer);
                 break;
         }
     }
